@@ -6,13 +6,11 @@ on:
     - cron: "0 */3 * * *"
     # Varje timme fredag, lördag och söndag, när oddsen rör sig mest.
     - cron: "0 * * * 5,6,0"
-  # Gör att sidans uppdateringsknapp och Actions-fliken kan starta den manuellt.
   workflow_dispatch:
 
 permissions:
   contents: write
 
-# Startar du en körning medan en annan pågår avbryts den gamla.
 concurrency:
   group: hamta-data
   cancel-in-progress: true
@@ -32,7 +30,6 @@ jobs:
             "https://api.spela.svenskaspel.se/draw/1/stryktipset/draws" \
             -o raw.json
 
-          # Stoppa om svaret inte är giltig JSON, så vi aldrig sparar skräp.
           jq empty raw.json
 
           jq --arg t "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
@@ -40,27 +37,48 @@ jobs:
 
           rm raw.json
 
-      - name: Hämta tabeller från football-data.org
+      - name: Hämta tabeller och resultat från football-data.org
         continue-on-error: true
         env:
           FD: ${{ secrets.FOOTBALL_DATA_TOKEN }}
         run: |
-          curl -sS -f -H "X-Auth-Token: $FD" \
-            "https://api.football-data.org/v4/competitions/PL/standings" -o pl.json
+          # Gratisnivån tillåter tio anrop per minut, därav pauserna.
+          for code in PL ELC; do
+            curl -sS -f -H "X-Auth-Token: $FD" \
+              "https://api.football-data.org/v4/competitions/$code/standings" \
+              -o "st-$code.json"
+            sleep 7
 
-          # Gratisnivån tillåter tio anrop per minut, så vi väntar mellan dem.
-          sleep 7
+            curl -sS -f -H "X-Auth-Token: $FD" \
+              "https://api.football-data.org/v4/competitions/$code/matches?status=FINISHED" \
+              -o "ma-$code.json"
+            sleep 7
+          done
 
-          curl -sS -f -H "X-Auth-Token: $FD" \
-            "https://api.football-data.org/v4/competitions/ELC/standings" -o elc.json
+          jq empty st-PL.json st-ELC.json ma-PL.json ma-ELC.json
 
-          jq empty pl.json elc.json
+          # Behåll bara det formuträkningen behöver, annars växer filen i onödan.
+          for code in PL ELC; do
+            jq '[.matches[]
+                 | select(.score.fullTime.home != null)
+                 | {d: .utcDate,
+                    h: .homeTeam.id, a: .awayTeam.id,
+                    hg: .score.fullTime.home, ag: .score.fullTime.away}]' \
+              "ma-$code.json" > "sm-$code.json"
+          done
 
-          jq -s --arg t "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-            '{fetchedAt: $t, competitions: {PL: .[0], ELC: .[1]}}' \
-            pl.json elc.json > football.json
+          jq -n \
+            --arg t "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --slurpfile stpl  st-PL.json \
+            --slurpfile stelc st-ELC.json \
+            --slurpfile mapl  sm-PL.json \
+            --slurpfile maelc sm-ELC.json \
+            '{fetchedAt: $t,
+              competitions: {PL: $stpl[0], ELC: $stelc[0]},
+              results:      {PL: $mapl[0], ELC: $maelc[0]}}' \
+            > football.json
 
-          rm pl.json elc.json
+          rm st-*.json ma-*.json sm-*.json
 
       - name: Spara om något ändrats
         run: |
@@ -74,7 +92,6 @@ jobs:
             echo "Ingen förändring sedan förra hämtningen."
           else
             git commit -m "Uppdaterad omgångs- och tabelldata"
-            # Någon annan körning kan ha hunnit före — hämta in den först.
             git pull --rebase --autostash origin ${{ github.ref_name }}
             git push
           fi
