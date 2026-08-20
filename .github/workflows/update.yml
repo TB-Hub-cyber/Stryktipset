@@ -2,11 +2,20 @@ name: Hämta stryktipsomgång
 
 on:
   schedule:
-    - cron: "0 */6 * * *"
+    # Var tredje timme i vanliga fall.
+    - cron: "0 */3 * * *"
+    # Varje timme fredag, lördag och söndag, när oddsen rör sig mest.
+    - cron: "0 * * * 5,6,0"
+  # Gör att sidans uppdateringsknapp och Actions-fliken kan starta den manuellt.
   workflow_dispatch:
 
 permissions:
   contents: write
+
+# Startar du en körning medan en annan pågår avbryts den gamla.
+concurrency:
+  group: hamta-data
+  cancel-in-progress: true
 
 jobs:
   hamta:
@@ -22,9 +31,13 @@ jobs:
             -H "Accept: application/json" \
             "https://api.spela.svenskaspel.se/draw/1/stryktipset/draws" \
             -o raw.json
+
+          # Stoppa om svaret inte är giltig JSON, så vi aldrig sparar skräp.
           jq empty raw.json
+
           jq --arg t "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             '{fetchedAt: $t, draw: .}' raw.json > data.json
+
           rm raw.json
 
       - name: Hämta tabeller från football-data.org
@@ -34,24 +47,34 @@ jobs:
         run: |
           curl -sS -f -H "X-Auth-Token: $FD" \
             "https://api.football-data.org/v4/competitions/PL/standings" -o pl.json
+
+          # Gratisnivån tillåter tio anrop per minut, så vi väntar mellan dem.
           sleep 7
+
           curl -sS -f -H "X-Auth-Token: $FD" \
             "https://api.football-data.org/v4/competitions/ELC/standings" -o elc.json
+
           jq empty pl.json elc.json
+
           jq -s --arg t "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             '{fetchedAt: $t, competitions: {PL: .[0], ELC: .[1]}}' \
             pl.json elc.json > football.json
+
           rm pl.json elc.json
 
       - name: Spara om något ändrats
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
+
           git add data.json || true
           git add football.json || true
+
           if git diff --staged --quiet; then
             echo "Ingen förändring sedan förra hämtningen."
           else
             git commit -m "Uppdaterad omgångs- och tabelldata"
+            # Någon annan körning kan ha hunnit före — hämta in den först.
+            git pull --rebase --autostash origin ${{ github.ref_name }}
             git push
           fi
