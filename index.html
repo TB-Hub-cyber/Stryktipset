@@ -53,6 +53,13 @@ button{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:15px;
 button.ghost{background:transparent;color:var(--ink);border:1px solid var(--rule)}
 button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .err{color:var(--low);font-size:13px;margin-top:8px;font-weight:500}
+.status{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-faint);
+  letter-spacing:.05em;padding:16px 2px;text-transform:uppercase}
+.stamp{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-faint);
+  letter-spacing:.06em;text-transform:uppercase;margin-top:6px}
+.stamp button{background:none;border:none;color:var(--ink-faint);padding:0 0 0 8px;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;
+  letter-spacing:.06em;text-decoration:underline;cursor:pointer}
 
 /* förklaringsruta */
 .legend{border:1px dashed var(--rule);border-radius:3px;background:transparent;
@@ -196,9 +203,12 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   <div class="eyebrow">Omgångsöversikt</div>
   <h1>Stryktipset</h1>
   <div class="sub" id="sub">Ingen omgång inläst än.</div>
+  <div class="stamp hidden" id="stamp"></div>
 </header>
 
-<section class="loader" id="loader">
+<div class="status" id="status">Hämtar omgången…</div>
+
+<section class="loader hidden" id="loader">
   <h2>Läs in omgången</h2>
   <p>Öppna adressen nedan i webbläsaren, markera allt, kopiera och klistra in här.</p>
   <p><code>https://api.spela.svenskaspel.se/draw/1/stryktipset/draws</code></p>
@@ -425,6 +435,36 @@ document.getElementById('clear').addEventListener('click', () => {
   document.querySelectorAll('.cell.picked').forEach(c => c.classList.remove('picked'));
   slip();
 });
+
+// Hämtar filen som GitHub Actions sparar. Ligger den på samma adress som
+// sidan får webbläsaren läsa den utan hinder.
+async function auto(){
+  const status = document.getElementById('status');
+  try {
+    const res = await fetch('data.json?t=' + Date.now(), {cache:'no-store'});
+    if (!res.ok) throw new Error('data.json saknas');
+    const file = await res.json();
+    render(pick(file.draw || file));
+    status.classList.add('hidden');
+
+    if (file.fetchedAt){
+      const s = document.getElementById('stamp');
+      const d = new Date(file.fetchedAt);
+      s.innerHTML = 'Hämtad ' +
+        d.toLocaleString('sv-SE', {weekday:'short', hour:'2-digit', minute:'2-digit'}) +
+        '<button id="manual">klistra in själv</button>';
+      s.classList.remove('hidden');
+      document.getElementById('manual').addEventListener('click', () =>
+        document.getElementById('loader').classList.toggle('hidden'));
+    }
+  } catch (e) {
+    status.classList.add('hidden');
+    document.getElementById('loader').classList.remove('hidden');
+    document.getElementById('err').textContent =
+      'Ingen sparad omgång hittades än. Kör arbetsflödet i Actions, eller klistra in datan här nedanför.';
+  }
+}
+auto();
 
 document.getElementById('demo').addEventListener('click', () => {
   const mk = (n,home,away,league,oo,ox,ot,s1,sx,s2,d1,dx,d2,r1,rx,r2) => {
