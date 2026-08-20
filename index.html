@@ -9,22 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#E4E6DF;
-  --card:#FBFBF9;
-  --ink:#15171B;
-  --ink-soft:#767B82;
-  --ink-faint:#A2A7AC;
-  --rule:#D2D5CC;
-  --high:#2C6B4C;   --high-bg:#EFF5F0;
-  --mid:#9C6A18;    --mid-bg:#F7F2E7;
-  --low:#9A4030;    --low-bg:#F7EDEB;
+  --paper:#E4E6DF; --card:#FBFBF9; --ink:#15171B;
+  --ink-soft:#767B82; --ink-faint:#A2A7AC; --rule:#D2D5CC;
+  --high:#2C6B4C; --high-bg:#EFF5F0;
+  --mid:#9C6A18;  --mid-bg:#F7F2E7;
+  --low:#9A4030;  --low-bg:#F7EDEB;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{
-  background:var(--paper);color:var(--ink);
-  font-family:'Barlow',system-ui,sans-serif;font-size:15px;line-height:1.45;
-  padding:0 0 128px;-webkit-font-smoothing:antialiased;
-}
+body{background:var(--paper);color:var(--ink);font-family:'Barlow',system-ui,sans-serif;
+  font-size:15px;line-height:1.45;padding:0 0 132px;-webkit-font-smoothing:antialiased}
 .wrap{max-width:660px;margin:0 auto;padding:0 12px}
 
 header{padding:22px 0 13px;border-bottom:2px solid var(--ink)}
@@ -33,19 +26,24 @@ header{padding:22px 0 13px;border-bottom:2px solid var(--ink)}
 h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;
   line-height:.98;text-transform:uppercase;margin-top:2px}
 .sub{font-size:13px;color:var(--ink-soft);margin-top:5px}
+.stamp{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-faint);
+  letter-spacing:.06em;text-transform:uppercase;margin-top:6px}
+.stamp button{background:none;border:none;color:var(--ink-faint);padding:0 0 0 8px;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;
+  letter-spacing:.06em;text-decoration:underline;cursor:pointer}
 
-.loader{background:var(--card);border:1px solid var(--rule);padding:14px;
+.loader,.tokenbox{background:var(--card);border:1px solid var(--rule);padding:14px;
   margin:16px 0;border-radius:3px}
-.loader h2{font-family:'Barlow Condensed',sans-serif;font-size:19px;
+.loader h2,.tokenbox h2{font-family:'Barlow Condensed',sans-serif;font-size:19px;
   text-transform:uppercase;font-weight:600}
-.loader p{font-size:13px;color:var(--ink-soft);margin:6px 0 10px}
-.loader code{font-family:'IBM Plex Mono',monospace;font-size:11.5px;
-  background:var(--paper);padding:2px 5px;border-radius:2px;
-  word-break:break-all;display:inline-block}
-textarea{width:100%;height:92px;border:1px solid var(--rule);border-radius:3px;
-  padding:9px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;
-  background:#fff;color:var(--ink);resize:vertical}
-textarea:focus{outline:2px solid var(--ink);outline-offset:1px}
+.loader p,.tokenbox p{font-size:13px;color:var(--ink-soft);margin:6px 0 10px}
+.loader code{font-family:'IBM Plex Mono',monospace;font-size:11.5px;background:var(--paper);
+  padding:2px 5px;border-radius:2px;word-break:break-all;display:inline-block}
+textarea,input[type=password]{width:100%;border:1px solid var(--rule);border-radius:3px;
+  padding:9px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;background:#fff;
+  color:var(--ink);resize:vertical}
+textarea:focus,input:focus{outline:2px solid var(--ink);outline-offset:1px}
+#input{height:92px}
 .btnrow{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
 button{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:15px;
   text-transform:uppercase;letter-spacing:.05em;padding:9px 16px;border:none;
@@ -53,66 +51,57 @@ button{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:15px;
 button.ghost{background:transparent;color:var(--ink);border:1px solid var(--rule)}
 button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .err{color:var(--low);font-size:13px;margin-top:8px;font-weight:500}
+.ok{color:var(--high);font-size:13px;margin-top:8px;font-weight:500}
 .status{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-faint);
   letter-spacing:.05em;padding:16px 2px;text-transform:uppercase}
-.stamp{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-faint);
-  letter-spacing:.06em;text-transform:uppercase;margin-top:6px}
-.stamp button{background:none;border:none;color:var(--ink-faint);padding:0 0 0 8px;
-  font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;
-  letter-spacing:.06em;text-decoration:underline;cursor:pointer}
 
-/* förklaringsruta */
-.legend{border:1px dashed var(--rule);border-radius:3px;background:transparent;
-  padding:11px 12px;margin:15px 0 11px}
+.legend{border:1px dashed var(--rule);border-radius:3px;padding:11px 12px;margin:15px 0 11px}
 .legend h3{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--ink-soft);font-weight:500;margin-bottom:8px}
-.lrow{display:flex;gap:9px;align-items:baseline;font-size:12.5px;
-  color:var(--ink-soft);padding:3px 0;line-height:1.35}
-.lex{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;
-  color:var(--ink);background:var(--card);border:1px solid var(--rule);
-  border-radius:2px;padding:1px 5px;white-space:nowrap;flex-shrink:0}
+.lrow{display:flex;gap:9px;align-items:baseline;font-size:12.5px;color:var(--ink-soft);
+  padding:3px 0;line-height:1.35}
+.lex{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--ink);
+  background:var(--card);border:1px solid var(--rule);border-radius:2px;padding:1px 5px;
+  white-space:nowrap;flex-shrink:0}
 .lswatch{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:3px}
 
-/* matchkort */
 .match{background:var(--card);border:1px solid var(--rule);border-radius:3px;
   margin-bottom:7px;overflow:hidden}
-.mhead{display:flex;align-items:center;gap:9px;padding:9px 11px 8px;
-  cursor:pointer;width:100%;background:none;border:none;text-align:left;
-  color:var(--ink);text-transform:none;letter-spacing:0;font-family:'Barlow',sans-serif}
+.mhead{display:flex;align-items:center;gap:9px;padding:9px 11px 8px;cursor:pointer;
+  width:100%;background:none;border:none;text-align:left;color:var(--ink);
+  text-transform:none;letter-spacing:0;font-family:'Barlow',sans-serif}
 .mhead:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
 .mnum{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;
   color:var(--ink-faint);min-width:16px;align-self:flex-start;margin-top:3px}
 .mid-col{flex:1;min-width:0}
 .mteams{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:600;
-  font-size:19px;line-height:1.15;letter-spacing:.005em}
+  font-size:19px;line-height:1.15}
 .mmeta{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;
   color:var(--ink-faint);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.hasnote{color:var(--mid)}
 .chev{color:var(--ink-faint);font-size:11px;transition:transform .18s;flex-shrink:0}
 .match.open .chev{transform:rotate(180deg)}
 
-/* 1X2 */
 .cells{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--rule)}
-.cell{background:var(--card);border:none;border-radius:0;padding:7px 2px 8px;
-  cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;
-  color:var(--ink);text-transform:none;letter-spacing:0;font-family:'Barlow',sans-serif}
+.cell{background:var(--card);border:none;border-radius:0;padding:7px 2px 8px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--ink);
+  text-transform:none;letter-spacing:0;font-family:'Barlow',sans-serif}
 .cell.high{background:var(--high-bg)}
 .cell.mid{background:var(--mid-bg)}
 .cell.low{background:var(--low-bg)}
-.sign{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;
-  width:22px;height:22px;line-height:22px;border-radius:50%;color:var(--ink-soft)}
+.sign{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;width:22px;
+  height:22px;line-height:22px;border-radius:50%;color:var(--ink-soft)}
 .cell.picked .sign{background:var(--ink);color:var(--card)}
 .line{display:flex;align-items:baseline;gap:3px;white-space:nowrap}
 .odds{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600}
 .dist{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-soft)}
 .delta{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint)}
-.kvot{font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;
-  margin-top:3px;padding-top:3px;border-top:1px solid rgba(0,0,0,.07);
-  width:78%;text-align:center}
+.kvot{font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;margin-top:3px;
+  padding-top:3px;border-top:1px solid rgba(0,0,0,.07);width:78%;text-align:center}
 .cell.high .kvot{color:var(--high)}
 .cell.mid .kvot{color:var(--mid)}
 .cell.low .kvot{color:var(--low)}
 
-/* detaljvy */
 .detail{display:none;padding:11px;border-top:1px solid var(--rule);background:#fff}
 .match.open .detail{display:block}
 .dlabel{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;
@@ -122,85 +111,71 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .tname{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;
   margin-bottom:6px;line-height:1.1}
 .stat{display:flex;justify-content:space-between;gap:6px;align-items:center;
-  font-family:'IBM Plex Mono',monospace;font-size:11px;padding:3px 0;
-  border-top:1px solid #EDEEEA}
-.stat span:first-child{color:var(--ink-faint);text-transform:uppercase;
-  letter-spacing:.04em;font-size:9.5px}
+  font-family:'IBM Plex Mono',monospace;font-size:11px;padding:3px 0;border-top:1px solid #EDEEEA}
+.stat span:first-child{color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;font-size:9.5px}
 .pending{background:repeating-linear-gradient(90deg,#E9EAE5 0 6px,transparent 6px 10px);
   color:transparent;border-radius:2px;min-width:38px;display:inline-block;height:10px}
 .form{display:inline-flex;gap:2px}
-.form i{font-style:normal;font-size:9px;font-weight:600;width:13px;height:13px;
-  line-height:13px;text-align:center;border-radius:2px;color:#fff}
-.form .f-V{background:var(--high)}
-.form .f-O{background:var(--ink-faint)}
-.form .f-F{background:var(--low)}
-.nodata{font-size:11.5px;color:var(--ink-faint);line-height:1.4;padding-top:5px;
-  border-top:1px solid #EDEEEA}
-.injury{width:100%;border:1px solid var(--rule);border-radius:3px;padding:7px;
-  font-family:'Barlow',sans-serif;font-size:12.5px;background:#fff;
-  color:var(--ink);resize:vertical;height:52px}
-.injury:focus{outline:2px solid var(--ink);outline-offset:1px}
+.form i{font-style:normal;font-size:9px;font-weight:600;width:13px;height:13px;line-height:13px;
+  text-align:center;border-radius:2px;color:#fff}
+.form .f-V{background:var(--high)} .form .f-O{background:var(--ink-faint)} .form .f-F{background:var(--low)}
+.nodata{font-size:11.5px;color:var(--ink-faint);line-height:1.4;padding-top:5px;border-top:1px solid #EDEEEA}
+.injury{height:120px;font-family:'Barlow',sans-serif;font-size:13.5px;line-height:1.5}
 .note{font-size:12px;color:var(--ink-soft);margin-top:12px;padding-top:9px;
   border-top:1px dashed var(--rule);line-height:1.45}
 
-/* radremsa */
+/* sammanställning */
+.summary{background:var(--card);border:1px solid var(--ink);border-radius:3px;
+  padding:14px;margin:18px 0}
+.summary h2{font-family:'Barlow Condensed',sans-serif;font-size:22px;text-transform:uppercase;
+  font-weight:700;margin-bottom:3px}
+.srow{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--rule);
+  font-size:13.5px}
+.snum{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-faint);min-width:16px}
+.steams{flex:1;min-width:0;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.smarks{display:flex;gap:3px}
+.smarks i{font-style:normal;font-family:'Barlow Condensed',sans-serif;font-weight:700;
+  font-size:13px;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;
+  background:var(--ink);color:var(--card)}
+.smarks .empty{background:transparent;border:1px dashed var(--rule);color:var(--ink-faint)}
+.totals{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;padding-top:11px;
+  border-top:2px solid var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px}
+.totals b{display:block;font-size:19px;font-weight:600;margin-top:1px}
+.totals span{color:var(--ink-faint);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase}
+
 .slip{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:var(--card);
   padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
 .slip-in{max-width:660px;margin:0 auto;display:flex;align-items:center;gap:11px}
 .slip-lab{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;
   text-transform:uppercase;opacity:.6}
-.slip-row{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;
-  letter-spacing:.2em;margin-top:2px}
-.slip button{background:transparent;color:var(--card);
-  border:1px solid rgba(251,251,249,.3);font-size:13px;padding:6px 11px}
+.slip-row{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;margin-top:2px}
+.slip button{background:transparent;color:var(--card);border:1px solid rgba(251,251,249,.3);
+  font-size:13px;padding:6px 11px}
 .hidden{display:none}
 
-/* mycket små telefoner */
 @media (max-width:340px){
-  .odds{font-size:13.5px}
-  .dist{font-size:10.5px}
-  .delta{font-size:9px}
-  .mteams{font-size:17px}
-  h1{font-size:32px}
+  .odds{font-size:13.5px} .dist{font-size:10.5px} .delta{font-size:9px}
+  .mteams{font-size:17px} h1{font-size:32px}
 }
-
-/* surfplatta och dator: match och rutor sida vid sida */
 @media (min-width:720px){
   body{font-size:16px}
   .wrap{max-width:900px;padding:0 20px}
-  h1{font-size:46px}
-  header{padding:32px 0 16px}
-
-  .match{
-    display:grid;
-    grid-template-columns:1fr 360px;
-    align-items:stretch;
-  }
+  h1{font-size:46px} header{padding:32px 0 16px}
+  .match{display:grid;grid-template-columns:1fr 360px;align-items:stretch}
   .mhead{padding:14px 16px;align-items:center}
-  .mteams{font-size:22px}
-  .mmeta{font-size:11px}
-  .chev{margin-left:auto}
+  .mteams{font-size:22px} .mmeta{font-size:11px} .chev{margin-left:auto}
   .cells{border-left:1px solid var(--rule)}
   .cell{padding:9px 4px 10px}
-  .odds{font-size:16px}
-  .dist{font-size:12px}
-  .delta{font-size:10.5px}
-  .kvot{font-size:13.5px}
+  .odds{font-size:16px} .dist{font-size:12px} .delta{font-size:10.5px} .kvot{font-size:13.5px}
   .detail{grid-column:1 / -1;padding:16px}
-  .teamgrid{gap:14px}
-  .injury{height:60px}
-
-  .legend{padding:14px 16px}
-  .lrow{font-size:13.5px}
-  .slip-row{font-size:18px;letter-spacing:.26em}
+  .teamgrid{gap:14px} .injury{height:140px}
+  .legend{padding:14px 16px} .lrow{font-size:13.5px}
 }
-
-/* stor skärm: bredare luft mellan lagrutorna */
 @media (min-width:1000px){
   .wrap{max-width:1000px}
   .match{grid-template-columns:1fr 400px}
 }
-
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -241,16 +216,31 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
     <span><span class="lswatch" style="background:var(--high)"></span>bäst kvot
     <span class="lswatch" style="background:var(--mid);margin-left:9px"></span>mellan
     <span class="lswatch" style="background:var(--low);margin-left:9px"></span>sämst
-    — rangordnat inom varje match.</span></div>
+    — rangordnat inom varje match. Du kan markera flera tecken per match.</span></div>
 </section>
 
 <main id="list"></main>
+
+<section class="summary hidden" id="summary"></section>
+
+<section class="tokenbox hidden" id="tokenbox">
+  <h2>Koppla anteckningar till GitHub</h2>
+  <p>Klistra in en åtkomstnyckel som bara har skrivrättighet till det här repot.
+  Den sparas i den här webbläsaren och skickas aldrig någon annanstans än till GitHub.</p>
+  <input type="password" id="token" placeholder="github_pat_…" autocomplete="off">
+  <div class="btnrow">
+    <button id="savetoken">Spara nyckel</button>
+    <button class="ghost" id="forgettoken">Glöm nyckel</button>
+  </div>
+  <div class="err" id="tokenerr"></div>
+</section>
+
 </div>
 
 <div class="slip hidden" id="slip">
   <div class="slip-in">
     <div style="flex:1">
-      <div class="slip-lab">Din rad · <span id="count">0</span> av 13</div>
+      <div class="slip-lab" id="sliplab">Din rad</div>
       <div class="slip-row" id="row">–</div>
     </div>
     <button id="clear">Rensa</button>
@@ -258,12 +248,34 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 </div>
 
 <script>
-const OUT = ['one','x','two'], LBL = ['1','X','2'];
-let picks = {}, events = [], notes = {};
+// ---------------------------------------------------------------
+// Ändra dessa tre om du byter namn på konto eller repo.
+const OWNER  = 'TB-Hub-cyber';
+const REPO   = 'Stryktipset';
+const BRANCH = 'main';
+// ---------------------------------------------------------------
+
+const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
+let picks = {};        // {matchIndex: ['one','x']}
+let notes = {};        // {matchId: text}
+let events = [];
+let drawInfo = {};
+let fdIndex = [];
+let notesDirty = false;
 
 const num = v => (v==null || v==='') ? null : parseFloat(String(v).replace(',','.'));
 const fmt = v => v==null ? '–' : v.toFixed(2).replace('.',',');
 
+/* ---------- lokal nyckel ---------- */
+function getToken(){
+  try { return localStorage.getItem('gh_token') || ''; } catch(e){ return ''; }
+}
+function setToken(v){
+  try { v ? localStorage.setItem('gh_token', v) : localStorage.removeItem('gh_token'); }
+  catch(e){ /* privat läge eller blockerad lagring */ }
+}
+
+/* ---------- inläsning ---------- */
 function pick(root){
   if (Array.isArray(root)) root = root[0];
   if (root && root.draws) root = root.draws[0];
@@ -303,73 +315,7 @@ function sides(ev){
   };
 }
 
-// ---- koppling mot football-data.org ----
-let fdIndex = [];
-
-const norm = s => String(s||'').toLowerCase()
-  .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-  .replace(/\b(fc|afc|cf|sk|if|ff|bk)\b/g,'')
-  .replace(/[^a-z0-9]/g,'');
-
-function buildIndex(fd){
-  fdIndex = [];
-  if (!fd || !fd.competitions) return;
-
-  Object.keys(fd.competitions).forEach(code => {
-    const comp = fd.competitions[code];
-    if (!comp || !comp.standings) return;
-
-    const byId = {};
-    comp.standings.forEach(s => {
-      const kind = s.type;                    // TOTAL, HOME eller AWAY
-      (s.table || []).forEach(row => {
-        const id = row.team && row.team.id;
-        if (!id) return;
-        if (!byId[id]) byId[id] = {team: row.team, comp: comp.competition};
-        byId[id][kind] = row;
-      });
-    });
-
-    Object.keys(byId).forEach(id => fdIndex.push(byId[id]));
-  });
-}
-
-function findTeam(part){
-  if (!fdIndex.length) return null;
-  const tla = String(part.shortName||'').toUpperCase();
-  const n = norm(part.name);
-
-  // 1. lagkod, t.ex. TOT — träffar nästan alltid
-  let hit = fdIndex.find(e => e.team.tla && e.team.tla.toUpperCase() === tla);
-  if (hit) return hit;
-
-  // 2. exakt namn efter normalisering
-  hit = fdIndex.find(e => norm(e.team.shortName) === n || norm(e.team.name) === n);
-  if (hit) return hit;
-
-  // 3. det ena namnet ryms i det andra
-  if (n.length >= 4) {
-    hit = fdIndex.find(e => {
-      const a = norm(e.team.name), b = norm(e.team.shortName);
-      return a.indexOf(n) > -1 || n.indexOf(b) > -1;
-    });
-  }
-  return hit || null;
-}
-
-function formDots(str){
-  if (!str) return '<span class="pending">–</span>';
-  return '<span class="form">' + str.split(',').map(c => {
-    const k = c.trim().toUpperCase();
-    const sv = k === 'W' ? 'V' : k === 'L' ? 'F' : 'O';
-    return '<i class="f-' + sv + '">' + sv + '</i>';
-  }).join('') + '</span>';
-}
-
-function record(row){
-  if (!row) return null;
-  return row.won + '–' + row.draw + '–' + row.lost;
-}
+const keyOf = ev => String((ev.match && ev.match.matchId) || ev.eventNumber || '');
 
 function when(ev){
   const t = ev.match && ev.match.matchStart;
@@ -393,9 +339,106 @@ function distDelta(now, ref){
   return '(' + (d > 0 ? '+' : '−') + Math.abs(d) + ')';
 }
 
+/* ---------- football-data ---------- */
+const norm = s => String(s||'').toLowerCase()
+  .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+  .replace(/\b(fc|afc|cf|sk|if|ff|bk)\b/g,'')
+  .replace(/[^a-z0-9]/g,'');
+
+function buildIndex(fd){
+  fdIndex = [];
+  if (!fd || !fd.competitions) return;
+  Object.keys(fd.competitions).forEach(code => {
+    const comp = fd.competitions[code];
+    if (!comp || !comp.standings) return;
+    const byId = {};
+    comp.standings.forEach(s => {
+      (s.table || []).forEach(row => {
+        const id = row.team && row.team.id;
+        if (!id) return;
+        if (!byId[id]) byId[id] = {team: row.team, comp: comp.competition};
+        byId[id][s.type] = row;
+      });
+    });
+    Object.keys(byId).forEach(id => fdIndex.push(byId[id]));
+  });
+}
+
+function findTeam(part){
+  if (!fdIndex.length) return null;
+  const tla = String(part.shortName||'').toUpperCase();
+  const n = norm(part.name);
+  let hit = fdIndex.find(e => e.team.tla && e.team.tla.toUpperCase() === tla);
+  if (hit) return hit;
+  hit = fdIndex.find(e => norm(e.team.shortName) === n || norm(e.team.name) === n);
+  if (hit) return hit;
+  if (n.length >= 4){
+    hit = fdIndex.find(e => {
+      const a = norm(e.team.name), b = norm(e.team.shortName);
+      return a.indexOf(n) > -1 || n.indexOf(b) > -1;
+    });
+  }
+  return hit || null;
+}
+
+function formDots(str){
+  return '<span class="form">' + str.split(',').map(c => {
+    const k = c.trim().toUpperCase();
+    const sv = k === 'W' ? 'V' : k === 'L' ? 'F' : 'O';
+    return '<i class="f-' + sv + '">' + sv + '</i>';
+  }).join('') + '</span>';
+}
+
+const record = r => r ? (r.won + '–' + r.draw + '–' + r.lost) : null;
+
+function teamBox(part){
+  const hit = findTeam(part);
+  if (!hit){
+    const why = !fdIndex.length
+      ? 'Ingen tabelldata inläst. Filen football.json saknas eller kunde inte tolkas.'
+      : 'Laget hittades inte i tabellen. Antingen ingår ligan inte i gratisnivån, ' +
+        'eller så matchade inte lagnamnet (' + (part.shortName || part.name) + ').';
+    return '<div class="teambox"><div class="tname">' + part.name + '</div>' +
+      '<div class="nodata">' + why + '</div></div>';
+  }
+  const tot = hit.TOTAL;
+  if (!tot || !tot.playedGames){
+    return '<div class="teambox"><div class="tname">' + part.name + '</div>' +
+      '<div class="nodata">Inga matcher spelade än den här säsongen, så tabellen ' +
+      'säger ingenting. Fylls på automatiskt efter första omgången.</div></div>';
+  }
+  const gd = tot.goalDifference;
+  const rows = [
+    ['Tabellplats', tot.position + ':e av ' +
+       fdIndex.filter(e => e.comp && e.comp.code === hit.comp.code).length],
+    ['Poäng', tot.points + ' p på ' + tot.playedGames],
+    ['Form 5', tot.form ? formDots(tot.form) : null],
+    ['Hemma', record(hit.HOME)],
+    ['Borta', record(hit.AWAY)],
+    ['Mål +/−', gd != null ? (gd > 0 ? '+' + gd : String(gd)) : null]
+  ];
+  return '<div class="teambox"><div class="tname">' + part.name + '</div>' +
+    rows.map(r => '<div class="stat"><span>' + r[0] + '</span><span>' +
+      (r[1] != null ? r[1] : '<span class="pending">–</span>') + '</span></div>').join('') +
+    '</div>';
+}
+
+function detailPanel(t, key){
+  const val = notes[key] ? notes[key].replace(/</g,'&lt;') : '';
+  return '<div class="dlabel">Lagdata</div>' +
+    '<div class="teamgrid">' + teamBox(t.home) + teamBox(t.away) + '</div>' +
+    '<div class="dlabel">Anteckningar</div>' +
+    '<textarea class="injury" data-key="' + key + '" ' +
+      'placeholder="Skador, avstängningar, egna tankar inför matchen…">' + val + '</textarea>' +
+    '<div class="note">Hemma och borta visas som vinster–oavgjorda–förluster. ' +
+    'Formen är de fem senaste matcherna, senast först.</div>';
+}
+
+/* ---------- uppritning ---------- */
 function render(draw){
   events = draw.drawEvents.filter(e => e.eventTypeId !== 2);
-  picks = {}; notes = {};
+  drawInfo = draw;
+  picks = {};
 
   document.getElementById('sub').textContent =
     (draw.drawComment || draw.productName || 'Stryktipset') +
@@ -407,7 +450,7 @@ function render(draw){
 
   events.forEach((ev, i) => {
     const p = probs(ev), d = distOf(ev), o = ev.odds || {}, so = ev.startOdds || {};
-    const t = sides(ev);
+    const t = sides(ev), key = keyOf(ev);
 
     const value = {};
     OUT.forEach(k => {
@@ -427,15 +470,16 @@ function render(draw){
         '<span class="mnum">' + (ev.eventNumber || i+1) + '</span>' +
         '<span class="mid-col">' +
           '<span class="mteams">' + t.home.name + ' – ' + t.away.name + '</span>' +
-          '<span class="mmeta">' + [league, when(ev)].filter(Boolean).join(' · ') + '</span>' +
+          '<span class="mmeta">' + [league, when(ev)].filter(Boolean).join(' · ') +
+            '<span class="notemark hasnote"></span></span>' +
         '</span>' +
         '<span class="chev">&#9660;</span>' +
       '</button>' +
       '<div class="cells">' +
-        OUT.map((k, j) => {
+        OUT.map(k => {
           const dd = d[k] || {};
           return '<button class="cell ' + (cls[k]||'') + '" data-out="' + k + '">' +
-            '<span class="sign">' + LBL[j] + '</span>' +
+            '<span class="sign">' + LBL[k] + '</span>' +
             '<span class="line"><span class="odds">' + fmt(num(o[k])) + '</span>' +
               '<span class="delta">' + oddsDelta(num(o[k]), num(so[k])) + '</span></span>' +
             '<span class="line"><span class="dist">' +
@@ -445,123 +489,186 @@ function render(draw){
           '</button>';
         }).join('') +
       '</div>' +
-      '<div class="detail">' + teamPanel(t) + '</div>';
+      '<div class="detail">' + detailPanel(t, key) + '</div>';
 
     card.querySelector('.mhead').addEventListener('click', () => card.classList.toggle('open'));
 
+    // Flera tecken per match är tillåtet — varje ruta slås av och på för sig.
     card.querySelectorAll('.cell').forEach(btn => {
       btn.addEventListener('click', () => {
         const out = btn.dataset.out;
-        if (picks[i] === out) delete picks[i]; else picks[i] = out;
-        card.querySelectorAll('.cell').forEach(c =>
-          c.classList.toggle('picked', picks[i] === c.dataset.out));
-        slip();
+        const cur = picks[i] || [];
+        picks[i] = cur.indexOf(out) > -1 ? cur.filter(x => x !== out) : cur.concat([out]);
+        if (!picks[i].length) delete picks[i];
+        btn.classList.toggle('picked', (picks[i]||[]).indexOf(out) > -1);
+        refresh();
       });
     });
 
-    const inj = card.querySelector('.injury');
-    if (inj) inj.addEventListener('input', e => notes[i] = e.target.value);
+    const ta = card.querySelector('.injury');
+    ta.addEventListener('input', e => {
+      const k = e.target.dataset.key;
+      if (e.target.value.trim()) notes[k] = e.target.value; else delete notes[k];
+      notesDirty = true;
+      markNote(card, k);
+      refresh();
+    });
+    markNote(card, key);
 
     list.appendChild(card);
   });
 
   document.getElementById('loader').classList.add('hidden');
   document.getElementById('legend').classList.remove('hidden');
-  slip();
+  refresh();
 }
 
-function teamBox(part){
-  const hit = findTeam(part);
+function markNote(card, key){
+  const m = card.querySelector('.notemark');
+  if (m) m.textContent = notes[key] ? ' · anteckning' : '';
+}
 
-  if (!hit){
-    const why = !fdIndex.length
-      ? 'Ingen tabelldata inläst. Filen football.json saknas eller kunde inte tolkas.'
-      : 'Laget hittades inte i tabellen. Antingen ingår ligan inte i gratisnivån, ' +
-        'eller så matchade inte lagnamnet (' + (part.shortName || part.name) + ').';
-    return '<div class="teambox"><div class="tname">' + part.name + '</div>' +
-      '<div class="nodata">' + why + '</div></div>';
+/* ---------- sammanställning ---------- */
+function refresh(){
+  const marked = events.filter((e,i) => (picks[i]||[]).length).length;
+  const rows = events.reduce((acc,e,i) => acc * ((picks[i]||[]).length || 0), 1);
+  const complete = marked === events.length && events.length > 0;
+  const price = num(drawInfo.rowPrice) || 1;
+
+  document.getElementById('slip').classList.toggle('hidden', marked === 0);
+  document.getElementById('sliplab').textContent = marked + ' av ' + events.length + ' matcher';
+  document.getElementById('row').textContent = complete
+    ? rows + (rows === 1 ? ' rad' : ' rader') + ' · ' +
+      (rows * price).toFixed(0) + ' kr'
+    : 'Ofullständig';
+
+  const half = events.filter((e,i) => (picks[i]||[]).length === 2).length;
+  const full = events.filter((e,i) => (picks[i]||[]).length === 3).length;
+
+  const box = document.getElementById('summary');
+  if (!events.length){ box.classList.add('hidden'); return; }
+  box.classList.remove('hidden');
+
+  box.innerHTML =
+    '<h2>Sammanställning</h2>' +
+    '<p style="font-size:13px;color:var(--ink-soft);margin-bottom:9px">' +
+      (complete
+        ? 'Alla matcher markerade.'
+        : 'Markera minst ett tecken i varje match för att se antal rader.') +
+    '</p>' +
+    events.map((ev,i) => {
+      const sel = picks[i] || [];
+      const t = sides(ev);
+      const marks = sel.length
+        ? OUT.filter(k => sel.indexOf(k) > -1).map(k => '<i>' + LBL[k] + '</i>').join('')
+        : '<i class="empty">–</i>';
+      return '<div class="srow">' +
+        '<span class="snum">' + (ev.eventNumber || i+1) + '</span>' +
+        '<span class="steams">' + t.home.name + ' – ' + t.away.name +
+          (notes[keyOf(ev)] ? ' <span style="color:var(--mid)">•</span>' : '') + '</span>' +
+        '<span class="smarks">' + marks + '</span>' +
+      '</div>';
+    }).join('') +
+    '<div class="totals">' +
+      '<div><span>Rader</span><b>' + (complete ? rows : '–') + '</b></div>' +
+      '<div><span>Kostnad</span><b>' + (complete ? (rows*price).toFixed(0) + ' kr' : '–') + '</b></div>' +
+      '<div><span>Halvgard.</span><b>' + half + '</b></div>' +
+      '<div><span>Helgard.</span><b>' + full + '</b></div>' +
+    '</div>' +
+    '<div class="btnrow" style="margin-top:14px">' +
+      '<button id="savenotes">' + (notesDirty ? 'Spara anteckningar •' : 'Spara anteckningar') + '</button>' +
+      '<button class="ghost" id="settoken">' + (getToken() ? 'Byt nyckel' : 'Koppla GitHub') + '</button>' +
+    '</div>' +
+    '<div id="savemsg"></div>';
+
+  document.getElementById('savenotes').addEventListener('click', saveNotes);
+  document.getElementById('settoken').addEventListener('click', () => {
+    const tb = document.getElementById('tokenbox');
+    tb.classList.toggle('hidden');
+    if (!tb.classList.contains('hidden')) tb.scrollIntoView({behavior:'smooth'});
+  });
+}
+
+/* ---------- spara anteckningar till repot ---------- */
+const b64 = s => btoa(String.fromCharCode.apply(null, new TextEncoder().encode(s)));
+
+async function saveNotes(){
+  const msg = document.getElementById('savemsg');
+  const token = getToken();
+  if (!token){
+    msg.className = 'err';
+    msg.textContent = 'Ingen nyckel sparad. Tryck på Koppla GitHub först.';
+    document.getElementById('tokenbox').classList.remove('hidden');
+    return;
   }
 
-  const tot = hit.TOTAL, home = hit.HOME, away = hit.AWAY;
+  msg.className = 'status';
+  msg.textContent = 'Sparar…';
 
-  // Innan lagen spelat är placering och form utan innebörd — alla ligger lika.
-  if (!tot || !tot.playedGames){
-    return '<div class="teambox"><div class="tname">' + part.name + '</div>' +
-      '<div class="nodata">Inga matcher spelade än den här säsongen, så tabellen ' +
-      'säger ingenting. Fylls på automatiskt efter första omgången.</div></div>';
+  const api = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/notes.json';
+  const head = {Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json'};
+
+  try {
+    // Hämta nuvarande version — GitHub kräver sha för att skriva över.
+    let sha = null;
+    const cur = await fetch(api + '?ref=' + BRANCH, {headers: head});
+    if (cur.ok) sha = (await cur.json()).sha;
+    else if (cur.status === 401) throw new Error('Nyckeln godtogs inte. Kontrollera att den är rätt och inte utgången.');
+    else if (cur.status === 403) throw new Error('Nyckeln saknar behörighet till det här repot.');
+
+    const payload = {
+      updatedAt: new Date().toISOString(),
+      drawNumber: drawInfo.drawNumber || null,
+      notes: notes
+    };
+
+    const res = await fetch(api, {
+      method: 'PUT', headers: head,
+      body: JSON.stringify({
+        message: 'Uppdaterade anteckningar',
+        content: b64(JSON.stringify(payload, null, 2)),
+        branch: BRANCH,
+        sha: sha || undefined
+      })
+    });
+
+    if (!res.ok){
+      const e = await res.json().catch(() => ({}));
+      throw new Error(e.message || ('GitHub svarade ' + res.status));
+    }
+
+    notesDirty = false;
+    refresh();
+    document.getElementById('savemsg').className = 'ok';
+    document.getElementById('savemsg').textContent = 'Sparat. Finns nu på alla dina enheter.';
+  } catch (e){
+    msg.className = 'err';
+    msg.textContent = 'Kunde inte spara: ' + e.message;
   }
-
-  const gd = tot.goalDifference;
-  const rows = [
-    ['Tabellplats', tot.position + ':e av ' + fdIndex.filter(e =>
-        e.comp && e.comp.code === hit.comp.code).length],
-    ['Poäng', tot.points + ' p på ' + tot.playedGames],
-    ['Form 5', tot.form ? formDots(tot.form) : null],
-    ['Hemma', record(home)],
-    ['Borta', record(away)],
-    ['Mål +/−', gd != null ? (gd > 0 ? '+' + gd : String(gd)) : null]
-  ];
-
-  return '<div class="teambox"><div class="tname">' + part.name + '</div>' +
-    rows.map(r => '<div class="stat"><span>' + r[0] + '</span><span>' +
-      (r[1] != null ? r[1] : '<span class="pending">–</span>') + '</span></div>').join('') +
-    '</div>';
 }
 
-function teamPanel(t){
-  return '<div class="dlabel">Lagdata</div>' +
-    '<div class="teamgrid">' + teamBox(t.home) + teamBox(t.away) + '</div>' +
-    '<div class="dlabel">Skador och avstängningar</div>' +
-    '<textarea class="injury" placeholder="Skriv in vad du hittat inför matchen…"></textarea>' +
-    '<div class="note">Hemma och borta visas som vinster–oavgjorda–förluster i ' +
-    'respektive tabell. Formen är de fem senaste matcherna, senast först. ' +
-    'Skaderutan är din egen — texten ligger kvar så länge sidan är öppen.</div>';
-}
-
-function slip(){
-  const n = Object.keys(picks).length;
-  document.getElementById('slip').classList.toggle('hidden', n === 0);
-  document.getElementById('count').textContent = n;
-  document.getElementById('row').textContent =
-    events.map((e, i) => picks[i] ? (picks[i]==='one' ? '1' : picks[i]==='two' ? '2' : 'X') : '·').join('');
-}
-
-document.getElementById('load').addEventListener('click', () => {
-  const err = document.getElementById('err');
-  err.textContent = '';
-  const raw = document.getElementById('input').value.trim();
-  if (!raw) { err.textContent = 'Rutan är tom. Klistra in svaret från adressen ovan.'; return; }
-  try { render(pick(JSON.parse(raw))); }
-  catch (e) {
-    err.textContent = 'Kunde inte läsa datan: ' + e.message +
-      ' Kontrollera att hela svaret följde med, från { till }.';
-  }
-});
-
-document.getElementById('clear').addEventListener('click', () => {
-  picks = {};
-  document.querySelectorAll('.cell.picked').forEach(c => c.classList.remove('picked'));
-  slip();
-});
-
-// Hämtar filen som GitHub Actions sparar. Ligger den på samma adress som
-// sidan får webbläsaren läsa den utan hinder.
+/* ---------- start ---------- */
 async function auto(){
   const status = document.getElementById('status');
   try {
     const bust = '?t=' + Date.now();
     const opts = {cache:'no-store'};
+    // Anteckningarna läses direkt från grenen, inte via Pages, så de syns
+    // omedelbart efter att du sparat i stället för efter nästa ombyggnad.
+    const rawNotes = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO +
+                     '/' + BRANCH + '/notes.json' + bust;
 
-    // Fotbollsdatan är frivillig — saknas den ritar vi ändå upp kupongen.
-    const [draw, fd] = await Promise.all([
+    const [draw, fd, nt] = await Promise.all([
       fetch('data.json' + bust, opts).then(r => {
         if (!r.ok) throw new Error('data.json saknas');
         return r.json();
       }),
-      fetch('football.json' + bust, opts).then(r => r.ok ? r.json() : null).catch(() => null)
+      fetch('football.json' + bust, opts).then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch(rawNotes, opts).then(r => r.ok ? r.json() : null).catch(() => null)
     ]);
 
     buildIndex(fd);
+    notes = (nt && nt.notes) || {};
     render(pick(draw.draw || draw));
     status.classList.add('hidden');
 
@@ -575,21 +682,56 @@ async function auto(){
     document.getElementById('manual').addEventListener('click', () =>
       document.getElementById('loader').classList.toggle('hidden'));
 
-  } catch (e) {
+  } catch (e){
     status.classList.add('hidden');
     document.getElementById('loader').classList.remove('hidden');
     document.getElementById('err').textContent =
       'Ingen sparad omgång hittades än. Kör arbetsflödet i Actions, eller klistra in datan här nedanför.';
   }
 }
-auto();
+
+document.getElementById('savetoken').addEventListener('click', () => {
+  const v = document.getElementById('token').value.trim();
+  const e = document.getElementById('tokenerr');
+  if (!v){ e.textContent = 'Rutan är tom.'; return; }
+  setToken(v);
+  document.getElementById('token').value = '';
+  document.getElementById('tokenbox').classList.add('hidden');
+  e.textContent = '';
+  refresh();
+});
+
+document.getElementById('forgettoken').addEventListener('click', () => {
+  setToken('');
+  document.getElementById('token').value = '';
+  document.getElementById('tokenerr').textContent = 'Nyckeln är borttagen från den här webbläsaren.';
+  refresh();
+});
+
+document.getElementById('load').addEventListener('click', () => {
+  const err = document.getElementById('err');
+  err.textContent = '';
+  const raw = document.getElementById('input').value.trim();
+  if (!raw){ err.textContent = 'Rutan är tom. Klistra in svaret från adressen ovan.'; return; }
+  try { render(pick(JSON.parse(raw))); }
+  catch (e){
+    err.textContent = 'Kunde inte läsa datan: ' + e.message +
+      ' Kontrollera att hela svaret följde med, från { till }.';
+  }
+});
+
+document.getElementById('clear').addEventListener('click', () => {
+  picks = {};
+  document.querySelectorAll('.cell.picked').forEach(c => c.classList.remove('picked'));
+  refresh();
+});
 
 document.getElementById('demo').addEventListener('click', () => {
   const mk = (n,home,away,league,oo,ox,ot,s1,sx,s2,d1,dx,d2,r1,rx,r2) => {
     const inv = [1/oo,1/ox,1/ot], s = inv.reduce((a,b)=>a+b,0);
     return {
       eventNumber:n, eventTypeId:1, eventDescription:home+' – '+away,
-      match:{ matchStart:'2026-08-22T18:30:00+02:00',
+      match:{ matchId: 90000+n, matchStart:'2026-08-22T18:30:00+02:00',
         participants:[{type:'home',name:home},{type:'away',name:away}],
         league:{name:league} },
       odds:{one:oo,x:ox,two:ot}, startOdds:{one:s1,x:sx,two:s2},
@@ -602,7 +744,7 @@ document.getElementById('demo').addEventListener('click', () => {
     };
   };
   render({
-    productName:'Stryktipset', drawComment:'Exempelomgång',
+    productName:'Stryktipset', drawComment:'Exempelomgång', rowPrice:'1,00',
     drawEvents:[
       mk(1,'Brentford','Tottenham','Premier League',2.50,3.70,2.80,2.63,3.60,2.70,42,24,34,42,24,34),
       mk(2,'Everton','Brighton','Premier League',3.10,3.40,2.30,2.90,3.45,2.45,28,26,46,31,27,42),
@@ -620,6 +762,8 @@ document.getElementById('demo').addEventListener('click', () => {
     ]
   });
 });
+
+auto();
 </script>
 </body>
 </html>
