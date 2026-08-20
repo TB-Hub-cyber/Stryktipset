@@ -65,7 +65,7 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   text-transform:uppercase;color:var(--ink-soft);font-weight:500;margin-bottom:8px}
 .lrow{display:flex;gap:9px;align-items:baseline;font-size:12.5px;color:var(--ink-soft);
   padding:3px 0;line-height:1.35}
-.lex{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--ink);
+.lex{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--ink);text-align:center;line-height:1.3;
   background:var(--card);border:1px solid var(--rule);border-radius:2px;padding:1px 5px;
   white-space:nowrap;flex-shrink:0}
 .lswatch{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:3px}
@@ -101,21 +101,23 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .match.open .chev{transform:rotate(180deg)}
 
 .cells{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--rule)}
-.cell{background:var(--card);border:none;border-radius:0;padding:7px 2px 8px;cursor:pointer;
-  display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--ink);
+.cell{background:var(--card);border:none;border-radius:0;padding:8px 2px 9px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:0;color:var(--ink);
   text-transform:none;letter-spacing:0;font-family:'Barlow',sans-serif}
 .cell.high{background:var(--high-bg)}
 .cell.mid{background:var(--mid-bg)}
 .cell.low{background:var(--low-bg)}
 .sign{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;width:22px;
-  height:22px;line-height:22px;border-radius:50%;color:var(--ink-soft)}
+  height:22px;line-height:22px;border-radius:50%;color:var(--ink-soft);margin-bottom:4px}
 .cell.picked .sign{background:var(--ink);color:var(--card)}
-.line{display:flex;align-items:baseline;gap:3px;white-space:nowrap}
-.odds{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600}
-.dist{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-soft)}
-.delta{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint)}
-.kvot{font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;margin-top:3px;
-  padding-top:3px;border-top:1px solid rgba(0,0,0,.07);width:78%;text-align:center}
+.odds{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;line-height:1.15}
+.dist{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-soft);
+  line-height:1.15;margin-top:6px}
+.delta{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint);
+  line-height:1.35;margin-top:1px}
+.delta.flat{opacity:.45}
+.kvot{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;margin-top:7px;
+  padding-top:5px;border-top:1px solid rgba(0,0,0,.08);width:78%;text-align:center}
 .cell.high .kvot{color:var(--high)}
 .cell.mid .kvot{color:var(--mid)}
 .cell.low .kvot{color:var(--low)}
@@ -270,11 +272,12 @@ table.tbl .mal{display:none}
 
 <section class="legend hidden" id="legend">
   <h3>Så läser du rutorna</h3>
-  <div class="lrow"><span class="lex">2,50 (−0,13)</span>
-    <span>Odds nu. Har sjunkit 0,13 sedan omgången öppnade.</span></div>
-  <div class="lrow"><span class="lex">42% (+2)</span>
-    <span>Så stor andel av svenska folket som tippat det här tecknet. Har ökat
-    2 procentenheter sedan förra mätningen.</span></div>
+  <div class="lrow"><span class="lex">4,50<br>−0,13</span>
+    <span>Överst oddset nu, under det förändringen sedan omgången öppnade.
+    <b>±0</b> betyder oförändrat.</span></div>
+  <div class="lrow"><span class="lex">42%<br>+2</span>
+    <span>Så stor andel av svenska folket som tippat tecknet, och hur mycket
+    andelen rört sig sedan förra mätningen.</span></div>
   <div class="lrow"><span class="lex">0,93</span>
     <span>Spelvärde. Över 1,00 är tecknet mindre spelat än oddsen motiverar.
     Högre är bättre.</span></div>
@@ -366,7 +369,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-20 b';
+const VERSION = '2026-08-20 c';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -436,17 +439,19 @@ function when(ev){
 }
 
 function oddsDelta(now, start){
-  if (now == null || start == null) return '';
+  if (now == null || start == null) return {t:'', flat:true};
   const d = now - start;
-  if (Math.abs(d) < 0.005) return '';
-  return '(' + (d > 0 ? '+' : '−') + Math.abs(d).toFixed(2).replace('.',',') + ')';
+  if (Math.abs(d) < 0.005) return {t:'±0', flat:true};
+  return {t:(d > 0 ? '+' : '−') + Math.abs(d).toFixed(2).replace('.',','), flat:false};
 }
 function distDelta(now, ref){
-  if (now == null || ref == null) return '';
+  if (now == null || ref == null) return {t:'', flat:true};
   const d = now - ref;
-  if (d === 0) return '';
-  return '(' + (d > 0 ? '+' : '−') + Math.abs(d) + ')';
+  if (d === 0) return {t:'±0', flat:true};
+  return {t:(d > 0 ? '+' : '−') + Math.abs(d), flat:false};
 }
+const deltaHtml = o =>
+  '<span class="delta' + (o.flat ? ' flat' : '') + '">' + (o.t || '&nbsp;') + '</span>';
 
 /* ---------- football-data ---------- */
 const norm = s => String(s||'').toLowerCase()
@@ -758,11 +763,10 @@ function render(draw, keep){
           const dd = d[k] || {};
           return '<button class="cell ' + (cls[k]||'') + '" data-out="' + k + '">' +
             '<span class="sign">' + LBL[k] + '</span>' +
-            '<span class="line"><span class="odds">' + fmt(num(o[k])) + '</span>' +
-              '<span class="delta">' + oddsDelta(num(o[k]), num(so[k])) + '</span></span>' +
-            '<span class="line"><span class="dist">' +
-              (dd.now != null ? dd.now + '%' : '–') + '</span>' +
-              '<span class="delta">' + distDelta(dd.now, dd.ref) + '</span></span>' +
+            '<span class="odds">' + fmt(num(o[k])) + '</span>' +
+            deltaHtml(oddsDelta(num(o[k]), num(so[k]))) +
+            '<span class="dist">' + (dd.now != null ? dd.now + '%' : '–') + '</span>' +
+            deltaHtml(distDelta(dd.now, dd.ref)) +
             '<span class="kvot">' + (value[k] != null ? value[k].toFixed(2).replace('.',',') : '–') + '</span>' +
           '</button>';
         }).join('') +
