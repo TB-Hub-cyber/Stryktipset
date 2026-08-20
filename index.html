@@ -253,6 +253,7 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 const OWNER  = 'TB-Hub-cyber';
 const REPO   = 'Stryktipset';
 const BRANCH = 'main';
+const WORKFLOW = 'update.yml';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -435,10 +436,10 @@ function detailPanel(t, key){
 }
 
 /* ---------- uppritning ---------- */
-function render(draw){
+function render(draw, keep){
   events = draw.drawEvents.filter(e => e.eventTypeId !== 2);
   drawInfo = draw;
-  picks = {};
+  if (!keep) picks = {};
 
   document.getElementById('sub').textContent =
     (draw.drawComment || draw.productName || 'Stryktipset') +
@@ -514,6 +515,12 @@ function render(draw){
       refresh();
     });
     markNote(card, key);
+
+    // Vid uppdatering ska tidigare markeringar sitta kvar.
+    (picks[i] || []).forEach(out => {
+      const b = card.querySelector('.cell[data-out="' + out + '"]');
+      if (b) b.classList.add('picked');
+    });
 
     list.appendChild(card);
   });
@@ -647,41 +654,120 @@ async function saveNotes(){
   }
 }
 
+/* ---------- hämtning ---------- */
+async function loadAll(keep){
+  const bust = '?t=' + Date.now();
+  const opts = {cache:'no-store'};
+  const rawNotes = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO +
+                   '/' + BRANCH + '/notes.json' + bust;
+
+  const [draw, fd, nt] = await Promise.all([
+    fetch('data.json' + bust, opts).then(r => {
+      if (!r.ok) throw new Error('data.json saknas');
+      return r.json();
+    }),
+    fetch('football.json' + bust, opts).then(r => r.ok ? r.json() : null).catch(() => null),
+    fetch(rawNotes, opts).then(r => r.ok ? r.json() : null).catch(() => null)
+  ]);
+
+  buildIndex(fd);
+  // Egna osparade anteckningar får inte skrivas över av en gammal fil.
+  if (!notesDirty) notes = (nt && nt.notes) || {};
+  render(pick(draw.draw || draw), keep);
+  drawStamp = draw.fetchedAt || null;
+  stampLine(draw, fd);
+  return draw;
+}
+
+function stampLine(draw, fd){
+  const s = document.getElementById('stamp');
+  const d = draw.fetchedAt ? new Date(draw.fetchedAt) : null;
+  const age = d ? Math.round((Date.now() - d.getTime()) / 60000) : null;
+  const agetxt = age == null ? ''
+    : age < 60 ? ' (' + age + ' min sedan)'
+    : ' (' + Math.floor(age/60) + ' tim sedan)';
+
+  s.innerHTML =
+    (d ? 'Hämtad ' + d.toLocaleString('sv-SE',
+         {weekday:'short', hour:'2-digit', minute:'2-digit'}) + agetxt : '') +
+    (fd ? '' : ' · ingen tabelldata') +
+    '<button id="refresh">uppdatera</button>' +
+    '<button id="manual">klistra in själv</button>';
+  s.classList.remove('hidden');
+
+  document.getElementById('manual').addEventListener('click', () =>
+    document.getElementById('loader').classList.toggle('hidden'));
+  document.getElementById('refresh').addEventListener('click', refreshNow);
+}
+
+// Sidan kan inte nå Svenska Spel direkt, men den kan be GitHub köra
+// arbetsflödet — och sedan vänta in den nya filen.
+async function refreshNow(){
+  const s = document.getElementById('stamp');
+  const token = getToken();
+
+  s.textContent = 'Uppdaterar…';
+
+  if (!token){
+    try { await loadAll(true); }
+    catch(e){ s.textContent = 'Kunde inte uppdatera.'; }
+    return;
+  }
+
+  try {
+    const res = await fetch('https://api.github.com/repos/' + OWNER + '/' + REPO +
+      '/actions/workflows/' + WORKFLOW + '/dispatches', {
+        method:'POST',
+        headers:{Authorization:'Bearer ' + token, Accept:'application/vnd.github+json'},
+        body: JSON.stringify({ref: BRANCH})
+      });
+
+    if (res.status === 403 || res.status === 404){
+      // Nyckeln får skriva filer men inte starta arbetsflöden.
+      await loadAll(true);
+      document.getElementById('stamp').insertAdjacentHTML('beforeend',
+        '<div style="color:var(--mid);margin-top:4px;text-transform:none;letter-spacing:0">' +
+        'Läste om sparad data. För att tvinga fram en helt ny hämtning behöver nyckeln ' +
+        'även rättigheten Actions: Read and write.</div>');
+      return;
+    }
+    if (!res.ok) throw new Error('GitHub svarade ' + res.status);
+
+    // Vänta in att filen faktiskt byts ut, som mest i två minuter.
+    const start = drawStamp;
+    for (let i = 0; i < 24; i++){
+      await new Promise(r => setTimeout(r, 5000));
+      s.textContent = 'Uppdaterar… ' + ((i+1)*5) + ' s';
+      try {
+        const probe = await fetch('data.json?t=' + Date.now(), {cache:'no-store'});
+        if (probe.ok){
+          const j = await probe.json();
+          if (j.fetchedAt && j.fetchedAt !== start){
+            await loadAll(true);
+            return;
+          }
+        }
+      } catch(e){ /* försöker igen */ }
+    }
+    await loadAll(true);
+    document.getElementById('stamp').insertAdjacentHTML('beforeend',
+      '<div style="color:var(--ink-faint);margin-top:4px;text-transform:none;letter-spacing:0">' +
+      'Körningen hann inte bli klar. Prova igen om en minut.</div>');
+
+  } catch(e){
+    try { await loadAll(true); } catch(_){}
+  }
+}
+
+let drawStamp = null;
+
 /* ---------- start ---------- */
 async function auto(){
   const status = document.getElementById('status');
   try {
-    const bust = '?t=' + Date.now();
-    const opts = {cache:'no-store'};
-    // Anteckningarna läses direkt från grenen, inte via Pages, så de syns
-    // omedelbart efter att du sparat i stället för efter nästa ombyggnad.
-    const rawNotes = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO +
-                     '/' + BRANCH + '/notes.json' + bust;
-
-    const [draw, fd, nt] = await Promise.all([
-      fetch('data.json' + bust, opts).then(r => {
-        if (!r.ok) throw new Error('data.json saknas');
-        return r.json();
-      }),
-      fetch('football.json' + bust, opts).then(r => r.ok ? r.json() : null).catch(() => null),
-      fetch(rawNotes, opts).then(r => r.ok ? r.json() : null).catch(() => null)
-    ]);
-
-    buildIndex(fd);
-    notes = (nt && nt.notes) || {};
-    render(pick(draw.draw || draw));
+    const draw = await loadAll(false);
+    drawStamp = draw.fetchedAt || null;
     status.classList.add('hidden');
-
-    const s = document.getElementById('stamp');
-    const d = draw.fetchedAt ? new Date(draw.fetchedAt) : null;
-    s.innerHTML =
-      (d ? 'Hämtad ' + d.toLocaleString('sv-SE', {weekday:'short', hour:'2-digit', minute:'2-digit'}) : '') +
-      (fd ? '' : ' · ingen tabelldata') +
-      '<button id="manual">klistra in själv</button>';
-    s.classList.remove('hidden');
-    document.getElementById('manual').addEventListener('click', () =>
-      document.getElementById('loader').classList.toggle('hidden'));
-
   } catch (e){
     status.classList.add('hidden');
     document.getElementById('loader').classList.remove('hidden');
