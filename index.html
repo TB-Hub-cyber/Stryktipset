@@ -55,6 +55,7 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .status{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-faint);
   letter-spacing:.05em;padding:16px 2px;text-transform:uppercase}
 
+/* förklaring */
 .legend{border:1px dashed var(--rule);border-radius:3px;padding:11px 12px;margin:15px 0 11px}
 .legend h3{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--ink-soft);font-weight:500;margin-bottom:8px}
@@ -64,22 +65,35 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   background:var(--card);border:1px solid var(--rule);border-radius:2px;padding:1px 5px;
   white-space:nowrap;flex-shrink:0}
 .lswatch{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:3px}
+.more{background:none;border:none;color:var(--ink);font-family:'Barlow',sans-serif;
+  font-size:12.5px;text-transform:none;letter-spacing:0;text-decoration:underline;
+  padding:7px 0 0;cursor:pointer}
+.explain{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--rule);
+  font-size:13px;color:var(--ink-soft);line-height:1.55}
+.explain.show{display:block}
+.explain p{margin-bottom:9px}
+.explain b{color:var(--ink)}
+.calc{font-family:'IBM Plex Mono',monospace;font-size:12px;background:var(--card);
+  border:1px solid var(--rule);border-radius:3px;padding:9px;margin:9px 0;line-height:1.7}
 
+/* matchkort */
 .match{background:var(--card);border:1px solid var(--rule);border-radius:3px;
   margin-bottom:7px;overflow:hidden}
-.mhead{display:flex;align-items:center;gap:9px;padding:9px 11px 8px;cursor:pointer;
-  width:100%;background:none;border:none;text-align:left;color:var(--ink);
-  text-transform:none;letter-spacing:0;font-family:'Barlow',sans-serif}
-.mhead:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.mhead{display:flex;align-items:flex-start;gap:9px;padding:9px 11px 8px}
 .mnum{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;
-  color:var(--ink-faint);min-width:16px;align-self:flex-start;margin-top:3px}
+  color:var(--ink-faint);min-width:16px;margin-top:3px}
 .mid-col{flex:1;min-width:0}
-.mteams{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:600;
-  font-size:19px;line-height:1.15}
-.mmeta{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;
-  color:var(--ink-faint);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.mteams{display:block;width:100%;text-align:left;background:none;border:none;padding:0;
+  font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:19px;line-height:1.15;
+  color:var(--ink);text-transform:none;letter-spacing:0;cursor:pointer}
+.mmeta{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-faint);
+  text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.leaguebtn{background:none;border:none;padding:0;font-family:'IBM Plex Mono',monospace;
+  font-size:10px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;
+  text-decoration:underline;cursor:pointer}
 .hasnote{color:var(--mid)}
-.chev{color:var(--ink-faint);font-size:11px;transition:transform .18s;flex-shrink:0}
+.chev{background:none;border:none;color:var(--ink-faint);font-size:11px;padding:2px 0 0;
+  cursor:pointer;transition:transform .18s}
 .match.open .chev{transform:rotate(180deg)}
 
 .cells{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--rule)}
@@ -109,7 +123,12 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .teamgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:15px}
 .teambox{border:1px solid var(--rule);border-radius:3px;padding:9px}
 .tname{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;
-  margin-bottom:6px;line-height:1.1}
+  margin-bottom:2px;line-height:1.1}
+.tbig{display:flex;align-items:baseline;gap:5px;padding:5px 0 6px;margin-bottom:3px;
+  border-bottom:1px solid var(--rule)}
+.tbig b{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;line-height:1}
+.tbig span{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint);
+  text-transform:uppercase;letter-spacing:.08em}
 .stat{display:flex;justify-content:space-between;gap:6px;align-items:center;
   font-family:'IBM Plex Mono',monospace;font-size:11px;padding:3px 0;border-top:1px solid #EDEEEA}
 .stat span:first-child{color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;font-size:9.5px}
@@ -124,19 +143,47 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .note{font-size:12px;color:var(--ink-soft);margin-top:12px;padding-top:9px;
   border-top:1px dashed var(--rule);line-height:1.45}
 
+/* tabellfliken */
+.sheet{position:fixed;inset:0;z-index:50;display:none}
+.sheet.open{display:block}
+.sheet-bg{position:absolute;inset:0;background:rgba(21,23,27,.45)}
+.sheet-panel{position:absolute;left:0;right:0;bottom:0;max-height:88vh;background:var(--card);
+  border-radius:10px 10px 0 0;display:flex;flex-direction:column;
+  max-width:660px;margin:0 auto}
+.sheet-head{display:flex;align-items:center;gap:10px;padding:14px 14px 10px;
+  border-bottom:1px solid var(--rule)}
+.sheet-head h2{flex:1;font-family:'Barlow Condensed',sans-serif;font-size:21px;
+  text-transform:uppercase;font-weight:700;line-height:1.1}
+.sheet-close{background:var(--paper);color:var(--ink);border-radius:50%;width:32px;height:32px;
+  padding:0;font-size:17px;line-height:1;flex-shrink:0}
+.tabs{display:flex;gap:6px;padding:10px 14px 0}
+.tabs button{background:transparent;color:var(--ink-soft);border:1px solid var(--rule);
+  font-size:12px;padding:5px 11px}
+.tabs button.on{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.sheet-body{overflow-y:auto;padding:10px 14px 24px;-webkit-overflow-scrolling:touch}
+table.tbl{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:12px}
+table.tbl th{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);
+  font-weight:500;text-align:right;padding:0 0 6px;position:sticky;top:0;background:var(--card)}
+table.tbl th:nth-child(2){text-align:left}
+table.tbl td{padding:5px 0;border-top:1px solid #EDEEEA;text-align:right;white-space:nowrap}
+table.tbl td:nth-child(2){text-align:left;font-family:'Barlow',sans-serif;font-size:13px;
+  white-space:normal;padding-right:6px;width:99%}
+table.tbl td:first-child{color:var(--ink-faint);width:22px}
+table.tbl td:last-child{font-weight:600}
+table.tbl tr.hl td{background:var(--mid-bg)}
+table.tbl tr.hl td:nth-child(2){font-weight:600}
+
 /* sammanställning */
-.summary{background:var(--card);border:1px solid var(--ink);border-radius:3px;
-  padding:14px;margin:18px 0}
+.summary{background:var(--card);border:1px solid var(--ink);border-radius:3px;padding:14px;margin:18px 0}
 .summary h2{font-family:'Barlow Condensed',sans-serif;font-size:22px;text-transform:uppercase;
   font-weight:700;margin-bottom:3px}
-.srow{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--rule);
-  font-size:13.5px}
+.srow{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--rule);font-size:13.5px}
 .snum{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-faint);min-width:16px}
 .steams{flex:1;min-width:0;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .smarks{display:flex;gap:3px}
-.smarks i{font-style:normal;font-family:'Barlow Condensed',sans-serif;font-weight:700;
-  font-size:13px;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;
+.smarks i{font-style:normal;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;
+  width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;
   background:var(--ink);color:var(--card)}
 .smarks .empty{background:transparent;border:1px dashed var(--rule);color:var(--ink-faint)}
 .totals{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;padding-top:11px;
@@ -145,7 +192,7 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .totals span{color:var(--ink-faint);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase}
 
 .slip{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:var(--card);
-  padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom));z-index:20}
 .slip-in{max-width:660px;margin:0 auto;display:flex;align-items:center;gap:11px}
 .slip-lab{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;
   text-transform:uppercase;opacity:.6}
@@ -164,13 +211,15 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   h1{font-size:46px} header{padding:32px 0 16px}
   .match{display:grid;grid-template-columns:1fr 360px;align-items:stretch}
   .mhead{padding:14px 16px;align-items:center}
-  .mteams{font-size:22px} .mmeta{font-size:11px} .chev{margin-left:auto}
+  .mteams{font-size:22px} .mmeta{font-size:11px}
   .cells{border-left:1px solid var(--rule)}
   .cell{padding:9px 4px 10px}
   .odds{font-size:16px} .dist{font-size:12px} .delta{font-size:10.5px} .kvot{font-size:13.5px}
   .detail{grid-column:1 / -1;padding:16px}
   .teamgrid{gap:14px} .injury{height:140px}
   .legend{padding:14px 16px} .lrow{font-size:13.5px}
+  .sheet-panel{bottom:auto;top:50%;transform:translateY(-50%);border-radius:6px;
+    max-height:82vh;left:20px;right:20px}
 }
 @media (min-width:1000px){
   .wrap{max-width:1000px}
@@ -208,15 +257,46 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   <div class="lrow"><span class="lex">2,50 (−0,13)</span>
     <span>Odds nu. Har sjunkit 0,13 sedan omgången öppnade.</span></div>
   <div class="lrow"><span class="lex">42% (+2)</span>
-    <span>Andel av strecken. Har ökat 2 procentenheter.</span></div>
+    <span>Så stor andel av svenska folket som tippat det här tecknet. Har ökat
+    2 procentenheter sedan förra mätningen.</span></div>
   <div class="lrow"><span class="lex">0,93</span>
-    <span>Kvot: sannolikhet delat med streck. Över 1,00 är utfallet lägre spelat
-    än oddsen motiverar. Högre är bättre.</span></div>
+    <span>Spelvärde. Över 1,00 är tecknet mindre spelat än oddsen motiverar.
+    Högre är bättre.</span></div>
   <div class="lrow" style="padding-top:7px">
-    <span><span class="lswatch" style="background:var(--high)"></span>bäst kvot
+    <span><span class="lswatch" style="background:var(--high)"></span>bäst värde
     <span class="lswatch" style="background:var(--mid);margin-left:9px"></span>mellan
     <span class="lswatch" style="background:var(--low);margin-left:9px"></span>sämst
     — rangordnat inom varje match. Du kan markera flera tecken per match.</span></div>
+
+  <button class="more" id="more">Vad betyder spelvärde egentligen?</button>
+  <div class="explain" id="explain">
+    <p>Stryktipset är ett <b>poolspel</b>. Vinstsumman delas mellan alla som fick rätt.
+    Har många spelat samma rad som du blir din andel liten även om du prickar rätt.
+    Därför spelar det roll inte bara <i>om</i> ett tecken går in, utan <i>hur många
+    andra</i> som satsat på det.</p>
+
+    <p>Spelvärdet jämför två saker: hur troligt utfallet är enligt oddsen, och hur
+    stor andel av folket som spelat det.</p>
+
+    <div class="calc">
+      Sannolikhet enligt odds &nbsp;39 %<br>
+      Svenska folkets streck &nbsp;&nbsp;42 %<br>
+      ────────────────<br>
+      39 ÷ 42 = <b>0,93</b>
+    </div>
+
+    <p>Under 1,00 betyder <b>överspelat</b> — fler tippar det än vad oddsen motiverar,
+    så du får dela med många. Över 1,00 betyder <b>underspelat</b> — färre har det,
+    och en träff blir värd mer.</p>
+
+    <p>Sannolikheten kommer från Svenska Spels eget fält <span class="lex">favouriteOdds</span>,
+    där spelbolagets marginal redan är borträknad. Utan den justeringen skulle de tre
+    utfallen summera till över 100 procent och alla jämförelser bli skeva.</p>
+
+    <p><b>En viktig begränsning.</b> Högt spelvärde betyder inte att utfallet är troligt.
+    En skräll kan ha värde 1,40 och ändå förlora nio gånger av tio. Måttet visar var
+    folket avviker från oddsen, inte vad som kommer hända.</p>
+  </div>
 </section>
 
 <main id="list"></main>
@@ -237,6 +317,22 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 
 </div>
 
+<div class="sheet" id="sheet">
+  <div class="sheet-bg" id="sheetbg"></div>
+  <div class="sheet-panel">
+    <div class="sheet-head">
+      <h2 id="sheettitle">Tabell</h2>
+      <button class="sheet-close" id="sheetclose" aria-label="Stäng">&times;</button>
+    </div>
+    <div class="tabs" id="tabs">
+      <button data-t="TOTAL" class="on">Totalt</button>
+      <button data-t="HOME">Hemma</button>
+      <button data-t="AWAY">Borta</button>
+    </div>
+    <div class="sheet-body" id="sheetbody"></div>
+  </div>
+</div>
+
 <div class="slip hidden" id="slip">
   <div class="slip-in">
     <div style="flex:1">
@@ -249,7 +345,6 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 
 <script>
 // ---------------------------------------------------------------
-// Ändra dessa tre om du byter namn på konto eller repo.
 const OWNER  = 'TB-Hub-cyber';
 const REPO   = 'Stryktipset';
 const BRANCH = 'main';
@@ -257,23 +352,18 @@ const WORKFLOW = 'update.yml';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
-let picks = {};        // {matchIndex: ['one','x']}
-let notes = {};        // {matchId: text}
-let events = [];
-let drawInfo = {};
-let fdIndex = [];
-let notesDirty = false;
+let picks = {}, notes = {}, events = [], drawInfo = {};
+let fdIndex = [], fdComps = {};
+let notesDirty = false, drawStamp = null;
+let sheetComp = null, sheetTab = 'TOTAL', sheetHl = [];
 
 const num = v => (v==null || v==='') ? null : parseFloat(String(v).replace(',','.'));
 const fmt = v => v==null ? '–' : v.toFixed(2).replace('.',',');
+const esc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
-/* ---------- lokal nyckel ---------- */
-function getToken(){
-  try { return localStorage.getItem('gh_token') || ''; } catch(e){ return ''; }
-}
+function getToken(){ try { return localStorage.getItem('gh_token') || ''; } catch(e){ return ''; } }
 function setToken(v){
-  try { v ? localStorage.setItem('gh_token', v) : localStorage.removeItem('gh_token'); }
-  catch(e){ /* privat läge eller blockerad lagring */ }
+  try { v ? localStorage.setItem('gh_token', v) : localStorage.removeItem('gh_token'); } catch(e){}
 }
 
 /* ---------- inläsning ---------- */
@@ -346,12 +436,29 @@ const norm = s => String(s||'').toLowerCase()
   .replace(/\b(fc|afc|cf|sk|if|ff|bk)\b/g,'')
   .replace(/[^a-z0-9]/g,'');
 
+// API:et låter lag med lika poäng dela placering. Riktiga tabeller skiljer dem
+// på målskillnad och därefter gjorda mål, så vi räknar om ordningen själva.
+function rankRows(entries, kind){
+  const withRow = entries.filter(e => e[kind]);
+  withRow.sort((a,b) => {
+    const A = a[kind], B = b[kind];
+    return (B.points||0) - (A.points||0)
+        || (B.goalDifference||0) - (A.goalDifference||0)
+        || (B.goalsFor||0) - (A.goalsFor||0)
+        || String(a.team.name).localeCompare(String(b.team.name), 'sv');
+  });
+  withRow.forEach((e, i) => { e['rank_' + kind] = i + 1; });
+  return withRow;
+}
+
 function buildIndex(fd){
-  fdIndex = [];
+  fdIndex = []; fdComps = {};
   if (!fd || !fd.competitions) return;
+
   Object.keys(fd.competitions).forEach(code => {
     const comp = fd.competitions[code];
     if (!comp || !comp.standings) return;
+
     const byId = {};
     comp.standings.forEach(s => {
       (s.table || []).forEach(row => {
@@ -361,7 +468,16 @@ function buildIndex(fd){
         byId[id][s.type] = row;
       });
     });
-    Object.keys(byId).forEach(id => fdIndex.push(byId[id]));
+
+    const entries = Object.keys(byId).map(id => byId[id]);
+    ['TOTAL','HOME','AWAY'].forEach(k => rankRows(entries, k));
+
+    fdComps[comp.competition.code] = {
+      competition: comp.competition,
+      entries: entries,
+      count: entries.length
+    };
+    entries.forEach(e => fdIndex.push(e));
   });
 }
 
@@ -398,41 +514,109 @@ function teamBox(part){
     const why = !fdIndex.length
       ? 'Ingen tabelldata inläst. Filen football.json saknas eller kunde inte tolkas.'
       : 'Laget hittades inte i tabellen. Antingen ingår ligan inte i gratisnivån, ' +
-        'eller så matchade inte lagnamnet (' + (part.shortName || part.name) + ').';
-    return '<div class="teambox"><div class="tname">' + part.name + '</div>' +
+        'eller så matchade inte lagnamnet (' + esc(part.shortName || part.name) + ').';
+    return '<div class="teambox"><div class="tname">' + esc(part.name) + '</div>' +
       '<div class="nodata">' + why + '</div></div>';
   }
+
   const tot = hit.TOTAL;
   if (!tot || !tot.playedGames){
-    return '<div class="teambox"><div class="tname">' + part.name + '</div>' +
+    return '<div class="teambox"><div class="tname">' + esc(part.name) + '</div>' +
       '<div class="nodata">Inga matcher spelade än den här säsongen, så tabellen ' +
       'säger ingenting. Fylls på automatiskt efter första omgången.</div></div>';
   }
+
   const gd = tot.goalDifference;
+  const comp = fdComps[hit.comp.code];
   const rows = [
-    ['Tabellplats', tot.position + ':e av ' +
-       fdIndex.filter(e => e.comp && e.comp.code === hit.comp.code).length],
-    ['Poäng', tot.points + ' p på ' + tot.playedGames],
+    ['Placering', hit.rank_TOTAL + ':e av ' + (comp ? comp.count : '?')],
+    ['Spelade', String(tot.playedGames)],
+    ['V–O–F', record(tot)],
     ['Form 5', tot.form ? formDots(tot.form) : null],
     ['Hemma', record(hit.HOME)],
     ['Borta', record(hit.AWAY)],
-    ['Mål +/−', gd != null ? (gd > 0 ? '+' + gd : String(gd)) : null]
+    ['Mål', (tot.goalsFor||0) + '–' + (tot.goalsAgainst||0) +
+            (gd != null ? '  (' + (gd > 0 ? '+' + gd : gd) + ')' : '')]
   ];
-  return '<div class="teambox"><div class="tname">' + part.name + '</div>' +
+
+  return '<div class="teambox">' +
+    '<div class="tname">' + esc(part.name) + '</div>' +
+    '<div class="tbig"><b>' + tot.points + '</b><span>poäng</span></div>' +
     rows.map(r => '<div class="stat"><span>' + r[0] + '</span><span>' +
       (r[1] != null ? r[1] : '<span class="pending">–</span>') + '</span></div>').join('') +
     '</div>';
 }
 
+/* ---------- tabellfliken ---------- */
+function openSheet(code, highlight){
+  const comp = fdComps[code];
+  if (!comp) return;
+  sheetComp = code; sheetTab = 'TOTAL'; sheetHl = highlight || [];
+  document.getElementById('sheettitle').textContent = comp.competition.name;
+  document.querySelectorAll('#tabs button').forEach(b =>
+    b.classList.toggle('on', b.dataset.t === 'TOTAL'));
+  drawSheet();
+  document.getElementById('sheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSheet(){
+  document.getElementById('sheet').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function drawSheet(){
+  const comp = fdComps[sheetComp];
+  const body = document.getElementById('sheetbody');
+  if (!comp){ body.innerHTML = ''; return; }
+
+  const kind = sheetTab;
+  const rows = comp.entries.filter(e => e[kind])
+    .sort((a,b) => a['rank_' + kind] - b['rank_' + kind]);
+
+  if (!rows.length || !rows[0][kind].playedGames){
+    body.innerHTML = '<p style="font-size:13px;color:var(--ink-soft);padding:14px 0">' +
+      'Inga matcher spelade än den här säsongen.</p>';
+    return;
+  }
+
+  body.innerHTML =
+    '<table class="tbl"><thead><tr>' +
+      '<th>#</th><th>Lag</th><th>S</th><th>V</th><th>O</th><th>F</th><th>Mål</th><th>+/−</th><th>P</th>' +
+    '</tr></thead><tbody>' +
+    rows.map(e => {
+      const r = e[kind];
+      const on = sheetHl.indexOf(e.team.id) > -1;
+      const gd = r.goalDifference;
+      return '<tr class="' + (on ? 'hl' : '') + '">' +
+        '<td>' + e['rank_' + kind] + '</td>' +
+        '<td>' + esc(e.team.shortName || e.team.name) + '</td>' +
+        '<td>' + (r.playedGames||0) + '</td>' +
+        '<td>' + (r.won||0) + '</td>' +
+        '<td>' + (r.draw||0) + '</td>' +
+        '<td>' + (r.lost||0) + '</td>' +
+        '<td>' + (r.goalsFor||0) + '–' + (r.goalsAgainst||0) + '</td>' +
+        '<td>' + (gd > 0 ? '+' + gd : (gd||0)) + '</td>' +
+        '<td>' + (r.points||0) + '</td>' +
+      '</tr>';
+    }).join('') +
+    '</tbody></table>' +
+    '<p style="font-size:11.5px;color:var(--ink-faint);margin-top:11px;line-height:1.45">' +
+    'S spelade · V vinster · O oavgjorda · F förluster · P poäng. ' +
+    'Vid lika poäng skiljer målskillnad och därefter gjorda mål.</p>';
+}
+
+/* ---------- detaljpanel ---------- */
 function detailPanel(t, key){
-  const val = notes[key] ? notes[key].replace(/</g,'&lt;') : '';
+  const val = esc(notes[key] || '');
   return '<div class="dlabel">Lagdata</div>' +
     '<div class="teamgrid">' + teamBox(t.home) + teamBox(t.away) + '</div>' +
     '<div class="dlabel">Anteckningar</div>' +
     '<textarea class="injury" data-key="' + key + '" ' +
       'placeholder="Skador, avstängningar, egna tankar inför matchen…">' + val + '</textarea>' +
-    '<div class="note">Hemma och borta visas som vinster–oavgjorda–förluster. ' +
-    'Formen är de fem senaste matcherna, senast först.</div>';
+    '<div class="note">V–O–F är vinster, oavgjorda och förluster. Hemma och borta visar ' +
+    'samma sak i respektive deltabell. Formen är de fem senaste matcherna, senast först. ' +
+    'Tryck på ligans namn högst upp för hela tabellen.</div>';
 }
 
 /* ---------- uppritning ---------- */
@@ -463,19 +647,26 @@ function render(draw, keep){
     ranked.forEach((k, idx) => cls[k] = ['high','mid','low'][idx] || '');
 
     const league = (ev.match && ev.match.league && ev.match.league.name) || '';
+    const hitH = findTeam(t.home), hitA = findTeam(t.away);
+    const code = (hitH && hitH.comp.code) || (hitA && hitA.comp.code) || null;
+
+    const leagueHtml = code
+      ? '<button class="leaguebtn" data-code="' + code + '">' + esc(league) + '</button>'
+      : esc(league);
+
     const card = document.createElement('article');
     card.className = 'match';
 
     card.innerHTML =
-      '<button class="mhead">' +
+      '<div class="mhead">' +
         '<span class="mnum">' + (ev.eventNumber || i+1) + '</span>' +
-        '<span class="mid-col">' +
-          '<span class="mteams">' + t.home.name + ' – ' + t.away.name + '</span>' +
-          '<span class="mmeta">' + [league, when(ev)].filter(Boolean).join(' · ') +
-            '<span class="notemark hasnote"></span></span>' +
-        '</span>' +
-        '<span class="chev">&#9660;</span>' +
-      '</button>' +
+        '<div class="mid-col">' +
+          '<button class="mteams">' + esc(t.home.name) + ' – ' + esc(t.away.name) + '</button>' +
+          '<div class="mmeta">' + leagueHtml + (when(ev) ? ' · ' + when(ev) : '') +
+            '<span class="notemark hasnote"></span></div>' +
+        '</div>' +
+        '<button class="chev">&#9660;</button>' +
+      '</div>' +
       '<div class="cells">' +
         OUT.map(k => {
           const dd = d[k] || {};
@@ -492,9 +683,17 @@ function render(draw, keep){
       '</div>' +
       '<div class="detail">' + detailPanel(t, key) + '</div>';
 
-    card.querySelector('.mhead').addEventListener('click', () => card.classList.toggle('open'));
+    const toggle = () => card.classList.toggle('open');
+    card.querySelector('.mteams').addEventListener('click', toggle);
+    card.querySelector('.chev').addEventListener('click', toggle);
 
-    // Flera tecken per match är tillåtet — varje ruta slås av och på för sig.
+    const lb = card.querySelector('.leaguebtn');
+    if (lb) lb.addEventListener('click', e => {
+      e.stopPropagation();
+      openSheet(lb.dataset.code,
+        [hitH && hitH.team.id, hitA && hitA.team.id].filter(Boolean));
+    });
+
     card.querySelectorAll('.cell').forEach(btn => {
       btn.addEventListener('click', () => {
         const out = btn.dataset.out;
@@ -516,7 +715,6 @@ function render(draw, keep){
     });
     markNote(card, key);
 
-    // Vid uppdatering ska tidigare markeringar sitta kvar.
     (picks[i] || []).forEach(out => {
       const b = card.querySelector('.cell[data-out="' + out + '"]');
       if (b) b.classList.add('picked');
@@ -545,8 +743,7 @@ function refresh(){
   document.getElementById('slip').classList.toggle('hidden', marked === 0);
   document.getElementById('sliplab').textContent = marked + ' av ' + events.length + ' matcher';
   document.getElementById('row').textContent = complete
-    ? rows + (rows === 1 ? ' rad' : ' rader') + ' · ' +
-      (rows * price).toFixed(0) + ' kr'
+    ? rows + (rows === 1 ? ' rad' : ' rader') + ' · ' + (rows * price).toFixed(0) + ' kr'
     : 'Ofullständig';
 
   const half = events.filter((e,i) => (picks[i]||[]).length === 2).length;
@@ -559,22 +756,18 @@ function refresh(){
   box.innerHTML =
     '<h2>Sammanställning</h2>' +
     '<p style="font-size:13px;color:var(--ink-soft);margin-bottom:9px">' +
-      (complete
-        ? 'Alla matcher markerade.'
-        : 'Markera minst ett tecken i varje match för att se antal rader.') +
-    '</p>' +
+      (complete ? 'Alla matcher markerade.'
+                : 'Markera minst ett tecken i varje match för att se antal rader.') + '</p>' +
     events.map((ev,i) => {
-      const sel = picks[i] || [];
-      const t = sides(ev);
+      const sel = picks[i] || [], t = sides(ev);
       const marks = sel.length
         ? OUT.filter(k => sel.indexOf(k) > -1).map(k => '<i>' + LBL[k] + '</i>').join('')
         : '<i class="empty">–</i>';
       return '<div class="srow">' +
         '<span class="snum">' + (ev.eventNumber || i+1) + '</span>' +
-        '<span class="steams">' + t.home.name + ' – ' + t.away.name +
+        '<span class="steams">' + esc(t.home.name) + ' – ' + esc(t.away.name) +
           (notes[keyOf(ev)] ? ' <span style="color:var(--mid)">•</span>' : '') + '</span>' +
-        '<span class="smarks">' + marks + '</span>' +
-      '</div>';
+        '<span class="smarks">' + marks + '</span></div>';
     }).join('') +
     '<div class="totals">' +
       '<div><span>Rader</span><b>' + (complete ? rows : '–') + '</b></div>' +
@@ -585,8 +778,7 @@ function refresh(){
     '<div class="btnrow" style="margin-top:14px">' +
       '<button id="savenotes">' + (notesDirty ? 'Spara anteckningar •' : 'Spara anteckningar') + '</button>' +
       '<button class="ghost" id="settoken">' + (getToken() ? 'Byt nyckel' : 'Koppla GitHub') + '</button>' +
-    '</div>' +
-    '<div id="savemsg"></div>';
+    '</div><div id="savemsg"></div>';
 
   document.getElementById('savenotes').addEventListener('click', saveNotes);
   document.getElementById('settoken').addEventListener('click', () => {
@@ -596,7 +788,7 @@ function refresh(){
   });
 }
 
-/* ---------- spara anteckningar till repot ---------- */
+/* ---------- spara anteckningar ---------- */
 const b64 = s => btoa(String.fromCharCode.apply(null, new TextEncoder().encode(s)));
 
 async function saveNotes(){
@@ -616,7 +808,6 @@ async function saveNotes(){
   const head = {Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json'};
 
   try {
-    // Hämta nuvarande version — GitHub kräver sha för att skriva över.
     let sha = null;
     const cur = await fetch(api + '?ref=' + BRANCH, {headers: head});
     if (cur.ok) sha = (await cur.json()).sha;
@@ -671,7 +862,6 @@ async function loadAll(keep){
   ]);
 
   buildIndex(fd);
-  // Egna osparade anteckningar får inte skrivas över av en gammal fil.
   if (!notesDirty) notes = (nt && nt.notes) || {};
   render(pick(draw.draw || draw), keep);
   drawStamp = draw.fetchedAt || null;
@@ -700,17 +890,13 @@ function stampLine(draw, fd){
   document.getElementById('refresh').addEventListener('click', refreshNow);
 }
 
-// Sidan kan inte nå Svenska Spel direkt, men den kan be GitHub köra
-// arbetsflödet — och sedan vänta in den nya filen.
 async function refreshNow(){
   const s = document.getElementById('stamp');
   const token = getToken();
-
   s.textContent = 'Uppdaterar…';
 
   if (!token){
-    try { await loadAll(true); }
-    catch(e){ s.textContent = 'Kunde inte uppdatera.'; }
+    try { await loadAll(true); } catch(e){ s.textContent = 'Kunde inte uppdatera.'; }
     return;
   }
 
@@ -723,7 +909,6 @@ async function refreshNow(){
       });
 
     if (res.status === 403 || res.status === 404){
-      // Nyckeln får skriva filer men inte starta arbetsflöden.
       await loadAll(true);
       document.getElementById('stamp').insertAdjacentHTML('beforeend',
         '<div style="color:var(--mid);margin-top:4px;text-transform:none;letter-spacing:0">' +
@@ -733,7 +918,6 @@ async function refreshNow(){
     }
     if (!res.ok) throw new Error('GitHub svarade ' + res.status);
 
-    // Vänta in att filen faktiskt byts ut, som mest i två minuter.
     const start = drawStamp;
     for (let i = 0; i < 24; i++){
       await new Promise(r => setTimeout(r, 5000));
@@ -742,12 +926,9 @@ async function refreshNow(){
         const probe = await fetch('data.json?t=' + Date.now(), {cache:'no-store'});
         if (probe.ok){
           const j = await probe.json();
-          if (j.fetchedAt && j.fetchedAt !== start){
-            await loadAll(true);
-            return;
-          }
+          if (j.fetchedAt && j.fetchedAt !== start){ await loadAll(true); return; }
         }
-      } catch(e){ /* försöker igen */ }
+      } catch(e){}
     }
     await loadAll(true);
     document.getElementById('stamp').insertAdjacentHTML('beforeend',
@@ -759,14 +940,11 @@ async function refreshNow(){
   }
 }
 
-let drawStamp = null;
-
 /* ---------- start ---------- */
 async function auto(){
   const status = document.getElementById('status');
   try {
-    const draw = await loadAll(false);
-    drawStamp = draw.fetchedAt || null;
+    await loadAll(false);
     status.classList.add('hidden');
   } catch (e){
     status.classList.add('hidden');
@@ -775,6 +953,25 @@ async function auto(){
       'Ingen sparad omgång hittades än. Kör arbetsflödet i Actions, eller klistra in datan här nedanför.';
   }
 }
+
+/* ---------- knappar ---------- */
+document.getElementById('more').addEventListener('click', e => {
+  const p = document.getElementById('explain');
+  p.classList.toggle('show');
+  e.target.textContent = p.classList.contains('show')
+    ? 'Dölj förklaringen' : 'Vad betyder spelvärde egentligen?';
+});
+
+document.getElementById('sheetclose').addEventListener('click', closeSheet);
+document.getElementById('sheetbg').addEventListener('click', closeSheet);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+document.querySelectorAll('#tabs button').forEach(b => {
+  b.addEventListener('click', () => {
+    sheetTab = b.dataset.t;
+    document.querySelectorAll('#tabs button').forEach(x => x.classList.toggle('on', x === b));
+    drawSheet();
+  });
+});
 
 document.getElementById('savetoken').addEventListener('click', () => {
   const v = document.getElementById('token').value.trim();
