@@ -474,9 +474,12 @@ function teamBox(part){
   const hit = findTeam(part);
 
   if (!hit){
+    const why = !fdIndex.length
+      ? 'Ingen tabelldata inläst. Filen football.json saknas eller kunde inte tolkas.'
+      : 'Laget hittades inte i tabellen. Antingen ingår ligan inte i gratisnivån, ' +
+        'eller så matchade inte lagnamnet (' + (part.shortName || part.name) + ').';
     return '<div class="teambox"><div class="tname">' + part.name + '</div>' +
-      '<div class="nodata">Ligan ingår inte i gratisnivån hos football-data.org, ' +
-      'så tabelldata saknas för det här laget.</div></div>';
+      '<div class="nodata">' + why + '</div></div>';
   }
 
   const tot = hit.TOTAL, home = hit.HOME, away = hit.AWAY;
