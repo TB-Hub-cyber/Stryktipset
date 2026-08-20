@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stryktipset – omgångsöversikt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E4E6DF;
+  --card:#FBFBF9;
+  --ink:#15171B;
+  --ink-soft:#767B82;
+  --ink-faint:#A2A7AC;
+  --rule:#D2D5CC;
+  --high:#2C6B4C;   --high-bg:#EFF5F0;
+  --mid:#9C6A18;    --mid-bg:#F7F2E7;
+  --low:#9A4030;    --low-bg:#F7EDEB;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:'Barlow',system-ui,sans-serif;font-size:15px;line-height:1.45;
+  padding:0 0 128px;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:660px;margin:0 auto;padding:0 12px}
+
+header{padding:22px 0 13px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-soft)}
+h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;
+  line-height:.98;text-transform:uppercase;margin-top:2px}
+.sub{font-size:13px;color:var(--ink-soft);margin-top:5px}
+
+.loader{background:var(--card);border:1px solid var(--rule);padding:14px;
+  margin:16px 0;border-radius:3px}
+.loader h2{font-family:'Barlow Condensed',sans-serif;font-size:19px;
+  text-transform:uppercase;font-weight:600}
+.loader p{font-size:13px;color:var(--ink-soft);margin:6px 0 10px}
+.loader code{font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+  background:var(--paper);padding:2px 5px;border-radius:2px;
+  word-break:break-all;display:inline-block}
+textarea{width:100%;height:92px;border:1px solid var(--rule);border-radius:3px;
+  padding:9px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+  background:#fff;color:var(--ink);resize:vertical}
+textarea:focus{outline:2px solid var(--ink);outline-offset:1px}
+.btnrow{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
+button{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:15px;
+  text-transform:uppercase;letter-spacing:.05em;padding:9px 16px;border:none;
+  border-radius:3px;cursor:pointer;background:var(--ink);color:var(--card)}
+button.ghost{background:transparent;color:var(--ink);border:1px solid var(--rule)}
+button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.err{color:var(--low);font-size:13px;margin-top:8px;font-weight:500}
+
+/* förklaringsruta */
+.legend{border:1px dashed var(--rule);border-radius:3px;background:transparent;
+  padding:11px 12px;margin:15px 0 11px}
+.legend h3{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-soft);font-weight:500;margin-bottom:8px}
+.lrow{display:flex;gap:9px;align-items:baseline;font-size:12.5px;
+  color:var(--ink-soft);padding:3px 0;line-height:1.35}
+.lex{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;
+  color:var(--ink);background:var(--card);border:1px solid var(--rule);
+  border-radius:2px;padding:1px 5px;white-space:nowrap;flex-shrink:0}
+.lswatch{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:3px}
+
+/* matchkort */
+.match{background:var(--card);border:1px solid var(--rule);border-radius:3px;
+  margin-bottom:7px;overflow:hidden}
+.mhead{display:flex;align-items:center;gap:9px;padding:9px 11px 8px;
+  cursor:pointer;width:100%;background:none;border:none;text-align:left;
+  color:var(--ink);text-transform:none;letter-spacing:0;font-family:'Barlow',sans-serif}
+.mhead:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.mnum{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;
+  color:var(--ink-faint);min-width:16px;align-self:flex-start;margin-top:3px}
+.mid-col{flex:1;min-width:0}
+.mteams{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:600;
+  font-size:19px;line-height:1.15;letter-spacing:.005em}
+.mmeta{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;
+  color:var(--ink-faint);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.chev{color:var(--ink-faint);font-size:11px;transition:transform .18s;flex-shrink:0}
+.match.open .chev{transform:rotate(180deg)}
+
+/* 1X2 */
+.cells{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--rule)}
+.cell{background:var(--card);border:none;border-radius:0;padding:7px 2px 8px;
+  cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;
+  color:var(--ink);text-transform:none;letter-spacing:0;font-family:'Barlow',sans-serif}
+.cell.high{background:var(--high-bg)}
+.cell.mid{background:var(--mid-bg)}
+.cell.low{background:var(--low-bg)}
+.sign{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;
+  width:22px;height:22px;line-height:22px;border-radius:50%;color:var(--ink-soft)}
+.cell.picked .sign{background:var(--ink);color:var(--card)}
+.line{display:flex;align-items:baseline;gap:3px;white-space:nowrap}
+.odds{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600}
+.dist{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-soft)}
+.delta{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint)}
+.kvot{font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;
+  margin-top:3px;padding-top:3px;border-top:1px solid rgba(0,0,0,.07);
+  width:78%;text-align:center}
+.cell.high .kvot{color:var(--high)}
+.cell.mid .kvot{color:var(--mid)}
+.cell.low .kvot{color:var(--low)}
+
+/* detaljvy */
+.detail{display:none;padding:11px;border-top:1px solid var(--rule);background:#fff}
+.match.open .detail{display:block}
+.dlabel{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+.teamgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:15px}
+.teambox{border:1px solid var(--rule);border-radius:3px;padding:9px}
+.tname{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;
+  margin-bottom:6px;line-height:1.1}
+.stat{display:flex;justify-content:space-between;gap:6px;align-items:center;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;padding:3px 0;
+  border-top:1px solid #EDEEEA}
+.stat span:first-child{color:var(--ink-faint);text-transform:uppercase;
+  letter-spacing:.04em;font-size:9.5px}
+.pending{background:repeating-linear-gradient(90deg,#E9EAE5 0 6px,transparent 6px 10px);
+  color:transparent;border-radius:2px;min-width:38px;display:inline-block;height:10px}
+.injury{width:100%;border:1px solid var(--rule);border-radius:3px;padding:7px;
+  font-family:'Barlow',sans-serif;font-size:12.5px;background:#fff;
+  color:var(--ink);resize:vertical;height:52px}
+.injury:focus{outline:2px solid var(--ink);outline-offset:1px}
+.note{font-size:12px;color:var(--ink-soft);margin-top:12px;padding-top:9px;
+  border-top:1px dashed var(--rule);line-height:1.45}
+
+/* radremsa */
+.slip{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:var(--card);
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+.slip-in{max-width:660px;margin:0 auto;display:flex;align-items:center;gap:11px}
+.slip-lab{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;opacity:.6}
+.slip-row{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;
+  letter-spacing:.2em;margin-top:2px}
+.slip button{background:transparent;color:var(--card);
+  border:1px solid rgba(251,251,249,.3);font-size:13px;padding:6px 11px}
+.hidden{display:none}
+
+/* mycket små telefoner */
+@media (max-width:340px){
+  .odds{font-size:13.5px}
+  .dist{font-size:10.5px}
+  .delta{font-size:9px}
+  .mteams{font-size:17px}
+  h1{font-size:32px}
+}
+
+/* surfplatta och dator: match och rutor sida vid sida */
+@media (min-width:720px){
+  body{font-size:16px}
+  .wrap{max-width:900px;padding:0 20px}
+  h1{font-size:46px}
+  header{padding:32px 0 16px}
+
+  .match{
+    display:grid;
+    grid-template-columns:1fr 360px;
+    align-items:stretch;
+  }
+  .mhead{padding:14px 16px;align-items:center}
+  .mteams{font-size:22px}
+  .mmeta{font-size:11px}
+  .chev{margin-left:auto}
+  .cells{border-left:1px solid var(--rule)}
+  .cell{padding:9px 4px 10px}
+  .odds{font-size:16px}
+  .dist{font-size:12px}
+  .delta{font-size:10.5px}
+  .kvot{font-size:13.5px}
+  .detail{grid-column:1 / -1;padding:16px}
+  .teamgrid{gap:14px}
+  .injury{height:60px}
+
+  .legend{padding:14px 16px}
+  .lrow{font-size:13.5px}
+  .slip-row{font-size:18px;letter-spacing:.26em}
+}
+
+/* stor skärm: bredare luft mellan lagrutorna */
+@media (min-width:1000px){
+  .wrap{max-width:1000px}
+  .match{grid-template-columns:1fr 400px}
+}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Omgångsöversikt</div>
+  <h1>Stryktipset</h1>
+  <div class="sub" id="sub">Ingen omgång inläst än.</div>
+</header>
+
+<section class="loader" id="loader">
+  <h2>Läs in omgången</h2>
+  <p>Öppna adressen nedan i webbläsaren, markera allt, kopiera och klistra in här.</p>
+  <p><code>https://api.spela.svenskaspel.se/draw/1/stryktipset/draws</code></p>
+  <textarea id="input" placeholder="Klistra in JSON här…" spellcheck="false"></textarea>
+  <div class="btnrow">
+    <button id="load">Läs in</button>
+    <button class="ghost" id="demo">Visa exempel</button>
+  </div>
+  <div class="err" id="err"></div>
+</section>
+
+<section class="legend hidden" id="legend">
+  <h3>Så läser du rutorna</h3>
+  <div class="lrow"><span class="lex">2,50 (−0,13)</span>
+    <span>Odds nu. Har sjunkit 0,13 sedan omgången öppnade.</span></div>
+  <div class="lrow"><span class="lex">42% (+2)</span>
+    <span>Andel av strecken. Har ökat 2 procentenheter.</span></div>
+  <div class="lrow"><span class="lex">0,93</span>
+    <span>Kvot: sannolikhet delat med streck. Över 1,00 är utfallet lägre spelat
+    än oddsen motiverar. Högre är bättre.</span></div>
+  <div class="lrow" style="padding-top:7px">
+    <span><span class="lswatch" style="background:var(--high)"></span>bäst kvot
+    <span class="lswatch" style="background:var(--mid);margin-left:9px"></span>mellan
+    <span class="lswatch" style="background:var(--low);margin-left:9px"></span>sämst
+    — rangordnat inom varje match.</span></div>
+</section>
+
+<main id="list"></main>
+</div>
+
+<div class="slip hidden" id="slip">
+  <div class="slip-in">
+    <div style="flex:1">
+      <div class="slip-lab">Din rad · <span id="count">0</span> av 13</div>
+      <div class="slip-row" id="row">–</div>
+    </div>
+    <button id="clear">Rensa</button>
+  </div>
+</div>
+
+<script>
+const OUT = ['one','x','two'], LBL = ['1','X','2'];
+let picks = {}, events = [], notes = {};
+
+const num = v => (v==null || v==='') ? null : parseFloat(String(v).replace(',','.'));
+const fmt = v => v==null ? '–' : v.toFixed(2).replace('.',',');
+
+function pick(root){
+  if (Array.isArray(root)) root = root[0];
+  if (root && root.draws) root = root.draws[0];
+  if (root && root.result && root.result.draws) root = root.result.draws[0];
+  if (!root || !root.drawEvents) throw new Error('Hittar inga matcher i det inklistrade.');
+  return root;
+}
+
+function distOf(ev){
+  const out = {};
+  const vals = ev.betMetrics && ev.betMetrics.values;
+  if (Array.isArray(vals)) vals.forEach(v => {
+    const o = String(v.outcome).toLowerCase();
+    const key = o === '1' ? 'one' : o === '2' ? 'two' : 'x';
+    out[key] = {
+      now: num(v.distribution && v.distribution.distribution),
+      ref: num(v.distribution && v.distribution.refDistribution)
+    };
+  });
+  return out;
+}
+
+function probs(ev){
+  const f = ev.favouriteOdds;
+  if (f && f.one) return {one:num(f.one), x:num(f.x), two:num(f.two)};
+  const o = ev.odds || {};
+  const inv = OUT.map(k => 1/num(o[k]));
+  const s = inv.reduce((a,b)=>a+b,0);
+  return {one:inv[0]/s*100, x:inv[1]/s*100, two:inv[2]/s*100};
+}
+
+function sides(ev){
+  const p = (ev.match && ev.match.participants) || [];
+  return {
+    home: (p.find(x=>x.type==='home')||{}).name || '',
+    away: (p.find(x=>x.type==='away')||{}).name || ''
+  };
+}
+
+function when(ev){
+  const t = ev.match && ev.match.matchStart;
+  if (!t) return '';
+  const d = new Date(t);
+  const day = ['sön','mån','tis','ons','tors','fre','lör'][d.getDay()];
+  const p = n => String(n).padStart(2,'0');
+  return day + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+}
+
+function oddsDelta(now, start){
+  if (now == null || start == null) return '';
+  const d = now - start;
+  if (Math.abs(d) < 0.005) return '';
+  return '(' + (d > 0 ? '+' : '−') + Math.abs(d).toFixed(2).replace('.',',') + ')';
+}
+function distDelta(now, ref){
+  if (now == null || ref == null) return '';
+  const d = now - ref;
+  if (d === 0) return '';
+  return '(' + (d > 0 ? '+' : '−') + Math.abs(d) + ')';
+}
+
+function render(draw){
+  events = draw.drawEvents.filter(e => e.eventTypeId !== 2);
+  picks = {}; notes = {};
+
+  document.getElementById('sub').textContent =
+    (draw.drawComment || draw.productName || 'Stryktipset') +
+    (draw.regCloseDescription && draw.regCloseDescription.indexOf('stänger ') > -1
+      ? ' · stänger ' + draw.regCloseDescription.split('stänger ')[1] : '');
+
+  const list = document.getElementById('list');
+  list.innerHTML = '';
+
+  events.forEach((ev, i) => {
+    const p = probs(ev), d = distOf(ev), o = ev.odds || {}, so = ev.startOdds || {};
+    const t = sides(ev);
+
+    const value = {};
+    OUT.forEach(k => {
+      const dist = d[k] && d[k].now;
+      value[k] = (dist && dist > 0 && p[k]) ? p[k] / dist : null;
+    });
+    const ranked = OUT.filter(k => value[k] != null).sort((a,b) => value[b] - value[a]);
+    const cls = {};
+    ranked.forEach((k, idx) => cls[k] = ['high','mid','low'][idx] || '');
+
+    const league = (ev.match && ev.match.league && ev.match.league.name) || '';
+    const card = document.createElement('article');
+    card.className = 'match';
+
+    card.innerHTML =
+      '<button class="mhead">' +
+        '<span class="mnum">' + (ev.eventNumber || i+1) + '</span>' +
+        '<span class="mid-col">' +
+          '<span class="mteams">' + t.home + ' – ' + t.away + '</span>' +
+          '<span class="mmeta">' + [league, when(ev)].filter(Boolean).join(' · ') + '</span>' +
+        '</span>' +
+        '<span class="chev">&#9660;</span>' +
+      '</button>' +
+      '<div class="cells">' +
+        OUT.map((k, j) => {
+          const dd = d[k] || {};
+          return '<button class="cell ' + (cls[k]||'') + '" data-out="' + k + '">' +
+            '<span class="sign">' + LBL[j] + '</span>' +
+            '<span class="line"><span class="odds">' + fmt(num(o[k])) + '</span>' +
+              '<span class="delta">' + oddsDelta(num(o[k]), num(so[k])) + '</span></span>' +
+            '<span class="line"><span class="dist">' +
+              (dd.now != null ? dd.now + '%' : '–') + '</span>' +
+              '<span class="delta">' + distDelta(dd.now, dd.ref) + '</span></span>' +
+            '<span class="kvot">' + (value[k] != null ? value[k].toFixed(2).replace('.',',') : '–') + '</span>' +
+          '</button>';
+        }).join('') +
+      '</div>' +
+      '<div class="detail">' + teamPanel(t) + '</div>';
+
+    card.querySelector('.mhead').addEventListener('click', () => card.classList.toggle('open'));
+
+    card.querySelectorAll('.cell').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const out = btn.dataset.out;
+        if (picks[i] === out) delete picks[i]; else picks[i] = out;
+        card.querySelectorAll('.cell').forEach(c =>
+          c.classList.toggle('picked', picks[i] === c.dataset.out));
+        slip();
+      });
+    });
+
+    const inj = card.querySelector('.injury');
+    if (inj) inj.addEventListener('input', e => notes[i] = e.target.value);
+
+    list.appendChild(card);
+  });
+
+  document.getElementById('loader').classList.add('hidden');
+  document.getElementById('legend').classList.remove('hidden');
+  slip();
+}
+
+function teamPanel(t){
+  const rows = ['Tabellplats','Form 5','Hemma','Borta','Mål +/−']
+    .map(r => '<div class="stat"><span>' + r + '</span><span class="pending">–</span></div>')
+    .join('');
+
+  return '<div class="dlabel">Lagdata</div>' +
+    '<div class="teamgrid">' +
+      '<div class="teambox"><div class="tname">' + t.home + '</div>' + rows + '</div>' +
+      '<div class="teambox"><div class="tname">' + t.away + '</div>' + rows + '</div>' +
+    '</div>' +
+    '<div class="dlabel">Skador och avstängningar</div>' +
+    '<textarea class="injury" placeholder="Skriv in vad du hittat inför matchen…"></textarea>' +
+    '<div class="note">Tabelläge och form fylls i automatiskt när vi kopplar in ' +
+    'football-data.org. Skaderutan är din egen — texten ligger kvar så länge sidan är öppen.</div>';
+}
+
+function slip(){
+  const n = Object.keys(picks).length;
+  document.getElementById('slip').classList.toggle('hidden', n === 0);
+  document.getElementById('count').textContent = n;
+  document.getElementById('row').textContent =
+    events.map((e, i) => picks[i] ? (picks[i]==='one' ? '1' : picks[i]==='two' ? '2' : 'X') : '·').join('');
+}
+
+document.getElementById('load').addEventListener('click', () => {
+  const err = document.getElementById('err');
+  err.textContent = '';
+  const raw = document.getElementById('input').value.trim();
+  if (!raw) { err.textContent = 'Rutan är tom. Klistra in svaret från adressen ovan.'; return; }
+  try { render(pick(JSON.parse(raw))); }
+  catch (e) {
+    err.textContent = 'Kunde inte läsa datan: ' + e.message +
+      ' Kontrollera att hela svaret följde med, från { till }.';
+  }
+});
+
+document.getElementById('clear').addEventListener('click', () => {
+  picks = {};
+  document.querySelectorAll('.cell.picked').forEach(c => c.classList.remove('picked'));
+  slip();
+});
+
+document.getElementById('demo').addEventListener('click', () => {
+  const mk = (n,home,away,league,oo,ox,ot,s1,sx,s2,d1,dx,d2,r1,rx,r2) => {
+    const inv = [1/oo,1/ox,1/ot], s = inv.reduce((a,b)=>a+b,0);
+    return {
+      eventNumber:n, eventTypeId:1, eventDescription:home+' – '+away,
+      match:{ matchStart:'2026-08-22T18:30:00+02:00',
+        participants:[{type:'home',name:home},{type:'away',name:away}],
+        league:{name:league} },
+      odds:{one:oo,x:ox,two:ot}, startOdds:{one:s1,x:sx,two:s2},
+      favouriteOdds:{one:(inv[0]/s*100).toFixed(2),x:(inv[1]/s*100).toFixed(2),two:(inv[2]/s*100).toFixed(2)},
+      betMetrics:{ values:[
+        {outcome:'1', distribution:{distribution:d1, refDistribution:r1}},
+        {outcome:'X', distribution:{distribution:dx, refDistribution:rx}},
+        {outcome:'2', distribution:{distribution:d2, refDistribution:r2}}
+      ]}
+    };
+  };
+  render({
+    productName:'Stryktipset', drawComment:'Exempelomgång',
+    drawEvents:[
+      mk(1,'Brentford','Tottenham','Premier League',2.50,3.70,2.80,2.63,3.60,2.70,42,24,34,42,24,34),
+      mk(2,'Everton','Brighton','Premier League',3.10,3.40,2.30,2.90,3.45,2.45,28,26,46,31,27,42),
+      mk(3,'Fulham','Man United','Premier League',3.35,3.55,2.15,3.20,3.50,2.25,22,24,54,24,25,51),
+      mk(4,'Leeds','Newcastle','Premier League',3.90,3.60,1.95,3.70,3.55,2.05,18,23,59,20,24,56),
+      mk(5,'Sunderland','West Ham','Premier League',2.65,3.45,2.75,2.55,3.50,2.85,39,26,35,40,26,34),
+      mk(6,'Coventry','Norwich','Championship',2.20,3.40,3.30,2.30,3.35,3.15,49,25,26,46,26,28),
+      mk(7,'Millwall','Watford','Championship',2.45,3.25,3.05,2.40,3.30,3.10,43,27,30,44,27,29),
+      mk(8,'Preston','Stoke','Championship',2.35,3.30,3.20,2.45,3.25,3.05,45,26,29,42,27,31),
+      mk(9,'QPR','Blackburn','Championship',2.55,3.35,2.85,2.50,3.40,2.90,40,26,34,41,26,33),
+      mk(10,'Djurgården','Hammarby','Allsvenskan',2.30,3.35,3.15,2.35,3.30,3.10,47,25,28,46,26,28),
+      mk(11,'Elfsborg','Häcken','Allsvenskan',2.75,3.30,2.65,2.65,3.35,2.75,36,26,38,38,26,36),
+      mk(12,'Malmö FF','AIK','Allsvenskan',1.95,3.55,4.00,2.05,3.50,3.75,58,24,18,55,25,20),
+      mk(13,'Sirius','Mjällby','Allsvenskan',3.05,3.40,2.35,2.95,3.45,2.40,29,26,45,30,26,44)
+    ]
+  });
+});
+</script>
+</body>
+</html>
