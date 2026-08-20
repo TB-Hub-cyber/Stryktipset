@@ -27,14 +27,31 @@ jobs:
             '{fetchedAt: $t, draw: .}' raw.json > data.json
           rm raw.json
 
+      - name: Hämta tabeller från football-data.org
+        continue-on-error: true
+        env:
+          FD: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+        run: |
+          curl -sS -f -H "X-Auth-Token: $FD" \
+            "https://api.football-data.org/v4/competitions/PL/standings" -o pl.json
+          sleep 7
+          curl -sS -f -H "X-Auth-Token: $FD" \
+            "https://api.football-data.org/v4/competitions/ELC/standings" -o elc.json
+          jq empty pl.json elc.json
+          jq -s --arg t "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            '{fetchedAt: $t, competitions: {PL: .[0], ELC: .[1]}}' \
+            pl.json elc.json > football.json
+          rm pl.json elc.json
+
       - name: Spara om något ändrats
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add data.json
+          git add data.json || true
+          git add football.json || true
           if git diff --staged --quiet; then
             echo "Ingen förändring sedan förra hämtningen."
           else
-            git commit -m "Uppdaterad omgångsdata"
+            git commit -m "Uppdaterad omgångs- och tabelldata"
             git push
           fi
