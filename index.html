@@ -483,12 +483,20 @@ function teamBox(part){
   }
 
   const tot = hit.TOTAL, home = hit.HOME, away = hit.AWAY;
-  const gd = tot && tot.goalDifference;
+
+  // Innan lagen spelat är placering och form utan innebörd — alla ligger lika.
+  if (!tot || !tot.playedGames){
+    return '<div class="teambox"><div class="tname">' + part.name + '</div>' +
+      '<div class="nodata">Inga matcher spelade än den här säsongen, så tabellen ' +
+      'säger ingenting. Fylls på automatiskt efter första omgången.</div></div>';
+  }
+
+  const gd = tot.goalDifference;
   const rows = [
-    ['Tabellplats', tot ? tot.position + ':e av ' + (fdIndex.filter(e =>
-        e.comp && tot && e.comp.code === hit.comp.code).length) : null],
-    ['Poäng', tot ? tot.points + ' p på ' + tot.playedGames : null],
-    ['Form 5', tot ? formDots(tot.form) : null],
+    ['Tabellplats', tot.position + ':e av ' + fdIndex.filter(e =>
+        e.comp && e.comp.code === hit.comp.code).length],
+    ['Poäng', tot.points + ' p på ' + tot.playedGames],
+    ['Form 5', tot.form ? formDots(tot.form) : null],
     ['Hemma', record(home)],
     ['Borta', record(away)],
     ['Mål +/−', gd != null ? (gd > 0 ? '+' + gd : String(gd)) : null]
