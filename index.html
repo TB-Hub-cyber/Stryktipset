@@ -128,6 +128,14 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   letter-spacing:.04em;font-size:9.5px}
 .pending{background:repeating-linear-gradient(90deg,#E9EAE5 0 6px,transparent 6px 10px);
   color:transparent;border-radius:2px;min-width:38px;display:inline-block;height:10px}
+.form{display:inline-flex;gap:2px}
+.form i{font-style:normal;font-size:9px;font-weight:600;width:13px;height:13px;
+  line-height:13px;text-align:center;border-radius:2px;color:#fff}
+.form .f-V{background:var(--high)}
+.form .f-O{background:var(--ink-faint)}
+.form .f-F{background:var(--low)}
+.nodata{font-size:11.5px;color:var(--ink-faint);line-height:1.4;padding-top:5px;
+  border-top:1px solid #EDEEEA}
 .injury{width:100%;border:1px solid var(--rule);border-radius:3px;padding:7px;
   font-family:'Barlow',sans-serif;font-size:12.5px;background:#fff;
   color:var(--ink);resize:vertical;height:52px}
@@ -290,9 +298,77 @@ function probs(ev){
 function sides(ev){
   const p = (ev.match && ev.match.participants) || [];
   return {
-    home: (p.find(x=>x.type==='home')||{}).name || '',
-    away: (p.find(x=>x.type==='away')||{}).name || ''
+    home: p.find(x=>x.type==='home') || {name:''},
+    away: p.find(x=>x.type==='away') || {name:''}
   };
+}
+
+// ---- koppling mot football-data.org ----
+let fdIndex = [];
+
+const norm = s => String(s||'').toLowerCase()
+  .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+  .replace(/\b(fc|afc|cf|sk|if|ff|bk)\b/g,'')
+  .replace(/[^a-z0-9]/g,'');
+
+function buildIndex(fd){
+  fdIndex = [];
+  if (!fd || !fd.competitions) return;
+
+  Object.keys(fd.competitions).forEach(code => {
+    const comp = fd.competitions[code];
+    if (!comp || !comp.standings) return;
+
+    const byId = {};
+    comp.standings.forEach(s => {
+      const kind = s.type;                    // TOTAL, HOME eller AWAY
+      (s.table || []).forEach(row => {
+        const id = row.team && row.team.id;
+        if (!id) return;
+        if (!byId[id]) byId[id] = {team: row.team, comp: comp.competition};
+        byId[id][kind] = row;
+      });
+    });
+
+    Object.keys(byId).forEach(id => fdIndex.push(byId[id]));
+  });
+}
+
+function findTeam(part){
+  if (!fdIndex.length) return null;
+  const tla = String(part.shortName||'').toUpperCase();
+  const n = norm(part.name);
+
+  // 1. lagkod, t.ex. TOT — träffar nästan alltid
+  let hit = fdIndex.find(e => e.team.tla && e.team.tla.toUpperCase() === tla);
+  if (hit) return hit;
+
+  // 2. exakt namn efter normalisering
+  hit = fdIndex.find(e => norm(e.team.shortName) === n || norm(e.team.name) === n);
+  if (hit) return hit;
+
+  // 3. det ena namnet ryms i det andra
+  if (n.length >= 4) {
+    hit = fdIndex.find(e => {
+      const a = norm(e.team.name), b = norm(e.team.shortName);
+      return a.indexOf(n) > -1 || n.indexOf(b) > -1;
+    });
+  }
+  return hit || null;
+}
+
+function formDots(str){
+  if (!str) return '<span class="pending">–</span>';
+  return '<span class="form">' + str.split(',').map(c => {
+    const k = c.trim().toUpperCase();
+    const sv = k === 'W' ? 'V' : k === 'L' ? 'F' : 'O';
+    return '<i class="f-' + sv + '">' + sv + '</i>';
+  }).join('') + '</span>';
+}
+
+function record(row){
+  if (!row) return null;
+  return row.won + '–' + row.draw + '–' + row.lost;
 }
 
 function when(ev){
@@ -350,7 +426,7 @@ function render(draw){
       '<button class="mhead">' +
         '<span class="mnum">' + (ev.eventNumber || i+1) + '</span>' +
         '<span class="mid-col">' +
-          '<span class="mteams">' + t.home + ' – ' + t.away + '</span>' +
+          '<span class="mteams">' + t.home.name + ' – ' + t.away.name + '</span>' +
           '<span class="mmeta">' + [league, when(ev)].filter(Boolean).join(' · ') + '</span>' +
         '</span>' +
         '<span class="chev">&#9660;</span>' +
@@ -394,20 +470,41 @@ function render(draw){
   slip();
 }
 
-function teamPanel(t){
-  const rows = ['Tabellplats','Form 5','Hemma','Borta','Mål +/−']
-    .map(r => '<div class="stat"><span>' + r + '</span><span class="pending">–</span></div>')
-    .join('');
+function teamBox(part){
+  const hit = findTeam(part);
 
+  if (!hit){
+    return '<div class="teambox"><div class="tname">' + part.name + '</div>' +
+      '<div class="nodata">Ligan ingår inte i gratisnivån hos football-data.org, ' +
+      'så tabelldata saknas för det här laget.</div></div>';
+  }
+
+  const tot = hit.TOTAL, home = hit.HOME, away = hit.AWAY;
+  const gd = tot && tot.goalDifference;
+  const rows = [
+    ['Tabellplats', tot ? tot.position + ':e av ' + (fdIndex.filter(e =>
+        e.comp && tot && e.comp.code === hit.comp.code).length) : null],
+    ['Poäng', tot ? tot.points + ' p på ' + tot.playedGames : null],
+    ['Form 5', tot ? formDots(tot.form) : null],
+    ['Hemma', record(home)],
+    ['Borta', record(away)],
+    ['Mål +/−', gd != null ? (gd > 0 ? '+' + gd : String(gd)) : null]
+  ];
+
+  return '<div class="teambox"><div class="tname">' + part.name + '</div>' +
+    rows.map(r => '<div class="stat"><span>' + r[0] + '</span><span>' +
+      (r[1] != null ? r[1] : '<span class="pending">–</span>') + '</span></div>').join('') +
+    '</div>';
+}
+
+function teamPanel(t){
   return '<div class="dlabel">Lagdata</div>' +
-    '<div class="teamgrid">' +
-      '<div class="teambox"><div class="tname">' + t.home + '</div>' + rows + '</div>' +
-      '<div class="teambox"><div class="tname">' + t.away + '</div>' + rows + '</div>' +
-    '</div>' +
+    '<div class="teamgrid">' + teamBox(t.home) + teamBox(t.away) + '</div>' +
     '<div class="dlabel">Skador och avstängningar</div>' +
     '<textarea class="injury" placeholder="Skriv in vad du hittat inför matchen…"></textarea>' +
-    '<div class="note">Tabelläge och form fylls i automatiskt när vi kopplar in ' +
-    'football-data.org. Skaderutan är din egen — texten ligger kvar så länge sidan är öppen.</div>';
+    '<div class="note">Hemma och borta visas som vinster–oavgjorda–förluster i ' +
+    'respektive tabell. Formen är de fem senaste matcherna, senast först. ' +
+    'Skaderutan är din egen — texten ligger kvar så länge sidan är öppen.</div>';
 }
 
 function slip(){
@@ -441,22 +538,32 @@ document.getElementById('clear').addEventListener('click', () => {
 async function auto(){
   const status = document.getElementById('status');
   try {
-    const res = await fetch('data.json?t=' + Date.now(), {cache:'no-store'});
-    if (!res.ok) throw new Error('data.json saknas');
-    const file = await res.json();
-    render(pick(file.draw || file));
+    const bust = '?t=' + Date.now();
+    const opts = {cache:'no-store'};
+
+    // Fotbollsdatan är frivillig — saknas den ritar vi ändå upp kupongen.
+    const [draw, fd] = await Promise.all([
+      fetch('data.json' + bust, opts).then(r => {
+        if (!r.ok) throw new Error('data.json saknas');
+        return r.json();
+      }),
+      fetch('football.json' + bust, opts).then(r => r.ok ? r.json() : null).catch(() => null)
+    ]);
+
+    buildIndex(fd);
+    render(pick(draw.draw || draw));
     status.classList.add('hidden');
 
-    if (file.fetchedAt){
-      const s = document.getElementById('stamp');
-      const d = new Date(file.fetchedAt);
-      s.innerHTML = 'Hämtad ' +
-        d.toLocaleString('sv-SE', {weekday:'short', hour:'2-digit', minute:'2-digit'}) +
-        '<button id="manual">klistra in själv</button>';
-      s.classList.remove('hidden');
-      document.getElementById('manual').addEventListener('click', () =>
-        document.getElementById('loader').classList.toggle('hidden'));
-    }
+    const s = document.getElementById('stamp');
+    const d = draw.fetchedAt ? new Date(draw.fetchedAt) : null;
+    s.innerHTML =
+      (d ? 'Hämtad ' + d.toLocaleString('sv-SE', {weekday:'short', hour:'2-digit', minute:'2-digit'}) : '') +
+      (fd ? '' : ' · ingen tabelldata') +
+      '<button id="manual">klistra in själv</button>';
+    s.classList.remove('hidden');
+    document.getElementById('manual').addEventListener('click', () =>
+      document.getElementById('loader').classList.toggle('hidden'));
+
   } catch (e) {
     status.classList.add('hidden');
     document.getElementById('loader').classList.remove('hidden');
