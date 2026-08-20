@@ -500,6 +500,35 @@ function buildIndex(fd){
     });
 
     const entries = Object.keys(byId).map(id => byId[id]);
+
+    // API:et levererar inte pålitliga hemma- och bortatabeller på gratisnivån.
+    // Vi bygger dem från resultaten i stället.
+    const res = (fd.results && fd.results[code]) || [];
+    if (res.length){
+      const blank = () => ({playedGames:0, won:0, draw:0, lost:0,
+                            goalsFor:0, goalsAgainst:0, points:0, goalDifference:0});
+      const H = {}, A = {};
+
+      res.forEach(m => {
+        if (m.hg == null || m.ag == null) return;
+        const add = (bag, id, gf, ga) => {
+          const r = bag[id] || (bag[id] = blank());
+          r.playedGames++; r.goalsFor += gf; r.goalsAgainst += ga;
+          if (gf > ga){ r.won++;  r.points += 3; }
+          else if (gf === ga){ r.draw++; r.points += 1; }
+          else { r.lost++; }
+          r.goalDifference = r.goalsFor - r.goalsAgainst;
+        };
+        add(H, m.h, m.hg, m.ag);
+        add(A, m.a, m.ag, m.hg);
+      });
+
+      entries.forEach(e => {
+        e.HOME = H[e.team.id] || blank();
+        e.AWAY = A[e.team.id] || blank();
+      });
+    }
+
     ['TOTAL','HOME','AWAY'].forEach(k => rankRows(entries, k));
 
     fdComps[comp.competition.code] = {
@@ -611,9 +640,14 @@ function drawSheet(){
   const rows = comp.entries.filter(e => e[kind])
     .sort((a,b) => a['rank_' + kind] - b['rank_' + kind]);
 
-  if (!rows.length || !rows[0][kind].playedGames){
-    body.innerHTML = '<p style="font-size:13px;color:var(--ink-soft);padding:14px 0">' +
-      'Inga matcher spelade än den här säsongen.</p>';
+  const played = rows.some(e => (e[kind].playedGames||0) > 0);
+  if (!rows.length || !played){
+    body.innerHTML = '<p style="font-size:13px;color:var(--ink-soft);padding:14px 0;line-height:1.5">' +
+      (rows.length
+        ? 'Inga ' + (kind === 'HOME' ? 'hemmamatcher' : kind === 'AWAY' ? 'bortamatcher' : 'matcher') +
+          ' spelade än den här säsongen.'
+        : 'Den här deltabellen saknas i datan. Kör arbetsflödet en gång så hämtas resultaten.') +
+      '</p>';
     return;
   }
 
