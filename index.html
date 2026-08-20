@@ -125,10 +125,12 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .tname{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;
   margin-bottom:2px;line-height:1.1}
 .tbig{display:flex;align-items:baseline;gap:5px;padding:5px 0 6px;margin-bottom:3px;
-  border-bottom:1px solid var(--rule)}
+  border-bottom:1px solid var(--rule);flex-wrap:wrap}
 .tbig b{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;line-height:1}
+.tbig em{font-family:'IBM Plex Mono',monospace;font-size:13px;font-style:normal;
+  color:var(--ink-soft);line-height:1}
 .tbig span{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint);
-  text-transform:uppercase;letter-spacing:.08em}
+  text-transform:uppercase;letter-spacing:.08em;width:100%;margin-top:2px}
 .stat{display:flex;justify-content:space-between;gap:6px;align-items:center;
   font-family:'IBM Plex Mono',monospace;font-size:11px;padding:3px 0;border-top:1px solid #EDEEEA}
 .stat span:first-child{color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;font-size:9.5px}
@@ -607,7 +609,8 @@ function teamBox(part){
 
   return '<div class="teambox">' +
     '<div class="tname">' + esc(part.name) + '</div>' +
-    '<div class="tbig"><b>' + tot.points + '</b><span>poäng</span></div>' +
+    '<div class="tbig"><b>' + tot.points + '</b><em>av ' + (tot.playedGames * 3) + '</em>' +
+      '<span>poäng av möjliga</span></div>' +
     rows.map(r => '<div class="stat"><span>' + r[0] + '</span><span>' +
       (r[1] != null ? r[1] : '<span class="pending">–</span>') + '</span></div>').join('') +
     '</div>';
