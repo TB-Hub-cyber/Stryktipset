@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="apple-mobile-web-app-title" content="Stryktipset">
 <title>Stryktipset – omgångsöversikt</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -358,6 +362,8 @@ const OWNER  = 'TB-Hub-cyber';
 const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
+// Höj den här när du laddar upp en ny version, så syns det i appen.
+const VERSION = '2026-08-20 a';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -955,7 +961,8 @@ function stampLine(draw, fd){
          {weekday:'short', hour:'2-digit', minute:'2-digit'}) + agetxt : '') +
     (fd ? '' : ' · ingen tabelldata') +
     '<button id="refresh">uppdatera</button>' +
-    '<button id="manual">klistra in själv</button>';
+    '<button id="manual">klistra in själv</button>' +
+    '<div style="margin-top:3px;opacity:.6">Appversion ' + VERSION + '</div>';
   s.classList.remove('hidden');
 
   document.getElementById('manual').addEventListener('click', () =>
