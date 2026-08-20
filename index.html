@@ -204,6 +204,8 @@ table.tbl .mal{display:none}
   width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;
   background:var(--ink);color:var(--card)}
 .smarks .empty{background:transparent;border:1px dashed var(--rule);color:var(--ink-faint)}
+.reset{background:var(--mid-bg);border:1px solid rgba(156,106,24,.3);border-radius:3px;
+  padding:9px 10px;margin:8px 0 11px;font-size:12.5px;color:var(--mid);line-height:1.45}
 .totals{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;padding-top:11px;
   border-top:2px solid var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px}
 .totals b{display:block;font-size:19px;font-weight:600;margin-top:1px}
@@ -369,13 +371,13 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-20 c';
+const VERSION = '2026-08-20 d';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
 let picks = {}, notes = {}, events = [], drawInfo = {};
 let fdIndex = [], fdComps = {}, formIndex = {};
-let notesDirty = false, drawStamp = null;
+let notesDirty = false, drawStamp = null, notesReset = null;
 let sheetComp = null, sheetTab = 'TOTAL', sheetHl = [];
 
 const num = v => (v==null || v==='') ? null : parseFloat(String(v).replace(',','.'));
@@ -845,6 +847,10 @@ function refresh(){
 
   box.innerHTML =
     '<h2>Sammanställning</h2>' +
+    (notesReset != null
+      ? '<div class="reset">Ny omgång. Anteckningarna från omgång ' + notesReset +
+        ' är rensade. De ligger kvar i notes.json tills du sparar nästa gång.</div>'
+      : '') +
     '<p style="font-size:13px;color:var(--ink-soft);margin-bottom:9px">' +
       (complete ? 'Alla matcher markerade.'
                 : 'Markera minst ett tecken i varje match för att se antal rader.') + '</p>' +
@@ -952,8 +958,23 @@ async function loadAll(keep){
   ]);
 
   buildIndex(fd);
-  if (!notesDirty) notes = (nt && nt.notes) || {};
-  render(pick(draw.draw || draw), keep);
+
+  const drawObj = pick(draw.draw || draw);
+
+  // Anteckningarna hör till en viss omgång. Byts omgången börjar vi om.
+  if (!notesDirty){
+    const savedFor = nt && nt.drawNumber;
+    const nowDraw  = drawObj.drawNumber;
+    if (nt && nt.notes && savedFor != null && nowDraw != null && savedFor !== nowDraw){
+      notes = {};
+      notesReset = savedFor;
+    } else {
+      notes = (nt && nt.notes) || {};
+      notesReset = null;
+    }
+  }
+
+  render(drawObj, keep);
   drawStamp = draw.fetchedAt || null;
   stampLine(draw, fd);
   return draw;
