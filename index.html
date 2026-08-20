@@ -128,13 +128,16 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .teambox{border:1px solid var(--rule);border-radius:3px;padding:9px}
 .tname{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;
   margin-bottom:2px;line-height:1.1}
-.tbig{display:flex;align-items:baseline;gap:5px;padding:5px 0 6px;margin-bottom:3px;
-  border-bottom:1px solid var(--rule);flex-wrap:wrap}
-.tbig b{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;line-height:1}
-.tbig em{font-family:'IBM Plex Mono',monospace;font-size:13px;font-style:normal;
-  color:var(--ink-soft);line-height:1}
-.tbig span{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint);
-  text-transform:uppercase;letter-spacing:.08em;width:100%;margin-top:2px}
+.tpoints{display:flex;align-items:baseline;justify-content:space-between;gap:8px;
+  padding:3px 0 5px}
+.tpoints .lbl{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint);
+  text-transform:uppercase;letter-spacing:.08em}
+.tpoints .val{font-family:'IBM Plex Mono',monospace;font-size:21px;font-weight:600;
+  line-height:1;white-space:nowrap}
+.tpoints .val em{font-size:12px;font-style:normal;font-weight:400;
+  color:var(--ink-soft);margin-left:3px}
+.tbar{height:3px;background:#E9EAE5;border-radius:2px;overflow:hidden;margin-bottom:4px}
+.tbar i{display:block;height:100%;background:var(--ink-soft);border-radius:2px}
 .stat{display:flex;justify-content:space-between;gap:6px;align-items:center;
   font-family:'IBM Plex Mono',monospace;font-size:11px;padding:3px 0;border-top:1px solid #EDEEEA}
 .stat span:first-child{color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;font-size:9.5px}
@@ -363,7 +366,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-20 a';
+const VERSION = '2026-08-20 b';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -613,10 +616,14 @@ function teamBox(part){
             (gd != null ? '  (' + (gd > 0 ? '+' + gd : gd) + ')' : '')]
   ];
 
+  const possible = tot.playedGames * 3;
+  const share = possible ? Math.round(tot.points / possible * 100) : 0;
+
   return '<div class="teambox">' +
     '<div class="tname">' + esc(part.name) + '</div>' +
-    '<div class="tbig"><b>' + tot.points + '</b><em>av ' + (tot.playedGames * 3) + '</em>' +
-      '<span>poäng av möjliga</span></div>' +
+    '<div class="tpoints"><span class="lbl">Poäng</span>' +
+      '<span class="val">' + tot.points + '<em>av ' + possible + '</em></span></div>' +
+    '<div class="tbar"><i style="width:' + share + '%"></i></div>' +
     rows.map(r => '<div class="stat"><span>' + r[0] + '</span><span>' +
       (r[1] != null ? r[1] : '<span class="pending">–</span>') + '</span></div>').join('') +
     '</div>';
