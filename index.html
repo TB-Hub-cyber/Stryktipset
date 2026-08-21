@@ -276,6 +276,7 @@ table.tbl .mal{display:none}
 .rowbox{border:1px solid var(--rule);border-radius:3px;padding:12px;margin-top:14px;
   background:#fff}
 .rowbox.in{border-color:var(--ink);border-width:1.5px}
+.rowbox.bare{border:none;padding:0;margin-top:4px}
 .rowhead{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;
   text-transform:uppercase;letter-spacing:.01em}
 .rowsub{font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.4}
@@ -464,7 +465,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-21 r';
+const VERSION = '2026-08-21 s';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1235,7 +1236,8 @@ function refresh(){
   const complete = marked === events.length && events.length > 0;
   const price = num(drawInfo.rowPrice) || 1;
 
-  document.getElementById('slip').classList.toggle('hidden', marked === 0);
+  document.getElementById('slip').classList.toggle('hidden',
+    marked === 0 || !!savedRound());
   document.getElementById('sliplab').textContent = marked + ' av ' + events.length + ' matcher';
   document.getElementById('row').textContent = complete
     ? rows + (rows === 1 ? ' rad' : ' rader') + ' · ' + (rows * price).toFixed(0) + ' kr'
@@ -1248,12 +1250,11 @@ function refresh(){
   if (!events.length){ box.classList.add('hidden'); return; }
   box.classList.remove('hidden');
 
-  box.innerHTML =
-    '<h2>Sammanställning</h2>' +
-    (notesReset != null
-      ? '<div class="reset">Ny omgång. Anteckningarna från omgång ' + notesReset +
-        ' är rensade. De ligger kvar i notes.json tills du sparar nästa gång.</div>'
-      : '') +
+  // Så länge raden inte är inlämnad är sammanställningen arbetsytan. Efter
+  // inlämning gör den ingen nytta — då står kvittot för samma information.
+  const submitted = !!savedRound();
+
+  const workspace = submitted ? '' :
     '<p style="font-size:13px;color:var(--ink-soft);margin-bottom:9px">' +
       (complete ? 'Alla matcher markerade.'
                 : 'Markera minst ett tecken i varje match för att se antal rader.') + '</p>' +
@@ -1272,7 +1273,15 @@ function refresh(){
       '<div><span>Kostnad</span><b>' + (complete ? (rows*price).toFixed(0) + ' kr' : '–') + '</b></div>' +
       '<div><span>Halvgard.</span><b>' + half + '</b></div>' +
       '<div><span>Helgard.</span><b>' + full + '</b></div>' +
-    '</div>' +
+    '</div>';
+
+  box.innerHTML =
+    '<h2>' + (submitted ? 'Din rad' : 'Sammanställning') + '</h2>' +
+    (notesReset != null
+      ? '<div class="reset">Ny omgång. Anteckningarna från omgång ' + notesReset +
+        ' är rensade. De ligger kvar i notes.json tills du sparar nästa gång.</div>'
+      : '') +
+    workspace +
     rowPanel() +
     '<div class="btnrow" style="margin-top:14px">' +
       '<button id="savenotes">' + (notesDirty ? 'Spara anteckningar •' : 'Spara anteckningar') + '</button>' +
@@ -1357,8 +1366,8 @@ function rowPanel(){
       ? '<div class="rowres"><b>' + saved.correct + ' rätt</b> av ' + list.length + ' matcher</div>'
       : '<div class="rowpend">Facit hämtas automatiskt när matcherna spelats.</div>';
 
-    return '<div class="rowbox in">' +
-      '<div class="rowhead">Inlämnad rad</div>' +
+    return '<div class="rowbox in bare">' +
+      '<div class="rowhead">Inlämnad</div>' +
       '<div class="rowsub">' + (saved.savedAt
         ? 'Sparad ' + new Date(saved.savedAt).toLocaleString('sv-SE',
             {weekday:'short', hour:'2-digit', minute:'2-digit'}) : '') +
