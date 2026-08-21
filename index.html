@@ -115,6 +115,12 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   width:23px;height:23px;border-radius:50%;color:var(--ink-soft);margin-bottom:4px;
   transition:background .12s, color .12s}
 .cell.picked .sign{background:var(--ink);color:var(--card)}
+.cell.locked .pickbtn{cursor:default}
+.sign.hit{background:var(--high)!important;color:#fff!important}
+.sign.miss{background:transparent!important;color:var(--low)!important;
+  box-shadow:inset 0 0 0 1.5px var(--low)}
+.sign.facit{background:transparent!important;color:var(--ink-faint)!important;
+  box-shadow:inset 0 0 0 1.5px var(--ink-faint)}
 .numbtn{pointer-events:auto;background:none;border:none;border-radius:3px;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;gap:0;padding:3px 7px 4px;
   margin:0;text-transform:none;letter-spacing:0;font-family:'Barlow',sans-serif;
@@ -465,7 +471,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-21 s';
+const VERSION = '2026-08-21 t';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1096,6 +1102,16 @@ function render(draw, keep){
   drawInfo = draw;
   if (!keep) picks = {};
 
+  // Ligger en rad inne ska kupongen visa den, även efter omladdning.
+  const submitted = savedRound();
+  if (submitted && submitted.picks){
+    picks = {};
+    events.forEach((ev, i) => {
+      const sel = submitted.picks[keyOf(ev)];
+      if (sel && sel.length) picks[i] = sel.slice();
+    });
+  }
+
   document.getElementById('sub').textContent =
     (draw.drawComment || draw.productName || 'Stryktipset') +
     (draw.regCloseDescription && draw.regCloseDescription.indexOf('stänger ') > -1
@@ -1143,11 +1159,23 @@ function render(draw, keep){
           const dd = d[k] || {};
           // Hela rutan markerar tecknet. Sifferknapparna ligger ovanpå och
           // fångar sina egna tryck, så de är syskon och inte nästlade knappar.
-          return '<div class="cell ' + (cls[k]||'') + '" data-out="' + k + '">' +
-            '<button class="pickbtn" data-out="' + k + '" ' +
-              'aria-label="Markera ' + LBL[k] + '"></button>' +
+          // Efter inlämning är tecknen låsta, och när facit finns färgas de.
+          const facit = submitted && submitted.result ? submitted.result[key] : null;
+          const chosen = submitted && (submitted.picks[key] || []).indexOf(k) > -1;
+          const gotIt = facit && submitted && (submitted.picks[key] || []).indexOf(facit) > -1;
+          let signCls = '';
+          if (facit){
+            if (chosen && k === facit) signCls = ' hit';
+            else if (chosen) signCls = gotIt ? '' : ' miss';
+            else if (k === facit) signCls = ' facit';
+          }
+
+          return '<div class="cell ' + (cls[k]||'') + (submitted ? ' locked' : '') +
+              '" data-out="' + k + '">' +
+            '<button class="pickbtn" data-out="' + k + '"' + (submitted ? ' disabled' : '') +
+              ' aria-label="Markera ' + LBL[k] + '"></button>' +
             '<div class="cellinner">' +
-              '<span class="sign">' + LBL[k] + '</span>' +
+              '<span class="sign' + signCls + '">' + LBL[k] + '</span>' +
               '<button class="numbtn" data-chart="o" data-out="' + k + '">' +
                 '<span class="odds">' + fmt(num(o[k])) + '</span>' +
                 deltaHtml(oddsDelta(num(o[k]), num(so[k]))) +
