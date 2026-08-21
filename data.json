@@ -1,12 +1,12 @@
 {
-  "fetchedAt": "2026-08-21T06:55:41Z",
+  "fetchedAt": "2026-08-21T07:49:26Z",
   "draw": {
     "draws": [
       {
         "productName": "Stryktipset",
         "seasonLastDraw": false,
         "productId": 1,
-        "currentNetSale": "2507393,00",
+        "currentNetSale": "2640577,00",
         "regCloseDescription": "Stryktipset v 34, stänger 2026-08-22 15:59",
         "extraInfo": null,
         "drawNumber": 4967,
@@ -103,8 +103,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-08-21T08:55:28.089+02:00",
-              "distributionRefDate": "2026-08-21T08:54:24.594+02:00",
+              "distributionDate": "2026-08-21T09:48:57.599+02:00",
+              "distributionRefDate": "2026-08-21T09:47:52.785+02:00",
               "values": [
                 {
                   "outcome": "1",
@@ -114,8 +114,8 @@
                     "startOdds": "2,63"
                   },
                   "distribution": {
-                    "distribution": "39",
-                    "refDistribution": "39"
+                    "distribution": "38",
+                    "refDistribution": "38"
                   }
                 },
                 {
@@ -138,8 +138,8 @@
                     "startOdds": "2,70"
                   },
                   "distribution": {
-                    "distribution": "36",
-                    "refDistribution": "36"
+                    "distribution": "37",
+                    "refDistribution": "37"
                   }
                 }
               ]
@@ -147,14 +147,14 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "39",
+              "one": "38",
               "x": "25",
-              "two": "36",
-              "date": "2026-08-21T08:55:28.089+02:00",
-              "refOne": "39",
+              "two": "37",
+              "date": "2026-08-21T09:48:57.599+02:00",
+              "refOne": "38",
               "refX": "25",
-              "refTwo": "36",
-              "refDate": "2026-08-21T08:54:24.594+02:00"
+              "refTwo": "37",
+              "refDate": "2026-08-21T09:47:52.785+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -239,8 +239,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-08-21T08:55:28.089+02:00",
-              "distributionRefDate": "2026-08-21T08:54:24.594+02:00",
+              "distributionDate": "2026-08-21T09:48:57.599+02:00",
+              "distributionRefDate": "2026-08-21T09:47:52.785+02:00",
               "values": [
                 {
                   "outcome": "1",
@@ -286,11 +286,11 @@
               "one": "59",
               "x": "25",
               "two": "16",
-              "date": "2026-08-21T08:55:28.089+02:00",
+              "date": "2026-08-21T09:48:57.599+02:00",
               "refOne": "59",
               "refX": "25",
               "refTwo": "16",
-              "refDate": "2026-08-21T08:54:24.594+02:00"
+              "refDate": "2026-08-21T09:47:52.785+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -375,8 +375,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-08-21T08:55:28.089+02:00",
-              "distributionRefDate": "2026-08-21T08:54:24.594+02:00",
+              "distributionDate": "2026-08-21T09:48:57.599+02:00",
+              "distributionRefDate": "2026-08-21T09:47:52.785+02:00",
               "values": [
                 {
                   "outcome": "1",
@@ -422,11 +422,11 @@
               "one": "40",
               "x": "28",
               "two": "32",
-              "date": "2026-08-21T08:55:28.089+02:00",
+              "date": "2026-08-21T09:48:57.599+02:00",
               "refOne": "40",
               "refX": "28",
               "refTwo": "32",
-              "refDate": "2026-08-21T08:54:24.594+02:00"
+              "refDate": "2026-08-21T09:47:52.785+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -511,8 +511,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-08-21T08:55:28.089+02:00",
-              "distributionRefDate": "2026-08-21T08:54:24.594+02:00",
+              "distributionDate": "2026-08-21T09:48:57.599+02:00",
+              "distributionRefDate": "2026-08-21T09:47:52.785+02:00",
               "values": [
                 {
                   "outcome": "1",
@@ -558,11 +558,11 @@
               "one": "46",
               "x": "26",
               "two": "28",
-              "date": "2026-08-21T08:55:28.089+02:00",
+              "date": "2026-08-21T09:48:57.599+02:00",
               "refOne": "46",
               "refX": "26",
               "refTwo": "28",
-              "refDate": "2026-08-21T08:54:24.594+02:00"
+              "refDate": "2026-08-21T09:47:52.785+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -647,8 +647,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-08-21T08:55:28.089+02:00",
-              "distributionRefDate": "2026-08-21T08:54:24.594+02:00",
+              "distributionDate": "2026-08-21T09:48:57.599+02:00",
+              "distributionRefDate": "2026-08-21T09:47:52.785+02:00",
               "values": [
                 {
                   "outcome": "1",
@@ -658,8 +658,8 @@
                     "startOdds": "3,60"
                   },
                   "distribution": {
-                    "distribution": "28",
-                    "refDistribution": "28"
+                    "distribution": "27",
+                    "refDistribution": "27"
                   }
                 },
                 {
@@ -682,8 +682,8 @@
                     "startOdds": "2,12"
                   },
                   "distribution": {
-                    "distribution": "44",
-                    "refDistribution": "44"
+                    "distribution": "45",
+                    "refDistribution": "45"
                   }
                 }
               ]
@@ -691,14 +691,14 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "28",
+              "one": "27",
               "x": "28",
-              "two": "44",
-              "date": "2026-08-21T08:55:28.089+02:00",
-              "refOne": "28",
+              "two": "45",
+              "date": "2026-08-21T09:48:57.599+02:00",
+              "refOne": "27",
               "refX": "28",
-              "refTwo": "44",
-              "refDate": "2026-08-21T08:54:24.594+02:00"
+              "refTwo": "45",
+              "refDate": "2026-08-21T09:47:52.785+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -783,8 +783,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-08-21T08:55:28.089+02:00",
-              "distributionRefDate": "2026-08-21T08:54:24.594+02:00",
+              "distributionDate": "2026-08-21T09:48:57.599+02:00",
+              "distributionRefDate": "2026-08-21T09:47:52.785+02:00",
               "values": [
                 {
                   "outcome": "1",
@@ -794,8 +794,8 @@
                     "startOdds": "1,93"
                   },
                   "distribution": {
-                    "distribution": "56",
-                    "refDistribution": "56"
+                    "distribution": "57",
+                    "refDistribution": "57"
                   }
                 },
                 {
@@ -818,8 +818,8 @@
                     "startOdds": "4,25"
                   },
                   "distribution": {
-                    "distribution": "22",
-                    "refDistribution": "22"
+                    "distribution": "21",
+                    "refDistribution": "21"
                   }
                 }
               ]
@@ -827,14 +827,14 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "56",
+              "one": "57",
               "x": "22",
-              "two": "22",
-              "date": "2026-08-21T08:55:28.089+02:00",
-              "refOne": "56",
+              "two": "21",
+              "date": "2026-08-21T09:48:57.599+02:00",
+              "refOne": "57",
               "refX": "22",
-              "refTwo": "22",
-              "refDate": "2026-08-21T08:54:24.594+02:00"
+              "refTwo": "21",
+              "refDate": "2026-08-21T09:47:52.785+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -919,8 +919,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-08-21T08:55:28.089+02:00",
-              "distributionRefDate": "2026-08-21T08:54:24.594+02:00",
+              "distributionDate": "2026-08-21T09:48:57.599+02:00",
+              "distributionRefDate": "2026-08-21T09:47:52.785+02:00",
               "values": [
                 {
                   "outcome": "1",
@@ -966,11 +966,11 @@
               "one": "24",
               "x": "22",
               "two": "54",
-              "date": "2026-08-21T08:55:28.089+02:00",
+              "date": "2026-08-21T09:48:57.599+02:00",
               "refOne": "24",
               "refX": "22",
               "refTwo": "54",
-              "refDate": "2026-08-21T08:54:24.594+02:00"
+              "refDate": "2026-08-21T09:47:52.785+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -1055,8 +1055,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-08-21T08:55:28.089+02:00",
-              "distributionRefDate": "2026-08-21T08:54:24.594+02:00",
+              "distributionDate": "2026-08-21T09:48:57.599+02:00",
+              "distributionRefDate": "2026-08-21T09:47:52.785+02:00",
               "values": [
                 {
                   "outcome": "1",
@@ -1102,11 +1102,11 @@
               "one": "66",
               "x": "19",
               "two": "15",
-              "date": "2026-08-21T08:55:28.089+02:00",
+              "date": "2026-08-21T09:48:57.599+02:00",
               "refOne": "66",
               "refX": "19",
               "refTwo": "15",
-              "refDate": "2026-08-21T08:54:24.594+02:00"
+              "refDate": "2026-08-21T09:47:52.785+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -1191,8 +1191,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-08-21T08:55:28.089+02:00",
-              "distributionRefDate": "2026-08-21T08:54:24.594+02:00",
+              "distributionDate": "2026-08-21T09:48:57.599+02:00",
+              "distributionRefDate": "2026-08-21T09:47:52.785+02:00",
               "values": [
                 {
                   "outcome": "1",
@@ -1238,11 +1238,11 @@
               "one": "66",
               "x": "19",
               "two": "15",
-              "date": "2026-08-21T08:55:28.089+02:00",
+              "date": "2026-08-21T09:48:57.599+02:00",
               "refOne": "66",
               "refX": "19",
               "refTwo": "15",
-              "refDate": "2026-08-21T08:54:24.594+02:00"
+              "refDate": "2026-08-21T09:47:52.785+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -1327,8 +1327,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-08-21T08:55:28.089+02:00",
-              "distributionRefDate": "2026-08-21T08:54:24.594+02:00",
+              "distributionDate": "2026-08-21T09:48:57.599+02:00",
+              "distributionRefDate": "2026-08-21T09:47:52.785+02:00",
               "values": [
                 {
                   "outcome": "1",
@@ -1374,11 +1374,11 @@
               "one": "45",
               "x": "28",
               "two": "27",
-              "date": "2026-08-21T08:55:28.089+02:00",
+              "date": "2026-08-21T09:48:57.599+02:00",
               "refOne": "45",
               "refX": "28",
               "refTwo": "27",
-              "refDate": "2026-08-21T08:54:24.594+02:00"
+              "refDate": "2026-08-21T09:47:52.785+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -1463,8 +1463,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-08-21T08:55:28.089+02:00",
-              "distributionRefDate": "2026-08-21T08:54:24.594+02:00",
+              "distributionDate": "2026-08-21T09:48:57.599+02:00",
+              "distributionRefDate": "2026-08-21T09:47:52.785+02:00",
               "values": [
                 {
                   "outcome": "1",
@@ -1510,11 +1510,11 @@
               "one": "75",
               "x": "14",
               "two": "11",
-              "date": "2026-08-21T08:55:28.089+02:00",
+              "date": "2026-08-21T09:48:57.599+02:00",
               "refOne": "75",
               "refX": "14",
               "refTwo": "11",
-              "refDate": "2026-08-21T08:54:24.594+02:00"
+              "refDate": "2026-08-21T09:47:52.785+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -1599,8 +1599,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-08-21T08:55:28.089+02:00",
-              "distributionRefDate": "2026-08-21T08:54:24.594+02:00",
+              "distributionDate": "2026-08-21T09:48:57.599+02:00",
+              "distributionRefDate": "2026-08-21T09:47:52.785+02:00",
               "values": [
                 {
                   "outcome": "1",
@@ -1610,8 +1610,8 @@
                     "startOdds": "2,00"
                   },
                   "distribution": {
-                    "distribution": "52",
-                    "refDistribution": "52"
+                    "distribution": "53",
+                    "refDistribution": "53"
                   }
                 },
                 {
@@ -1634,8 +1634,8 @@
                     "startOdds": "3,80"
                   },
                   "distribution": {
-                    "distribution": "23",
-                    "refDistribution": "23"
+                    "distribution": "22",
+                    "refDistribution": "22"
                   }
                 }
               ]
@@ -1643,14 +1643,14 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "52",
+              "one": "53",
               "x": "25",
-              "two": "23",
-              "date": "2026-08-21T08:55:28.089+02:00",
-              "refOne": "52",
+              "two": "22",
+              "date": "2026-08-21T09:48:57.599+02:00",
+              "refOne": "53",
               "refX": "25",
-              "refTwo": "23",
-              "refDate": "2026-08-21T08:54:24.594+02:00"
+              "refTwo": "22",
+              "refDate": "2026-08-21T09:47:52.785+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -1717,13 +1717,13 @@
             },
             "odds": {
               "one": "2,50",
-              "x": "3,35",
+              "x": "3,30",
               "two": "2,75"
             },
             "favouriteOdds": {
-              "one": "37.66",
-              "x": "28.10",
-              "two": "34.24"
+              "one": "37.50",
+              "x": "28.41",
+              "two": "34.09"
             },
             "startOdds": {
               "one": "2,55",
@@ -1735,38 +1735,38 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-08-21T08:55:28.089+02:00",
-              "distributionRefDate": "2026-08-21T08:54:24.594+02:00",
+              "distributionDate": "2026-08-21T09:48:57.599+02:00",
+              "distributionRefDate": "2026-08-21T09:47:52.785+02:00",
               "values": [
                 {
                   "outcome": "1",
                   "odds": {
                     "odds": "2,50",
-                    "favouriteOdds": "37,66",
+                    "favouriteOdds": "37,50",
                     "startOdds": "2,55"
                   },
                   "distribution": {
-                    "distribution": "39",
-                    "refDistribution": "39"
+                    "distribution": "38",
+                    "refDistribution": "38"
                   }
                 },
                 {
                   "outcome": "X",
                   "odds": {
-                    "odds": "3,35",
-                    "favouriteOdds": "28,10",
+                    "odds": "3,30",
+                    "favouriteOdds": "28,41",
                     "startOdds": "3,30"
                   },
                   "distribution": {
-                    "distribution": "31",
-                    "refDistribution": "31"
+                    "distribution": "32",
+                    "refDistribution": "32"
                   }
                 },
                 {
                   "outcome": "2",
                   "odds": {
                     "odds": "2,75",
-                    "favouriteOdds": "34,24",
+                    "favouriteOdds": "34,09",
                     "startOdds": "2,75"
                   },
                   "distribution": {
@@ -1779,14 +1779,14 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "39",
-              "x": "31",
+              "one": "38",
+              "x": "32",
               "two": "30",
-              "date": "2026-08-21T08:55:28.089+02:00",
-              "refOne": "39",
-              "refX": "31",
+              "date": "2026-08-21T09:48:57.599+02:00",
+              "refOne": "38",
+              "refX": "32",
               "refTwo": "30",
-              "refDate": "2026-08-21T08:54:24.594+02:00"
+              "refDate": "2026-08-21T09:47:52.785+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -1811,12 +1811,12 @@
     ],
     "error": null,
     "requestInfo": {
-      "elapsedTime": 2,
+      "elapsedTime": 0,
       "apiVersion": 1
     },
-    "requestId": "1aa111c0-7c60-4bda-89d5-bcae1b686d67",
+    "requestId": "d18e93f5-8b2b-4303-ad1a-603fb4ebd0a3",
     "sessionId": null,
-    "deviceId": "41946ed6-cc0f-4db0-ca26-4c76bee62dc4",
+    "deviceId": "ea6c8d83-9f0e-477e-e0ff-c0a3a1d78792",
     "session": null,
     "sessionUser": null,
     "clientInfo": null
