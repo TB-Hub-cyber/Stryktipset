@@ -150,6 +150,16 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   text-align:center;border-radius:2px;color:#fff}
 .form .f-V{background:var(--high)} .form .f-O{background:var(--ink-faint)} .form .f-F{background:var(--low)}
 .nodata{font-size:11.5px;color:var(--ink-faint);line-height:1.4;padding-top:5px;border-top:1px solid #EDEEEA}
+.chart{margin-bottom:15px}
+.chart svg{display:block;width:100%;height:96px;overflow:visible}
+.chart .grid{stroke:#EDEEEA;stroke-width:1}
+.chart .ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.chart .ax{font-family:'IBM Plex Mono',monospace;font-size:8.5px;fill:var(--ink-faint)}
+.clegend{display:flex;gap:12px;margin-top:5px;font-family:'IBM Plex Mono',monospace;font-size:10px}
+.clegend span{display:flex;align-items:center;gap:4px;color:var(--ink-soft)}
+.clegend i{width:11px;height:2.5px;border-radius:2px;display:block}
+.chart-empty{font-size:11.5px;color:var(--ink-faint);line-height:1.45;
+  padding:9px 0;border-bottom:1px solid var(--rule);margin-bottom:13px}
 .injury{height:120px;font-family:'Barlow',sans-serif;font-size:13.5px;line-height:1.5}
 .note{font-size:12px;color:var(--ink-soft);margin-top:12px;padding-top:9px;
   border-top:1px dashed var(--rule);line-height:1.45}
@@ -371,13 +381,14 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-20 d';
+const VERSION = '2026-08-20 e';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
 let picks = {}, notes = {}, events = [], drawInfo = {};
 let fdIndex = [], fdComps = {}, formIndex = {};
 let notesDirty = false, drawStamp = null, notesReset = null;
+let histIndex = {};   // {matchId: [{t, o:[1,X,2], d:[1,X,2]}]}
 let sheetComp = null, sheetTab = 'TOTAL', sheetHl = [];
 
 const num = v => (v==null || v==='') ? null : parseFloat(String(v).replace(',','.'));
@@ -451,6 +462,12 @@ function distDelta(now, ref){
   const d = now - ref;
   if (d === 0) return {t:'±0', flat:true};
   return {t:(d > 0 ? '+' : '−') + Math.abs(d), flat:false};
+}
+// Streckets startpunkt tas från historiken när den finns, annars faller vi
+// tillbaka på Svenska Spels refDistribution som bara mäter senaste steget.
+function distStart(matchId, idx, fallback){
+  const first = firstOf(matchId, 'd', idx);
+  return first != null ? first : fallback;
 }
 const deltaHtml = o =>
   '<span class="delta' + (o.flat ? ' flat' : '') + '">' + (o.t || '&nbsp;') + '</span>';
@@ -556,6 +573,35 @@ function buildIndex(fd){
     };
     entries.forEach(e => fdIndex.push(e));
   });
+}
+
+function buildHistory(h, drawNumber){
+  histIndex = {};
+  if (!h || !h.snapshots || (drawNumber != null && h.drawNumber !== drawNumber)) return;
+  h.snapshots.forEach(snap => {
+    Object.keys(snap.m || {}).forEach(id => {
+      (histIndex[id] || (histIndex[id] = [])).push({
+        t: snap.t, o: snap.m[id].o || [], d: snap.m[id].d || []
+      });
+    });
+  });
+}
+
+// Första sparade värdet är vår startpunkt för strecken.
+function firstOf(matchId, field, idx){
+  const list = histIndex[matchId];
+  if (!list) return null;
+  for (let i = 0; i < list.length; i++){
+    const v = list[i][field] && list[i][field][idx];
+    if (v != null) return v;
+  }
+  return null;
+}
+
+function seriesOf(matchId, field, idx){
+  return (histIndex[matchId] || [])
+    .map(p => ({t: p.t, v: p[field] && p[field][idx]}))
+    .filter(p => p.v != null);
 }
 
 function findTeam(part){
@@ -699,10 +745,67 @@ function drawSheet(){
     'Vid lika poäng skiljer målskillnad och därefter gjorda mål.</p>';
 }
 
+/* ---------- graf över streckens utveckling ---------- */
+const LINE = {one:'#15171B', x:'#767B82', two:'#3C5A78'};
+
+function chart(matchId){
+  const series = OUT.map(k => seriesOf(matchId, 'd', OUT.indexOf(k)));
+  const points = Math.max.apply(null, series.map(s => s.length));
+
+  if (points < 2){
+    return '<div class="chart-empty">Streckens utveckling ritas när det finns ' +
+      'minst två sparade mätningar. Historiken byggs upp från och med nu, ' +
+      'så kurvan blir meningsfull under kommande omgång.</div>';
+  }
+
+  const W = 300, H = 76, PAD = 20;
+  const all = series.reduce((a,s) => a.concat(s.map(p => p.v)), []);
+  let lo = Math.min.apply(null, all), hi = Math.max.apply(null, all);
+  const pad = Math.max(3, (hi - lo) * 0.2);
+  lo = Math.max(0, Math.floor(lo - pad));
+  hi = Math.min(100, Math.ceil(hi + pad));
+  const span = (hi - lo) || 1;
+
+  const x = i => PAD + (i / (points - 1)) * (W - PAD - 4);
+  const y = v => H - ((v - lo) / span) * H;
+
+  const lines = OUT.map(k => {
+    const s = series[OUT.indexOf(k)];
+    if (s.length < 2) return '';
+    const d = s.map((p, i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(p.v).toFixed(1)).join(' ');
+    return '<path class="ln" d="' + d + '" stroke="' + LINE[k] + '"/>';
+  }).join('');
+
+  const firstT = series.reduce((a,s) => s.length ? s[0].t : a, null);
+  const lastT  = series.reduce((a,s) => s.length ? s[s.length-1].t : a, null);
+  const short = t => {
+    if (!t) return '';
+    const d = new Date(t);
+    return ['sön','mån','tis','ons','tors','fre','lör'][d.getDay()] + ' ' +
+           String(d.getHours()).padStart(2,'0');
+  };
+
+  return '<div class="chart"><svg viewBox="0 0 ' + W + ' ' + (H + 14) + '" ' +
+      'preserveAspectRatio="none" role="img" aria-label="Streckens utveckling">' +
+      '<line class="grid" x1="' + PAD + '" y1="0" x2="' + W + '" y2="0"/>' +
+      '<line class="grid" x1="' + PAD + '" y1="' + H + '" x2="' + W + '" y2="' + H + '"/>' +
+      '<text class="ax" x="0" y="6">' + hi + '%</text>' +
+      '<text class="ax" x="0" y="' + H + '">' + lo + '%</text>' +
+      lines +
+      '<text class="ax" x="' + PAD + '" y="' + (H + 12) + '">' + short(firstT) + '</text>' +
+      '<text class="ax" x="' + W + '" y="' + (H + 12) + '" text-anchor="end">' + short(lastT) + '</text>' +
+    '</svg>' +
+    '<div class="clegend">' +
+      OUT.map(k => '<span><i style="background:' + LINE[k] + '"></i>' + LBL[k] + '</span>').join('') +
+    '</div></div>';
+}
+
 /* ---------- detaljpanel ---------- */
 function detailPanel(t, key){
   const val = esc(notes[key] || '');
-  return '<div class="dlabel">Lagdata</div>' +
+  return '<div class="dlabel">Streckens utveckling</div>' +
+    chart(key) +
+    '<div class="dlabel">Lagdata</div>' +
     '<div class="teamgrid">' + teamBox(t.home) + teamBox(t.away) + '</div>' +
     '<div class="dlabel">Anteckningar</div>' +
     '<textarea class="injury" data-key="' + key + '" ' +
@@ -768,7 +871,7 @@ function render(draw, keep){
             '<span class="odds">' + fmt(num(o[k])) + '</span>' +
             deltaHtml(oddsDelta(num(o[k]), num(so[k]))) +
             '<span class="dist">' + (dd.now != null ? dd.now + '%' : '–') + '</span>' +
-            deltaHtml(distDelta(dd.now, dd.ref)) +
+            deltaHtml(distDelta(dd.now, distStart(key, OUT.indexOf(k), dd.ref))) +
             '<span class="kvot">' + (value[k] != null ? value[k].toFixed(2).replace('.',',') : '–') + '</span>' +
           '</button>';
         }).join('') +
@@ -948,18 +1051,20 @@ async function loadAll(keep){
   const rawNotes = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO +
                    '/' + BRANCH + '/notes.json' + bust;
 
-  const [draw, fd, nt] = await Promise.all([
+  const [draw, fd, nt, hi] = await Promise.all([
     fetch('data.json' + bust, opts).then(r => {
       if (!r.ok) throw new Error('data.json saknas');
       return r.json();
     }),
     fetch('football.json' + bust, opts).then(r => r.ok ? r.json() : null).catch(() => null),
-    fetch(rawNotes, opts).then(r => r.ok ? r.json() : null).catch(() => null)
+    fetch(rawNotes, opts).then(r => r.ok ? r.json() : null).catch(() => null),
+    fetch('history.json' + bust, opts).then(r => r.ok ? r.json() : null).catch(() => null)
   ]);
 
   buildIndex(fd);
 
   const drawObj = pick(draw.draw || draw);
+  buildHistory(hi, drawObj.drawNumber);
 
   // Anteckningarna hör till en viss omgång. Byts omgången börjar vi om.
   if (!notesDirty){
