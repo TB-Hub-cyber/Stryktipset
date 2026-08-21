@@ -165,7 +165,7 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .mrow{display:flex;align-items:center;gap:9px;padding:8px 0;border-top:1px solid #EDEEEA}
 .mrow:first-child{border-top:none}
 .mdate{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-faint);
-  min-width:46px;letter-spacing:.02em}
+  min-width:56px;letter-spacing:.02em}
 .mven{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint);
   border:1px solid var(--rule);border-radius:2px;padding:1px 3px;min-width:17px;text-align:center}
 .mopp{flex:1;min-width:0;font-size:14px;line-height:1.25}
@@ -186,11 +186,17 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .chart svg{display:block;width:100%;height:auto;overflow:visible}
 .chart .grid{stroke:var(--rule);stroke-width:1}
 .chart .vgrid{stroke:#EDEEEA;stroke-width:1;stroke-dasharray:2 3}
+.chart .zero{stroke:var(--ink-faint);stroke-width:1.5}
 .chart .ln{fill:none;stroke-linejoin:round;stroke-linecap:round}
 .chart .ax{font-family:'IBM Plex Mono',monospace;font-size:8.5px;fill:var(--ink-faint)}
-.clegend{display:flex;gap:12px;margin-top:5px;font-family:'IBM Plex Mono',monospace;font-size:10px}
-.clegend span{display:flex;align-items:center;gap:4px;color:var(--ink-soft)}
-.clegend i{width:11px;height:2.5px;border-radius:2px;display:block}
+.clegend{display:flex;flex-direction:column;gap:5px;margin-top:11px;
+  font-family:'IBM Plex Mono',monospace;font-size:12px}
+.clegend span{display:flex;align-items:center;gap:7px;color:var(--ink-soft)}
+.clegend i{width:16px;height:3.5px;border-radius:2px;display:block;flex-shrink:0}
+.clegend b{color:var(--ink);font-weight:600;min-width:12px}
+.clegend em{font-style:normal;color:var(--ink);font-weight:600;margin-left:auto}
+.cnote{font-size:11.5px;color:var(--ink-faint);line-height:1.45;margin-top:11px;
+  padding-top:9px;border-top:1px solid var(--rule)}
 .chart-empty{font-size:11.5px;color:var(--ink-faint);line-height:1.45;
   padding:9px 0;border-bottom:1px solid var(--rule);margin-bottom:13px}
 .injury{height:120px;font-family:'Barlow',sans-serif;font-size:13.5px;line-height:1.5}
@@ -414,7 +420,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-21 j';
+const VERSION = '2026-08-21 k';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -746,7 +752,8 @@ const shortDate = t => {
   if (!t) return '';
   const d = new Date(t);
   return String(d.getDate()).padStart(2,'0') + '/' +
-         String(d.getMonth()+1).padStart(2,'0');
+         String(d.getMonth()+1).padStart(2,'0') + '-' +
+         String(d.getFullYear()).slice(2);
 };
 
 const LEAGUE_SHORT = {PL:'Premier League', ELC:'Championship'};
@@ -858,95 +865,102 @@ function drawSheet(){
 }
 
 /* ---------- graf över utvecklingen ---------- */
-const LINE = {one:'#15171B', x:'#767B82', two:'#3C5A78'};
+// Tydligt skilda kulörer. Undviker grönt och rött, som betyder spelvärde.
+const LINE = {one:'#1F4E79', x:'#C08118', two:'#7A2E6B'};
 
 const FIELDS = {
-  d: {label:'Svenska folkets streck', unit:'%', dec:0, pad:3, min:0, max:100},
-  o: {label:'Odds',                   unit:'',  dec:2, pad:0.15, min:1, max:null}
+  d: {label:'Svenska folkets streck', unit:' %-enheter', dec:0, val:v => Math.round(v) + '%'},
+  o: {label:'Odds',                   unit:'',           dec:2, val:v => v.toFixed(2).replace('.',',')}
 };
 
-function fmtAxis(v, f){
-  return f.dec ? v.toFixed(f.dec).replace('.',',') + f.unit
-                : Math.round(v) + f.unit;
-}
+const signed = (v, dec) =>
+  (v > 0 ? '+' : v < 0 ? '−' : '±') +
+  Math.abs(v).toFixed(dec).replace('.',',');
 
-// X-axeln följer verklig tid, inte mätpunktens ordningsnummer. Annars ser
-// en timmes rörelse på lördagen lika stor ut som tre timmar i veckan.
+// Kurvan visar förändring från omgångens första mätning, inte absoluta tal.
+// Annars dränks en rörelse på 0,05 av avståndet mellan tecknen.
 function chart(matchId, field, focus){
   const f = FIELDS[field];
-  const series = OUT.map(k => seriesOf(matchId, field, OUT.indexOf(k)));
-  const any = series.some(s => s.length >= 2);
-
-  if (!any){
+  const raw = OUT.map(k => seriesOf(matchId, field, OUT.indexOf(k)));
+  if (!raw.some(s => s.length >= 2)){
     return '<p class="chart-empty">Kurvan ritas när det finns minst två sparade ' +
       'mätningar för omgången. Historiken byggs upp allteftersom.</p>';
   }
 
-  const times = series.reduce((a,s) => a.concat(s.map(p => +new Date(p.t))), []);
+  const base = raw.map(s => s.length ? s[0].v : null);
+  const series = raw.map((s, i) =>
+    s.map(p => ({t: +new Date(p.t), v: p.v - base[i], abs: p.v})));
+
+  const times = series.reduce((a,s) => a.concat(s.map(p => p.t)), []);
   const t0 = Math.min.apply(null, times), t1 = Math.max.apply(null, times);
   const tspan = (t1 - t0) || 1;
 
   const all = series.reduce((a,s) => a.concat(s.map(p => p.v)), []);
-  let lo = Math.min.apply(null, all), hi = Math.max.apply(null, all);
-  const pad = Math.max(f.pad, (hi - lo) * 0.25);
-  lo = lo - pad; hi = hi + pad;
-  if (f.min != null) lo = Math.max(f.min, lo);
-  if (f.max != null) hi = Math.min(f.max, hi);
-  const span = (hi - lo) || 1;
+  const reach = Math.max(Math.abs(Math.min.apply(null, all)),
+                         Math.abs(Math.max.apply(null, all)),
+                         field === 'o' ? 0.06 : 1);
+  const lo = -reach * 1.25, hi = reach * 1.25, span = hi - lo;
 
-  const W = 320, H = 140, L = 34, R = 6, T = 8, B = 20;
+  const W = 320, H = 150, L = 40, R = 8, T = 10, B = 22;
   const x = t => L + ((t - t0) / tspan) * (W - L - R);
   const y = v => T + (1 - (v - lo) / span) * (H - T - B);
 
-  // Dygnsgränser som svaga linjer med veckodag under.
   const days = [];
   const d0 = new Date(t0); d0.setHours(0,0,0,0);
   for (let d = new Date(d0); +d <= t1; d.setDate(d.getDate() + 1)){
-    const t = +d;
-    if (t < t0) continue;
-    days.push({t: t, lbl: ['sön','mån','tis','ons','tors','fre','lör'][d.getDay()]});
+    if (+d < t0) continue;
+    days.push({t: +d, lbl: ['sön','mån','tis','ons','tors','fre','lör'][d.getDay()]});
   }
-
   const grid = days.map(g =>
     '<line class="vgrid" x1="' + x(g.t).toFixed(1) + '" y1="' + T +
       '" x2="' + x(g.t).toFixed(1) + '" y2="' + (H - B) + '"/>' +
-    '<text class="ax" x="' + x(g.t).toFixed(1) + '" y="' + (H - B + 13) +
+    '<text class="ax" x="' + x(g.t).toFixed(1) + '" y="' + (H - B + 14) +
       '" text-anchor="middle">' + g.lbl + '</text>').join('');
 
   const lines = OUT.map(k => {
-    const s = series[OUT.indexOf(k)];
+    const i = OUT.indexOf(k), s = series[i];
     if (s.length < 2) return '';
     const dim = focus && focus !== k;
-    const d = s.map((p, i) => (i ? 'L' : 'M') +
-      x(+new Date(p.t)).toFixed(1) + ' ' + y(p.v).toFixed(1)).join(' ');
+    const d = s.map((p, j) => (j ? 'L' : 'M') + x(p.t).toFixed(1) + ' ' + y(p.v).toFixed(1)).join(' ');
     const last = s[s.length - 1];
     return '<path class="ln" d="' + d + '" stroke="' + LINE[k] + '" ' +
-             'stroke-width="' + (dim ? 1.4 : 2.6) + '" opacity="' + (dim ? .3 : 1) + '"/>' +
-           '<circle cx="' + x(+new Date(last.t)).toFixed(1) + '" cy="' + y(last.v).toFixed(1) +
-             '" r="' + (dim ? 2 : 3.2) + '" fill="' + LINE[k] + '" opacity="' + (dim ? .3 : 1) + '"/>';
+             'stroke-width="' + (dim ? 1.6 : 3.2) + '" opacity="' + (dim ? .45 : 1) + '"/>' +
+           '<circle cx="' + x(last.t).toFixed(1) + '" cy="' + y(last.v).toFixed(1) +
+             '" r="' + (dim ? 2.5 : 4) + '" fill="' + LINE[k] + '" opacity="' + (dim ? .45 : 1) + '"/>';
   }).join('');
+
+  const hours = Math.round((t1 - t0) / 3600000);
+  const period = hours < 48
+    ? 'Omfattar ' + hours + ' timmar och ' + raw[0].length + ' mätningar.'
+    : 'Omfattar ' + Math.round(hours/24) + ' dygn och ' + raw[0].length + ' mätningar.';
 
   return '<div class="chart"><svg viewBox="0 0 ' + W + ' ' + H + '" ' +
       'preserveAspectRatio="xMidYMid meet" role="img" aria-label="' + f.label + ' över tid">' +
-      '<line class="grid" x1="' + L + '" y1="' + T + '" x2="' + W + '" y2="' + T + '"/>' +
-      '<line class="grid" x1="' + L + '" y1="' + (H - B) + '" x2="' + W + '" y2="' + (H - B) + '"/>' +
       grid +
-      '<text class="ax" x="0" y="' + (T + 4) + '">' + fmtAxis(hi, f) + '</text>' +
-      '<text class="ax" x="0" y="' + (H - B) + '">' + fmtAxis(lo, f) + '</text>' +
+      '<line class="zero" x1="' + L + '" y1="' + y(0).toFixed(1) +
+        '" x2="' + W + '" y2="' + y(0).toFixed(1) + '"/>' +
+      '<text class="ax" x="0" y="' + (T + 4) + '">' + signed(hi, f.dec) + '</text>' +
+      '<text class="ax" x="0" y="' + (y(0) + 3).toFixed(1) + '">' + signed(0, f.dec) + '</text>' +
+      '<text class="ax" x="0" y="' + (H - B) + '">' + signed(lo, f.dec) + '</text>' +
       lines +
     '</svg>' +
-    '<div class="clegend">' +
-      OUT.map(k => '<span' + (focus && focus !== k ? ' style="opacity:.4"' : '') +
-        '><i style="background:' + LINE[k] + '"></i>' + LBL[k] + '</span>').join('') +
-    '</div></div>';
+    '<div class="clegend">' + OUT.map(k => {
+      const s = series[OUT.indexOf(k)];
+      if (!s.length) return '';
+      const last = s[s.length - 1];
+      return '<span' + (focus && focus !== k ? ' style="opacity:.4"' : '') + '>' +
+        '<i style="background:' + LINE[k] + '"></i><b>' + LBL[k] + '</b> ' +
+        f.val(last.abs) + ' <em>' + signed(last.v, f.dec) + '</em></span>';
+    }).join('') + '</div>' +
+    '<div class="cnote">Kurvan visar förändring sedan omgångens första mätning' +
+      (f.unit ? ', i' + f.unit : '') + '. ' + period + '</div></div>';
 }
 
 function openChart(matchId, field, focus, title){
   document.getElementById('sheettitle').textContent = title;
   document.getElementById('tabs').classList.add('hidden');
   document.getElementById('sheetbody').innerHTML =
-    '<div class="dlabel" style="margin-bottom:9px">' + FIELDS[field].label +
-      ' &middot; dag för dag</div>' +
+    '<div class="dlabel" style="margin-bottom:9px">' + FIELDS[field].label + '</div>' +
     chart(matchId, field, focus);
   document.getElementById('sheet').classList.add('open');
   document.body.style.overflow = 'hidden';
