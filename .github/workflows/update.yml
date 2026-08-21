@@ -14,7 +14,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # Trimmar ner en matchlista till bara det appen behöver.
   TRIM: >-
     [.matches[]
      | select(.score.fullTime.home != null)
@@ -52,79 +51,96 @@ jobs:
       - name: Spara ögonblicksbild i historiken
         run: python3 .github/scripts/history.py
 
+      # Läser kupongen och hämtar bara de ligor som faktiskt spelas i veckan.
+      - name: Avgör vilka ligor som behövs
+        id: leagues
+        run: echo "codes=$(python3 .github/scripts/leagues.py)" >> "$GITHUB_OUTPUT"
+
       - name: Hämta tabeller och resultat
         continue-on-error: true
         env:
           FD: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+          CODES: ${{ steps.leagues.outputs.codes }}
         run: |
-          for code in PL ELC; do
+          for code in $CODES; do
             curl -sS -f -H "X-Auth-Token: $FD" \
               "https://api.football-data.org/v4/competitions/$code/standings" \
-              -o "st-$code.json"
+              -o "st-$code.json" || { echo "Tabell för $code misslyckades."; continue; }
             sleep 7
 
             curl -sS -f -H "X-Auth-Token: $FD" \
               "https://api.football-data.org/v4/competitions/$code/matches?status=FINISHED" \
-              -o "ma-$code.json"
+              -o "ma-$code.json" || { echo "Matcher för $code misslyckades."; continue; }
             sleep 7
-          done
 
-          jq empty st-PL.json st-ELC.json ma-PL.json ma-ELC.json
-
-          for code in PL ELC; do
             jq --arg c "$code" "$TRIM" "ma-$code.json" > "sm-$code.json"
           done
 
-      # Egen steg eftersom gratisnivån kan neka historiska säsonger.
-      # Misslyckas den här delen får du ändå allt annat.
       - name: Försök hämta tidigare säsonger
         continue-on-error: true
-        id: past
         env:
           FD: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+          CODES: ${{ steps.leagues.outputs.codes }}
         run: |
-          ok=1
           for season in 2025 2024; do
-            for code in PL ELC; do
+            for code in $CODES; do
               if curl -sS -f -H "X-Auth-Token: $FD" \
                    "https://api.football-data.org/v4/competitions/$code/matches?status=FINISHED&season=$season" \
                    -o "old-$code-$season.json"; then
                 jq --arg c "$code" "$TRIM" "old-$code-$season.json" > "po-$code-$season.json"
               else
                 echo "Säsong $season för $code nekades eller saknas."
-                ok=0
               fi
               sleep 7
             done
           done
-          echo "ok=$ok" >> "$GITHUB_OUTPUT"
 
       - name: Sätt ihop football.json
         continue-on-error: true
+        env:
+          CODES: ${{ steps.leagues.outputs.codes }}
         run: |
-          # Saknade filer ersätts med tomma listor så sammanslagningen alltid går igenom.
-          for f in po-PL-2025 po-ELC-2025 po-PL-2024 po-ELC-2024; do
-            [ -f "$f.json" ] || echo "[]" > "$f.json"
-          done
+          python3 - "$CODES" << 'PY'
+          import glob, json, os, sys, datetime
 
-          jq -n \
-            --arg t "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-            --slurpfile stpl  st-PL.json \
-            --slurpfile stelc st-ELC.json \
-            --slurpfile mapl  sm-PL.json \
-            --slurpfile maelc sm-ELC.json \
-            --slurpfile p1 po-PL-2025.json \
-            --slurpfile p2 po-ELC-2025.json \
-            --slurpfile p3 po-PL-2024.json \
-            --slurpfile p4 po-ELC-2024.json \
-            '{fetchedAt: $t,
-              competitions: {PL: $stpl[0], ELC: $stelc[0]},
-              results:      {PL: $mapl[0], ELC: $maelc[0]},
-              past:         ($p1[0] + $p2[0] + $p3[0] + $p4[0])}' \
-            > football.json
+          codes = sys.argv[1].split()
+
+          def load(path, fallback):
+              if not os.path.exists(path):
+                  return fallback
+              try:
+                  with open(path, encoding="utf-8") as fh:
+                      return json.load(fh)
+              except (ValueError, OSError):
+                  return fallback
+
+          competitions = {}
+          results = {}
+          for code in codes:
+              standings = load("st-%s.json" % code, None)
+              if standings:
+                  competitions[code] = standings
+              results[code] = load("sm-%s.json" % code, [])
+
+          past = []
+          for path in sorted(glob.glob("po-*.json")):
+              past.extend(load(path, []))
+
+          out = {
+              "fetchedAt": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+              "competitions": competitions,
+              "results": results,
+              "past": past,
+          }
+          with open("football.json", "w", encoding="utf-8") as fh:
+              json.dump(out, fh, ensure_ascii=False, separators=(",", ":"))
+
+          print("Ligor: %s" % ", ".join(sorted(competitions)))
+          print("Matcher denna säsong: %d" % sum(len(v) for v in results.values()))
+          print("Tidigare möten: %d" % len(past))
+          PY
 
           rm -f st-*.json ma-*.json sm-*.json old-*.json po-*.json
-          echo "Tidigare möten i filen: $(jq '.past | length' football.json)"
 
       - name: Spara om något ändrats
         run: |
