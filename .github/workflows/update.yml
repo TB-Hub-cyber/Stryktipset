@@ -52,6 +52,10 @@ jobs:
         run: python3 .github/scripts/history.py
 
       # Läser kupongen och hämtar bara de ligor som faktiskt spelas i veckan.
+      - name: Rätta inlämnade rader
+        continue-on-error: true
+        run: python3 .github/scripts/results.py
+
       - name: Avgör vilka ligor som behövs
         id: leagues
         run: echo "codes=$(python3 .github/scripts/leagues.py)" >> "$GITHUB_OUTPUT"
@@ -150,6 +154,7 @@ jobs:
           git add data.json || true
           git add football.json || true
           git add history.json || true
+          git add rows.json || true
 
           if git diff --staged --quiet; then
             echo "Ingen förändring sedan förra hämtningen."
