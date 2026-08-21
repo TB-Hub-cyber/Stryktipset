@@ -265,6 +265,10 @@ table.tbl .mal{display:none}
 .smarks .empty{background:transparent;border:1px dashed var(--rule);color:var(--ink-faint)}
 .reset{background:var(--mid-bg);border:1px solid rgba(156,106,24,.3);border-radius:3px;
   padding:9px 10px;margin:8px 0 11px;font-size:12.5px;color:var(--mid);line-height:1.45}
+.tokenstate{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;
+  text-transform:uppercase;margin-bottom:9px}
+.tokenstate.yes{color:var(--high)}
+.tokenstate.no{color:var(--mid)}
 .rowbox{border:1px solid var(--rule);border-radius:3px;padding:12px;margin-top:14px;
   background:#fff}
 .rowbox.in{border-color:var(--ink);border-width:1.5px}
@@ -399,7 +403,9 @@ table.tbl .mal{display:none}
 <section class="tokenbox hidden" id="tokenbox">
   <h2>Koppla anteckningar till GitHub</h2>
   <p>Klistra in en åtkomstnyckel som bara har skrivrättighet till det här repot.
-  Den sparas i den här webbläsaren och skickas aldrig någon annanstans än till GitHub.</p>
+  Den sparas i den här webbläsaren och skickas aldrig någon annanstans än till GitHub.
+  <b>Varje enhet behöver sin egen kopia</b> — samma nyckel går bra.</p>
+  <div class="tokenstate" id="tokenstate"></div>
   <input type="password" id="token" placeholder="github_pat_…" autocomplete="off">
   <div class="btnrow">
     <button id="savetoken">Spara nyckel</button>
@@ -448,7 +454,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-21 p';
+const VERSION = '2026-08-21 q';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -464,8 +470,12 @@ const fmt = v => v==null ? '–' : v.toFixed(2).replace('.',',');
 const esc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
 function getToken(){ try { return localStorage.getItem('gh_token') || ''; } catch(e){ return ''; } }
+// Privat surfläge blockerar lagring. Då ska det synas, inte misslyckas tyst.
 function setToken(v){
-  try { v ? localStorage.setItem('gh_token', v) : localStorage.removeItem('gh_token'); } catch(e){}
+  try {
+    if (v) localStorage.setItem('gh_token', v); else localStorage.removeItem('gh_token');
+    return v ? localStorage.getItem('gh_token') === v : true;
+  } catch(e){ return false; }
 }
 
 /* ---------- inläsning ---------- */
@@ -1265,6 +1275,14 @@ function refresh(){
   const dr = document.getElementById('delrow');
   if (dr) dr.addEventListener('click', removeRow);
 
+  const ts = document.getElementById('tokenstate');
+  if (ts){
+    const has = !!getToken();
+    ts.className = 'tokenstate ' + (has ? 'yes' : 'no');
+    ts.textContent = has ? 'Nyckel finns på den här enheten'
+                         : 'Ingen nyckel på den här enheten';
+  }
+
   document.getElementById('savenotes').addEventListener('click', saveNotes);
   document.getElementById('settoken').addEventListener('click', () => {
     const tb = document.getElementById('tokenbox');
@@ -1333,7 +1351,11 @@ async function saveRows(payload, message){
   const msg = document.getElementById('rowmsg');
   if (!token){
     msg.className = 'err';
-    msg.textContent = 'Ingen nyckel sparad. Tryck på Koppla GitHub först.';
+    msg.textContent = 'Ingen nyckel på den här enheten. Nyckeln sparas per ' +
+      'webbläsare, så den behöver skrivas in en gång per enhet.';
+    const tb = document.getElementById('tokenbox');
+    tb.classList.remove('hidden');
+    tb.scrollIntoView({behavior:'smooth'});
     return false;
   }
 
@@ -1623,8 +1645,15 @@ document.querySelectorAll('#tabs button').forEach(b => {
 document.getElementById('savetoken').addEventListener('click', () => {
   const v = document.getElementById('token').value.trim();
   const e = document.getElementById('tokenerr');
-  if (!v){ e.textContent = 'Rutan är tom.'; return; }
-  setToken(v);
+  if (!v){ e.className = 'err'; e.textContent = 'Rutan är tom.'; return; }
+
+  if (!setToken(v)){
+    e.className = 'err';
+    e.textContent = 'Webbläsaren tillåter inte lagring. Öppnar du sidan i privat ' +
+      'läge kan nyckeln inte sparas — prova ett vanligt fönster.';
+    return;
+  }
+
   document.getElementById('token').value = '';
   document.getElementById('tokenbox').classList.add('hidden');
   e.textContent = '';
