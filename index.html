@@ -157,7 +157,11 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   min-width:46px;letter-spacing:.02em}
 .mven{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint);
   border:1px solid var(--rule);border-radius:2px;padding:1px 3px;min-width:17px;text-align:center}
-.mopp{flex:1;min-width:0;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mopp{flex:1;min-width:0;font-size:14px;line-height:1.25}
+.mpos{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:9.5px;
+  color:var(--ink-faint);margin-left:5px}
+.mmeta2{display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;
+  color:var(--ink-faint);margin-top:1px;letter-spacing:.02em}
 .mres{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600}
 .mout{font-style:normal;font-size:9.5px;font-weight:600;width:16px;height:16px;line-height:16px;
   text-align:center;border-radius:2px;color:#fff;display:inline-block}
@@ -399,7 +403,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-20 f';
+const VERSION = '2026-08-21 g';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -519,16 +523,17 @@ function buildIndex(fd){
   // fylls inte i på gratisnivån, så vi kan inte använda det.
   const addMatch = m => {
     if (m.hg == null || m.ag == null) return;
-    const res = (id, opp, gf, ga, atHome) => {
+    const res = (id, oppId, opp, gf, ga, hf, ha, atHome) => {
       if (!formIndex[id]) formIndex[id] = [];
       formIndex[id].push({
-        d: m.d, home: atHome, opp: opp,
+        d: m.d, home: atHome, opp: opp, oppId: oppId,
+        c: m.c, md: m.md,
         r: gf > ga ? 'V' : gf < ga ? 'F' : 'O',
-        gf: gf, ga: ga
+        gf: gf, ga: ga, hf: hf, ha: ha
       });
     };
-    res(m.h, m.an, m.hg, m.ag, true);
-    res(m.a, m.hn, m.ag, m.hg, false);
+    res(m.h, m.a, m.an, m.hg, m.ag, m.hh, m.ah, true);
+    res(m.a, m.h, m.hn, m.ag, m.hg, m.ah, m.hh, false);
   };
 
   if (fd.results){
@@ -733,19 +738,38 @@ const shortDate = t => {
          String(d.getMonth()+1).padStart(2,'0');
 };
 
-function matchList(list){
+const LEAGUE_SHORT = {PL:'Premier League', ELC:'Championship'};
+
+// Motståndarens nuvarande tabellplats, när vi känner laget.
+function posOf(teamId){
+  const e = fdIndex.find(x => x.team.id === teamId);
+  return (e && e.rank_TOTAL) ? e.rank_TOTAL + ':e' : null;
+}
+
+function matchList(list, showMeta){
   if (!list || !list.length)
     return '<p style="font-size:13px;color:var(--ink-soft);padding:12px 0">' +
            'Inga matcher att visa.</p>';
 
-  return '<div class="mlist">' + list.map(m =>
-    '<div class="mrow">' +
+  return '<div class="mlist">' + list.map(m => {
+    const pos = posOf(m.oppId);
+    const bits = [];
+    if (showMeta !== false){
+      if (m.c) bits.push(LEAGUE_SHORT[m.c] || m.c);
+      if (m.md) bits.push('omg ' + m.md);
+      if (m.hf != null && m.ha != null) bits.push('halvtid ' + m.hf + '–' + m.ha);
+    }
+    return '<div class="mrow">' +
       '<span class="mdate">' + shortDate(m.d) + '</span>' +
       '<span class="mven">' + (m.home ? 'H' : 'B') + '</span>' +
-      '<span class="mopp">' + esc(m.opp) + '</span>' +
+      '<span class="mopp">' + esc(m.opp || '—') +
+        (pos ? '<em class="mpos">' + pos + '</em>' : '') +
+        (bits.length ? '<span class="mmeta2">' + bits.join(' · ') + '</span>' : '') +
+      '</span>' +
       '<span class="mres">' + m.gf + '–' + m.ga + '</span>' +
       '<i class="mout f-' + m.r + '">' + m.r + '</i>' +
-    '</div>').join('') + '</div>';
+    '</div>';
+  }).join('') + '</div>';
 }
 
 function openSheet(code, highlight){
@@ -881,6 +905,8 @@ function h2hBlock(t){
     const home = m.h === me;
     const gf = home ? m.hg : m.ag, ga = home ? m.ag : m.hg;
     return {d: m.d, home: home, opp: home ? m.an : m.hn,
+            oppId: home ? m.a : m.h, c: m.c, md: m.md,
+            hf: home ? m.hh : m.ah, ha: home ? m.ah : m.hh,
             gf: gf, ga: ga, r: gf > ga ? 'V' : gf < ga ? 'F' : 'O'};
   });
 
@@ -980,7 +1006,7 @@ function render(draw, keep){
       btn.addEventListener('click', () => {
         const id = Number(btn.dataset.team);
         openMatches(id, btn.dataset.name,
-          (formIndex[id] || []).slice(0, 10), 'Senaste matcherna');
+          (formIndex[id] || []).slice(0, 15), 'Senaste matcherna');
       });
     });
 
