@@ -101,18 +101,30 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .match.open .chev{transform:rotate(180deg)}
 
 .cells{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--rule)}
-.cell{background:var(--card);border:none;border-radius:0;padding:8px 2px 9px;cursor:pointer;
-  display:flex;flex-direction:column;align-items:center;gap:0;color:var(--ink);
-  text-transform:none;letter-spacing:0;font-family:'Barlow',sans-serif}
+.cell{position:relative;background:var(--card);border-radius:0;padding:0}
 .cell.high{background:var(--high-bg)}
 .cell.mid{background:var(--mid-bg)}
 .cell.low{background:var(--low-bg)}
+.pickbtn{position:absolute;inset:0;width:100%;height:100%;background:none;border:none;
+  padding:0;margin:0;cursor:pointer;z-index:1;border-radius:0}
+.pickbtn:focus-visible{outline:2px solid var(--ink);outline-offset:-3px}
+.cellinner{position:relative;z-index:2;pointer-events:none;display:flex;
+  flex-direction:column;align-items:center;padding:8px 2px 9px}
 .sign{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;width:22px;
   height:22px;line-height:22px;border-radius:50%;color:var(--ink-soft);margin-bottom:4px}
 .cell.picked .sign{background:var(--ink);color:var(--card)}
-.odds{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;line-height:1.15}
+.numbtn{pointer-events:auto;background:none;border:none;border-radius:3px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:0;padding:3px 7px 4px;
+  margin:0;text-transform:none;letter-spacing:0;font-family:'Barlow',sans-serif;
+  color:var(--ink);-webkit-tap-highlight-color:rgba(0,0,0,.06)}
+.numbtn:active{background:rgba(0,0,0,.06)}
+.numbtn:focus-visible{outline:2px solid var(--ink);outline-offset:-1px}
+.numbtn + .numbtn{margin-top:3px}
+.odds{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;line-height:1.15;
+  text-decoration:underline;text-decoration-color:rgba(0,0,0,.18);text-underline-offset:3px}
 .dist{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-soft);
-  line-height:1.15;margin-top:6px}
+  line-height:1.15;text-decoration:underline;text-decoration-color:rgba(0,0,0,.15);
+  text-underline-offset:3px}
 .delta{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint);
   line-height:1.35;margin-top:1px}
 .delta.flat{opacity:.45}
@@ -121,7 +133,6 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .cell.high .kvot{color:var(--high)}
 .cell.mid .kvot{color:var(--mid)}
 .cell.low .kvot{color:var(--low)}
-
 .detail{display:none;padding:11px;border-top:1px solid var(--rule);background:#fff}
 .match.open .detail{display:block}
 .dlabel{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;
@@ -172,9 +183,10 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .h2h{margin-bottom:15px}
 .h2hnote{font-size:11.5px;color:var(--ink-faint);margin-top:7px;line-height:1.4}
 .chart{margin-bottom:15px}
-.chart svg{display:block;width:100%;height:96px;overflow:visible}
-.chart .grid{stroke:#EDEEEA;stroke-width:1}
-.chart .ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart .grid{stroke:var(--rule);stroke-width:1}
+.chart .vgrid{stroke:#EDEEEA;stroke-width:1;stroke-dasharray:2 3}
+.chart .ln{fill:none;stroke-linejoin:round;stroke-linecap:round}
 .chart .ax{font-family:'IBM Plex Mono',monospace;font-size:8.5px;fill:var(--ink-faint)}
 .clegend{display:flex;gap:12px;margin-top:5px;font-family:'IBM Plex Mono',monospace;font-size:10px}
 .clegend span{display:flex;align-items:center;gap:4px;color:var(--ink-soft)}
@@ -402,7 +414,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-21 h';
+const VERSION = '2026-08-21 j';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -845,59 +857,99 @@ function drawSheet(){
     'Vid lika poäng skiljer målskillnad och därefter gjorda mål.</p>';
 }
 
-/* ---------- graf över streckens utveckling ---------- */
+/* ---------- graf över utvecklingen ---------- */
 const LINE = {one:'#15171B', x:'#767B82', two:'#3C5A78'};
 
-function chart(matchId){
-  const series = OUT.map(k => seriesOf(matchId, 'd', OUT.indexOf(k)));
-  const points = Math.max.apply(null, series.map(s => s.length));
+const FIELDS = {
+  d: {label:'Svenska folkets streck', unit:'%', dec:0, pad:3, min:0, max:100},
+  o: {label:'Odds',                   unit:'',  dec:2, pad:0.15, min:1, max:null}
+};
 
-  if (points < 2){
-    return '<div class="chart-empty">Streckens utveckling ritas när det finns ' +
-      'minst två sparade mätningar. Historiken byggs upp från och med nu, ' +
-      'så kurvan blir meningsfull under kommande omgång.</div>';
+function fmtAxis(v, f){
+  return f.dec ? v.toFixed(f.dec).replace('.',',') + f.unit
+                : Math.round(v) + f.unit;
+}
+
+// X-axeln följer verklig tid, inte mätpunktens ordningsnummer. Annars ser
+// en timmes rörelse på lördagen lika stor ut som tre timmar i veckan.
+function chart(matchId, field, focus){
+  const f = FIELDS[field];
+  const series = OUT.map(k => seriesOf(matchId, field, OUT.indexOf(k)));
+  const any = series.some(s => s.length >= 2);
+
+  if (!any){
+    return '<p class="chart-empty">Kurvan ritas när det finns minst två sparade ' +
+      'mätningar för omgången. Historiken byggs upp allteftersom.</p>';
   }
 
-  const W = 300, H = 76, PAD = 20;
+  const times = series.reduce((a,s) => a.concat(s.map(p => +new Date(p.t))), []);
+  const t0 = Math.min.apply(null, times), t1 = Math.max.apply(null, times);
+  const tspan = (t1 - t0) || 1;
+
   const all = series.reduce((a,s) => a.concat(s.map(p => p.v)), []);
   let lo = Math.min.apply(null, all), hi = Math.max.apply(null, all);
-  const pad = Math.max(3, (hi - lo) * 0.2);
-  lo = Math.max(0, Math.floor(lo - pad));
-  hi = Math.min(100, Math.ceil(hi + pad));
+  const pad = Math.max(f.pad, (hi - lo) * 0.25);
+  lo = lo - pad; hi = hi + pad;
+  if (f.min != null) lo = Math.max(f.min, lo);
+  if (f.max != null) hi = Math.min(f.max, hi);
   const span = (hi - lo) || 1;
 
-  const x = i => PAD + (i / (points - 1)) * (W - PAD - 4);
-  const y = v => H - ((v - lo) / span) * H;
+  const W = 320, H = 140, L = 34, R = 6, T = 8, B = 20;
+  const x = t => L + ((t - t0) / tspan) * (W - L - R);
+  const y = v => T + (1 - (v - lo) / span) * (H - T - B);
+
+  // Dygnsgränser som svaga linjer med veckodag under.
+  const days = [];
+  const d0 = new Date(t0); d0.setHours(0,0,0,0);
+  for (let d = new Date(d0); +d <= t1; d.setDate(d.getDate() + 1)){
+    const t = +d;
+    if (t < t0) continue;
+    days.push({t: t, lbl: ['sön','mån','tis','ons','tors','fre','lör'][d.getDay()]});
+  }
+
+  const grid = days.map(g =>
+    '<line class="vgrid" x1="' + x(g.t).toFixed(1) + '" y1="' + T +
+      '" x2="' + x(g.t).toFixed(1) + '" y2="' + (H - B) + '"/>' +
+    '<text class="ax" x="' + x(g.t).toFixed(1) + '" y="' + (H - B + 13) +
+      '" text-anchor="middle">' + g.lbl + '</text>').join('');
 
   const lines = OUT.map(k => {
     const s = series[OUT.indexOf(k)];
     if (s.length < 2) return '';
-    const d = s.map((p, i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(p.v).toFixed(1)).join(' ');
-    return '<path class="ln" d="' + d + '" stroke="' + LINE[k] + '"/>';
+    const dim = focus && focus !== k;
+    const d = s.map((p, i) => (i ? 'L' : 'M') +
+      x(+new Date(p.t)).toFixed(1) + ' ' + y(p.v).toFixed(1)).join(' ');
+    const last = s[s.length - 1];
+    return '<path class="ln" d="' + d + '" stroke="' + LINE[k] + '" ' +
+             'stroke-width="' + (dim ? 1.4 : 2.6) + '" opacity="' + (dim ? .3 : 1) + '"/>' +
+           '<circle cx="' + x(+new Date(last.t)).toFixed(1) + '" cy="' + y(last.v).toFixed(1) +
+             '" r="' + (dim ? 2 : 3.2) + '" fill="' + LINE[k] + '" opacity="' + (dim ? .3 : 1) + '"/>';
   }).join('');
 
-  const firstT = series.reduce((a,s) => s.length ? s[0].t : a, null);
-  const lastT  = series.reduce((a,s) => s.length ? s[s.length-1].t : a, null);
-  const short = t => {
-    if (!t) return '';
-    const d = new Date(t);
-    return ['sön','mån','tis','ons','tors','fre','lör'][d.getDay()] + ' ' +
-           String(d.getHours()).padStart(2,'0');
-  };
-
-  return '<div class="chart"><svg viewBox="0 0 ' + W + ' ' + (H + 14) + '" ' +
-      'preserveAspectRatio="none" role="img" aria-label="Streckens utveckling">' +
-      '<line class="grid" x1="' + PAD + '" y1="0" x2="' + W + '" y2="0"/>' +
-      '<line class="grid" x1="' + PAD + '" y1="' + H + '" x2="' + W + '" y2="' + H + '"/>' +
-      '<text class="ax" x="0" y="6">' + hi + '%</text>' +
-      '<text class="ax" x="0" y="' + H + '">' + lo + '%</text>' +
+  return '<div class="chart"><svg viewBox="0 0 ' + W + ' ' + H + '" ' +
+      'preserveAspectRatio="xMidYMid meet" role="img" aria-label="' + f.label + ' över tid">' +
+      '<line class="grid" x1="' + L + '" y1="' + T + '" x2="' + W + '" y2="' + T + '"/>' +
+      '<line class="grid" x1="' + L + '" y1="' + (H - B) + '" x2="' + W + '" y2="' + (H - B) + '"/>' +
+      grid +
+      '<text class="ax" x="0" y="' + (T + 4) + '">' + fmtAxis(hi, f) + '</text>' +
+      '<text class="ax" x="0" y="' + (H - B) + '">' + fmtAxis(lo, f) + '</text>' +
       lines +
-      '<text class="ax" x="' + PAD + '" y="' + (H + 12) + '">' + short(firstT) + '</text>' +
-      '<text class="ax" x="' + W + '" y="' + (H + 12) + '" text-anchor="end">' + short(lastT) + '</text>' +
     '</svg>' +
     '<div class="clegend">' +
-      OUT.map(k => '<span><i style="background:' + LINE[k] + '"></i>' + LBL[k] + '</span>').join('') +
+      OUT.map(k => '<span' + (focus && focus !== k ? ' style="opacity:.4"' : '') +
+        '><i style="background:' + LINE[k] + '"></i>' + LBL[k] + '</span>').join('') +
     '</div></div>';
+}
+
+function openChart(matchId, field, focus, title){
+  document.getElementById('sheettitle').textContent = title;
+  document.getElementById('tabs').classList.add('hidden');
+  document.getElementById('sheetbody').innerHTML =
+    '<div class="dlabel" style="margin-bottom:9px">' + FIELDS[field].label +
+      ' &middot; dag för dag</div>' +
+    chart(matchId, field, focus);
+  document.getElementById('sheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
 /* ---------- detaljpanel ---------- */
@@ -931,15 +983,14 @@ function h2hBlock(t){
 
 function detailPanel(t, key){
   const val = esc(notes[key] || '');
-  return '<div class="dlabel">Streckens utveckling</div>' +
-    chart(key) +
-    '<div class="dlabel">Lagdata</div>' +
+  return '<div class="dlabel">Lagdata</div>' +
     '<div class="teamgrid">' + teamBox(t.home) + teamBox(t.away) + '</div>' +
     h2hBlock(t) +
     '<div class="dlabel">Anteckningar</div>' +
     '<textarea class="injury" data-key="' + key + '" ' +
       'placeholder="Skador, avstängningar, egna tankar inför matchen…">' + val + '</textarea>' +
-    '<div class="note">Tryck på ett lagnamn för dess senaste matcher, ' +
+    '<div class="note">Tryck på ett odds eller en procentsiffra i rutorna ovan ' +
+    'för utvecklingen dag för dag. Tryck på ett lagnamn för dess senaste matcher, ' +
     'eller på ligans namn högst upp för hela tabellen. ' +
     'V–O–F är vinster, oavgjorda och förluster totalt. ' +
     'Formraderna visar de fem senaste matcherna, senast först — grönt vinst, ' +
@@ -997,14 +1048,24 @@ function render(draw, keep){
       '<div class="cells">' +
         OUT.map(k => {
           const dd = d[k] || {};
-          return '<button class="cell ' + (cls[k]||'') + '" data-out="' + k + '">' +
-            '<span class="sign">' + LBL[k] + '</span>' +
-            '<span class="odds">' + fmt(num(o[k])) + '</span>' +
-            deltaHtml(oddsDelta(num(o[k]), num(so[k]))) +
-            '<span class="dist">' + (dd.now != null ? dd.now + '%' : '–') + '</span>' +
-            deltaHtml(distDelta(dd.now, distStart(key, OUT.indexOf(k), dd.ref))) +
-            '<span class="kvot">' + (value[k] != null ? value[k].toFixed(2).replace('.',',') : '–') + '</span>' +
-          '</button>';
+          // Hela rutan markerar tecknet. Sifferknapparna ligger ovanpå och
+          // fångar sina egna tryck, så de är syskon och inte nästlade knappar.
+          return '<div class="cell ' + (cls[k]||'') + '" data-out="' + k + '">' +
+            '<button class="pickbtn" data-out="' + k + '" ' +
+              'aria-label="Markera ' + LBL[k] + '"></button>' +
+            '<div class="cellinner">' +
+              '<span class="sign">' + LBL[k] + '</span>' +
+              '<button class="numbtn" data-chart="o" data-out="' + k + '">' +
+                '<span class="odds">' + fmt(num(o[k])) + '</span>' +
+                deltaHtml(oddsDelta(num(o[k]), num(so[k]))) +
+              '</button>' +
+              '<button class="numbtn" data-chart="d" data-out="' + k + '">' +
+                '<span class="dist">' + (dd.now != null ? dd.now + '%' : '–') + '</span>' +
+                deltaHtml(distDelta(dd.now, distStart(key, OUT.indexOf(k), dd.ref))) +
+              '</button>' +
+              '<span class="kvot">' + (value[k] != null ? value[k].toFixed(2).replace('.',',') : '–') + '</span>' +
+            '</div>' +
+          '</div>';
         }).join('') +
       '</div>' +
       '<div class="detail">' + detailPanel(t, key) + '</div>';
@@ -1028,14 +1089,22 @@ function render(draw, keep){
         [hitH && hitH.team.id, hitA && hitA.team.id].filter(Boolean));
     });
 
-    card.querySelectorAll('.cell').forEach(btn => {
+    card.querySelectorAll('.pickbtn').forEach(btn => {
       btn.addEventListener('click', () => {
         const out = btn.dataset.out;
         const cur = picks[i] || [];
         picks[i] = cur.indexOf(out) > -1 ? cur.filter(x => x !== out) : cur.concat([out]);
         if (!picks[i].length) delete picks[i];
-        btn.classList.toggle('picked', (picks[i]||[]).indexOf(out) > -1);
+        btn.parentNode.classList.toggle('picked', (picks[i]||[]).indexOf(out) > -1);
         refresh();
+      });
+    });
+
+    card.querySelectorAll('.numbtn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        openChart(key, btn.dataset.chart, btn.dataset.out,
+          t.home.name + ' – ' + t.away.name);
       });
     });
 
@@ -1184,21 +1253,30 @@ async function saveNotes(){
 }
 
 /* ---------- hämtning ---------- */
-async function loadAll(keep){
+const RAW = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO + '/' + BRANCH + '/';
+
+// Grenen uppdateras i samma stund som arbetsflödet sparat. Pages behöver
+// bygga om först, vilket tar en extra minut — därför läser vi grenen i första
+// hand och använder den lokala filen som reserv.
+async function grab(name){
   const bust = '?t=' + Date.now();
   const opts = {cache:'no-store'};
-  const rawNotes = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO +
-                   '/' + BRANCH + '/notes.json' + bust;
+  try {
+    const r = await fetch(RAW + name + bust, opts);
+    if (r.ok) return await r.json();
+  } catch (e){ /* faller igenom till reserven */ }
+  try {
+    const r = await fetch(name + bust, opts);
+    if (r.ok) return await r.json();
+  } catch (e){ /* filen saknas */ }
+  return null;
+}
 
+async function loadAll(keep){
   const [draw, fd, nt, hi] = await Promise.all([
-    fetch('data.json' + bust, opts).then(r => {
-      if (!r.ok) throw new Error('data.json saknas');
-      return r.json();
-    }),
-    fetch('football.json' + bust, opts).then(r => r.ok ? r.json() : null).catch(() => null),
-    fetch(rawNotes, opts).then(r => r.ok ? r.json() : null).catch(() => null),
-    fetch('history.json' + bust, opts).then(r => r.ok ? r.json() : null).catch(() => null)
+    grab('data.json'), grab('football.json'), grab('notes.json'), grab('history.json')
   ]);
+  if (!draw) throw new Error('data.json saknas');
 
   buildIndex(fd);
 
@@ -1274,12 +1352,14 @@ async function refreshNow(){
     }
     if (!res.ok) throw new Error('GitHub svarade ' + res.status);
 
+    // Hämtningen tar drygt en minut. Vi väntar i upp till fem.
     const start = drawStamp;
-    for (let i = 0; i < 24; i++){
+    for (let i = 0; i < 60; i++){
       await new Promise(r => setTimeout(r, 5000));
-      s.textContent = 'Uppdaterar… ' + ((i+1)*5) + ' s';
+      const sec = (i + 1) * 5;
+      s.textContent = 'Hämtar ny data… ' + sec + ' s';
       try {
-        const probe = await fetch('data.json?t=' + Date.now(), {cache:'no-store'});
+        const probe = await fetch(RAW + 'data.json?t=' + Date.now(), {cache:'no-store'});
         if (probe.ok){
           const j = await probe.json();
           if (j.fetchedAt && j.fetchedAt !== start){ await loadAll(true); return; }
@@ -1289,7 +1369,7 @@ async function refreshNow(){
     await loadAll(true);
     document.getElementById('stamp').insertAdjacentHTML('beforeend',
       '<div style="color:var(--ink-faint);margin-top:4px;text-transform:none;letter-spacing:0">' +
-      'Körningen hann inte bli klar. Prova igen om en minut.</div>');
+      'Körningen blev inte klar inom fem minuter. Kolla Actions-fliken.</div>');
 
   } catch(e){
     try { await loadAll(true); } catch(_){}
