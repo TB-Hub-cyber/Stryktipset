@@ -435,7 +435,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-21 m';
+const VERSION = '2026-08-21 n';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -771,7 +771,11 @@ const shortDate = t => {
          String(d.getFullYear()).slice(2);
 };
 
-const LEAGUE_SHORT = {PL:'Premier League', ELC:'Championship'};
+const LEAGUE_SHORT = {
+  PL:'Premier League', ELC:'Championship', PD:'La Liga', SA:'Serie A',
+  BL1:'Bundesliga', FL1:'Ligue 1', DED:'Eredivisie', PPL:'Primeira Liga',
+  BSA:'Serie A (BRA)', CL:'Champions League', WC:'VM', EC:'EM'
+};
 
 // Motståndarens nuvarande tabellplats, när vi känner laget.
 function posOf(teamId){
@@ -1381,12 +1385,13 @@ async function refreshNow(){
     }
     if (!res.ok) throw new Error('GitHub svarade ' + res.status);
 
-    // Hämtningen tar drygt en minut. Vi väntar i upp till fem.
+    // Fler ligor betyder längre körning. Vi väntar i upp till åtta minuter.
     const start = drawStamp;
-    for (let i = 0; i < 60; i++){
+    for (let i = 0; i < 96; i++){
       await new Promise(r => setTimeout(r, 5000));
       const sec = (i + 1) * 5;
-      s.textContent = 'Hämtar ny data… ' + sec + ' s';
+      s.textContent = sec < 60 ? 'Hämtar ny data… ' + sec + ' s'
+                     : 'Hämtar ny data… ' + Math.floor(sec/60) + ' min ' + (sec%60) + ' s';
       try {
         const probe = await fetch(RAW + 'data.json?t=' + Date.now(), {cache:'no-store'});
         if (probe.ok){
