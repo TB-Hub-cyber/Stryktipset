@@ -150,6 +150,24 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   text-align:center;border-radius:2px;color:#fff}
 .form .f-V{background:var(--high)} .form .f-O{background:var(--ink-faint)} .form .f-F{background:var(--low)}
 .nodata{font-size:11.5px;color:var(--ink-faint);line-height:1.4;padding-top:5px;border-top:1px solid #EDEEEA}
+.mlist{font-family:'Barlow',sans-serif}
+.mrow{display:flex;align-items:center;gap:9px;padding:8px 0;border-top:1px solid #EDEEEA}
+.mrow:first-child{border-top:none}
+.mdate{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-faint);
+  min-width:46px;letter-spacing:.02em}
+.mven{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint);
+  border:1px solid var(--rule);border-radius:2px;padding:1px 3px;min-width:17px;text-align:center}
+.mopp{flex:1;min-width:0;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mres{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600}
+.mout{font-style:normal;font-size:9.5px;font-weight:600;width:16px;height:16px;line-height:16px;
+  text-align:center;border-radius:2px;color:#fff;display:inline-block}
+.mout.f-V{background:var(--high)} .mout.f-O{background:var(--ink-faint)} .mout.f-F{background:var(--low)}
+.tlink{background:none;border:none;padding:0;font-family:'Barlow Condensed',sans-serif;
+  font-weight:600;font-size:16px;line-height:1.1;color:var(--ink);text-transform:none;
+  letter-spacing:0;text-decoration:underline;text-underline-offset:2px;cursor:pointer;
+  text-align:left;display:block;margin-bottom:2px}
+.h2h{margin-bottom:15px}
+.h2hnote{font-size:11.5px;color:var(--ink-faint);margin-top:7px;line-height:1.4}
 .chart{margin-bottom:15px}
 .chart svg{display:block;width:100%;height:96px;overflow:visible}
 .chart .grid{stroke:#EDEEEA;stroke-width:1}
@@ -381,12 +399,12 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-20 e';
+const VERSION = '2026-08-20 f';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
 let picks = {}, notes = {}, events = [], drawInfo = {};
-let fdIndex = [], fdComps = {}, formIndex = {};
+let fdIndex = [], fdComps = {}, formIndex = {}, h2hIndex = {}, hasPast = false;
 let notesDirty = false, drawStamp = null, notesReset = null;
 let histIndex = {};   // {matchId: [{t, o:[1,X,2], d:[1,X,2]}]}
 let sheetComp = null, sheetTab = 'TOTAL', sheetHl = [];
@@ -494,31 +512,45 @@ function rankRows(entries, kind){
 }
 
 function buildIndex(fd){
-  fdIndex = []; fdComps = {}; formIndex = {};
+  fdIndex = []; fdComps = {}; formIndex = {}; h2hIndex = {}; hasPast = false;
   if (!fd || !fd.competitions) return;
 
   // Formen räknas ut från faktiska resultat. Fältet form hos football-data.org
   // fylls inte i på gratisnivån, så vi kan inte använda det.
-  if (fd.results){
-    Object.keys(fd.results).forEach(code => {
-      (fd.results[code] || []).forEach(m => {
-        if (m.hg == null || m.ag == null) return;
-        const res = (id, gf, ga, atHome) => {
-          if (!formIndex[id]) formIndex[id] = [];
-          formIndex[id].push({
-            d: m.d, home: atHome,
-            r: gf > ga ? 'V' : gf < ga ? 'F' : 'O',
-            gf: gf, ga: ga
-          });
-        };
-        res(m.h, m.hg, m.ag, true);
-        res(m.a, m.ag, m.hg, false);
+  const addMatch = m => {
+    if (m.hg == null || m.ag == null) return;
+    const res = (id, opp, gf, ga, atHome) => {
+      if (!formIndex[id]) formIndex[id] = [];
+      formIndex[id].push({
+        d: m.d, home: atHome, opp: opp,
+        r: gf > ga ? 'V' : gf < ga ? 'F' : 'O',
+        gf: gf, ga: ga
       });
-    });
-    // Senast först.
+    };
+    res(m.h, m.an, m.hg, m.ag, true);
+    res(m.a, m.hn, m.ag, m.hg, false);
+  };
+
+  if (fd.results){
+    Object.keys(fd.results).forEach(code =>
+      (fd.results[code] || []).forEach(addMatch));
     Object.keys(formIndex).forEach(id =>
       formIndex[id].sort((a,b) => String(b.d).localeCompare(String(a.d))));
   }
+
+  // Inbördes möten byggs av innevarande säsong plus eventuella tidigare.
+  const pairKey = (a,b) => Math.min(a,b) + '-' + Math.max(a,b);
+  const collect = m => {
+    if (m.hg == null || m.ag == null || m.h == null || m.a == null) return;
+    const k = pairKey(m.h, m.a);
+    (h2hIndex[k] || (h2hIndex[k] = [])).push(m);
+  };
+  if (fd.results) Object.keys(fd.results).forEach(code =>
+    (fd.results[code] || []).forEach(collect));
+  (fd.past || []).forEach(collect);
+  Object.keys(h2hIndex).forEach(k =>
+    h2hIndex[k].sort((a,b) => String(b.d).localeCompare(String(a.d))));
+  hasPast = !!(fd.past && fd.past.length);
 
   Object.keys(fd.competitions).forEach(code => {
     const comp = fd.competitions[code];
@@ -673,7 +705,8 @@ function teamBox(part){
   const share = possible ? Math.round(tot.points / possible * 100) : 0;
 
   return '<div class="teambox">' +
-    '<div class="tname">' + esc(part.name) + '</div>' +
+    '<button class="tlink" data-team="' + hit.team.id + '" ' +
+      'data-name="' + esc(part.name) + '">' + esc(part.name) + '</button>' +
     '<div class="tpoints"><span class="lbl">Poäng</span>' +
       '<span class="val">' + tot.points + '<em>av ' + possible + '</em></span></div>' +
     '<div class="tbar"><i style="width:' + share + '%"></i></div>' +
@@ -683,7 +716,40 @@ function teamBox(part){
 }
 
 /* ---------- tabellfliken ---------- */
+function openMatches(teamId, teamName, list, subtitle){
+  document.getElementById('sheettitle').textContent = teamName;
+  document.getElementById('tabs').classList.add('hidden');
+  document.getElementById('sheetbody').innerHTML =
+    (subtitle ? '<div class="dlabel" style="margin-bottom:9px">' + subtitle + '</div>' : '') +
+    matchList(list);
+  document.getElementById('sheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+const shortDate = t => {
+  if (!t) return '';
+  const d = new Date(t);
+  return String(d.getDate()).padStart(2,'0') + '/' +
+         String(d.getMonth()+1).padStart(2,'0');
+};
+
+function matchList(list){
+  if (!list || !list.length)
+    return '<p style="font-size:13px;color:var(--ink-soft);padding:12px 0">' +
+           'Inga matcher att visa.</p>';
+
+  return '<div class="mlist">' + list.map(m =>
+    '<div class="mrow">' +
+      '<span class="mdate">' + shortDate(m.d) + '</span>' +
+      '<span class="mven">' + (m.home ? 'H' : 'B') + '</span>' +
+      '<span class="mopp">' + esc(m.opp) + '</span>' +
+      '<span class="mres">' + m.gf + '–' + m.ga + '</span>' +
+      '<i class="mout f-' + m.r + '">' + m.r + '</i>' +
+    '</div>').join('') + '</div>';
+}
+
 function openSheet(code, highlight){
+  document.getElementById('tabs').classList.remove('hidden');
   const comp = fdComps[code];
   if (!comp) return;
   sheetComp = code; sheetTab = 'TOTAL'; sheetHl = highlight || [];
@@ -801,18 +867,46 @@ function chart(matchId){
 }
 
 /* ---------- detaljpanel ---------- */
+function h2hBlock(t){
+  const a = findTeam(t.home), b = findTeam(t.away);
+  if (!a || !b) return '';
+
+  const k = Math.min(a.team.id, b.team.id) + '-' + Math.max(a.team.id, b.team.id);
+  const list = (h2hIndex[k] || []).slice(0, 5);
+  if (!list.length) return '';
+
+  // Redovisa alltid ur hemmalagets perspektiv i den här matchen.
+  const me = a.team.id;
+  const rows = list.map(m => {
+    const home = m.h === me;
+    const gf = home ? m.hg : m.ag, ga = home ? m.ag : m.hg;
+    return {d: m.d, home: home, opp: home ? m.an : m.hn,
+            gf: gf, ga: ga, r: gf > ga ? 'V' : gf < ga ? 'F' : 'O'};
+  });
+
+  return '<div class="dlabel">Inbördes möten</div>' +
+    '<div class="h2h">' + matchList(rows) +
+      '<div class="h2hnote">Ur ' + esc(t.home.name) + 's perspektiv. ' +
+      (hasPast ? 'Innevarande och tidigare säsonger.'
+               : 'Endast innevarande säsong — tidigare säsonger kunde inte hämtas.') +
+      '</div></div>';
+}
+
 function detailPanel(t, key){
   const val = esc(notes[key] || '');
   return '<div class="dlabel">Streckens utveckling</div>' +
     chart(key) +
     '<div class="dlabel">Lagdata</div>' +
     '<div class="teamgrid">' + teamBox(t.home) + teamBox(t.away) + '</div>' +
+    h2hBlock(t) +
     '<div class="dlabel">Anteckningar</div>' +
     '<textarea class="injury" data-key="' + key + '" ' +
       'placeholder="Skador, avstängningar, egna tankar inför matchen…">' + val + '</textarea>' +
-    '<div class="note">V–O–F är vinster, oavgjorda och förluster totalt. ' +
+    '<div class="note">Tryck på ett lagnamn för dess senaste matcher, ' +
+    'eller på ligans namn högst upp för hela tabellen. ' +
+    'V–O–F är vinster, oavgjorda och förluster totalt. ' +
     'Formraderna visar de fem senaste matcherna, senast först — grönt vinst, ' +
-    'grått oavgjort, rött förlust. Tryck på ligans namn högst upp för hela tabellen.</div>';
+    'grått oavgjort, rött förlust.</div>';
 }
 
 /* ---------- uppritning ---------- */
@@ -881,6 +975,14 @@ function render(draw, keep){
     const toggle = () => card.classList.toggle('open');
     card.querySelector('.mteams').addEventListener('click', toggle);
     card.querySelector('.chev').addEventListener('click', toggle);
+
+    card.querySelectorAll('.tlink').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = Number(btn.dataset.team);
+        openMatches(id, btn.dataset.name,
+          (formIndex[id] || []).slice(0, 10), 'Senaste matcherna');
+      });
+    });
 
     const lb = card.querySelector('.leaguebtn');
     if (lb) lb.addEventListener('click', e => {
