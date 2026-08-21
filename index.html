@@ -265,6 +265,19 @@ table.tbl .mal{display:none}
 .smarks .empty{background:transparent;border:1px dashed var(--rule);color:var(--ink-faint)}
 .reset{background:var(--mid-bg);border:1px solid rgba(156,106,24,.3);border-radius:3px;
   padding:9px 10px;margin:8px 0 11px;font-size:12.5px;color:var(--mid);line-height:1.45}
+.rowbox{border:1px solid var(--rule);border-radius:3px;padding:12px;margin-top:14px;
+  background:#fff}
+.rowbox.in{border-color:var(--ink);border-width:1.5px}
+.rowhead{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;
+  text-transform:uppercase;letter-spacing:.01em}
+.rowsub{font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.4}
+.rowres{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink-soft);
+  margin-top:9px;padding-top:9px;border-top:1px solid var(--rule)}
+.rowres b{font-size:22px;color:var(--ink);font-weight:600;margin-right:4px}
+.rowpend{font-size:12.5px;color:var(--ink-faint);margin-top:9px;padding-top:9px;
+  border-top:1px solid var(--rule);line-height:1.4}
+.rowlock{font-size:12.5px;color:var(--mid);margin-top:9px;line-height:1.4}
+.rowbox button[disabled]{opacity:.35;cursor:not-allowed}
 .totals{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;padding-top:11px;
   border-top:2px solid var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px}
 .totals b{display:block;font-size:19px;font-weight:600;margin-top:1px}
@@ -435,13 +448,14 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-21 n';
+const VERSION = '2026-08-21 o';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
 let picks = {}, notes = {}, events = [], drawInfo = {};
 let fdIndex = [], fdComps = {}, formIndex = {}, h2hIndex = {}, hasPast = false;
 let notesDirty = false, drawStamp = null, notesReset = null;
+let rowsFile = {rounds:{}};
 let histIndex = {};   // {matchId: [{t, o:[1,X,2], d:[1,X,2]}]}
 let sheetComp = null, sheetTab = 'TOTAL', sheetHl = [];
 
@@ -1215,10 +1229,16 @@ function refresh(){
       '<div><span>Halvgard.</span><b>' + half + '</b></div>' +
       '<div><span>Helgard.</span><b>' + full + '</b></div>' +
     '</div>' +
+    rowPanel() +
     '<div class="btnrow" style="margin-top:14px">' +
       '<button id="savenotes">' + (notesDirty ? 'Spara anteckningar •' : 'Spara anteckningar') + '</button>' +
       '<button class="ghost" id="settoken">' + (getToken() ? 'Byt nyckel' : 'Koppla GitHub') + '</button>' +
     '</div><div id="savemsg"></div>';
+
+  const sr = document.getElementById('saverow');
+  if (sr) sr.addEventListener('click', submitRow);
+  const dr = document.getElementById('delrow');
+  if (dr) dr.addEventListener('click', removeRow);
 
   document.getElementById('savenotes').addEventListener('click', saveNotes);
   document.getElementById('settoken').addEventListener('click', () => {
@@ -1226,6 +1246,136 @@ function refresh(){
     tb.classList.toggle('hidden');
     if (!tb.classList.contains('hidden')) tb.scrollIntoView({behavior:'smooth'});
   });
+}
+
+/* ---------- inlämnad rad ---------- */
+const drawKey = () => String(drawInfo.drawNumber || '');
+const savedRound = () => rowsFile.rounds[drawKey()] || null;
+
+function isLocked(){
+  const t = drawInfo.regCloseTime;
+  if (!t) return false;
+  return Date.now() > +new Date(t);
+}
+
+function closeText(){
+  const t = drawInfo.regCloseTime;
+  if (!t) return '';
+  const d = new Date(t);
+  return d.toLocaleString('sv-SE', {weekday:'long', hour:'2-digit', minute:'2-digit'});
+}
+
+function rowPanel(){
+  const saved = savedRound();
+  const locked = isLocked();
+  const marked = events.filter((e,i) => (picks[i]||[]).length).length;
+  const complete = marked === events.length && events.length > 0;
+
+  if (saved){
+    const n = Object.keys(saved.picks || {}).length;
+    const res = saved.result
+      ? '<div class="rowres"><b>' + saved.correct + ' rätt</b> av ' + n + ' matcher</div>'
+      : '<div class="rowpend">Facit hämtas automatiskt när matcherna spelats.</div>';
+    return '<div class="rowbox in">' +
+      '<div class="rowhead">Raden är inlämnad</div>' +
+      '<div class="rowsub">' + (saved.savedAt
+        ? 'Sparad ' + new Date(saved.savedAt).toLocaleString('sv-SE',
+            {weekday:'short', hour:'2-digit', minute:'2-digit'}) : '') + '</div>' +
+      res +
+      (locked
+        ? '<div class="rowlock">Kupongen har stängt. Raden går inte längre att ändra.</div>'
+        : '<div class="btnrow"><button class="ghost" id="delrow">Ta bort raden</button></div>') +
+      '<div id="rowmsg"></div></div>';
+  }
+
+  if (locked){
+    return '<div class="rowbox"><div class="rowhead">Ingen rad inlämnad</div>' +
+      '<div class="rowlock">Kupongen stängde ' + closeText() + '.</div></div>';
+  }
+
+  return '<div class="rowbox">' +
+    '<div class="rowhead">Lämna in raden</div>' +
+    '<div class="rowsub">' + (complete
+      ? 'Låses när kupongen stänger ' + closeText() + '.'
+      : 'Markera alla ' + events.length + ' matcher först.') + '</div>' +
+    '<div class="btnrow"><button id="saverow"' + (complete ? '' : ' disabled') +
+      '>Lämna in</button></div>' +
+    '<div id="rowmsg"></div></div>';
+}
+
+async function saveRows(payload, message){
+  const token = getToken();
+  const msg = document.getElementById('rowmsg');
+  if (!token){
+    msg.className = 'err';
+    msg.textContent = 'Ingen nyckel sparad. Tryck på Koppla GitHub först.';
+    return false;
+  }
+
+  msg.className = 'status';
+  msg.textContent = 'Sparar…';
+
+  const api = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/rows.json';
+  const head = {Authorization:'Bearer ' + token, Accept:'application/vnd.github+json'};
+
+  try {
+    let sha = null;
+    const cur = await fetch(api + '?ref=' + BRANCH, {headers: head});
+    if (cur.ok) sha = (await cur.json()).sha;
+    else if (cur.status === 401) throw new Error('Nyckeln godtogs inte.');
+
+    const res = await fetch(api, {
+      method:'PUT', headers: head,
+      body: JSON.stringify({
+        message: message,
+        content: b64(JSON.stringify(payload, null, 1)),
+        branch: BRANCH,
+        sha: sha || undefined
+      })
+    });
+    if (!res.ok){
+      const e = await res.json().catch(() => ({}));
+      throw new Error(e.message || ('GitHub svarade ' + res.status));
+    }
+    rowsFile = payload;
+    return true;
+  } catch (e){
+    msg.className = 'err';
+    msg.textContent = 'Kunde inte spara: ' + e.message;
+    return false;
+  }
+}
+
+async function submitRow(){
+  if (isLocked()){ refresh(); return; }
+
+  const picksOut = {}, matches = {};
+  events.forEach((ev, i) => {
+    const sel = picks[i] || [];
+    if (!sel.length) return;
+    const k = keyOf(ev), t = sides(ev);
+    picksOut[k] = sel;
+    matches[k] = {n: ev.eventNumber || i+1, home: t.home.name, away: t.away.name};
+  });
+
+  const next = {rounds: Object.assign({}, rowsFile.rounds)};
+  next.rounds[drawKey()] = {
+    savedAt: new Date().toISOString(),
+    closeTime: drawInfo.regCloseTime || null,
+    label: drawInfo.drawComment || null,
+    picks: picksOut,
+    matches: matches,
+    result: null
+  };
+
+  if (await saveRows(next, 'Lämnade in rad för omgång ' + drawKey())) refresh();
+}
+
+async function removeRow(){
+  if (isLocked()){ refresh(); return; }
+  const next = {rounds: Object.assign({}, rowsFile.rounds)};
+  delete next.rounds[drawKey()];
+  if (await saveRows(next, 'Tog bort rad för omgång ' + drawKey())) refresh();
 }
 
 /* ---------- spara anteckningar ---------- */
@@ -1306,9 +1456,11 @@ async function grab(name){
 }
 
 async function loadAll(keep){
-  const [draw, fd, nt, hi] = await Promise.all([
-    grab('data.json'), grab('football.json'), grab('notes.json'), grab('history.json')
+  const [draw, fd, nt, hi, rw] = await Promise.all([
+    grab('data.json'), grab('football.json'), grab('notes.json'),
+    grab('history.json'), grab('rows.json')
   ]);
+  rowsFile = (rw && rw.rounds) ? rw : {rounds:{}};
   if (!draw) throw new Error('data.json saknas');
 
   buildIndex(fd);
