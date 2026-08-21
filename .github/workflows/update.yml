@@ -19,10 +19,13 @@ env:
     [.matches[]
      | select(.score.fullTime.home != null)
      | {d: .utcDate,
+        c: $c,
+        md: .matchday,
         h: .homeTeam.id, a: .awayTeam.id,
         hn: (.homeTeam.shortName // .homeTeam.name),
         an: (.awayTeam.shortName // .awayTeam.name),
-        hg: .score.fullTime.home, ag: .score.fullTime.away}]
+        hg: .score.fullTime.home, ag: .score.fullTime.away,
+        hh: .score.halfTime.home, ah: .score.halfTime.away}]
 
 jobs:
   hamta:
@@ -69,7 +72,7 @@ jobs:
           jq empty st-PL.json st-ELC.json ma-PL.json ma-ELC.json
 
           for code in PL ELC; do
-            jq "$TRIM" "ma-$code.json" > "sm-$code.json"
+            jq --arg c "$code" "$TRIM" "ma-$code.json" > "sm-$code.json"
           done
 
       # Egen steg eftersom gratisnivån kan neka historiska säsonger.
@@ -86,7 +89,7 @@ jobs:
               if curl -sS -f -H "X-Auth-Token: $FD" \
                    "https://api.football-data.org/v4/competitions/$code/matches?status=FINISHED&season=$season" \
                    -o "old-$code-$season.json"; then
-                jq "$TRIM" "old-$code-$season.json" > "po-$code-$season.json"
+                jq --arg c "$code" "$TRIM" "old-$code-$season.json" > "po-$code-$season.json"
               else
                 echo "Säsong $season för $code nekades eller saknas."
                 ok=0
