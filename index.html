@@ -158,8 +158,7 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .mven{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint);
   border:1px solid var(--rule);border-radius:2px;padding:1px 3px;min-width:17px;text-align:center}
 .mopp{flex:1;min-width:0;font-size:14px;line-height:1.25}
-.mpos{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:9.5px;
-  color:var(--ink-faint);margin-left:5px}
+.mfix{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mmeta2{display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;
   color:var(--ink-faint);margin-top:1px;letter-spacing:.02em}
 .mres{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600}
@@ -403,7 +402,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-21 g';
+const VERSION = '2026-08-21 h';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -523,17 +522,17 @@ function buildIndex(fd){
   // fylls inte i på gratisnivån, så vi kan inte använda det.
   const addMatch = m => {
     if (m.hg == null || m.ag == null) return;
-    const res = (id, oppId, opp, gf, ga, hf, ha, atHome) => {
+    const res = (id, own, oppId, opp, gf, ga, hf, ha, atHome) => {
       if (!formIndex[id]) formIndex[id] = [];
       formIndex[id].push({
-        d: m.d, home: atHome, opp: opp, oppId: oppId,
+        d: m.d, home: atHome, own: own, opp: opp, oppId: oppId,
         c: m.c, md: m.md,
         r: gf > ga ? 'V' : gf < ga ? 'F' : 'O',
         gf: gf, ga: ga, hf: hf, ha: ha
       });
     };
-    res(m.h, m.a, m.an, m.hg, m.ag, m.hh, m.ah, true);
-    res(m.a, m.h, m.hn, m.ag, m.hg, m.ah, m.hh, false);
+    res(m.h, m.hn, m.a, m.an, m.hg, m.ag, m.hh, m.ah, true);
+    res(m.a, m.an, m.h, m.hn, m.ag, m.hg, m.ah, m.hh, false);
   };
 
   if (fd.results){
@@ -752,21 +751,32 @@ function matchList(list, showMeta){
            'Inga matcher att visa.</p>';
 
   return '<div class="mlist">' + list.map(m => {
-    const pos = posOf(m.oppId);
+    // Alltid hemmalaget först, med målen i samma ordning.
+    const homeName = m.home ? m.own : m.opp;
+    const awayName = m.home ? m.opp : m.own;
+    const homeGoals = m.home ? m.gf : m.ga;
+    const awayGoals = m.home ? m.ga : m.gf;
+    const homeHalf = m.home ? m.hf : m.ha;
+    const awayHalf = m.home ? m.ha : m.hf;
+
     const bits = [];
     if (showMeta !== false){
       if (m.c) bits.push(LEAGUE_SHORT[m.c] || m.c);
       if (m.md) bits.push('omg ' + m.md);
-      if (m.hf != null && m.ha != null) bits.push('halvtid ' + m.hf + '–' + m.ha);
+      if (homeHalf != null && awayHalf != null)
+        bits.push('halvtid ' + homeHalf + '–' + awayHalf);
+      const pos = posOf(m.oppId);
+      if (pos) bits.push('motst. ' + pos);
     }
+
     return '<div class="mrow">' +
       '<span class="mdate">' + shortDate(m.d) + '</span>' +
       '<span class="mven">' + (m.home ? 'H' : 'B') + '</span>' +
-      '<span class="mopp">' + esc(m.opp || '—') +
-        (pos ? '<em class="mpos">' + pos + '</em>' : '') +
+      '<span class="mopp">' +
+        '<span class="mfix">' + esc(homeName || '—') + ' – ' + esc(awayName || '—') + '</span>' +
         (bits.length ? '<span class="mmeta2">' + bits.join(' · ') + '</span>' : '') +
       '</span>' +
-      '<span class="mres">' + m.gf + '–' + m.ga + '</span>' +
+      '<span class="mres">' + homeGoals + '–' + awayGoals + '</span>' +
       '<i class="mout f-' + m.r + '">' + m.r + '</i>' +
     '</div>';
   }).join('') + '</div>';
@@ -904,7 +914,8 @@ function h2hBlock(t){
   const rows = list.map(m => {
     const home = m.h === me;
     const gf = home ? m.hg : m.ag, ga = home ? m.ag : m.hg;
-    return {d: m.d, home: home, opp: home ? m.an : m.hn,
+    return {d: m.d, home: home,
+            own: home ? m.hn : m.an, opp: home ? m.an : m.hn,
             oppId: home ? m.a : m.h, c: m.c, md: m.md,
             hf: home ? m.hh : m.ah, ha: home ? m.ah : m.hh,
             gf: gf, ga: ga, r: gf > ga ? 'V' : gf < ga ? 'F' : 'O'};
