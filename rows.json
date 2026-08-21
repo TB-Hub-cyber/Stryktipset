@@ -1,0 +1,123 @@
+{
+ "rounds": {
+  "4967": {
+   "savedAt": "2026-08-21T14:38:01.108Z",
+   "closeTime": "2026-08-22T15:59:00+02:00",
+   "label": "Stryktipset v. 2026-34",
+   "picks": {
+    "91746": [
+     "x",
+     "two"
+    ],
+    "91748": [
+     "x",
+     "two"
+    ],
+    "91750": [
+     "x",
+     "two"
+    ],
+    "91751": [
+     "one"
+    ],
+    "91752": [
+     "x"
+    ],
+    "91754": [
+     "two"
+    ],
+    "91755": [
+     "two"
+    ],
+    "91761": [
+     "two"
+    ],
+    "91764": [
+     "one"
+    ],
+    "91770": [
+     "one",
+     "x"
+    ],
+    "91772": [
+     "one",
+     "two"
+    ],
+    "91778": [
+     "x"
+    ],
+    "91779": [
+     "one"
+    ]
+   },
+   "matches": {
+    "91746": {
+     "n": 6,
+     "home": "Derby",
+     "away": "Cardiff"
+    },
+    "91748": {
+     "n": 5,
+     "home": "Blackburn",
+     "away": "Middlesbrough"
+    },
+    "91750": {
+     "n": 1,
+     "home": "Brentford",
+     "away": "Tottenham"
+    },
+    "91751": {
+     "n": 9,
+     "home": "Southampton",
+     "away": "Stoke"
+    },
+    "91752": {
+     "n": 12,
+     "home": "Wrexham",
+     "away": "Watford"
+    },
+    "91754": {
+     "n": 3,
+     "home": "Ipswich",
+     "away": "Sunderland"
+    },
+    "91755": {
+     "n": 13,
+     "home": "Wimbledon",
+     "away": "Reading"
+    },
+    "91761": {
+     "n": 4,
+     "home": "Nottingham",
+     "away": "Leeds"
+    },
+    "91764": {
+     "n": 8,
+     "home": "Queens Park Rangers",
+     "away": "Bolton"
+    },
+    "91770": {
+     "n": 10,
+     "home": "Swansea",
+     "away": "Sheffield U"
+    },
+    "91772": {
+     "n": 2,
+     "home": "Everton",
+     "away": "Crystal Palace"
+    },
+    "91778": {
+     "n": 7,
+     "home": "Preston",
+     "away": "Wolverhampton"
+    },
+    "91779": {
+     "n": 11,
+     "home": "West Ham",
+     "away": "Charlton"
+    }
+   },
+   "result": null
+  }
+ }
+}
