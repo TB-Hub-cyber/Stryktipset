@@ -258,11 +258,15 @@ table.tbl .mal{display:none}
 .snum{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-faint);min-width:16px}
 .steams{flex:1;min-width:0;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.smarks{display:flex;gap:3px}
-.smarks i{font-style:normal;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;
-  width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;
-  background:var(--ink);color:var(--card)}
-.smarks .empty{background:transparent;border:1px dashed var(--rule);color:var(--ink-faint)}
+.smarks{display:grid;grid-template-columns:repeat(3,21px);gap:4px;flex-shrink:0}
+.smarks i{font-style:normal;font-family:'Barlow Condensed',sans-serif;font-weight:700;
+  font-size:13px;width:21px;height:21px;display:flex;align-items:center;
+  justify-content:center;border-radius:50%;box-sizing:border-box}
+.smarks i.on{background:var(--ink);color:var(--card)}
+.smarks i.off{background:transparent;color:#D8DAD3;border:1px solid #ECEDE8}
+.smarks i.hit{background:var(--high);color:#fff}
+.smarks i.miss{background:transparent;color:var(--low);border:1.5px solid var(--low)}
+.smarks i.facit{background:transparent;color:var(--ink-faint);border:1.5px dashed var(--ink-faint)}
 .reset{background:var(--mid-bg);border:1px solid rgba(156,106,24,.3);border-radius:3px;
   padding:9px 10px;margin:8px 0 11px;font-size:12.5px;color:var(--mid);line-height:1.45}
 .tokenstate{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;
@@ -281,6 +285,12 @@ table.tbl .mal{display:none}
 .rowpend{font-size:12.5px;color:var(--ink-faint);margin-top:9px;padding-top:9px;
   border-top:1px solid var(--rule);line-height:1.4}
 .rowlock{font-size:12.5px;color:var(--mid);margin-top:9px;line-height:1.4}
+.rowlist{margin-top:11px;border-top:1px solid var(--rule)}
+.rowlist .srow{border-top:1px solid #EDEEEA;padding:5px 0}
+.rowlist .srow:first-child{border-top:none}
+.rowlist .srow.ok .steams{color:var(--ink)}
+.rowlist .srow.no .steams{color:var(--ink-faint)}
+.rowkey{font-size:11px;color:var(--ink-faint);margin-top:9px;line-height:1.45}
 .rowbox button[disabled]{opacity:.35;cursor:not-allowed}
 .totals{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;padding-top:11px;
   border-top:2px solid var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px}
@@ -454,7 +464,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-21 q';
+const VERSION = '2026-08-21 r';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1249,9 +1259,8 @@ function refresh(){
                 : 'Markera minst ett tecken i varje match för att se antal rader.') + '</p>' +
     events.map((ev,i) => {
       const sel = picks[i] || [], t = sides(ev);
-      const marks = sel.length
-        ? OUT.filter(k => sel.indexOf(k) > -1).map(k => '<i>' + LBL[k] + '</i>').join('')
-        : '<i class="empty">–</i>';
+      const marks = OUT.map(k =>
+        '<i class="' + (sel.indexOf(k) > -1 ? 'on' : 'off') + '">' + LBL[k] + '</i>').join('');
       return '<div class="srow">' +
         '<span class="snum">' + (ev.eventNumber || i+1) + '</span>' +
         '<span class="steams">' + esc(t.home.name) + ' – ' + esc(t.away.name) +
@@ -1315,15 +1324,48 @@ function rowPanel(){
   const complete = marked === events.length && events.length > 0;
 
   if (saved){
-    const n = Object.keys(saved.picks || {}).length;
-    const res = saved.result
-      ? '<div class="rowres"><b>' + saved.correct + ' rätt</b> av ' + n + ' matcher</div>'
+    const facit = saved.result || null;
+
+    // Matcherna i nummerordning, med lagnamnen som sparades vid inlämningen.
+    const list = Object.keys(saved.matches || {})
+      .map(k => ({key: k, m: saved.matches[k], sel: (saved.picks || {})[k] || []}))
+      .sort((a,b) => (a.m.n || 0) - (b.m.n || 0));
+
+    const rows = list.map(item => {
+      const right = facit ? facit[item.key] : null;
+      const hit = right && item.sel.indexOf(right) > -1;
+
+      const marks = OUT.map(k => {
+        const chosen = item.sel.indexOf(k) > -1;
+        let cls = chosen ? 'on' : 'off';
+        if (facit){
+          if (chosen && k === right) cls = 'hit';
+          // Andra halvan av en gardering som gick in är inte en miss.
+          else if (chosen) cls = hit ? 'on' : 'miss';
+          else if (k === right) cls = 'facit';
+        }
+        return '<i class="' + cls + '">' + LBL[k] + '</i>';
+      }).join('');
+
+      return '<div class="srow' + (facit ? (hit ? ' ok' : ' no') : '') + '">' +
+        '<span class="snum">' + (item.m.n || '') + '</span>' +
+        '<span class="steams">' + esc(item.m.home) + ' – ' + esc(item.m.away) + '</span>' +
+        '<span class="smarks">' + marks + '</span></div>';
+    }).join('');
+
+    const res = facit
+      ? '<div class="rowres"><b>' + saved.correct + ' rätt</b> av ' + list.length + ' matcher</div>'
       : '<div class="rowpend">Facit hämtas automatiskt när matcherna spelats.</div>';
+
     return '<div class="rowbox in">' +
-      '<div class="rowhead">Raden är inlämnad</div>' +
+      '<div class="rowhead">Inlämnad rad</div>' +
       '<div class="rowsub">' + (saved.savedAt
         ? 'Sparad ' + new Date(saved.savedAt).toLocaleString('sv-SE',
-            {weekday:'short', hour:'2-digit', minute:'2-digit'}) : '') + '</div>' +
+            {weekday:'short', hour:'2-digit', minute:'2-digit'}) : '') +
+        (facit ? ' · rättad' : '') + '</div>' +
+      '<div class="rowlist">' + rows + '</div>' +
+      (facit ? '<div class="rowkey">Fyllt grönt = rätt · rödrandigt = ditt val som ' +
+        'missade · streckat = facit du inte hade</div>' : '') +
       res +
       (locked
         ? '<div class="rowlock">Kupongen har stängt. Raden går inte längre att ändra.</div>'
