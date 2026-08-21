@@ -2,9 +2,7 @@ name: Hämta stryktipsomgång
 
 on:
   schedule:
-    # Var tredje timme i vanliga fall.
     - cron: "0 */3 * * *"
-    # Varje timme fredag, lördag och söndag, när oddsen rör sig mest.
     - cron: "0 * * * 5,6,0"
   workflow_dispatch:
 
@@ -37,12 +35,14 @@ jobs:
 
           rm raw.json
 
+      - name: Spara ögonblicksbild i historiken
+        run: python3 .github/scripts/history.py
+
       - name: Hämta tabeller och resultat från football-data.org
         continue-on-error: true
         env:
           FD: ${{ secrets.FOOTBALL_DATA_TOKEN }}
         run: |
-          # Gratisnivån tillåter tio anrop per minut, därav pauserna.
           for code in PL ELC; do
             curl -sS -f -H "X-Auth-Token: $FD" \
               "https://api.football-data.org/v4/competitions/$code/standings" \
@@ -57,7 +57,6 @@ jobs:
 
           jq empty st-PL.json st-ELC.json ma-PL.json ma-ELC.json
 
-          # Behåll bara det formuträkningen behöver, annars växer filen i onödan.
           for code in PL ELC; do
             jq '[.matches[]
                  | select(.score.fullTime.home != null)
@@ -87,6 +86,7 @@ jobs:
 
           git add data.json || true
           git add football.json || true
+          git add history.json || true
 
           if git diff --staged --quiet; then
             echo "Ingen förändring sedan förra hämtningen."
