@@ -476,13 +476,14 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-22 z';
+const VERSION = '2026-08-22 aa';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
 let picks = {}, notes = {}, events = [], drawInfo = {};
 let fdIndex = [], fdComps = {}, formIndex = {}, h2hIndex = {}, hasPast = false;
 let notesDirty = false, drawStamp = null, notesReset = null;
+let noOpenDraw = false;
 let rowsFile = {rounds:{}};
 let histIndex = {};   // {matchId: [{t, o:[1,X,2], d:[1,X,2]}]}
 let sheetComp = null, sheetTab = 'TOTAL', sheetHl = [];
@@ -1650,6 +1651,7 @@ async function loadAll(keep){
   render(drawObj, keep);
   drawStamp = draw.fetchedAt || null;
   stampLine(draw, fd);
+  noOpenDraw = !!draw.noOpenDraw;
   return draw;
 }
 
@@ -1665,6 +1667,7 @@ function stampLine(draw, fd){
     (d ? 'Hämtad ' + d.toLocaleString('sv-SE',
          {weekday:'short', hour:'2-digit', minute:'2-digit'}) + agetxt : '') +
     (fd ? '' : ' · ingen tabelldata') +
+    (draw.noOpenDraw ? ' · omgången stängd' : '') +
     '<button id="refresh">uppdatera</button>' +
     '<button id="manual">klistra in själv</button>' +
     '<div style="margin-top:3px;opacity:.6">Appversion ' + VERSION + '</div>';
