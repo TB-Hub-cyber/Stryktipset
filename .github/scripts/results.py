@@ -18,12 +18,13 @@ from datetime import datetime, timezone
 ROWS = "rows.json"
 HIST = "history.json"
 API = "https://api.spela.svenskaspel.se/draw/1/stryktipset/draws/%s"
+RESULT_API = "https://api.spela.svenskaspel.se/draw/1/stryktipset/draws/%s/result"
 OUTCOMES = ["one", "x", "two"]
 
 
-def fetch(draw_number):
+def fetch(url):
     req = urllib.request.Request(
-        API % draw_number,
+        url,
         headers={"User-Agent": "stryktips-hobbyprojekt",
                  "Accept": "application/json"},
     )
@@ -31,42 +32,37 @@ def fetch(draw_number):
         return json.load(resp)
 
 
-def outcome_from(event):
-    """Försöker lista ut 1, X eller 2 ur en spelad match."""
-    result = event.get("result")
+SIGNS = {"1": "one", "X": "x", "2": "two"}
 
-    # Form A: lista med delresultat, fulltid sist eller markerat.
-    if isinstance(result, list) and result:
-        best = None
-        for item in result:
-            if not isinstance(item, dict):
-                continue
-            home = item.get("home", item.get("homeScore"))
-            away = item.get("away", item.get("awayScore"))
-            if home is None or away is None:
-                continue
-            kind = str(item.get("type", item.get("period", ""))).lower()
-            if "full" in kind or "final" in kind:
-                best = (home, away)
-                break
-            best = (home, away)
-        if best:
-            return sign(best[0], best[1])
 
-    # Form B: färdigt tecken någonstans i eventet.
-    for key in ("outcome", "winner", "sign"):
-        value = event.get(key)
-        if isinstance(value, str) and value.strip().upper() in ("1", "X", "2"):
-            return {"1": "one", "X": "x", "2": "two"}[value.strip().upper()]
+def read_result(draw_number):
+    """Facit ligger på en egen adress som publiceras när omgången rättats.
 
-    # Form C: målen ligger direkt på matchen.
-    match = event.get("match") or {}
-    home = match.get("homeScore", match.get("home"))
-    away = match.get("awayScore", match.get("away"))
-    if isinstance(home, int) and isinstance(away, int):
-        return sign(home, away)
+    Varje match har outcome som 1, X eller 2, och outcomeScore med målen.
+    Där finns även utdelningen per vinstgrupp.
+    """
+    payload = fetch(RESULT_API % draw_number)
+    result = payload.get("result") or {}
+    events = result.get("events") or []
 
-    return None
+    facit, scores = {}, {}
+    for event in events:
+        key = str(event.get("matchId") or event.get("eventNumber") or "")
+        sign = SIGNS.get(str(event.get("outcome") or "").strip().upper())
+        if not key or not sign:
+            continue
+        facit[key] = sign
+        score = event.get("outcomeScore") or {}
+        if score.get("home") is not None and score.get("away") is not None:
+            scores[key] = {"h": score["home"], "a": score["away"]}
+
+    payouts = []
+    for row in result.get("distribution") or []:
+        payouts.append({"name": row.get("name"),
+                        "winners": row.get("winners"),
+                        "amount": row.get("amount")})
+
+    return facit, scores, payouts
 
 
 def sign(home, away):
@@ -162,40 +158,13 @@ def main():
             continue
 
         try:
-            payload = fetch(number)
-        except Exception as exc:                      # nätverk eller 404
-            print("Kunde inte hämta omgång %s: %s" % (number, exc))
+            facit, scores, payouts = read_result(number)
+        except Exception as exc:
+            print("Facit för omgång %s inte publicerat än (%s)." % (number, exc))
             continue
 
-        draw = payload.get("draw") or payload
-        if "draws" in draw:
-            draw = draw["draws"][0]
-
-        events = [e for e in draw.get("drawEvents", []) if e.get("eventTypeId") != 2]
-        if not events:
-            print("Omgång %s saknar matcher i svaret." % number)
-            continue
-
-        facit = {}
-        raw = {}
-        pending = 0
-
-        for event in events:
-            key = str((event.get("match") or {}).get("matchId") or event.get("eventNumber"))
-            outcome = outcome_from(event)
-            if outcome:
-                facit[key] = outcome
-            else:
-                pending += 1
-                raw[key] = event.get("result")
-
-        if pending:
-            print("Omgång %s: %d av %d matcher saknar facit än." %
-                  (number, pending, len(events)))
-            # Spara rådatan en gång så formen går att granska.
-            if raw and not entry.get("rawSample"):
-                entry["rawSample"] = raw
-                changed = True
+        if not facit:
+            print("Omgång %s: facit tomt, försöker igen nästa körning." % number)
             continue
 
         picks = entry.get("picks") or {}
@@ -205,13 +174,18 @@ def main():
         closing = closing_values(number, entry.get("closeTime"))
 
         entry["result"] = facit
+        entry["scores"] = scores
+        entry["payouts"] = payouts
         entry["closing"] = closing
         entry["correct"] = correct
         entry["gradedAt"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         entry.pop("rawSample", None)
         changed = True
 
-        print("Omgång %s rättad: %d rätt av %d." % (number, correct, len(events)))
+        print("Omgång %s rättad: %d rätt av %d." % (number, correct, len(facit)))
+        for row in payouts[:2]:
+            print("  %s: %s vinnare, %s kr" %
+                  (row["name"], row["winners"], row["amount"]))
         if closing:
             sample = next(iter(closing.values()))
             print("Stängningsvärden sparade från mätningen %s." % sample.get("t"))
