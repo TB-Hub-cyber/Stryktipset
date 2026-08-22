@@ -48,13 +48,21 @@ jobs:
 
           jq empty raw.json
 
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
           # Mellan stopptid och nästa öppning svarar Svenska Spel med en tom
-          # lista. Skriver vi över data.json då tappar appen hela kupongen.
+          # lista. Kupongen behålls då, men tidsstämpeln uppdateras ändå —
+          # annars kan appen inte se skillnad på "inget nytt" och "trasigt".
           if [ "$(jq '.draws | length' raw.json)" -eq 0 ]; then
-            echo "Ingen öppen omgång just nu — behåller föregående data.json."
+            if [ -f data.json ]; then
+              jq --arg t "$NOW" '.fetchedAt = $t | .noOpenDraw = true' \
+                data.json > tmp.json && mv tmp.json data.json
+              echo "Ingen öppen omgång — behåller kupongen, uppdaterar tidsstämpeln."
+            else
+              echo "Ingen öppen omgång och ingen tidigare data att behålla."
+            fi
           else
-            jq --arg t "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-              '{fetchedAt: $t, draw: .}' raw.json > data.json
+            jq --arg t "$NOW" '{fetchedAt: $t, draw: .}' raw.json > data.json
           fi
 
           rm raw.json
