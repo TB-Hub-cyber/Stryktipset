@@ -110,7 +110,7 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .pickbtn:focus-visible{outline:2px solid var(--ink);outline-offset:-3px}
 .cellinner{position:relative;z-index:2;pointer-events:none;display:flex;
   flex-direction:column;align-items:center;text-align:center;padding:8px 2px 9px}
-.sign{display:flex;align-items:center;justify-content:center;
+.sign{display:flex;align-items:center;justify-content:center;line-height:1;
   font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;
   width:23px;height:23px;border-radius:50%;color:var(--ink-soft);margin-bottom:4px;
   transition:background .12s, color .12s}
@@ -165,8 +165,9 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .pending{background:repeating-linear-gradient(90deg,#E9EAE5 0 6px,transparent 6px 10px);
   color:transparent;border-radius:2px;min-width:38px;display:inline-block;height:10px}
 .form{display:inline-flex;gap:2px}
-.form i{font-style:normal;font-size:9px;font-weight:600;width:13px;height:13px;line-height:13px;
-  text-align:center;border-radius:2px;color:#fff}
+.form i{font-style:normal;font-size:9px;font-weight:600;width:13px;height:13px;
+  line-height:1;display:flex;align-items:center;justify-content:center;
+  border-radius:2px;color:#fff}
 .form .f-V{background:var(--high)} .form .f-O{background:var(--ink-faint)} .form .f-F{background:var(--low)}
 .nodata{font-size:11.5px;color:var(--ink-faint);line-height:1.4;padding-top:5px;border-top:1px solid #EDEEEA}
 .mlist{font-family:'Barlow',sans-serif}
@@ -181,8 +182,9 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .mmeta2{display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;
   color:var(--ink-faint);margin-top:1px;letter-spacing:.02em}
 .mres{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600}
-.mout{font-style:normal;font-size:9.5px;font-weight:600;width:16px;height:16px;line-height:16px;
-  text-align:center;border-radius:2px;color:#fff;display:inline-block}
+.mout{font-style:normal;font-size:9.5px;font-weight:600;width:16px;height:16px;
+  line-height:1;display:inline-flex;align-items:center;justify-content:center;
+  border-radius:2px;color:#fff}
 .mout.f-V{background:var(--high)} .mout.f-O{background:var(--ink-faint)} .mout.f-F{background:var(--low)}
 .tlink{background:none;border:none;padding:0;font-family:'Barlow Condensed',sans-serif;
   font-weight:600;font-size:16px;line-height:1.1;color:var(--ink);text-transform:none;
@@ -266,7 +268,7 @@ table.tbl .mal{display:none}
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .smarks{display:grid;grid-template-columns:repeat(3,21px);gap:4px;flex-shrink:0}
 .smarks i{font-style:normal;font-family:'Barlow Condensed',sans-serif;font-weight:700;
-  font-size:13px;width:21px;height:21px;display:flex;align-items:center;
+  font-size:13px;line-height:1;width:21px;height:21px;display:flex;align-items:center;
   justify-content:center;border-radius:50%;box-sizing:border-box}
 .smarks i.on{background:var(--ink);color:var(--card)}
 .smarks i.off{background:transparent;color:#D8DAD3;border:1px solid #ECEDE8}
@@ -476,7 +478,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-22 aa';
+const VERSION = '2026-08-22 ab';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -742,7 +744,10 @@ function formOf(teamId, filter){
   let list = formIndex[teamId] || [];
   if (filter === 'home') list = list.filter(m => m.home);
   if (filter === 'away') list = list.filter(m => !m.home);
-  return list.slice(0, 5);
+  // Indexet är sorterat med senaste först. Vi tar de fem senaste och vänder
+  // dem, så att raden läses som en tidslinje: äldst till vänster, senast
+  // till höger. Samma riktning som utvecklingskurvan.
+  return list.slice(0, 5).reverse();
 }
 
 function formDots(list){
@@ -1105,7 +1110,7 @@ function detailPanel(t, key){
     'för utvecklingen dag för dag. Tryck på ett lagnamn för dess senaste matcher, ' +
     'eller på ligans namn högst upp för hela tabellen. ' +
     'V–O–F är vinster, oavgjorda och förluster totalt. ' +
-    'Formraderna visar de fem senaste matcherna, senast först — grönt vinst, ' +
+    'Formraderna visar de fem senaste matcherna, senast längst till höger — grönt vinst, ' +
     'grått oavgjort, rött förlust.</div>';
 }
 
