@@ -36,6 +36,46 @@ h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;
   font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;
   letter-spacing:.06em;text-decoration:underline;cursor:pointer}
 
+.viewnav{display:flex;gap:7px;margin:14px 0 4px}
+.viewnav button{background:transparent;color:var(--ink-soft);border:1px solid var(--rule);
+  font-size:14px;padding:7px 15px}
+.viewnav button.on{background:var(--ink);color:var(--card);border-color:var(--ink)}
+
+.stats h2{font-family:'Barlow Condensed',sans-serif;font-size:24px;text-transform:uppercase;
+  font-weight:700;margin:20px 0 4px}
+.stats h2:first-child{margin-top:6px}
+.stats p.lead{font-size:13px;color:var(--ink-soft);margin-bottom:11px;line-height:1.45}
+.statbox{background:var(--card);border:1px solid var(--rule);border-radius:3px;
+  padding:13px;margin-bottom:11px}
+.bignums{display:flex;gap:18px;flex-wrap:wrap}
+.bignums div{min-width:64px}
+.bignums span{display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+.bignums b{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:600;line-height:1.1}
+.bench{display:flex;justify-content:space-between;gap:9px;padding:6px 0;
+  border-top:1px solid #EDEEEA;font-family:'IBM Plex Mono',monospace;font-size:12.5px}
+.bench:first-of-type{border-top:none}
+.bench b{font-weight:600}
+.bench .good{color:var(--high)} .bench .bad{color:var(--low)}
+.bars{display:flex;align-items:flex-end;gap:5px;height:110px;margin:12px 0 4px}
+.bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;
+  height:100%}
+.bar i{display:block;width:100%;background:var(--ink);border-radius:2px 2px 0 0;min-height:2px}
+.bar u{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;
+  text-decoration:none;margin-bottom:3px}
+.bar em{font-family:'IBM Plex Mono',monospace;font-size:9px;font-style:normal;
+  color:var(--ink-faint);margin-top:4px}
+.signrow{display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid #EDEEEA;
+  font-family:'IBM Plex Mono',monospace;font-size:12.5px}
+.signrow:first-of-type{border-top:none}
+.signrow i{font-style:normal;font-family:'Barlow Condensed',sans-serif;font-weight:700;
+  font-size:14px;line-height:1;width:24px;height:24px;display:flex;align-items:center;
+  justify-content:center;border-radius:50%;background:var(--ink);color:var(--card);flex-shrink:0}
+.signrow .track{flex:1;height:6px;background:#E9EAE5;border-radius:3px;overflow:hidden}
+.signrow .track i{all:unset;display:block;height:100%;background:var(--high);border-radius:3px}
+.thin{font-size:12px;color:var(--ink-faint);line-height:1.5;margin-top:9px;
+  padding-top:9px;border-top:1px dashed var(--rule)}
+
 .loader,.tokenbox{background:var(--card);border:1px solid var(--rule);padding:14px;
   margin:16px 0;border-radius:3px}
 .loader h2,.tokenbox h2{font-family:'Barlow Condensed',sans-serif;font-size:19px;
@@ -117,10 +157,7 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .cell.picked .sign{background:var(--ink);color:var(--card)}
 .cell.locked .pickbtn{cursor:default}
 .sign.hit{background:var(--high)!important;color:#fff!important}
-.sign.miss{background:transparent!important;color:var(--low)!important;
-  box-shadow:inset 0 0 0 1.5px var(--low)}
-.sign.facit{background:transparent!important;color:var(--ink-faint)!important;
-  box-shadow:inset 0 0 0 1.5px var(--ink-faint)}
+.sign.wrong{background:var(--low)!important;color:#fff!important}
 .numbtn{pointer-events:auto;background:none;border:none;border-radius:3px;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;gap:0;padding:3px 7px 4px;
   margin:0;text-transform:none;letter-spacing:0;font-family:'Barlow',sans-serif;
@@ -273,8 +310,7 @@ table.tbl .mal{display:none}
 .smarks i.on{background:var(--ink);color:var(--card)}
 .smarks i.off{background:transparent;color:#D8DAD3;border:1px solid #ECEDE8}
 .smarks i.hit{background:var(--high);color:#fff}
-.smarks i.miss{background:transparent;color:var(--low);border:1.5px solid var(--low)}
-.smarks i.facit{background:transparent;color:var(--ink-faint);border:1.5px dashed var(--ink-faint)}
+.smarks i.wrong{background:var(--low);color:#fff}
 .reset{background:var(--mid-bg);border:1px solid rgba(156,106,24,.3);border-radius:3px;
   padding:9px 10px;margin:8px 0 11px;font-size:12.5px;color:var(--mid);line-height:1.45}
 .tokenstate{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;
@@ -367,6 +403,11 @@ table.tbl .mal{display:none}
   <div class="stamp hidden" id="stamp"></div>
 </header>
 
+<nav class="viewnav hidden" id="viewnav">
+  <button class="on" data-view="coupon">Kupong</button>
+  <button data-view="stats">Statistik</button>
+</nav>
+
 <div class="status" id="status">Hämtar omgången…</div>
 
 <section class="loader hidden" id="loader">
@@ -433,6 +474,8 @@ table.tbl .mal{display:none}
 
 <section class="summary hidden" id="summary"></section>
 
+<section class="stats hidden" id="stats"></section>
+
 <section class="tokenbox hidden" id="tokenbox">
   <h2>Koppla anteckningar till GitHub</h2>
   <p>Klistra in en åtkomstnyckel som bara har skrivrättighet till det här repot.
@@ -487,7 +530,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-23 ac';
+const VERSION = '2026-08-23 ae';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1189,12 +1232,10 @@ function render(draw, keep){
           // Efter inlämning är tecknen låsta, och när facit finns färgas de.
           const facit = submitted && submitted.result ? submitted.result[key] : null;
           const chosen = submitted && (submitted.picks[key] || []).indexOf(k) > -1;
-          const gotIt = facit && submitted && (submitted.picks[key] || []).indexOf(facit) > -1;
           let signCls = '';
           if (facit){
             if (chosen && k === facit) signCls = ' hit';
-            else if (chosen) signCls = gotIt ? '' : ' miss';
-            else if (k === facit) signCls = ' facit';
+            else if (!chosen && k === facit) signCls = ' wrong';
           }
 
           return '<div class="cell ' + (cls[k]||'') + (submitted ? ' locked' : '') +
@@ -1290,6 +1331,7 @@ function render(draw, keep){
 
   document.getElementById('loader').classList.add('hidden');
   document.getElementById('legend').classList.remove('hidden');
+  document.getElementById('viewnav').classList.remove('hidden');
   refresh();
 }
 
@@ -1378,6 +1420,170 @@ function refresh(){
   });
 }
 
+/* ---------- statistik ---------- */
+// Favoritraden: lägsta odds i varje match. Folkets rad: högsta streck.
+// Utan dem säger "sex rätt" ingenting — sex rätt när favoriten gav fem är
+// något helt annat än sex när den gav nio.
+function benchRow(round, mode){
+  const closing = round.closing || {};
+  const facit = round.result || {};
+  let hits = 0, counted = 0;
+
+  Object.keys(facit).forEach(key => {
+    const cv = closing[key];
+    if (!cv) return;
+    const src = mode === 'fav' ? cv.odds : cv.dist;
+    if (!src) return;
+
+    let best = null;
+    OUT.forEach(k => {
+      const v = src[k];
+      if (v == null) return;
+      if (best === null) { best = k; return; }
+      const better = mode === 'fav' ? v < src[best] : v > src[best];
+      if (better) best = k;
+    });
+
+    if (best === null) return;
+    counted++;
+    if (best === facit[key]) hits++;
+  });
+
+  return counted ? {hits: hits, of: counted} : null;
+}
+
+function gradedRounds(){
+  return Object.keys(rowsFile.rounds || {})
+    .filter(n => (rowsFile.rounds[n] || {}).result)
+    .sort((a, b) => Number(a) - Number(b))
+    .map(n => Object.assign({number: n}, rowsFile.rounds[n]));
+}
+
+function statsView(){
+  const rounds = gradedRounds();
+
+  if (!rounds.length){
+    return '<h2>Statistik</h2>' +
+      '<div class="statbox"><p class="lead" style="margin:0">Här samlas dina ' +
+      'resultat när omgångar rättats. Lämna in en rad, så fylls sidan på ' +
+      'automatiskt efter helgen.</p></div>';
+  }
+
+  const totals = rounds.map(r => r.correct || 0);
+  const sum = totals.reduce((a, b) => a + b, 0);
+  const avg = sum / rounds.length;
+  const best = Math.max.apply(null, totals);
+
+  // Mätstockarna
+  let favSum = 0, favOf = 0, peopleSum = 0, peopleOf = 0, benched = 0;
+  rounds.forEach(r => {
+    const f = benchRow(r, 'fav'), p = benchRow(r, 'people');
+    if (f){ favSum += f.hits; favOf += f.of; benched++; }
+    if (p){ peopleSum += p.hits; peopleOf += p.of; }
+  });
+
+  const cmp = (mine, other, label) => {
+    const diff = mine - other;
+    const cls = diff > 0 ? 'good' : diff < 0 ? 'bad' : '';
+    const sign = diff > 0 ? '+' : diff < 0 ? '−' : '±';
+    return '<div class="bench"><span>' + label + '</span>' +
+      '<span><b>' + other.toFixed(1).replace('.',',') + '</b> i snitt · ' +
+      '<b class="' + cls + '">' + sign + Math.abs(diff).toFixed(1).replace('.',',') +
+      '</b></span></div>';
+  };
+
+  let bench = '';
+  if (benched){
+    bench = '<div class="statbox">' +
+      '<div class="bench"><span>Din rad</span><span><b>' +
+        avg.toFixed(1).replace('.',',') + '</b> i snitt</span></div>' +
+      cmp(avg, favSum / benched, 'Favoritraden') +
+      cmp(avg, peopleSum / benched, 'Folkets rad') +
+      '<div class="thin">Favoritraden tar lägsta odds i varje match, folkets rad ' +
+      'det mest spelade tecknet. Båda räknas på värdena vid stängning.</div></div>';
+  }
+
+  // Stapeldiagram
+  const top = Math.max(best, 1);
+  const bars = '<div class="statbox"><div class="dlabel">Rätt per omgång</div>' +
+    '<div class="bars">' + rounds.map(r => {
+      const v = r.correct || 0;
+      return '<div class="bar"><u>' + v + '</u>' +
+        '<i style="height:' + Math.max(2, (v / top) * 72) + '%"></i>' +
+        '<em>' + String(r.number).slice(-2) + '</em></div>';
+    }).join('') + '</div>' +
+    '<div class="thin">Omgångsnummer under staplarna.</div></div>';
+
+  // Träffbild per tecken
+  const per = {one:{picked:0, hit:0}, x:{picked:0, hit:0}, two:{picked:0, hit:0}};
+  let single = {n:0, hit:0}, half = {n:0, hit:0}, full = {n:0, hit:0};
+
+  rounds.forEach(r => {
+    const facit = r.result || {};
+    Object.keys(r.picks || {}).forEach(key => {
+      const sel = r.picks[key] || [], right = facit[key];
+      if (!right) return;
+      const ok = sel.indexOf(right) > -1;
+      sel.forEach(k => { per[k].picked++; if (k === right) per[k].hit++; });
+      const bucket = sel.length === 1 ? single : sel.length === 2 ? half : full;
+      bucket.n++; if (ok) bucket.hit++;
+    });
+  });
+
+  const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+  const signs = '<div class="statbox"><div class="dlabel">Träffbild per tecken</div>' +
+    OUT.map(k => {
+      const p = per[k];
+      return '<div class="signrow"><i>' + LBL[k] + '</i>' +
+        '<span style="min-width:52px">' + p.hit + '/' + p.picked + '</span>' +
+        '<div class="track"><i style="width:' + pct(p.hit, p.picked) + '%"></i></div>' +
+        '<span style="min-width:38px;text-align:right">' + pct(p.hit, p.picked) + '%</span>' +
+        '</div>';
+    }).join('') +
+    '<div class="thin">Hur ofta ett markerat tecken gick in. Ett lågt tal för ' +
+    'kryss är väntat — kryss är svårast.</div></div>';
+
+  const gard = '<div class="statbox"><div class="dlabel">Garderingarnas värde</div>' +
+    [['Spikar', single], ['Halvgarderingar', half], ['Helgarderingar', full]]
+      .filter(row => row[1].n)
+      .map(row => '<div class="bench"><span>' + row[0] + '</span>' +
+        '<span><b>' + row[1].hit + '</b> av ' + row[1].n + ' · ' +
+        pct(row[1].hit, row[1].n) + '%</span></div>').join('') +
+    '<div class="thin">Helgarderingar träffar alltid, men kostar rader. ' +
+    'Det intressanta är om halvgarderingarna träffar oftare än dina spikar.</div></div>';
+
+  const note = rounds.length < 5
+    ? '<p class="lead">Bara ' + rounds.length + (rounds.length === 1 ? ' omgång' : ' omgångar') +
+      ' hittills. Siffrorna säger ännu ingenting om hur du tippar — de blir ' +
+      'meningsfulla först efter ett tiotal.</p>'
+    : '';
+
+  return '<h2>Statistik</h2>' + note +
+    '<div class="statbox"><div class="bignums">' +
+      '<div><span>Omgångar</span><b>' + rounds.length + '</b></div>' +
+      '<div><span>Snitt</span><b>' + avg.toFixed(1).replace('.',',') + '</b></div>' +
+      '<div><span>Bäst</span><b>' + best + '</b></div>' +
+      '<div><span>Totalt</span><b>' + sum + '</b></div>' +
+    '</div></div>' +
+    bench + bars + signs + gard;
+}
+
+function showView(name){
+  const stats = name === 'stats';
+  document.getElementById('list').classList.toggle('hidden', stats);
+  document.getElementById('legend').classList.toggle('hidden', stats);
+  document.getElementById('summary').classList.toggle('hidden', stats || !events.length);
+  document.getElementById('stats').classList.toggle('hidden', !stats);
+  document.getElementById('slip').classList.toggle('hidden', stats || !hasPicks());
+  if (stats) document.getElementById('stats').innerHTML = statsView();
+  document.querySelectorAll('#viewnav button').forEach(b =>
+    b.classList.toggle('on', b.dataset.view === name));
+  window.scrollTo(0, 0);
+}
+
+const hasPicks = () =>
+  events.some((e, i) => (picks[i] || []).length) && !savedRound();
+
 /* ---------- inlämnad rad ---------- */
 const drawKey = () => String(drawInfo.drawNumber || '');
 const savedRound = () => rowsFile.rounds[drawKey()] || null;
@@ -1415,12 +1621,13 @@ function rowPanel(){
 
       const marks = OUT.map(k => {
         const chosen = item.sel.indexOf(k) > -1;
+        // Grönt = du hade rätt. Svart = ditt val som inte gick in.
+        // Rött = facit du saknade. Inget annat.
         let cls = chosen ? 'on' : 'off';
         if (facit){
           if (chosen && k === right) cls = 'hit';
-          // Andra halvan av en gardering som gick in är inte en miss.
-          else if (chosen) cls = hit ? 'on' : 'miss';
-          else if (k === right) cls = 'facit';
+          else if (chosen) cls = 'on';
+          else if (k === right) cls = 'wrong';
         }
         return '<i class="' + cls + '">' + LBL[k] + '</i>';
       }).join('');
@@ -1784,6 +1991,9 @@ async function auto(){
 }
 
 /* ---------- knappar ---------- */
+document.querySelectorAll('#viewnav button').forEach(b =>
+  b.addEventListener('click', () => showView(b.dataset.view)));
+
 document.getElementById('more').addEventListener('click', e => {
   const p = document.getElementById('explain');
   p.classList.toggle('show');
