@@ -51,7 +51,6 @@ jobs:
       - name: Spara ögonblicksbild i historiken
         run: python3 .github/scripts/history.py
 
-      # Läser kupongen och hämtar bara de ligor som faktiskt spelas i veckan.
       - name: Rätta inlämnade rader
         continue-on-error: true
         run: python3 .github/scripts/results.py
@@ -99,12 +98,6 @@ jobs:
             done
           done
 
-      - name: Hämta ligor utanför football-data
-        continue-on-error: true
-        env:
-          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
-        run: python3 .github/scripts/apifootball.py
-
       - name: Sätt ihop football.json
         continue-on-error: true
         env:
@@ -136,22 +129,11 @@ jobs:
           for path in sorted(glob.glob("po-*.json")):
               past.extend(load(path, []))
 
-          # Ligor från API-Football, i samma form.
-          extra = load("af-extra.json", {}) or {}
-          for code, comp in (extra.get("competitions") or {}).items():
-              competitions[code] = comp
-          for code, rows in (extra.get("results") or {}).items():
-              results[code] = rows
-          out_extra = {"injuries": extra.get("injuries") or {},
-                       "upcoming": extra.get("upcoming") or []}
-
           out = {
               "fetchedAt": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
               "competitions": competitions,
               "results": results,
               "past": past,
-              "injuries": out_extra["injuries"],
-              "upcoming": out_extra["upcoming"],
           }
           with open("football.json", "w", encoding="utf-8") as fh:
               json.dump(out, fh, ensure_ascii=False, separators=(",", ":"))
@@ -159,8 +141,6 @@ jobs:
           print("Ligor: %s" % ", ".join(sorted(competitions)))
           print("Matcher denna säsong: %d" % sum(len(v) for v in results.values()))
           print("Tidigare möten: %d" % len(past))
-          print("Lag med skador: %d" % len(out_extra["injuries"]))
-          print("Matcher i fönstret: %d" % len(out_extra["upcoming"]))
           PY
 
           rm -f st-*.json ma-*.json sm-*.json old-*.json po-*.json
@@ -174,7 +154,6 @@ jobs:
           git add football.json || true
           git add history.json || true
           git add rows.json || true
-          git add af-extra.json || true
 
           if git diff --staged --quiet; then
             echo "Ingen förändring sedan förra hämtningen."
