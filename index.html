@@ -73,6 +73,19 @@ h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;
   text-decoration:none;margin-bottom:3px}
 .bar em{font-family:'IBM Plex Mono',monospace;font-size:9px;font-style:normal;
   color:var(--ink-faint);margin-top:4px}
+.teamrow{padding:9px 0;border-top:1px solid #EDEEEA}
+.teamrow:first-of-type{border-top:none}
+.tname2{display:flex;align-items:baseline;gap:7px;font-family:'Barlow Condensed',sans-serif;
+  font-weight:600;font-size:16px;margin-bottom:5px}
+.behind{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--low);font-weight:500}
+.tcells{display:flex;gap:14px;margin-top:6px}
+.tcell{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;
+  color:var(--ink-soft);display:flex;flex-direction:column;line-height:1.25}
+.tcell.strong{color:var(--ink)}
+.tcell em{font-style:normal;font-size:9px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-faint);font-weight:500}
+.tcell u{text-decoration:none;font-size:9.5px;color:var(--ink-faint);font-weight:400}
 .signrow{display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid #EDEEEA;
   font-family:'IBM Plex Mono',monospace;font-size:12.5px}
 .signrow:first-of-type{border-top:none}
@@ -538,7 +551,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-23 af';
+const VERSION = '2026-08-23 ah';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1600,6 +1613,82 @@ function statsView(){
     'Samma sak men efter hur stor andel av folket som hade tecknet. ' +
     'Visar om du följer strömmen eller går mot den.');
 
+  // Per lag, inte lag mot lag. Ett lag hamnar på kupongen ungefär femton
+  // gånger per säsong, så underlaget växer betydligt snabbare än för möten.
+  const teams = {};
+  rounds.forEach(r => {
+    const facit = r.result || {}, matches = r.matches || {}, closing = r.closing || {};
+    Object.keys(facit).forEach(key => {
+      const m = matches[key];
+      if (!m) return;
+      const right = facit[key];
+      const cv = closing[key] || {};
+
+      const ok = (r.picks[key] || []).indexOf(right) > -1;
+      const favOk = cv.odds ? pickBest(cv.odds, 'min') === right : null;
+      const pplOk = cv.dist ? pickBest(cv.dist, 'max') === right : null;
+
+      [m.home, m.away].forEach(name => {
+        if (!name) return;
+        const t = teams[name] ||
+          (teams[name] = {n: 0, hit: 0, favN: 0, fav: 0, pplN: 0, ppl: 0});
+        t.n++; if (ok) t.hit++;
+        if (favOk !== null){ t.favN++; if (favOk) t.fav++; }
+        if (pplOk !== null){ t.pplN++; if (pplOk) t.ppl++; }
+      });
+    });
+  });
+
+  const MIN_APPEARANCES = 3;
+  const ranked = Object.keys(teams)
+    .filter(name => teams[name].n >= MIN_APPEARANCES)
+    .sort((a, b) => (teams[a].hit / teams[a].n) - (teams[b].hit / teams[b].n));
+
+  let teamBox2 = '';
+  if (ranked.length){
+    const row = name => {
+      const t = teams[name];
+      const mine = pctOf(t.hit, t.n);
+      const fav = t.favN ? pctOf(t.fav, t.favN) : null;
+      const ppl = t.pplN ? pctOf(t.ppl, t.pplN) : null;
+
+      // Ligger du under båda mätstockarna är det värt att märka ut.
+      const behind = fav != null && ppl != null && mine < fav && mine < ppl;
+
+      const cell = (label, value, count, total, strong) =>
+        '<span class="tcell' + (strong ? ' strong' : '') + '">' +
+        '<em>' + label + '</em>' +
+        (value == null ? '–' : value + '%') +
+        '<u>' + count + '/' + total + '</u></span>';
+
+      return '<div class="teamrow">' +
+        '<div class="tname2">' + esc(name) +
+          (behind ? '<span class="behind">under båda</span>' : '') + '</div>' +
+        '<div class="track"><i style="width:' + mine + '%"></i></div>' +
+        '<div class="tcells">' +
+          cell('Du', mine, t.hit, t.n, true) +
+          cell('Favorit', fav, t.fav, t.favN) +
+          cell('Folket', ppl, t.ppl, t.pplN) +
+        '</div></div>';
+    };
+    const worst = ranked.slice(0, 5).map(row).join('');
+    const bestT = ranked.slice(-5).reverse().map(row).join('');
+
+    teamBox2 = box('Efter lag', 'teams',
+      '<div class="dlabel" style="margin-bottom:4px">Svårast</div>' + worst,
+      '<div class="dlabel" style="margin:14px 0 4px">Lättast</div>' + bestT +
+      '<div class="thin">Andel matcher med rätt tecken, av de gånger laget ' +
+      'förekommit på kupongen. Favorit och folket räknas på samma matcher, så ' +
+      'de visar om laget är svårt för alla eller bara för dig. Lag med färre än ' +
+      MIN_APPEARANCES + ' framträdanden visas inte.</div>');
+  } else {
+    const most = Object.keys(teams).reduce((a, n) =>
+      Math.max(a, teams[n].n), 0);
+    teamBox2 = '<div class="statbox"><div class="dlabel">Efter lag</div>' +
+      '<p class="lead" style="margin:6px 0 0">Visas när något lag förekommit minst ' +
+      MIN_APPEARANCES + ' gånger. Just nu är flest ' + most + '.</p></div>';
+  }
+
   const note = rounds.length < 5
     ? '<p class="lead">Bara ' + rounds.length + (rounds.length === 1 ? ' omgång' : ' omgångar') +
       ' hittills. Siffrorna beskriver vad som hänt, men säger ännu ingenting ' +
@@ -1613,11 +1702,22 @@ function statsView(){
       '<div><span>Bäst</span><b>' + best + '</b></div>' +
       '<div><span>Totalt</span><b>' + sum + '</b></div>' +
     '</div></div>' +
-    benchBox + gardBox + oddsBox + distBox;
+    benchBox + gardBox + oddsBox + distBox + teamBox2;
 }
 
 const LBLSHORT = {1:'spik', 2:'halv', 3:'hel'};
 const pctOf = (a, b) => b ? Math.round(a / b * 100) : 0;
+
+// Lägsta odds respektive högsta streck.
+function pickBest(src, mode){
+  let best = null;
+  OUT.forEach(k => {
+    const v = src[k];
+    if (v == null) return;
+    if (best === null || (mode === 'min' ? v < src[best] : v > src[best])) best = k;
+  });
+  return best;
+}
 
 function box(title, id, summary, detail){
   return '<div class="statbox">' +
