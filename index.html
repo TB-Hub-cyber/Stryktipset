@@ -297,6 +297,11 @@ table.tbl .mal{display:none}
 .rowlist .srow:first-child{border-top:none}
 .rowlist .srow.ok .steams{color:var(--ink)}
 .rowlist .srow.no .steams{color:var(--ink-faint)}
+.sclose{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;
+  color:var(--ink-faint);letter-spacing:.02em;margin-top:2px;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.rowlist .srow{align-items:flex-start}
+.rowlist .steams{white-space:normal}
 .rowkey{font-size:11px;color:var(--ink-faint);margin-top:9px;line-height:1.45}
 .rowbox button[disabled]{opacity:.35;cursor:not-allowed}
 .totals{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;padding-top:11px;
@@ -471,7 +476,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-22 y';
+const VERSION = '2026-08-22 z';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1405,9 +1410,23 @@ function rowPanel(){
         return '<i class="' + cls + '">' + LBL[k] + '</i>';
       }).join('');
 
+      // Vad det vinnande tecknet stod i vid stängning. Skiljer otur från
+      // dåligt val: en miss på 8,50 är något annat än en miss på 1,45.
+      let closing = '';
+      const cv = facit && saved.closing ? saved.closing[item.key] : null;
+      if (cv && right){
+        const o = cv.odds ? cv.odds[right] : null;
+        const d = cv.dist ? cv.dist[right] : null;
+        const parts = [LBL[right] + ' gick in'];
+        if (o != null) parts.push('odds ' + o.toFixed(2).replace('.',','));
+        if (d != null) parts.push(d + '% av strecken');
+        closing = '<span class="sclose">' + parts.join(' · ') + '</span>';
+      }
+
       return '<div class="srow' + (facit ? (hit ? ' ok' : ' no') : '') + '">' +
         '<span class="snum">' + (item.m.n || '') + '</span>' +
-        '<span class="steams">' + esc(item.m.home) + ' – ' + esc(item.m.away) + '</span>' +
+        '<span class="steams">' + esc(item.m.home) + ' – ' + esc(item.m.away) +
+          closing + '</span>' +
         '<span class="smarks">' + marks + '</span></div>';
     }).join('');
 
