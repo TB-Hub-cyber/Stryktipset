@@ -168,6 +168,13 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .form i{font-style:normal;font-size:9px;font-weight:600;width:13px;height:13px;line-height:13px;
   text-align:center;border-radius:2px;color:#fff}
 .form .f-V{background:var(--high)} .form .f-O{background:var(--ink-faint)} .form .f-F{background:var(--low)}
+.injbox{margin-top:9px;padding-top:8px;border-top:1px solid var(--rule)}
+.injhead{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--low);margin-bottom:5px}
+.injrow{display:flex;flex-direction:column;font-size:12px;line-height:1.3;padding:2px 0}
+.injrow b{font-weight:600}
+.injrow span{font-size:10.5px;color:var(--ink-faint)}
+.injmore{font-size:10.5px;color:var(--ink-faint);margin-top:3px}
 .nodata{font-size:11.5px;color:var(--ink-faint);line-height:1.4;padding-top:5px;border-top:1px solid #EDEEEA}
 .mlist{font-family:'Barlow',sans-serif}
 .mrow{display:flex;align-items:center;gap:9px;padding:8px 0;border-top:1px solid #EDEEEA}
@@ -471,12 +478,13 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-21 t';
+const VERSION = '2026-08-22 w';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
 let picks = {}, notes = {}, events = [], drawInfo = {};
 let fdIndex = [], fdComps = {}, formIndex = {}, h2hIndex = {}, hasPast = false;
+let injIndex = {}, schedIndex = {};
 let notesDirty = false, drawStamp = null, notesReset = null;
 let rowsFile = {rounds:{}};
 let histIndex = {};   // {matchId: [{t, o:[1,X,2], d:[1,X,2]}]}
@@ -590,6 +598,7 @@ function rankRows(entries, kind){
 
 function buildIndex(fd){
   fdIndex = []; fdComps = {}; formIndex = {}; h2hIndex = {}; hasPast = false;
+  injIndex = {}; schedIndex = {};
   if (!fd || !fd.competitions) return;
 
   // Formen räknas ut från faktiska resultat. Fältet form hos football-data.org
@@ -629,6 +638,26 @@ function buildIndex(fd){
   Object.keys(h2hIndex).forEach(k =>
     h2hIndex[k].sort((a,b) => String(b.d).localeCompare(String(a.d))));
   hasPast = !!(fd.past && fd.past.length);
+
+  // Skador nycklas på normaliserat lagnamn och gäller därför alla ligor.
+  injIndex = fd.injuries || {};
+
+  // Matcher runt idag, för att bedöma matchtäthet. Nycklas på lagnamn av
+  // samma skäl — cupmatcher kommer från en annan källa än serietabellerna.
+  (fd.upcoming || []).forEach(m => {
+    if (!m.d) return;
+    const add = (name, opp, home) => {
+      const k = norm(name);
+      if (!k) return;
+      (schedIndex[k] || (schedIndex[k] = [])).push({
+        t: +new Date(m.d), c: m.c, opp: opp, home: home,
+        done: m.hg != null && m.ag != null
+      });
+    };
+    add(m.hn, m.an, true);
+    add(m.an, m.hn, false);
+  });
+  Object.keys(schedIndex).forEach(k => schedIndex[k].sort((a,b) => a.t - b.t));
 
   Object.keys(fd.competitions).forEach(code => {
     const comp = fd.competitions[code];
@@ -747,6 +776,56 @@ function formDots(list){
 
 const record = r => r ? (r.won + '–' + r.draw + '–' + r.lost) : null;
 
+// Samma tolerans som lagmatchningen: Svenska Spel skriver "Wolverhampton",
+// API-Football "Wolverhampton Wanderers".
+function byName(index, name){
+  const n = norm(name);
+  if (!n) return null;
+  if (index[n]) return index[n];
+
+  let best = null;
+  Object.keys(index).forEach(k => {
+    if (k.indexOf(n) === 0 || n.indexOf(k) === 0){
+      if (!best || k.length < best.length) best = k;
+    }
+  });
+  if (best) return index[best];
+
+  if (n.length >= 5){
+    const hit = Object.keys(index).find(k => k.indexOf(n) > -1 || n.indexOf(k) > -1);
+    if (hit) return index[hit];
+  }
+  return null;
+}
+
+function injuriesFor(name){
+  return byName(injIndex, name) || [];
+}
+
+// Närmaste match före och efter idag, oavsett tävling.
+function scheduleFor(name){
+  const list = byName(schedIndex, name) || [];
+  const now = Date.now();
+  let prev = null, next = null;
+  list.forEach(m => {
+    if (m.t <= now){ if (!prev || m.t > prev.t) prev = m; }
+    else { if (!next || m.t < next.t) next = m; }
+  });
+  return {prev: prev, next: next};
+}
+
+function daysBetween(a, b){ return Math.round(Math.abs(a - b) / 86400000); }
+
+function scheduleLine(name){
+  const s = scheduleFor(name);
+  if (!s.prev && !s.next) return null;
+  const now = Date.now();
+  const bits = [];
+  if (s.prev) bits.push('senast ' + daysBetween(now, s.prev.t) + ' d');
+  if (s.next) bits.push('nästa om ' + daysBetween(s.next.t, now) + ' d');
+  return bits.join(' · ');
+}
+
 function teamBox(part){
   const hit = findTeam(part);
   if (!hit){
@@ -776,7 +855,8 @@ function teamBox(part){
     ['Form hemma', formDots(formOf(id, 'home'))],
     ['Form borta', formDots(formOf(id, 'away'))],
     ['Mål', (tot.goalsFor||0) + '–' + (tot.goalsAgainst||0) +
-            (gd != null ? '  (' + (gd > 0 ? '+' + gd : gd) + ')' : '')]
+            (gd != null ? '  (' + (gd > 0 ? '+' + gd : gd) + ')' : '')],
+    ['Matcher', scheduleLine(part.name)]
   ];
 
   const possible = tot.playedGames * 3;
@@ -790,6 +870,7 @@ function teamBox(part){
     '<div class="tbar"><i style="width:' + share + '%"></i></div>' +
     rows.map(r => '<div class="stat"><span>' + r[0] + '</span><span>' +
       (r[1] != null ? r[1] : '<span class="pending">–</span>') + '</span></div>').join('') +
+    injuryBlock(part.name) +
     '</div>';
 }
 
@@ -824,6 +905,9 @@ function posOf(teamId){
   return (e && e.rank_TOTAL) ? e.rank_TOTAL + ':e' : null;
 }
 
+const leagueName = code => LEAGUE_SHORT[code] ||
+  ((fdComps[code] && fdComps[code].competition.name) || code);
+
 function matchList(list, showMeta){
   if (!list || !list.length)
     return '<p style="font-size:13px;color:var(--ink-soft);padding:12px 0">' +
@@ -840,7 +924,7 @@ function matchList(list, showMeta){
 
     const bits = [];
     if (showMeta !== false){
-      if (m.c) bits.push(LEAGUE_SHORT[m.c] || m.c);
+      if (m.c) bits.push(leagueName(m.c));
       if (m.md) bits.push('omg ' + m.md);
       if (homeHalf != null && awayHalf != null)
         bits.push('halvtid ' + homeHalf + '–' + awayHalf);
@@ -1078,6 +1162,18 @@ function h2hBlock(t){
       (hasPast ? 'Innevarande och tidigare säsonger.'
                : 'Endast innevarande säsong — tidigare säsonger kunde inte hämtas.') +
       '</div></div>';
+}
+
+function injuryBlock(name){
+  const list = injuriesFor(name);
+  if (!list.length) return '';
+  const out = list.slice(0, 6).map(p =>
+    '<div class="injrow"><b>' + esc(p.n) + '</b>' +
+    (p.r ? '<span>' + esc(p.r) + '</span>' : '') + '</div>').join('');
+  return '<div class="injbox"><div class="injhead">Skadad eller osäker · ' +
+    list.length + '</div>' + out +
+    (list.length > 6 ? '<div class="injmore">och ' + (list.length - 6) + ' till</div>' : '') +
+    '</div>';
 }
 
 function detailPanel(t, key){
