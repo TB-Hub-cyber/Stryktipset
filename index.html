@@ -57,6 +57,14 @@ h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;
 .bench:first-of-type{border-top:none}
 .bench b{font-weight:600}
 .bench .good{color:var(--high)} .bench .bad{color:var(--low)}
+.boxhead{display:flex;justify-content:space-between;align-items:baseline;width:100%;
+  background:none;border:none;padding:0 0 9px;margin:0;cursor:pointer;
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;
+  text-transform:uppercase;letter-spacing:.01em;color:var(--ink);text-align:left}
+.expand{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-faint);text-decoration:underline}
+.boxdetail{display:none}
+.boxdetail.show{display:block}
 .bars{display:flex;align-items:flex-end;gap:5px;height:110px;margin:12px 0 4px}
 .bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;
   height:100%}
@@ -530,7 +538,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-23 ae';
+const VERSION = '2026-08-23 af';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1474,16 +1482,19 @@ function statsView(){
   const avg = sum / rounds.length;
   const best = Math.max.apply(null, totals);
 
-  // Mätstockarna
-  let favSum = 0, favOf = 0, peopleSum = 0, peopleOf = 0, benched = 0;
-  rounds.forEach(r => {
+  // Per omgång: din rad, favoritraden, folkets rad.
+  const series = rounds.map(r => {
     const f = benchRow(r, 'fav'), p = benchRow(r, 'people');
-    if (f){ favSum += f.hits; favOf += f.of; benched++; }
-    if (p){ peopleSum += p.hits; peopleOf += p.of; }
+    return {n: r.number, mine: r.correct || 0,
+            fav: f ? f.hits : null, people: p ? p.hits : null};
   });
+  const withBench = series.filter(x => x.fav != null);
+  const mean = key => withBench.length
+    ? withBench.reduce((a, x) => a + x[key], 0) / withBench.length : null;
 
-  const cmp = (mine, other, label) => {
-    const diff = mine - other;
+  const cmp = (other, label) => {
+    if (other == null) return '';
+    const diff = avg - other;
     const cls = diff > 0 ? 'good' : diff < 0 ? 'bad' : '';
     const sign = diff > 0 ? '+' : diff < 0 ? '−' : '±';
     return '<div class="bench"><span>' + label + '</span>' +
@@ -1492,70 +1503,107 @@ function statsView(){
       '</b></span></div>';
   };
 
-  let bench = '';
-  if (benched){
-    bench = '<div class="statbox">' +
-      '<div class="bench"><span>Din rad</span><span><b>' +
-        avg.toFixed(1).replace('.',',') + '</b> i snitt</span></div>' +
-      cmp(avg, favSum / benched, 'Favoritraden') +
-      cmp(avg, peopleSum / benched, 'Folkets rad') +
-      '<div class="thin">Favoritraden tar lägsta odds i varje match, folkets rad ' +
-      'det mest spelade tecknet. Båda räknas på värdena vid stängning.</div></div>';
-  }
+  const benchBox = withBench.length
+    ? box('Jämförelse', 'bench',
+        '<div class="bench"><span>Din rad</span><span><b>' +
+          avg.toFixed(1).replace('.',',') + '</b> i snitt</span></div>' +
+        cmp(mean('fav'), 'Favoritraden') +
+        cmp(mean('people'), 'Folkets rad'),
+        multiChart(series) +
+        '<div class="thin">Favoritraden tar lägsta odds i varje match, folkets ' +
+        'rad det mest spelade tecknet. Båda räknas på värdena vid stängning.</div>')
+    : '';
 
-  // Stapeldiagram
-  const top = Math.max(best, 1);
-  const bars = '<div class="statbox"><div class="dlabel">Rätt per omgång</div>' +
-    '<div class="bars">' + rounds.map(r => {
-      const v = r.correct || 0;
-      return '<div class="bar"><u>' + v + '</u>' +
-        '<i style="height:' + Math.max(2, (v / top) * 72) + '%"></i>' +
-        '<em>' + String(r.number).slice(-2) + '</em></div>';
-    }).join('') + '</div>' +
-    '<div class="thin">Omgångsnummer under staplarna.</div></div>';
-
-  // Träffbild per tecken
-  const per = {one:{picked:0, hit:0}, x:{picked:0, hit:0}, two:{picked:0, hit:0}};
-  let single = {n:0, hit:0}, half = {n:0, hit:0}, full = {n:0, hit:0};
-
-  rounds.forEach(r => {
+  // Garderingar
+  const buckets = {1:{n:0,hit:0}, 2:{n:0,hit:0}, 3:{n:0,hit:0}};
+  const perRound = rounds.map(r => {
+    const local = {1:{n:0,hit:0}, 2:{n:0,hit:0}, 3:{n:0,hit:0}};
     const facit = r.result || {};
     Object.keys(r.picks || {}).forEach(key => {
       const sel = r.picks[key] || [], right = facit[key];
-      if (!right) return;
+      if (!right || !sel.length) return;
+      const size = Math.min(sel.length, 3);
       const ok = sel.indexOf(right) > -1;
-      sel.forEach(k => { per[k].picked++; if (k === right) per[k].hit++; });
-      const bucket = sel.length === 1 ? single : sel.length === 2 ? half : full;
-      bucket.n++; if (ok) bucket.hit++;
+      buckets[size].n++; local[size].n++;
+      if (ok){ buckets[size].hit++; local[size].hit++; }
     });
+    return {n: r.number, local: local};
   });
 
-  const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
-  const signs = '<div class="statbox"><div class="dlabel">Träffbild per tecken</div>' +
-    OUT.map(k => {
-      const p = per[k];
-      return '<div class="signrow"><i>' + LBL[k] + '</i>' +
-        '<span style="min-width:52px">' + p.hit + '/' + p.picked + '</span>' +
-        '<div class="track"><i style="width:' + pct(p.hit, p.picked) + '%"></i></div>' +
-        '<span style="min-width:38px;text-align:right">' + pct(p.hit, p.picked) + '%</span>' +
-        '</div>';
-    }).join('') +
-    '<div class="thin">Hur ofta ett markerat tecken gick in. Ett lågt tal för ' +
-    'kryss är väntat — kryss är svårast.</div></div>';
+  const names = {1:'Spikar', 2:'Halvgarderingar', 3:'Helgarderingar'};
+  const gardSummary = [1,2,3].filter(k => buckets[k].n).map(k =>
+    '<div class="bench"><span>' + names[k] + '</span><span><b>' +
+    buckets[k].hit + '</b> av ' + buckets[k].n + ' · ' +
+    pctOf(buckets[k].hit, buckets[k].n) + '%</span></div>').join('');
 
-  const gard = '<div class="statbox"><div class="dlabel">Garderingarnas värde</div>' +
-    [['Spikar', single], ['Halvgarderingar', half], ['Helgarderingar', full]]
-      .filter(row => row[1].n)
-      .map(row => '<div class="bench"><span>' + row[0] + '</span>' +
-        '<span><b>' + row[1].hit + '</b> av ' + row[1].n + ' · ' +
-        pct(row[1].hit, row[1].n) + '%</span></div>').join('') +
-    '<div class="thin">Helgarderingar träffar alltid, men kostar rader. ' +
-    'Det intressanta är om halvgarderingarna träffar oftare än dina spikar.</div></div>';
+  const gardDetail = '<div class="dlabel" style="margin:12px 0 6px">Per omgång</div>' +
+    perRound.map(r =>
+      '<div class="bench"><span>Omgång ' + r.n + '</span><span>' +
+      [1,2,3].filter(k => r.local[k].n).map(k =>
+        LBLSHORT[k] + ' ' + r.local[k].hit + '/' + r.local[k].n).join(' · ') +
+      '</span></div>').join('') +
+    '<div class="thin">Helgarderingar träffar alltid men kostar rader. Det ' +
+    'intressanta är om halvgarderingarna träffar oftare än dina spikar.</div>';
+
+  const gardBox = box('Garderingar', 'gard', gardSummary, gardDetail);
+
+  // Odds- och streckintervall — ersätter lagstatistik, som skulle bygga på
+  // två eller tre möten per lag och därmed vara rent brus.
+  const oddsBands = [
+    ['Under 1,50', o => o < 1.5],
+    ['1,50–2,49',  o => o >= 1.5 && o < 2.5],
+    ['2,50–3,99',  o => o >= 2.5 && o < 4],
+    ['4,00 och över', o => o >= 4]
+  ];
+  const distBands = [
+    ['Under 20%', d => d < 20],
+    ['20–39%',    d => d >= 20 && d < 40],
+    ['40–59%',    d => d >= 40 && d < 60],
+    ['60% och över', d => d >= 60]
+  ];
+
+  const tally = (bands, pick) => {
+    const acc = bands.map(() => ({n:0, hit:0}));
+    rounds.forEach(r => {
+      const facit = r.result || {}, closing = r.closing || {};
+      Object.keys(facit).forEach(key => {
+        const cv = closing[key];
+        if (!cv) return;
+        const value = pick(cv, facit[key]);
+        if (value == null) return;
+        const idx = bands.findIndex(b => b[1](value));
+        if (idx < 0) return;
+        acc[idx].n++;
+        if ((r.picks[key] || []).indexOf(facit[key]) > -1) acc[idx].hit++;
+      });
+    });
+    return acc;
+  };
+
+  const bandBox = (title, id, bands, acc, note) => {
+    const rows = bands.map((b, i) => acc[i].n
+      ? '<div class="signrow"><span style="min-width:96px">' + b[0] + '</span>' +
+        '<div class="track"><i style="width:' + pctOf(acc[i].hit, acc[i].n) + '%"></i></div>' +
+        '<span style="min-width:58px;text-align:right">' + acc[i].hit + '/' + acc[i].n +
+        '</span></div>'
+      : '').join('');
+    return rows ? box(title, id, rows, '<div class="thin">' + note + '</div>') : '';
+  };
+
+  const oddsAcc = tally(oddsBands, (cv, right) => cv.odds ? cv.odds[right] : null);
+  const distAcc = tally(distBands, (cv, right) => cv.dist ? cv.dist[right] : null);
+
+  const oddsBox = bandBox('Efter odds', 'odds', oddsBands, oddsAcc,
+    'Hur ofta du hade rätt tecken, grupperat efter vad det stod i vid stängning. ' +
+    'Låga odds är favoriter, höga är skrällar.');
+  const distBox = bandBox('Efter streck', 'dist', distBands, distAcc,
+    'Samma sak men efter hur stor andel av folket som hade tecknet. ' +
+    'Visar om du följer strömmen eller går mot den.');
 
   const note = rounds.length < 5
     ? '<p class="lead">Bara ' + rounds.length + (rounds.length === 1 ? ' omgång' : ' omgångar') +
-      ' hittills. Siffrorna säger ännu ingenting om hur du tippar — de blir ' +
-      'meningsfulla först efter ett tiotal.</p>'
+      ' hittills. Siffrorna beskriver vad som hänt, men säger ännu ingenting ' +
+      'om hur du tippar — det krävs ett tiotal omgångar.</p>'
     : '';
 
   return '<h2>Statistik</h2>' + note +
@@ -1565,7 +1613,57 @@ function statsView(){
       '<div><span>Bäst</span><b>' + best + '</b></div>' +
       '<div><span>Totalt</span><b>' + sum + '</b></div>' +
     '</div></div>' +
-    bench + bars + signs + gard;
+    benchBox + gardBox + oddsBox + distBox;
+}
+
+const LBLSHORT = {1:'spik', 2:'halv', 3:'hel'};
+const pctOf = (a, b) => b ? Math.round(a / b * 100) : 0;
+
+function box(title, id, summary, detail){
+  return '<div class="statbox">' +
+    '<button class="boxhead" data-exp="' + id + '">' + title +
+      '<span class="expand">visa mer</span></button>' +
+    summary +
+    '<div class="boxdetail" id="exp-' + id + '">' + detail + '</div></div>';
+}
+
+// Tre linjer över omgångarna: din rad, favoriten, folket.
+function multiChart(series){
+  if (series.length < 2){
+    return '<div class="thin">Kurvan ritas när du har minst två rättade omgångar.</div>';
+  }
+
+  const keys = [['mine', '#15171B', 'Din rad'],
+                ['fav',  '#C08118', 'Favoriter'],
+                ['people', '#3C5A78', 'Folket']];
+  const W = 320, H = 130, L = 26, R = 8, T = 10, B = 22;
+  const hi = 13, lo = 0;
+  const x = i => L + (series.length === 1 ? 0.5 : i / (series.length - 1)) * (W - L - R);
+  const y = v => T + (1 - (v - lo) / (hi - lo)) * (H - T - B);
+
+  const lines = keys.map(([key, colour]) => {
+    const pts = series.map((s, i) => ({i: i, v: s[key]})).filter(p => p.v != null);
+    if (pts.length < 2) return '';
+    return '<path class="ln" fill="none" stroke="' + colour + '" stroke-width="2.4" ' +
+      'stroke-linejoin="round" d="' +
+      pts.map((p, j) => (j ? 'L' : 'M') + x(p.i).toFixed(1) + ' ' + y(p.v).toFixed(1)).join(' ') +
+      '"/>' + pts.map(p => '<circle cx="' + x(p.i).toFixed(1) + '" cy="' + y(p.v).toFixed(1) +
+      '" r="2.6" fill="' + colour + '"/>').join('');
+  }).join('');
+
+  return '<div class="chart" style="margin-top:12px">' +
+    '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid meet">' +
+      '<line class="grid" x1="' + L + '" y1="' + y(13) + '" x2="' + W + '" y2="' + y(13) + '"/>' +
+      '<line class="grid" x1="' + L + '" y1="' + y(0) + '" x2="' + W + '" y2="' + y(0) + '"/>' +
+      '<text class="ax" x="0" y="' + (y(13) + 4) + '">13</text>' +
+      '<text class="ax" x="0" y="' + (y(0) + 4) + '">0</text>' +
+      lines +
+      series.map((s, i) => '<text class="ax" x="' + x(i).toFixed(1) + '" y="' + (H - B + 14) +
+        '" text-anchor="middle">' + String(s.n).slice(-2) + '</text>').join('') +
+    '</svg><div class="clegend">' +
+      keys.map(([, colour, label]) =>
+        '<span><i style="background:' + colour + '"></i>' + label + '</span>').join('') +
+    '</div></div>';
 }
 
 function showView(name){
@@ -1578,6 +1676,15 @@ function showView(name){
   if (stats) document.getElementById('stats').innerHTML = statsView();
   document.querySelectorAll('#viewnav button').forEach(b =>
     b.classList.toggle('on', b.dataset.view === name));
+
+  document.querySelectorAll('.boxhead').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const panel = document.getElementById('exp-' + btn.dataset.exp);
+      const open = panel.classList.toggle('show');
+      btn.querySelector('.expand').textContent = open ? 'dölj' : 'visa mer';
+    });
+  });
+
   window.scrollTo(0, 0);
 }
 
