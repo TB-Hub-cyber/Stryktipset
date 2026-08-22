@@ -16,6 +16,7 @@ import urllib.request
 from datetime import datetime, timezone
 
 ROWS = "rows.json"
+HIST = "history.json"
 API = "https://api.spela.svenskaspel.se/draw/1/stryktipset/draws/%s"
 OUTCOMES = ["one", "x", "two"]
 
@@ -71,6 +72,60 @@ def outcome_from(event):
 def sign(home, away):
     home, away = int(home), int(away)
     return "one" if home > away else "two" if away > home else "x"
+
+
+def closing_values(draw_number, close_time):
+    """Odds och streck vid sista mätningen före stopptid.
+
+    Historiken nollställs när en ny omgång öppnar, så värdena måste plockas ut
+    och sparas tillsammans med facit — annars är de borta nästa vecka.
+    """
+    if not os.path.exists(HIST):
+        return {}
+
+    try:
+        with open(HIST, encoding="utf-8") as fh:
+            history = json.load(fh)
+    except (ValueError, OSError):
+        return {}
+
+    if str(history.get("drawNumber")) != str(draw_number):
+        print("Historiken gäller omgång %s, inte %s — hoppar över "
+              "stängningsvärden." % (history.get("drawNumber"), draw_number))
+        return {}
+
+    limit = None
+    if close_time:
+        try:
+            limit = datetime.fromisoformat(close_time.replace("Z", "+00:00"))
+        except ValueError:
+            limit = None
+
+    chosen = None
+    for snap in history.get("snapshots", []):
+        when = snap.get("t")
+        if limit and when:
+            try:
+                stamp = datetime.fromisoformat(when.replace("Z", "+00:00"))
+            except ValueError:
+                continue
+            if stamp > limit:
+                continue
+        chosen = snap
+
+    if not chosen:
+        return {}
+
+    out = {}
+    for key, values in (chosen.get("m") or {}).items():
+        odds = values.get("o") or [None, None, None]
+        dist = values.get("d") or [None, None, None]
+        out[key] = {
+            "t": chosen.get("t"),
+            "odds": dict(zip(OUTCOMES, odds)),
+            "dist": dict(zip(OUTCOMES, dist)),
+        }
+    return out
 
 
 def load_rows():
@@ -147,13 +202,21 @@ def main():
         correct = sum(1 for key, sel in picks.items()
                       if facit.get(key) in (sel or []))
 
+        closing = closing_values(number, entry.get("closeTime"))
+
         entry["result"] = facit
+        entry["closing"] = closing
         entry["correct"] = correct
         entry["gradedAt"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         entry.pop("rawSample", None)
         changed = True
 
         print("Omgång %s rättad: %d rätt av %d." % (number, correct, len(events)))
+        if closing:
+            sample = next(iter(closing.values()))
+            print("Stängningsvärden sparade från mätningen %s." % sample.get("t"))
+        else:
+            print("Inga stängningsvärden hittades i historiken.")
 
     if changed:
         with open(ROWS, "w", encoding="utf-8") as fh:
