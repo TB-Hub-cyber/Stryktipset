@@ -304,6 +304,15 @@ table.tbl .mal{display:none}
   overflow:hidden;text-overflow:ellipsis}
 .rowlist .srow{align-items:flex-start}
 .rowlist .steams{white-space:normal}
+.payout{margin-top:11px;padding-top:9px;border-top:1px solid var(--rule)}
+.payrow{display:flex;justify-content:space-between;gap:8px;
+  font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-soft);
+  padding:3px 0;border-top:1px solid #EDEEEA}
+.payrow:first-of-type{border-top:none}
+.payrow span:nth-child(2){color:var(--ink-faint);min-width:56px;text-align:right}
+.payrow span:last-child{min-width:78px;text-align:right}
+.payrow.mine{color:var(--ink);font-weight:600}
+.sclose b{color:var(--ink);font-weight:600}
 .rowkey{font-size:11px;color:var(--ink-faint);margin-top:9px;line-height:1.45}
 .rowbox button[disabled]{opacity:.35;cursor:not-allowed}
 .totals{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;padding-top:11px;
@@ -478,7 +487,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-22 ab';
+const VERSION = '2026-08-23 ac';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1419,13 +1428,19 @@ function rowPanel(){
       // Vad det vinnande tecknet stod i vid stängning. Skiljer otur från
       // dåligt val: en miss på 8,50 är något annat än en miss på 1,45.
       let closing = '';
-      const cv = facit && saved.closing ? saved.closing[item.key] : null;
-      if (cv && right){
-        const o = cv.odds ? cv.odds[right] : null;
-        const d = cv.dist ? cv.dist[right] : null;
-        const parts = [LBL[right] + ' gick in'];
-        if (o != null) parts.push('odds ' + o.toFixed(2).replace('.',','));
-        if (d != null) parts.push(d + '% av strecken');
+      if (facit && right){
+        const parts = [];
+        const sc = saved.scores ? saved.scores[item.key] : null;
+        if (sc) parts.push('<b>' + sc.h + '–' + sc.a + '</b>');
+        parts.push(LBL[right] + ' gick in');
+
+        const cv = saved.closing ? saved.closing[item.key] : null;
+        if (cv){
+          const o = cv.odds ? cv.odds[right] : null;
+          const d = cv.dist ? cv.dist[right] : null;
+          if (o != null) parts.push('odds ' + o.toFixed(2).replace('.',','));
+          if (d != null) parts.push(d + '%');
+        }
         closing = '<span class="sclose">' + parts.join(' · ') + '</span>';
       }
 
@@ -1436,9 +1451,27 @@ function rowPanel(){
         '<span class="smarks">' + marks + '</span></div>';
     }).join('');
 
-    const res = facit
-      ? '<div class="rowres"><b>' + saved.correct + ' rätt</b> av ' + list.length + ' matcher</div>'
-      : '<div class="rowpend">Facit hämtas automatiskt när matcherna spelats.</div>';
+    let res;
+    if (facit){
+      res = '<div class="rowres"><b>' + saved.correct + ' rätt</b> av ' +
+            list.length + ' matcher</div>';
+
+      const pay = (saved.payouts || []).filter(p => p.winners);
+      if (pay.length){
+        res += '<div class="payout"><div class="dlabel">Utdelning</div>' +
+          pay.map(p => {
+            const kr = String(p.amount || '').split(',')[0];
+            const mine = saved.correct != null &&
+              p.name === saved.correct + ' rätt';
+            return '<div class="payrow' + (mine ? ' mine' : '') + '">' +
+              '<span>' + esc(p.name) + '</span>' +
+              '<span>' + esc(p.winners) + ' st</span>' +
+              '<span>' + esc(kr) + ' kr</span></div>';
+          }).join('') + '</div>';
+      }
+    } else {
+      res = '<div class="rowpend">Facit hämtas automatiskt när matcherna spelats.</div>';
+    }
 
     return '<div class="rowbox in bare">' +
       '<div class="rowhead">Inlämnad</div>' +
