@@ -32,7 +32,10 @@ def read_events():
 
     draw = payload.get("draw") or {}
     if isinstance(draw, dict) and "draws" in draw:
-        draw = draw["draws"][0]
+        draws = draw.get("draws") or []
+        if not draws:
+            return []
+        draw = draws[0]
     return draw.get("drawEvents", [])
 
 

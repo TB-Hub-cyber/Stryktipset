@@ -22,12 +22,16 @@ def as_number(value):
 
 
 def read_draw():
+    """Mellan stopptid och nästa öppning svarar Svenska Spel med en tom lista."""
     with open("data.json", encoding="utf-8") as fh:
         payload = json.load(fh)
 
     draw = payload.get("draw") or {}
     if isinstance(draw, dict) and "draws" in draw:
-        draw = draw["draws"][0]
+        draws = draw.get("draws") or []
+        if not draws:
+            return payload.get("fetchedAt"), None
+        draw = draws[0]
     return payload.get("fetchedAt"), draw
 
 
@@ -83,6 +87,10 @@ def load_history(draw_number):
 
 def main():
     fetched_at, draw = read_draw()
+    if not draw:
+        print("Ingen öppen omgång just nu — historiken lämnas orörd.")
+        return
+
     draw_number = draw.get("drawNumber")
     snapshot = build_snapshot(fetched_at, draw)
 
