@@ -471,7 +471,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-22 x';
+const VERSION = '2026-08-22 y';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1198,7 +1198,21 @@ function render(draw, keep){
       '</div>' +
       '<div class="detail">' + detailPanel(t, key) + '</div>';
 
-    const toggle = () => card.classList.toggle('open');
+    // Bara ett kort öppet i taget. Stänger ett kort ovanför hoppar sidan,
+    // så vi mäter positionen före och efter och kompenserar.
+    const toggle = () => {
+      const opening = !card.classList.contains('open');
+      const before = card.getBoundingClientRect().top;
+
+      document.querySelectorAll('.match.open').forEach(other => {
+        if (other !== card) other.classList.remove('open');
+      });
+      card.classList.toggle('open', opening);
+
+      const after = card.getBoundingClientRect().top;
+      if (Math.abs(after - before) > 1) window.scrollBy(0, after - before);
+    };
+
     card.querySelector('.mteams').addEventListener('click', toggle);
     card.querySelector('.chev').addEventListener('click', toggle);
 
