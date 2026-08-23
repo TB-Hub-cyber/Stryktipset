@@ -242,6 +242,8 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   border:1px solid var(--rule);border-radius:2px;padding:1px 3px;min-width:17px;text-align:center}
 .mopp{flex:1;min-width:0;font-size:14px;line-height:1.25}
 .mfix{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mfix b{font-weight:400;color:var(--ink-soft)}
+.mfix b.won{font-weight:700;color:var(--ink)}
 .mmeta2{display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;
   color:var(--ink-faint);margin-top:1px;letter-spacing:.02em}
 .mres{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600}
@@ -255,6 +257,9 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   text-align:left;display:block;margin-bottom:2px}
 .h2h{margin-bottom:15px}
 .h2hnote{font-size:11.5px;color:var(--ink-faint);margin-top:7px;line-height:1.4}
+.spider{margin-bottom:15px}
+.spider svg{display:block;width:100%;height:auto;overflow:visible}
+.spider .webline{fill:none;stroke:var(--rule);stroke-width:1}
 .chart{margin-bottom:15px}
 .chart svg{display:block;width:100%;height:auto;overflow:visible}
 .chart .grid{stroke:var(--rule);stroke-width:1}
@@ -556,7 +561,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-23 aj';
+const VERSION = '2026-08-23 al';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -872,7 +877,11 @@ function teamBox(part){
     ['Form hemma', formDots(formOf(id, 'home'))],
     ['Form borta', formDots(formOf(id, 'away'))],
     ['Mål', (tot.goalsFor||0) + '–' + (tot.goalsAgainst||0) +
-            (gd != null ? '  (' + (gd > 0 ? '+' + gd : gd) + ')' : '')]
+            (gd != null ? '  (' + (gd > 0 ? '+' + gd : gd) + ')' : '')],
+    ['Målsnitt', tot.playedGames
+       ? (tot.goalsFor / tot.playedGames).toFixed(1).replace('.',',') + ' gjorda · ' +
+         (tot.goalsAgainst / tot.playedGames).toFixed(1).replace('.',',') + ' insläppta'
+       : null]
   ];
 
   const possible = tot.playedGames * 3;
@@ -923,7 +932,7 @@ function posOf(teamId){
 const leagueName = code => LEAGUE_SHORT[code] ||
   ((fdComps[code] && fdComps[code].competition.name) || code);
 
-function matchList(list, showMeta){
+function matchList(list, showMeta, h2hStyle){
   if (!list || !list.length)
     return '<p style="font-size:13px;color:var(--ink-soft);padding:12px 0">' +
            'Inga matcher att visa.</p>';
@@ -945,6 +954,24 @@ function matchList(list, showMeta){
         bits.push('halvtid ' + homeHalf + '–' + awayHalf);
       const pos = posOf(m.oppId);
       if (pos) bits.push('motst. ' + pos);
+    }
+
+    // I inbördes möten är båda lagen kända. Då räcker fetstil på vinnaren —
+    // vem som vann framgår utan att man tolkar en bokstav och en färg.
+    if (h2hStyle){
+      const hw = homeGoals > awayGoals, aw = awayGoals > homeGoals;
+      return '<div class="mrow">' +
+        '<span class="mdate">' + shortDate(m.d) + '</span>' +
+        '<span class="mopp">' +
+          '<span class="mfix">' +
+            '<b class="' + (hw ? 'won' : '') + '">' + esc(homeName || '—') + '</b>' +
+            ' – ' +
+            '<b class="' + (aw ? 'won' : '') + '">' + esc(awayName || '—') + '</b>' +
+          '</span>' +
+          (bits.length ? '<span class="mmeta2">' + bits.join(' · ') + '</span>' : '') +
+        '</span>' +
+        '<span class="mres">' + homeGoals + '–' + awayGoals + '</span>' +
+      '</div>';
     }
 
     return '<div class="mrow">' +
@@ -1150,6 +1177,112 @@ function openChart(matchId, field, focus, title){
   document.body.style.overflow = 'hidden';
 }
 
+/* ---------- spindeldiagram ---------- */
+// Fem axlar, alla räknade ur data vi redan har. Varje värde normaliseras till
+// 0–100 så att axlarna går att lägga i samma nät.
+const AXES = ['Form', 'Målsnitt', 'Odds', 'Sv. folket', 'Inbördes'];
+
+function spiderValues(part, side, ev, p, d){
+  const hit = findTeam(part);
+  const out = {};
+
+  // Form: poäng av möjliga i de fem senaste.
+  const form = hit ? formOf(hit.team.id) : [];
+  out.Form = form.length
+    ? (form.reduce((a, m) => a + (m.r === 'V' ? 3 : m.r === 'O' ? 1 : 0), 0) /
+       (form.length * 3)) * 100
+    : null;
+
+  // Målsnitt: gjorda mål per match, taket satt vid tre.
+  const tot = hit && hit.TOTAL;
+  out['Målsnitt'] = (tot && tot.playedGames)
+    ? Math.min(100, (tot.goalsFor / tot.playedGames / 3) * 100)
+    : null;
+
+  // Odds och streck: sannolikhet respektive andel för lagets seger.
+  const key = side === 'home' ? 'one' : 'two';
+  out.Odds = p[key] != null ? Math.min(100, p[key] / 60 * 100) : null;
+  out['Sv. folket'] = (d[key] && d[key].now != null)
+    ? Math.min(100, d[key].now / 60 * 100) : null;
+
+  return out;
+}
+
+function spiderChart(t, ev, p, d){
+  const hitH = findTeam(t.home), hitA = findTeam(t.away);
+  const home = spiderValues(t.home, 'home', ev, p, d);
+  const away = spiderValues(t.away, 'away', ev, p, d);
+
+  // Inbördes: andel av möjliga poäng i mötena dem emellan.
+  if (hitH && hitA){
+    const k = Math.min(hitH.team.id, hitA.team.id) + '-' + Math.max(hitH.team.id, hitA.team.id);
+    const list = (h2hIndex[k] || []).slice(0, 6);
+    if (list.length){
+      const pts = {h: 0, a: 0};
+      list.forEach(m => {
+        const homeIsH = m.h === hitH.team.id;
+        const hg = homeIsH ? m.hg : m.ag, ag = homeIsH ? m.ag : m.hg;
+        if (hg > ag) pts.h += 3; else if (hg < ag) pts.a += 3;
+        else { pts.h += 1; pts.a += 1; }
+      });
+      const max = list.length * 3;
+      home['Inbördes'] = pts.h / max * 100;
+      away['Inbördes'] = pts.a / max * 100;
+    }
+  }
+
+  const any = AXES.some(a => home[a] != null || away[a] != null);
+  if (!any) return '';
+
+  const W = 300, H = 250, CX = W / 2, CY = 128, R = 88;
+  const angle = i => (Math.PI * 2 * i / AXES.length) - Math.PI / 2;
+  const pt = (i, frac) => [
+    CX + Math.cos(angle(i)) * R * frac,
+    CY + Math.sin(angle(i)) * R * frac
+  ];
+
+  let web = '';
+  [0.25, 0.5, 0.75, 1].forEach(f => {
+    web += '<polygon class="webline" points="' +
+      AXES.map((a, i) => pt(i, f).map(n => n.toFixed(1)).join(',')).join(' ') + '"/>';
+  });
+  AXES.forEach((a, i) => {
+    const e = pt(i, 1);
+    web += '<line class="webline" x1="' + CX + '" y1="' + CY +
+      '" x2="' + e[0].toFixed(1) + '" y2="' + e[1].toFixed(1) + '"/>';
+  });
+
+  const shape = (vals, colour) => {
+    const pts = AXES.map((a, i) => pt(i, (vals[a] == null ? 0 : vals[a]) / 100));
+    return '<polygon points="' + pts.map(q => q.map(n => n.toFixed(1)).join(',')).join(' ') +
+      '" fill="' + colour + '" fill-opacity=".16" stroke="' + colour + '" stroke-width="2"/>' +
+      pts.map(q => '<circle cx="' + q[0].toFixed(1) + '" cy="' + q[1].toFixed(1) +
+        '" r="3" fill="' + colour + '"/>').join('');
+  };
+
+  const labels = AXES.map((a, i) => {
+    const e = pt(i, 1.28);
+    const anchor = Math.abs(e[0] - CX) < 8 ? 'middle' : e[0] > CX ? 'start' : 'end';
+    return '<text class="ax" x="' + e[0].toFixed(1) + '" y="' + (e[1] + 3).toFixed(1) +
+      '" text-anchor="' + anchor + '">' + a + '</text>';
+  }).join('');
+
+  const CH = '#1F4E79', CA = '#9A4030';
+
+  return '<div class="dlabel">Jämförelse</div>' +
+    '<div class="spider"><svg viewBox="0 0 ' + W + ' ' + H + '" ' +
+      'preserveAspectRatio="xMidYMid meet">' + web +
+      shape(away, CA) + shape(home, CH) + labels +
+    '</svg><div class="clegend">' +
+      '<span><i style="background:' + CH + '"></i>' + esc(t.home.name) + '</span>' +
+      '<span><i style="background:' + CA + '"></i>' + esc(t.away.name) + '</span>' +
+    '</div>' +
+    '<div class="thin">Alla axlar går från 0 till 100. Form är poäng av möjliga ' +
+    'i de fem senaste, målsnitt är gjorda mål per match med taket vid tre, odds ' +
+    'och folket avser lagets seger, och inbördes är poängandel i tidigare möten. ' +
+    'Saknas underlag ritas axeln som noll.</div></div>';
+}
+
 /* ---------- detaljpanel ---------- */
 function h2hBlock(t){
   const a = findTeam(t.home), b = findTeam(t.away);
@@ -1172,16 +1305,17 @@ function h2hBlock(t){
   });
 
   return '<div class="dlabel">Inbördes möten</div>' +
-    '<div class="h2h">' + matchList(rows) +
-      '<div class="h2hnote">Ur ' + esc(t.home.name) + 's perspektiv. ' +
+    '<div class="h2h">' + matchList(rows, true, true) +
+      '<div class="h2hnote">Fetstil på vinnaren, båda tunna vid oavgjort. ' +
       (hasPast ? 'Innevarande och tidigare säsonger.'
                : 'Endast innevarande säsong — tidigare säsonger kunde inte hämtas.') +
       '</div></div>';
 }
 
-function detailPanel(t, key){
+function detailPanel(t, key, ev, p, d){
   const val = esc(notes[key] || '');
-  return '<div class="dlabel">Lagdata</div>' +
+  return spiderChart(t, ev, p, d) +
+    '<div class="dlabel">Lagdata</div>' +
     '<div class="teamgrid">' + teamBox(t.home) + teamBox(t.away) + '</div>' +
     h2hBlock(t) +
     '<div class="dlabel">Anteckningar</div>' +
@@ -1286,7 +1420,7 @@ function render(draw, keep){
           '</div>';
         }).join('') +
       '</div>' +
-      '<div class="detail">' + detailPanel(t, key) + '</div>';
+      '<div class="detail">' + detailPanel(t, key, ev, p, d) + '</div>';
 
     // Bara ett kort öppet i taget. Stänger ett kort ovanför hoppar sidan,
     // så vi mäter positionen före och efter och kompenserar.
