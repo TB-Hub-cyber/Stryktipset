@@ -52,8 +52,13 @@ h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;
 .bignums span{display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;
   letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
 .bignums b{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:600;line-height:1.1}
-.bench{display:flex;justify-content:space-between;gap:9px;padding:6px 0;
+.bench{display:flex;align-items:baseline;gap:9px;padding:6px 0;
   border-top:1px solid #EDEEEA;font-family:'IBM Plex Mono',monospace;font-size:12.5px}
+.bench > span:first-child{flex:1;min-width:0}
+.bcol{min-width:66px;text-align:right;flex-shrink:0}
+.bench.bhead{border-top:none;padding-bottom:2px}
+.bench.bhead .bcol{font-size:9px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-faint)}
 .bench:first-of-type{border-top:none}
 .bench b{font-weight:600}
 .bench .good{color:var(--high)} .bench .bad{color:var(--low)}
@@ -551,7 +556,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-23 ah';
+const VERSION = '2026-08-23 aj';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -565,6 +570,9 @@ let sheetComp = null, sheetTab = 'TOTAL', sheetHl = [];
 
 const num = v => (v==null || v==='') ? null : parseFloat(String(v).replace(',','.'));
 const fmt = v => v==null ? '–' : v.toFixed(2).replace('.',',');
+// Svenskt tusentalsavstånd: 1522223 blir 1 522 223.
+const thousands = v => String(v).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
+
 const esc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
 function getToken(){ try { return localStorage.getItem('gh_token') || ''; } catch(e){ return ''; } }
@@ -1511,20 +1519,26 @@ function statsView(){
     const cls = diff > 0 ? 'good' : diff < 0 ? 'bad' : '';
     const sign = diff > 0 ? '+' : diff < 0 ? '−' : '±';
     return '<div class="bench"><span>' + label + '</span>' +
-      '<span><b>' + other.toFixed(1).replace('.',',') + '</b> i snitt · ' +
-      '<b class="' + cls + '">' + sign + Math.abs(diff).toFixed(1).replace('.',',') +
-      '</b></span></div>';
+      '<span class="bcol">' + other.toFixed(1).replace('.',',') + '</span>' +
+      '<span class="bcol ' + cls + '"><b>' + sign +
+        Math.abs(diff).toFixed(1).replace('.',',') + '</b></span></div>';
   };
 
   const benchBox = withBench.length
     ? box('Jämförelse', 'bench',
-        '<div class="bench"><span>Din rad</span><span><b>' +
-          avg.toFixed(1).replace('.',',') + '</b> i snitt</span></div>' +
+        '<div class="bench bhead"><span></span>' +
+          '<span class="bcol">Snitt</span>' +
+          '<span class="bcol">Mot dig</span></div>' +
+        '<div class="bench"><span><b>Din rad</b></span>' +
+          '<span class="bcol"><b>' + avg.toFixed(1).replace('.',',') + '</b></span>' +
+          '<span class="bcol">–</span></div>' +
         cmp(mean('fav'), 'Favoritraden') +
         cmp(mean('people'), 'Folkets rad'),
         multiChart(series) +
-        '<div class="thin">Favoritraden tar lägsta odds i varje match, folkets ' +
-        'rad det mest spelade tecknet. Båda räknas på värdena vid stängning.</div>')
+        '<div class="thin">Kolumnen längst till höger är skillnaden mot din rad. ' +
+        'Grönt betyder att du haft fler rätt än den raden, rött att du haft färre.' +
+        '<br><br>Favoritraden tar lägsta odds i varje match, folkets rad det mest ' +
+        'spelade tecknet. Båda räknas på värdena vid stängning.</div>')
     : '';
 
   // Garderingar
@@ -1544,10 +1558,13 @@ function statsView(){
   });
 
   const names = {1:'Spikar', 2:'Halvgarderingar', 3:'Helgarderingar'};
-  const gardSummary = [1,2,3].filter(k => buckets[k].n).map(k =>
-    '<div class="bench"><span>' + names[k] + '</span><span><b>' +
-    buckets[k].hit + '</b> av ' + buckets[k].n + ' · ' +
-    pctOf(buckets[k].hit, buckets[k].n) + '%</span></div>').join('');
+  const gardSummary =
+    '<div class="bench bhead"><span></span>' +
+      '<span class="bcol">Träffar</span><span class="bcol">Andel</span></div>' +
+    [1,2,3].filter(k => buckets[k].n).map(k =>
+      '<div class="bench"><span>' + names[k] + '</span>' +
+      '<span class="bcol"><b>' + buckets[k].hit + '</b> av ' + buckets[k].n + '</span>' +
+      '<span class="bcol">' + pctOf(buckets[k].hit, buckets[k].n) + '%</span></div>').join('');
 
   const gardDetail = '<div class="dlabel" style="margin:12px 0 6px">Per omgång</div>' +
     perRound.map(r =>
@@ -1555,8 +1572,10 @@ function statsView(){
       [1,2,3].filter(k => r.local[k].n).map(k =>
         LBLSHORT[k] + ' ' + r.local[k].hit + '/' + r.local[k].n).join(' · ') +
       '</span></div>').join('') +
-    '<div class="thin">Helgarderingar träffar alltid men kostar rader. Det ' +
-    'intressanta är om halvgarderingarna träffar oftare än dina spikar.</div>';
+    '<div class="thin">Varje rad är sin egen träffprocent, räknad inom just den ' +
+    'gruppen. De hör inte ihop och ska inte summera till hundra.' +
+    '<br><br>Helgarderingar träffar alltid men kostar rader. Det intressanta är ' +
+    'om halvgarderingarna träffar oftare än dina spikar.</div>';
 
   const gardBox = box('Garderingar', 'gard', gardSummary, gardDetail);
 
@@ -1874,7 +1893,7 @@ function rowPanel(){
       if (pay.length){
         res += '<div class="payout"><div class="dlabel">Utdelning</div>' +
           pay.map(p => {
-            const kr = String(p.amount || '').split(',')[0];
+            const kr = thousands(String(p.amount || '').split(',')[0]);
             const mine = saved.correct != null &&
               p.name === saved.correct + ' rätt';
             return '<div class="payrow' + (mine ? ' mine' : '') + '">' +
