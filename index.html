@@ -257,7 +257,23 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   text-align:left;display:block;margin-bottom:2px}
 .h2h{margin-bottom:15px}
 .h2hnote{font-size:11.5px;color:var(--ink-faint);margin-top:7px;line-height:1.4}
-.spider{margin-bottom:15px}
+.qmark{width:15px;height:15px;padding:0;margin-left:5px;border-radius:50%;
+  background:transparent;border:1px solid var(--rule);color:var(--ink-faint);
+  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;
+  line-height:1;display:inline-flex;align-items:center;justify-content:center;
+  vertical-align:middle;letter-spacing:0;cursor:pointer}
+.qmark.on{background:var(--ink);border-color:var(--ink);color:var(--card)}
+.infopanel{display:none;font-size:11.5px;color:var(--ink-soft);line-height:1.5;
+  padding:7px 0 8px;border-bottom:1px solid #EDEEEA}
+.infopanel.show{display:block}
+.fold{border:1px solid var(--rule);border-radius:3px;margin-bottom:15px}
+.foldhead{display:flex;justify-content:space-between;align-items:baseline;width:100%;
+  background:none;border:none;padding:11px 12px;margin:0;cursor:pointer;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-soft);text-align:left}
+.foldbody{display:none;padding:0 12px 12px}
+.foldbody.show{display:block}
+.spider{margin-bottom:0}
 .spider svg{display:block;width:100%;height:auto;overflow:visible}
 .spider .webline{fill:none;stroke:var(--rule);stroke-width:1}
 .spider .webline.mid{stroke:var(--ink-faint);stroke-dasharray:3 3}
@@ -569,7 +585,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-23 am';
+const VERSION = '2026-08-23 an';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -877,19 +893,27 @@ function teamBox(part){
   const gd = tot.goalDifference;
   const comp = fdComps[hit.comp.code];
   const id = hit.team.id;
+
+  const goalInfo = withInfo('Gjorda mål mot insläppta, och skillnaden inom ' +
+    'parentes. ' + (tot.goalsFor||0) + ' gjorda och ' + (tot.goalsAgainst||0) +
+    ' insläppta ger ' + (gd > 0 ? '+' + gd : gd) + '.');
+  const avgInfo = withInfo('Gjorda mål delat med spelade matcher. ' +
+    (tot.goalsFor||0) + ' mål på ' + tot.playedGames + ' matcher.');
+  const formInfo = withInfo('De fem senaste matcherna, äldst till vänster. ' +
+    'Grönt vinst, grått oavgjort, rött förlust.');
+
   const rows = [
     ['Placering', hit.rank_TOTAL + ':e av ' + (comp ? comp.count : '?')],
     ['Spelade', String(tot.playedGames)],
     ['V–O–F', record(tot)],
-    ['Form 5', formDots(formOf(id))],
+    ['Form 5', formDots(formOf(id)), formInfo],
     ['Form hemma', formDots(formOf(id, 'home'))],
     ['Form borta', formDots(formOf(id, 'away'))],
     ['Mål', (tot.goalsFor||0) + '–' + (tot.goalsAgainst||0) +
-            (gd != null ? '  (' + (gd > 0 ? '+' + gd : gd) + ')' : '')],
+            (gd != null ? '  (' + (gd > 0 ? '+' + gd : gd) + ')' : ''), goalInfo],
     ['Målsnitt', tot.playedGames
-       ? (tot.goalsFor / tot.playedGames).toFixed(1).replace('.',',') + ' gjorda · ' +
-         (tot.goalsAgainst / tot.playedGames).toFixed(1).replace('.',',') + ' insläppta'
-       : null]
+       ? (tot.goalsFor / tot.playedGames).toFixed(2).replace('.',',')
+       : null, avgInfo]
   ];
 
   const possible = tot.playedGames * 3;
@@ -901,8 +925,10 @@ function teamBox(part){
     '<div class="tpoints"><span class="lbl">Poäng</span>' +
       '<span class="val">' + tot.points + '<em>av ' + possible + '</em></span></div>' +
     '<div class="tbar"><i style="width:' + share + '%"></i></div>' +
-    rows.map(r => '<div class="stat"><span>' + r[0] + '</span><span>' +
-      (r[1] != null ? r[1] : '<span class="pending">–</span>') + '</span></div>').join('') +
+    rows.map(r => '<div class="stat"><span>' + r[0] +
+      (r[2] ? r[2].mark : '') + '</span><span>' +
+      (r[1] != null ? r[1] : '<span class="pending">–</span>') + '</span></div>' +
+      (r[2] ? r[2].panel : '')).join('') +
     '</div>';
 }
 
@@ -1248,7 +1274,7 @@ function spiderChart(t, ev, p, d){
 
   if (!AXES.some(a => home[a] != null)) return '';
 
-  const W = 300, HT = 250, CX = W / 2, CY = 128, R = 88;
+  const W = 360, HT = 250, CX = W / 2, CY = 122, R = 76;
   const angle = i => (Math.PI * 2 * i / AXES.length) - Math.PI / 2;
   const pt = (i, frac) => [
     CX + Math.cos(angle(i)) * R * frac,
@@ -1275,7 +1301,7 @@ function spiderChart(t, ev, p, d){
   };
 
   const labels = AXES.map((a, i) => {
-    const e = pt(i, 1.28);
+    const e = pt(i, 1.24);
     const anchor = Math.abs(e[0] - CX) < 8 ? 'middle' : e[0] > CX ? 'start' : 'end';
     return '<text class="ax" x="' + e[0].toFixed(1) + '" y="' + (e[1] + 3).toFixed(1) +
       '" text-anchor="' + anchor + '">' + a + '</text>';
@@ -1288,22 +1314,30 @@ function spiderChart(t, ev, p, d){
     '<span style="color:' + CH + '">' + num(home[a]) + '</span>' +
     '<span style="color:' + CA + '">' + num(away[a]) + '</span></div>').join('');
 
-  return '<div class="dlabel">Jämförelse</div>' +
-    '<div class="spider"><svg viewBox="0 0 ' + W + ' ' + HT + '" ' +
-      'preserveAspectRatio="xMidYMid meet">' + web +
-      shape(away, CA) + shape(home, CH) + labels +
-    '</svg><div class="clegend">' +
-      '<span><i style="background:' + CH + '"></i>' + esc(t.home.name) + '</span>' +
-      '<span><i style="background:' + CA + '"></i>' + esc(t.away.name) + '</span>' +
-    '</div><div class="axtable">' + rows + '</div>' +
-    '<div class="thin">Varje axel visar lagets andel av vad de två lagen har ' +
-    'tillsammans. Femtio är jämnt, hundra betyder att laget står för allt. ' +
-    'Den streckade mittringen är femtio.' +
-    '<br><br>Form är poäng av möjliga i de fem senaste, målsnitt gjorda mål ' +
-    'per match, odds och folket avser seger med kryss borträknat, och inbördes ' +
-    'är poängandel i tidigare möten. Saknas underlag ritas axeln som femtio.' +
+  const info = withInfo(
+    'Varje axel visar lagets andel av vad de två lagen har tillsammans. ' +
+    'Femtio är jämnt, hundra betyder att laget står för allt. Streckade ' +
+    'mittringen är femtio.<br><br>' +
+    'Form är poäng av möjliga i de fem senaste. Målsnitt är gjorda mål per ' +
+    'match. Odds och folket avser seger med kryss borträknat. Inbördes är ' +
+    'poängandel i tidigare möten. Saknas underlag ritas axeln som femtio.' +
     '<br><br>Eftersom allt är relativt syns inte om båda lagen är svaga — ' +
-    'det står i lagrutorna nedanför.</div></div>';
+    'det står i lagrutorna ovanför.');
+
+  return '<div class="fold">' +
+    '<button class="foldhead" data-fold="spider">Jämförelse' +
+      '<span class="expand">visa</span></button>' +
+    '<div class="foldbody" id="fold-spider">' +
+      '<div class="spider"><svg viewBox="0 0 ' + W + ' ' + HT + '" ' +
+        'preserveAspectRatio="xMidYMid meet">' + web +
+        shape(away, CA) + shape(home, CH) + labels +
+      '</svg><div class="clegend">' +
+        '<span><i style="background:' + CH + '"></i>' + esc(t.home.name) + '</span>' +
+        '<span><i style="background:' + CA + '"></i>' + esc(t.away.name) + '</span>' +
+      '</div><div class="axtable">' + rows +
+      '<div class="axrow" style="border-top:1px dashed var(--rule)">' +
+        '<span>Skala 0–100' + info.mark + '</span></div>' +
+      '</div>' + info.panel + '</div></div></div>';
 }
 
 /* ---------- detaljpanel ---------- */
@@ -1337,9 +1371,9 @@ function h2hBlock(t){
 
 function detailPanel(t, key, ev, p, d){
   const val = esc(notes[key] || '');
-  return spiderChart(t, ev, p, d) +
-    '<div class="dlabel">Lagdata</div>' +
+  return '<div class="dlabel">Lagdata</div>' +
     '<div class="teamgrid">' + teamBox(t.home) + teamBox(t.away) + '</div>' +
+    spiderChart(t, ev, p, d) +
     h2hBlock(t) +
     '<div class="dlabel">Anteckningar</div>' +
     '<textarea class="injury" data-key="' + key + '" ' +
@@ -1447,8 +1481,20 @@ function render(draw, keep){
 
     // Bara ett kort öppet i taget. Stänger ett kort ovanför hoppar sidan,
     // så vi mäter positionen före och efter och kompenserar.
+    let wired = false;
     const toggle = () => {
       const opening = !card.classList.contains('open');
+      if (opening && !wired){
+        wired = true;
+        bindInfo(card);
+        card.querySelectorAll('.foldhead').forEach(fb => {
+          fb.addEventListener('click', () => {
+            const body = document.getElementById('fold-' + fb.dataset.fold);
+            const open = body.classList.toggle('show');
+            fb.querySelector('.expand').textContent = open ? 'dölj' : 'visa';
+          });
+        });
+      }
       const before = card.getBoundingClientRect().top;
 
       document.querySelectorAll('.match.open').forEach(other => {
@@ -1883,6 +1929,30 @@ function statsView(){
 
 const LBLSHORT = {1:'spik', 2:'halv', 3:'hel'};
 const pctOf = (a, b) => b ? Math.round(a / b * 100) : 0;
+
+// Liten frågeteckenknapp med förklaring som fälls ut. Håller rutorna rena
+// i stället för att varje mått bär en textmassa.
+let infoSeq = 0;
+function withInfo(text){
+  const id = 'i' + (++infoSeq);
+  return {
+    mark: '<button class="qmark" data-info="' + id + '" aria-label="Förklaring">?</button>',
+    panel: '<div class="infopanel" id="info-' + id + '">' + text + '</div>'
+  };
+}
+
+function bindInfo(root){
+  root.querySelectorAll('.qmark').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const panel = document.getElementById('info-' + btn.dataset.info);
+      if (panel){
+        panel.classList.toggle('show');
+        btn.classList.toggle('on');
+      }
+    });
+  });
+}
 
 // Lägsta odds respektive högsta streck.
 function pickBest(src, mode){
