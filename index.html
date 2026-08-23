@@ -174,6 +174,9 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .pickbtn{position:absolute;inset:0;width:100%;height:100%;background:none;border:none;
   padding:0;margin:0;cursor:pointer;z-index:1;border-radius:0}
 .pickbtn:focus-visible{outline:2px solid var(--ink);outline-offset:-3px}
+.pending-odds{color:var(--ink-faint)!important;text-decoration:none!important}
+.oddsnote{font-size:11.5px;color:var(--mid);line-height:1.45;padding:9px 11px;
+  background:var(--mid-bg);border-top:1px solid var(--rule)}
 .cellinner{position:relative;z-index:2;pointer-events:none;display:flex;
   flex-direction:column;align-items:center;text-align:center;padding:8px 2px 9px}
 .sign{display:flex;align-items:center;justify-content:center;line-height:1;
@@ -491,7 +494,7 @@ table.tbl .mal{display:none}
     <b>±0</b> betyder oförändrat.</span></div>
   <div class="lrow"><span class="lex">42%<br>+2</span>
     <span>Så stor andel av svenska folket som tippat tecknet, och hur mycket
-    andelen rört sig sedan förra mätningen.</span></div>
+    andelen rört sig sedan omgången öppnade.</span></div>
   <div class="lrow"><span class="lex">0,93</span>
     <span>Spelvärde. Över 1,00 är tecknet mindre spelat än oddsen motiverar.
     Högre är bättre.</span></div>
@@ -521,6 +524,12 @@ table.tbl .mal{display:none}
     <p>Under 1,00 betyder <b>överspelat</b> — fler tippar det än vad oddsen motiverar,
     så du får dela med många. Över 1,00 betyder <b>underspelat</b> — färre har det,
     och en träff blir värd mer.</p>
+
+    <p><b>Om startpunkterna.</b> Oddsförändringen mäts mot Svenska Spels
+    öppningsodds, som finns med i datan från början. Strecken har ingen sådan
+    startpunkt hos dem, så där jämförs mot den första mätning appen själv
+    sparat för omgången. Saknas historik faller den tillbaka på Svenska Spels
+    egen referens, som bara mäter senaste steget.</p>
 
     <p>Sannolikheten kommer från Svenska Spels eget fält <span class="lex">favouriteOdds</span>,
     där spelbolagets marginal redan är borträknad. Utan den justeringen skulle de tre
@@ -592,7 +601,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-23 ao';
+const VERSION = '2026-08-23 aq';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1427,6 +1436,10 @@ function render(draw, keep){
     const p = probs(ev), d = distOf(ev), o = ev.odds || {}, so = ev.startOdds || {};
     const t = sides(ev), key = keyOf(ev);
 
+    // Svenska Spel publicerar kupongen först och sätter oddsen några timmar
+    // senare. Utan odds går varken sannolikhet eller spelvärde att räkna.
+    const noOdds = OUT.every(k => num(o[k]) == null);
+
     const value = {};
     OUT.forEach(k => {
       const dist = d[k] && d[k].now;
@@ -1478,8 +1491,11 @@ function render(draw, keep){
             '<div class="cellinner">' +
               '<span class="sign' + signCls + '">' + LBL[k] + '</span>' +
               '<button class="numbtn" data-chart="o" data-out="' + k + '">' +
-                '<span class="odds">' + fmt(num(o[k])) + '</span>' +
-                deltaHtml(oddsDelta(num(o[k]), num(so[k]))) +
+                (noOdds
+                  ? '<span class="odds pending-odds">–</span>' +
+                    '<span class="delta">&nbsp;</span>'
+                  : '<span class="odds">' + fmt(num(o[k])) + '</span>' +
+                    deltaHtml(oddsDelta(num(o[k]), num(so[k])))) +
               '</button>' +
               '<button class="numbtn" data-chart="d" data-out="' + k + '">' +
                 '<span class="dist">' + (dd.now != null ? dd.now + '%' : '–') + '</span>' +
@@ -1490,6 +1506,11 @@ function render(draw, keep){
           '</div>';
         }).join('') +
       '</div>' +
+      (noOdds
+        ? '<div class="oddsnote">Oddsen är inte satta än. Svenska Spel publicerar ' +
+          'kupongen först och sätter oddsen några timmar senare — strecken tickar ' +
+          'in under tiden. Spelvärdet räknas fram så fort oddsen kommit.</div>'
+        : '') +
       '<div class="detail">' + detailPanel(t, key, ev, p, d) + '</div>';
 
     // Bara ett kort öppet i taget. Stänger ett kort ovanför hoppar sidan,
