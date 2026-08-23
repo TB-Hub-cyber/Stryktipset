@@ -265,6 +265,13 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .qmark.on{background:var(--ink);border-color:var(--ink);color:var(--card)}
 .infopanel{display:none;font-size:11.5px;color:var(--ink-soft);line-height:1.5;
   padding:7px 0 8px;border-bottom:1px solid #EDEEEA}
+.infopanel p{margin-bottom:8px}
+.infopanel p:last-child{margin-bottom:0}
+.infopanel.wide{border-bottom:none;padding-top:2px}
+.qline{display:flex;justify-content:space-between;align-items:baseline;width:100%;
+  background:none;border:none;border-top:1px solid var(--rule);padding:10px 0 8px;
+  margin-top:10px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);text-align:left}
 .infopanel.show{display:block}
 .fold{border:1px solid var(--rule);border-radius:3px;margin-bottom:15px}
 .foldhead{display:flex;justify-content:space-between;align-items:baseline;width:100%;
@@ -585,7 +592,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-23 an';
+const VERSION = '2026-08-23 ao';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1239,7 +1246,7 @@ function teamRaw(part){
   };
 }
 
-function spiderChart(t, ev, p, d){
+function spiderChart(t, ev, p, d, key){
   const H = teamRaw(t.home), A = teamRaw(t.away);
   const home = {}, away = {};
 
@@ -1315,29 +1322,35 @@ function spiderChart(t, ev, p, d){
     '<span style="color:' + CA + '">' + num(away[a]) + '</span></div>').join('');
 
   const info = withInfo(
-    'Varje axel visar lagets andel av vad de två lagen har tillsammans. ' +
+    '<p>Varje axel visar lagets andel av vad de två lagen har tillsammans. ' +
     'Femtio är jämnt, hundra betyder att laget står för allt. Streckade ' +
-    'mittringen är femtio.<br><br>' +
-    'Form är poäng av möjliga i de fem senaste. Målsnitt är gjorda mål per ' +
+    'mittringen är femtio.</p>' +
+    '<p>Form är poäng av möjliga i de fem senaste. Målsnitt är gjorda mål per ' +
     'match. Odds och folket avser seger med kryss borträknat. Inbördes är ' +
-    'poängandel i tidigare möten. Saknas underlag ritas axeln som femtio.' +
-    '<br><br>Eftersom allt är relativt syns inte om båda lagen är svaga — ' +
-    'det står i lagrutorna ovanför.');
+    'poängandel i tidigare möten. Saknas underlag ritas axeln som femtio.</p>' +
+    '<p>Eftersom allt är relativt syns inte om båda lagen är svaga — ' +
+    'det står i lagrutorna ovanför.</p>');
+
+  // Varje match behöver eget id, annars öppnar knappen alltid den första.
+  const fid = 'spider-' + key;
 
   return '<div class="fold">' +
-    '<button class="foldhead" data-fold="spider">Jämförelse' +
+    '<button class="foldhead" data-fold="' + fid + '">Spindeldiagram' +
       '<span class="expand">visa</span></button>' +
-    '<div class="foldbody" id="fold-spider">' +
+    '<div class="foldbody" id="fold-' + fid + '">' +
       '<div class="spider"><svg viewBox="0 0 ' + W + ' ' + HT + '" ' +
         'preserveAspectRatio="xMidYMid meet">' + web +
         shape(away, CA) + shape(home, CH) + labels +
       '</svg><div class="clegend">' +
         '<span><i style="background:' + CH + '"></i>' + esc(t.home.name) + '</span>' +
         '<span><i style="background:' + CA + '"></i>' + esc(t.away.name) + '</span>' +
-      '</div><div class="axtable">' + rows +
-      '<div class="axrow" style="border-top:1px dashed var(--rule)">' +
-        '<span>Skala 0–100' + info.mark + '</span></div>' +
-      '</div>' + info.panel + '</div></div></div>';
+      '</div>' +
+      '<button class="qline" data-info="' + info.id + '">Förklaring och siffror' +
+        '<span class="expand">visa</span></button>' +
+      '<div class="infopanel wide" id="info-' + info.id + '">' +
+        '<div class="axtable">' + rows + '</div>' + info.text +
+      '</div>' +
+    '</div></div></div>';
 }
 
 /* ---------- detaljpanel ---------- */
@@ -1373,7 +1386,7 @@ function detailPanel(t, key, ev, p, d){
   const val = esc(notes[key] || '');
   return '<div class="dlabel">Lagdata</div>' +
     '<div class="teamgrid">' + teamBox(t.home) + teamBox(t.away) + '</div>' +
-    spiderChart(t, ev, p, d) +
+    spiderChart(t, ev, p, d, key) +
     h2hBlock(t) +
     '<div class="dlabel">Anteckningar</div>' +
     '<textarea class="injury" data-key="' + key + '" ' +
@@ -1936,20 +1949,23 @@ let infoSeq = 0;
 function withInfo(text){
   const id = 'i' + (++infoSeq);
   return {
+    id: id,
+    text: text,
     mark: '<button class="qmark" data-info="' + id + '" aria-label="Förklaring">?</button>',
     panel: '<div class="infopanel" id="info-' + id + '">' + text + '</div>'
   };
 }
 
 function bindInfo(root){
-  root.querySelectorAll('.qmark').forEach(btn => {
+  root.querySelectorAll('.qmark, .qline').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
       const panel = document.getElementById('info-' + btn.dataset.info);
-      if (panel){
-        panel.classList.toggle('show');
-        btn.classList.toggle('on');
-      }
+      if (!panel) return;
+      const open = panel.classList.toggle('show');
+      btn.classList.toggle('on', open);
+      const label = btn.querySelector('.expand');
+      if (label) label.textContent = open ? 'dölj' : 'visa';
     });
   });
 }
