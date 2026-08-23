@@ -260,6 +260,14 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .spider{margin-bottom:15px}
 .spider svg{display:block;width:100%;height:auto;overflow:visible}
 .spider .webline{fill:none;stroke:var(--rule);stroke-width:1}
+.spider .webline.mid{stroke:var(--ink-faint);stroke-dasharray:3 3}
+.axtable{margin-top:10px}
+.axrow{display:flex;justify-content:space-between;gap:8px;padding:4px 0;
+  border-top:1px solid #EDEEEA;font-family:'IBM Plex Mono',monospace;font-size:12px;
+  color:var(--ink-soft)}
+.axrow:first-child{border-top:none}
+.axrow span:first-child{flex:1}
+.axrow span:not(:first-child){min-width:38px;text-align:right;font-weight:600}
 .chart{margin-bottom:15px}
 .chart svg{display:block;width:100%;height:auto;overflow:visible}
 .chart .grid{stroke:var(--rule);stroke-width:1}
@@ -561,7 +569,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-23 al';
+const VERSION = '2026-08-23 am';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1182,59 +1190,65 @@ function openChart(matchId, field, focus, title){
 // 0–100 så att axlarna går att lägga i samma nät.
 const AXES = ['Form', 'Målsnitt', 'Odds', 'Sv. folket', 'Inbördes'];
 
-function spiderValues(part, side, ev, p, d){
+// Alla fem axlar är relativa: lagets andel av vad de två lagen har
+// tillsammans. Då betyder full radie samma sak överallt, och hela diagrammet
+// används. Priset är att man inte ser om båda lagen är svaga i absoluta tal —
+// siffrorna i lagrutorna nedanför säger det i stället.
+function share(a, b){
+  if (a == null || b == null) return null;
+  const sum = a + b;
+  return sum > 0 ? (a / sum) * 100 : 50;
+}
+
+function teamRaw(part){
   const hit = findTeam(part);
-  const out = {};
-
-  // Form: poäng av möjliga i de fem senaste.
   const form = hit ? formOf(hit.team.id) : [];
-  out.Form = form.length
-    ? (form.reduce((a, m) => a + (m.r === 'V' ? 3 : m.r === 'O' ? 1 : 0), 0) /
-       (form.length * 3)) * 100
-    : null;
-
-  // Målsnitt: gjorda mål per match, taket satt vid tre.
   const tot = hit && hit.TOTAL;
-  out['Målsnitt'] = (tot && tot.playedGames)
-    ? Math.min(100, (tot.goalsFor / tot.playedGames / 3) * 100)
-    : null;
-
-  // Odds och streck: sannolikhet respektive andel för lagets seger.
-  const key = side === 'home' ? 'one' : 'two';
-  out.Odds = p[key] != null ? Math.min(100, p[key] / 60 * 100) : null;
-  out['Sv. folket'] = (d[key] && d[key].now != null)
-    ? Math.min(100, d[key].now / 60 * 100) : null;
-
-  return out;
+  return {
+    hit: hit,
+    form: form.length
+      ? form.reduce((a, m) => a + (m.r === 'V' ? 3 : m.r === 'O' ? 1 : 0), 0) / (form.length * 3)
+      : null,
+    goals: (tot && tot.playedGames) ? tot.goalsFor / tot.playedGames : null
+  };
 }
 
 function spiderChart(t, ev, p, d){
-  const hitH = findTeam(t.home), hitA = findTeam(t.away);
-  const home = spiderValues(t.home, 'home', ev, p, d);
-  const away = spiderValues(t.away, 'away', ev, p, d);
+  const H = teamRaw(t.home), A = teamRaw(t.away);
+  const home = {}, away = {};
 
-  // Inbördes: andel av möjliga poäng i mötena dem emellan.
-  if (hitH && hitA){
-    const k = Math.min(hitH.team.id, hitA.team.id) + '-' + Math.max(hitH.team.id, hitA.team.id);
+  home.Form = share(H.form, A.form);
+  away.Form = share(A.form, H.form);
+  home['Målsnitt'] = share(H.goals, A.goals);
+  away['Målsnitt'] = share(A.goals, H.goals);
+
+  // Segerchans respektive andel av strecken, kryss borträknat.
+  home.Odds = share(p.one, p.two);
+  away.Odds = share(p.two, p.one);
+  const dh = d.one && d.one.now, da = d.two && d.two.now;
+  home['Sv. folket'] = share(dh, da);
+  away['Sv. folket'] = share(da, dh);
+
+  // Inbördes: andel av de poäng som faktiskt delats ut i mötena.
+  if (H.hit && A.hit){
+    const k = Math.min(H.hit.team.id, A.hit.team.id) + '-' +
+              Math.max(H.hit.team.id, A.hit.team.id);
     const list = (h2hIndex[k] || []).slice(0, 6);
     if (list.length){
-      const pts = {h: 0, a: 0};
+      let ph = 0, pa = 0;
       list.forEach(m => {
-        const homeIsH = m.h === hitH.team.id;
+        const homeIsH = m.h === H.hit.team.id;
         const hg = homeIsH ? m.hg : m.ag, ag = homeIsH ? m.ag : m.hg;
-        if (hg > ag) pts.h += 3; else if (hg < ag) pts.a += 3;
-        else { pts.h += 1; pts.a += 1; }
+        if (hg > ag) ph += 3; else if (hg < ag) pa += 3; else { ph += 1; pa += 1; }
       });
-      const max = list.length * 3;
-      home['Inbördes'] = pts.h / max * 100;
-      away['Inbördes'] = pts.a / max * 100;
+      home['Inbördes'] = share(ph, pa);
+      away['Inbördes'] = share(pa, ph);
     }
   }
 
-  const any = AXES.some(a => home[a] != null || away[a] != null);
-  if (!any) return '';
+  if (!AXES.some(a => home[a] != null)) return '';
 
-  const W = 300, H = 250, CX = W / 2, CY = 128, R = 88;
+  const W = 300, HT = 250, CX = W / 2, CY = 128, R = 88;
   const angle = i => (Math.PI * 2 * i / AXES.length) - Math.PI / 2;
   const pt = (i, frac) => [
     CX + Math.cos(angle(i)) * R * frac,
@@ -1243,7 +1257,7 @@ function spiderChart(t, ev, p, d){
 
   let web = '';
   [0.25, 0.5, 0.75, 1].forEach(f => {
-    web += '<polygon class="webline" points="' +
+    web += '<polygon class="webline' + (f === 0.5 ? ' mid' : '') + '" points="' +
       AXES.map((a, i) => pt(i, f).map(n => n.toFixed(1)).join(',')).join(' ') + '"/>';
   });
   AXES.forEach((a, i) => {
@@ -1253,7 +1267,7 @@ function spiderChart(t, ev, p, d){
   });
 
   const shape = (vals, colour) => {
-    const pts = AXES.map((a, i) => pt(i, (vals[a] == null ? 0 : vals[a]) / 100));
+    const pts = AXES.map((a, i) => pt(i, (vals[a] == null ? 50 : vals[a]) / 100));
     return '<polygon points="' + pts.map(q => q.map(n => n.toFixed(1)).join(',')).join(' ') +
       '" fill="' + colour + '" fill-opacity=".16" stroke="' + colour + '" stroke-width="2"/>' +
       pts.map(q => '<circle cx="' + q[0].toFixed(1) + '" cy="' + q[1].toFixed(1) +
@@ -1268,19 +1282,28 @@ function spiderChart(t, ev, p, d){
   }).join('');
 
   const CH = '#1F4E79', CA = '#9A4030';
+  const num = (v) => v == null ? '–' : Math.round(v);
+  const rows = AXES.map(a =>
+    '<div class="axrow"><span>' + a + '</span>' +
+    '<span style="color:' + CH + '">' + num(home[a]) + '</span>' +
+    '<span style="color:' + CA + '">' + num(away[a]) + '</span></div>').join('');
 
   return '<div class="dlabel">Jämförelse</div>' +
-    '<div class="spider"><svg viewBox="0 0 ' + W + ' ' + H + '" ' +
+    '<div class="spider"><svg viewBox="0 0 ' + W + ' ' + HT + '" ' +
       'preserveAspectRatio="xMidYMid meet">' + web +
       shape(away, CA) + shape(home, CH) + labels +
     '</svg><div class="clegend">' +
       '<span><i style="background:' + CH + '"></i>' + esc(t.home.name) + '</span>' +
       '<span><i style="background:' + CA + '"></i>' + esc(t.away.name) + '</span>' +
-    '</div>' +
-    '<div class="thin">Alla axlar går från 0 till 100. Form är poäng av möjliga ' +
-    'i de fem senaste, målsnitt är gjorda mål per match med taket vid tre, odds ' +
-    'och folket avser lagets seger, och inbördes är poängandel i tidigare möten. ' +
-    'Saknas underlag ritas axeln som noll.</div></div>';
+    '</div><div class="axtable">' + rows + '</div>' +
+    '<div class="thin">Varje axel visar lagets andel av vad de två lagen har ' +
+    'tillsammans. Femtio är jämnt, hundra betyder att laget står för allt. ' +
+    'Den streckade mittringen är femtio.' +
+    '<br><br>Form är poäng av möjliga i de fem senaste, målsnitt gjorda mål ' +
+    'per match, odds och folket avser seger med kryss borträknat, och inbördes ' +
+    'är poängandel i tidigare möten. Saknas underlag ritas axeln som femtio.' +
+    '<br><br>Eftersom allt är relativt syns inte om båda lagen är svaga — ' +
+    'det står i lagrutorna nedanför.</div></div>';
 }
 
 /* ---------- detaljpanel ---------- */
