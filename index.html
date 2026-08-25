@@ -601,7 +601,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-24 ar';
+const VERSION = '2026-08-24 as';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -924,10 +924,6 @@ function teamBox(part){
       ? ' Skillnaden betyder att resultatdatan inte hunnit uppdateras.'
       : ''));
 
-  const pointsInfo = withInfo('Laget har <b>' + deduction + ' poängs avdrag</b>. ' +
-    ((tot.won||0) * 3 + (tot.draw||0)) + ' poäng intjänade på planen, ' +
-    tot.points + ' i tabellen. Avdrag förekommer i Championship, oftast för ' +
-    'brott mot de ekonomiska reglerna.');
 
   const rows = [
     ['Placering', hit.rank_TOTAL + ':e av ' + (comp ? comp.count : '?')],
@@ -951,6 +947,10 @@ function teamBox(part){
     : 0;
   const earned = (tot.won || 0) * 3 + (tot.draw || 0);
   const deduction = earned - (tot.points || 0);
+
+  const pointsInfo = withInfo('Laget har <b>' + deduction + ' poängs avdrag</b>. ' +
+    earned + ' poäng intjänade på planen, ' + tot.points + ' i tabellen. ' +
+    'Avdrag förekommer i Championship, oftast för brott mot de ekonomiska reglerna.');
 
   return '<div class="teambox">' +
     '<button class="tlink" data-team="' + hit.team.id + '" ' +
