@@ -91,12 +91,19 @@ jobs:
               -o "st-$code.json" || { echo "Tabell för $code misslyckades."; continue; }
             sleep 7
 
+            # Säsongen måste anges uttryckligen. Utan den returnerar API:et
+            # bara en delmängd av matcherna, vilket gav form på en match
+            # trots att tabellen visade två spelade.
+            SEASON=$(jq -r '.season.startDate // "" | split("-")[0]' "st-$code.json")
+            [ -n "$SEASON" ] || SEASON=$(date -u +%Y)
+
             curl -sS -f -H "X-Auth-Token: $FD" \
-              "https://api.football-data.org/v4/competitions/$code/matches?status=FINISHED" \
+              "https://api.football-data.org/v4/competitions/$code/matches?status=FINISHED&season=$SEASON" \
               -o "ma-$code.json" || { echo "Matcher för $code misslyckades."; continue; }
             sleep 7
 
             jq --arg c "$code" "$TRIM" "ma-$code.json" > "sm-$code.json"
+            echo "$code säsong $SEASON: $(jq 'length' "sm-$code.json") spelade matcher."
           done
 
       - name: Försök hämta tidigare säsonger
@@ -159,6 +166,8 @@ jobs:
               json.dump(out, fh, ensure_ascii=False, separators=(",", ":"))
 
           print("Ligor: %s" % ", ".join(sorted(competitions)))
+          for code in sorted(results):
+              print("  %s: %d matcher" % (code, len(results[code])))
           print("Matcher denna säsong: %d" % sum(len(v) for v in results.values()))
           print("Tidigare möten: %d" % len(past))
           PY
