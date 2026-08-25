@@ -601,7 +601,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-23 aq';
+const VERSION = '2026-08-24 ar';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -915,8 +915,19 @@ function teamBox(part){
     ' insläppta ger ' + (gd > 0 ? '+' + gd : gd) + '.');
   const avgInfo = withInfo('Gjorda mål delat med spelade matcher. ' +
     (tot.goalsFor||0) + ' mål på ' + tot.playedGames + ' matcher.');
+  const played = formOf(id).length;
   const formInfo = withInfo('De fem senaste matcherna, äldst till vänster. ' +
-    'Grönt vinst, grått oavgjort, rött förlust.');
+    'Grönt vinst, grått oavgjort, rött förlust.<br><br>' +
+    'Bygger på <b>' + played + '</b> hittade ' + (played === 1 ? 'match' : 'matcher') +
+    ' av ' + tot.playedGames + ' spelade enligt tabellen.' +
+    (played < tot.playedGames
+      ? ' Skillnaden betyder att resultatdatan inte hunnit uppdateras.'
+      : ''));
+
+  const pointsInfo = withInfo('Laget har <b>' + deduction + ' poängs avdrag</b>. ' +
+    ((tot.won||0) * 3 + (tot.draw||0)) + ' poäng intjänade på planen, ' +
+    tot.points + ' i tabellen. Avdrag förekommer i Championship, oftast för ' +
+    'brott mot de ekonomiska reglerna.');
 
   const rows = [
     ['Placering', hit.rank_TOTAL + ':e av ' + (comp ? comp.count : '?')],
@@ -933,14 +944,22 @@ function teamBox(part){
   ];
 
   const possible = tot.playedGames * 3;
-  const share = possible ? Math.round(tot.points / possible * 100) : 0;
+  // Poängavdrag förekommer, särskilt i Championship. Då kan poängen bli
+  // negativ och mätaren måste klippas, annars ritas den full.
+  const share = possible
+    ? Math.max(0, Math.min(100, Math.round(tot.points / possible * 100)))
+    : 0;
+  const earned = (tot.won || 0) * 3 + (tot.draw || 0);
+  const deduction = earned - (tot.points || 0);
 
   return '<div class="teambox">' +
     '<button class="tlink" data-team="' + hit.team.id + '" ' +
       'data-name="' + esc(part.name) + '">' + esc(part.name) + '</button>' +
-    '<div class="tpoints"><span class="lbl">Poäng</span>' +
+    '<div class="tpoints"><span class="lbl">Poäng' +
+      (deduction > 0 ? pointsInfo.mark : '') + '</span>' +
       '<span class="val">' + tot.points + '<em>av ' + possible + '</em></span></div>' +
     '<div class="tbar"><i style="width:' + share + '%"></i></div>' +
+    (deduction > 0 ? pointsInfo.panel : '') +
     rows.map(r => '<div class="stat"><span>' + r[0] +
       (r[2] ? r[2].mark : '') + '</span><span>' +
       (r[1] != null ? r[1] : '<span class="pending">–</span>') + '</span></div>' +
