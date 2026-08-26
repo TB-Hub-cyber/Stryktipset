@@ -37,6 +37,25 @@ h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;
   letter-spacing:.06em;text-decoration:underline;cursor:pointer}
 
 .viewnav{display:flex;gap:7px;margin:14px 0 4px}
+.addgrid{display:grid;gap:7px;margin-bottom:2px}
+.addgrid input{width:100%;border:1px solid var(--rule);border-radius:3px;padding:9px;
+  font-family:'Barlow',sans-serif;font-size:14px;background:#fff;color:var(--ink)}
+.addgrid input:focus{outline:2px solid var(--ink);outline-offset:1px}
+.srcrow{display:flex;justify-content:space-between;align-items:center;gap:9px;
+  padding:6px 0;border-top:1px solid #EDEEEA;font-family:'IBM Plex Mono',monospace;
+  font-size:12.5px}
+.srcrow:first-of-type{border-top:none}
+.del{background:none;border:none;padding:0;font-family:'IBM Plex Mono',monospace;
+  font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--low);
+  text-decoration:underline;cursor:pointer}
+.srcteam{padding:9px 0;border-top:1px solid var(--rule)}
+.srcteam:first-of-type{border-top:none}
+.srcname{display:flex;justify-content:space-between;align-items:baseline;gap:9px;
+  font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;
+  margin-bottom:3px}
+.chip{background:var(--paper);border:1px solid var(--rule);border-radius:12px;
+  padding:3px 9px;margin:3px 4px 0 0;font-family:'Barlow',sans-serif;font-size:12px;
+  text-transform:none;letter-spacing:0;color:var(--ink-soft);cursor:pointer}
 .navexp{margin-left:auto;background:transparent!important;color:var(--ink-soft)!important;
   border:1px solid var(--rule)!important}
 .exportbox{height:230px;font-size:10.5px;line-height:1.5;white-space:pre}
@@ -314,6 +333,15 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   padding-top:9px;border-top:1px solid var(--rule)}
 .chart-empty{font-size:11.5px;color:var(--ink-faint);line-height:1.45;
   padding:9px 0;border-bottom:1px solid var(--rule);margin-bottom:13px}
+.newsbox{margin-bottom:15px}
+.newsrow{padding:8px 0;border-top:1px solid #EDEEEA}
+.newsrow:first-child{border-top:none}
+.newsteam{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;
+  line-height:1.2}
+.newstext{font-size:13px;line-height:1.45;margin:2px 0 3px}
+.newssrc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-faint);
+  text-decoration:underline;text-underline-offset:2px}
+.newssrc em{font-style:normal;color:var(--mid)}
 .injury{height:120px;font-family:'Barlow',sans-serif;font-size:13.5px;line-height:1.5}
 .note{font-size:12px;color:var(--ink-soft);margin-top:12px;padding-top:9px;
   border-top:1px dashed var(--rule);line-height:1.45}
@@ -474,6 +502,7 @@ table.tbl .mal{display:none}
 <nav class="viewnav hidden" id="viewnav">
   <button class="on" data-view="coupon">Kupong</button>
   <button data-view="stats">Statistik</button>
+  <button data-view="sources">Källor</button>
   <button class="navexp" id="exportbtn">Exportera</button>
 </nav>
 
@@ -551,6 +580,8 @@ table.tbl .mal{display:none}
 
 <section class="stats hidden" id="stats"></section>
 
+<section class="stats hidden" id="sources"></section>
+
 <section class="tokenbox hidden" id="tokenbox">
   <h2>Koppla anteckningar till GitHub</h2>
   <p>Klistra in en åtkomstnyckel som bara har skrivrättighet till det här repot.
@@ -605,7 +636,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-26 au';
+const VERSION = '2026-08-26 aw';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -614,6 +645,9 @@ let fdIndex = [], fdComps = {}, formIndex = {}, h2hIndex = {}, hasPast = false;
 let notesDirty = false, drawStamp = null, notesReset = null;
 let noOpenDraw = false;
 let rowsFile = {rounds:{}};
+let newsFile = {matches:{}};
+let srcFile = {allmanna:[], lag:{}};
+let srcDirty = false;
 let histIndex = {};   // {matchId: [{t, o:[1,X,2], d:[1,X,2]}]}
 let sheetComp = null, sheetTab = 'TOTAL', sheetHl = [];
 
@@ -1429,11 +1463,39 @@ function h2hBlock(t){
       '</div></div>';
 }
 
+function newsBlock(key){
+  if (String(newsFile.drawNumber || '') !== String(drawInfo.drawNumber || '')) return '';
+  const entry = (newsFile.matches || {})[key];
+  if (!entry || !entry.items || !entry.items.length) return '';
+
+  const rows = entry.items.map(it =>
+    '<div class="newsrow">' +
+      '<div class="newsteam">' + esc(it.team) + '</div>' +
+      '<div class="newstext">' + esc(it.text) + '</div>' +
+      '<a class="newssrc" href="' + esc(it.url) + '" target="_blank" rel="noopener">' +
+        esc(it.source) + (it.date ? ' · ' + esc(it.date) : '') +
+        (it.trusted ? '' : ' <em>ej på källistan</em>') +
+      '</a></div>').join('');
+
+  const info = withInfo('Sammanställt av en språkmodell som sökt på webben. ' +
+    'Varje påstående måste ha en länk, och länken kontrolleras innan den sparas. ' +
+    'Modellen får inte bedöma matchen — den samlar bara besked om skador, ' +
+    'avstängningar och laguppställningar.<br><br>' +
+    'Läs alltid källan innan du litar på uppgiften. Källor som inte står på ' +
+    'listan i sources.json märks särskilt.' +
+    (entry.checkedAt ? '<br><br>Hämtat ' +
+      new Date(entry.checkedAt).toLocaleString('sv-SE') + '.' : ''));
+
+  return '<div class="dlabel">Lagnyheter' + info.mark + '</div>' +
+    info.panel + '<div class="newsbox">' + rows + '</div>';
+}
+
 function detailPanel(t, key, ev, p, d){
   const val = esc(notes[key] || '');
   return '<div class="dlabel">Lagdata</div>' +
     '<div class="teamgrid">' + teamBox(t.home) + teamBox(t.away) + '</div>' +
     spiderChart(t, ev, p, d, key) +
+    newsBlock(key) +
     h2hBlock(t) +
     '<div class="dlabel">Anteckningar</div>' +
     '<textarea class="injury" data-key="' + key + '" ' +
@@ -1722,6 +1784,196 @@ function refresh(){
     tb.classList.toggle('hidden');
     if (!tb.classList.contains('hidden')) tb.scrollIntoView({behavior:'smooth'});
   });
+}
+
+/* ---------- källor ---------- */
+// Domän utan protokoll, utan www och utan sökväg.
+function cleanDomain(v){
+  let d = String(v || '').trim().toLowerCase();
+  d = d.replace(/^https?:\/\//, '').replace(/^www\./, '');
+  d = d.split('/')[0].split('?')[0].split('#')[0];
+  return d.replace(/\.$/, '');
+}
+
+function srcDomains(team){
+  const v = srcFile.lag[team];
+  if (!v) return [];
+  return (Array.isArray(v) ? v : [v]).filter(Boolean);
+}
+
+function sourcesView(){
+  const teams = Object.keys(srcFile.lag).sort((a, b) => a.localeCompare(b, 'sv'));
+
+  // Lag i veckans kupong som ännu saknar källa.
+  const inRound = [];
+  events.forEach(ev => {
+    const t = sides(ev);
+    [t.home.name, t.away.name].forEach(n => {
+      if (n && inRound.indexOf(n) < 0 && !srcDomains(n).length) inRound.push(n);
+    });
+  });
+
+  const chip = (label, action, arg) =>
+    '<button class="chip" data-act="' + action + '" data-arg="' + esc(arg) + '">' +
+    esc(label) + '</button>';
+
+  const generalRows = srcFile.allmanna.length
+    ? srcFile.allmanna.map(d =>
+        '<div class="srcrow"><span>' + esc(d) + '</span>' +
+        '<button class="del" data-act="delgen" data-arg="' + esc(d) + '">Ta bort</button>' +
+        '</div>').join('')
+    : '<p class="lead" style="margin:4px 0 0">Inga allmänna källor inlagda.</p>';
+
+  const teamRows = teams.length
+    ? teams.map(name =>
+        '<div class="srcteam"><div class="srcname">' + esc(name) +
+          '<button class="del" data-act="delteam" data-arg="' + esc(name) + '">Ta bort laget</button>' +
+        '</div>' +
+        srcDomains(name).map(d =>
+          '<div class="srcrow"><span>' + esc(d) + '</span>' +
+          '<button class="del" data-act="deldom" data-arg="' + esc(name + '|' + d) + '">Ta bort</button>' +
+          '</div>').join('') +
+        '</div>').join('')
+    : '<p class="lead" style="margin:4px 0 0">Inga lag inlagda än.</p>';
+
+  return '<h2>Källor</h2>' +
+    '<p class="lead">Domäner som modellen söker i först, och som märks som ' +
+    'betrodda i lagnyheterna. Skriv bara domänen — https och www tas bort ' +
+    'automatiskt.</p>' +
+
+    '<div class="statbox">' +
+      '<div class="dlabel">Lägg till</div>' +
+      '<div class="addgrid">' +
+        '<input id="addteam" list="teamlist" placeholder="Lag (lämna tomt för allmän källa)">' +
+        '<datalist id="teamlist">' +
+          inRound.concat(teams).map(n => '<option value="' + esc(n) + '">').join('') +
+        '</datalist>' +
+        '<input id="adddom" placeholder="exempel.se" inputmode="url">' +
+      '</div>' +
+      '<div class="btnrow"><button id="addsrc">Lägg till</button></div>' +
+      '<div id="addmsg"></div>' +
+      (inRound.length
+        ? '<div class="thin">Saknar källa i veckans kupong: ' +
+          inRound.map(n => chip(n, 'pick', n)).join('') + '</div>'
+        : '') +
+    '</div>' +
+
+    '<div class="statbox"><div class="dlabel">Allmänna källor</div>' + generalRows + '</div>' +
+    '<div class="statbox"><div class="dlabel">Per lag</div>' + teamRows + '</div>' +
+
+    '<div class="statbox">' +
+      '<div class="btnrow">' +
+        '<button id="savesrc">' + (srcDirty ? 'Spara ändringar •' : 'Spara ändringar') + '</button>' +
+      '</div><div id="srcmsg"></div>' +
+      '<div class="thin">Sparas till sources.json i repot, så listan gäller på ' +
+      'alla dina enheter. Kräver att GitHub är kopplat.</div>' +
+    '</div>';
+}
+
+function bindSources(){
+  const root = document.getElementById('sources');
+
+  root.querySelectorAll('[data-act]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const act = btn.dataset.act, arg = btn.dataset.arg;
+
+      if (act === 'pick'){
+        document.getElementById('addteam').value = arg;
+        document.getElementById('adddom').focus();
+        return;
+      }
+      if (act === 'delgen'){
+        srcFile.allmanna = srcFile.allmanna.filter(d => d !== arg);
+      }
+      if (act === 'delteam'){
+        delete srcFile.lag[arg];
+      }
+      if (act === 'deldom'){
+        const parts = arg.split('|'), name = parts[0], dom = parts[1];
+        const left = srcDomains(name).filter(d => d !== dom);
+        if (left.length) srcFile.lag[name] = left; else delete srcFile.lag[name];
+      }
+      srcDirty = true;
+      showView('sources');
+    });
+  });
+
+  const add = document.getElementById('addsrc');
+  if (add) add.addEventListener('click', () => {
+    const team = document.getElementById('addteam').value.trim();
+    const dom = cleanDomain(document.getElementById('adddom').value);
+    const msg = document.getElementById('addmsg');
+
+    if (!dom || dom.indexOf('.') < 0){
+      msg.className = 'err';
+      msg.textContent = 'Skriv en domän, exempelvis bbc.com.';
+      return;
+    }
+
+    if (team){
+      const list = srcDomains(team);
+      if (list.indexOf(dom) < 0) list.push(dom);
+      srcFile.lag[team] = list;
+    } else {
+      if (srcFile.allmanna.indexOf(dom) < 0) srcFile.allmanna.push(dom);
+    }
+    srcDirty = true;
+    showView('sources');
+  });
+
+  const save = document.getElementById('savesrc');
+  if (save) save.addEventListener('click', saveSources);
+}
+
+async function saveSources(){
+  const msg = document.getElementById('srcmsg');
+  const token = getToken();
+  if (!token){
+    msg.className = 'err';
+    msg.textContent = 'Ingen nyckel på den här enheten. Koppla GitHub under Kupong.';
+    return;
+  }
+
+  msg.className = 'status';
+  msg.textContent = 'Sparar…';
+
+  const api = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/sources.json';
+  const head = {Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json'};
+
+  try {
+    let sha = null;
+    const cur = await fetch(api + '?ref=' + BRANCH, {headers: head});
+    if (cur.ok) sha = (await cur.json()).sha;
+    else if (cur.status === 401) throw new Error('Nyckeln godtogs inte.');
+
+    const payload = {
+      _kommentar: 'Redigeras enklast i appens flik Källor. Domäner utan https och utan www.',
+      allmanna: srcFile.allmanna,
+      lag: srcFile.lag
+    };
+
+    const res = await fetch(api, {
+      method: 'PUT', headers: head,
+      body: JSON.stringify({
+        message: 'Uppdaterade källor',
+        content: b64(JSON.stringify(payload, null, 1)),
+        branch: BRANCH,
+        sha: sha || undefined
+      })
+    });
+    if (!res.ok){
+      const e = await res.json().catch(() => ({}));
+      throw new Error(e.message || ('GitHub svarade ' + res.status));
+    }
+
+    srcDirty = false;
+    showView('sources');
+    document.getElementById('srcmsg').className = 'ok';
+    document.getElementById('srcmsg').textContent = 'Sparat.';
+  } catch (e){
+    msg.className = 'err';
+    msg.textContent = 'Kunde inte spara: ' + e.message;
+  }
 }
 
 /* ---------- export ---------- */
@@ -2274,13 +2526,19 @@ function multiChart(series){
 }
 
 function showView(name){
-  const stats = name === 'stats';
-  document.getElementById('list').classList.toggle('hidden', stats);
-  document.getElementById('legend').classList.toggle('hidden', stats);
-  document.getElementById('summary').classList.toggle('hidden', stats || !events.length);
-  document.getElementById('stats').classList.toggle('hidden', !stats);
-  document.getElementById('slip').classList.toggle('hidden', stats || !hasPicks());
-  if (stats) document.getElementById('stats').innerHTML = statsView();
+  const coupon = name === 'coupon';
+  document.getElementById('list').classList.toggle('hidden', !coupon);
+  document.getElementById('legend').classList.toggle('hidden', !coupon);
+  document.getElementById('summary').classList.toggle('hidden', !coupon || !events.length);
+  document.getElementById('stats').classList.toggle('hidden', name !== 'stats');
+  document.getElementById('sources').classList.toggle('hidden', name !== 'sources');
+  document.getElementById('slip').classList.toggle('hidden', !coupon || !hasPicks());
+
+  if (name === 'stats') document.getElementById('stats').innerHTML = statsView();
+  if (name === 'sources'){
+    document.getElementById('sources').innerHTML = sourcesView();
+    bindSources();
+  }
   document.querySelectorAll('#viewnav button[data-view]').forEach(b =>
     b.classList.toggle('on', b.dataset.view === name));
 
@@ -2582,11 +2840,20 @@ async function grab(name){
 }
 
 async function loadAll(keep){
-  const [draw, fd, nt, hi, rw] = await Promise.all([
+  const [draw, fd, nt, hi, rw, nw, sr] = await Promise.all([
     grab('data.json'), grab('football.json'), grab('notes.json'),
-    grab('history.json'), grab('rows.json')
+    grab('history.json'), grab('rows.json'), grab('news.json'),
+    grab('sources.json')
   ]);
   rowsFile = (rw && rw.rounds) ? rw : {rounds:{}};
+  // Nyheter gäller en viss omgång. Är de från en tidigare, visa dem inte.
+  newsFile = (nw && nw.matches) ? nw : {matches:{}};
+  if (!srcDirty && sr){
+    srcFile = {
+      allmanna: sr.allmanna || sr.betrodda || [],
+      lag: sr.lag || {}
+    };
+  }
   if (!draw) throw new Error('data.json saknas');
 
   buildIndex(fd);
