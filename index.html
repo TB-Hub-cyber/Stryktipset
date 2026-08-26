@@ -37,6 +37,9 @@ h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;
   letter-spacing:.06em;text-decoration:underline;cursor:pointer}
 
 .viewnav{display:flex;gap:7px;margin:14px 0 4px}
+.navexp{margin-left:auto;background:transparent!important;color:var(--ink-soft)!important;
+  border:1px solid var(--rule)!important}
+.exportbox{height:230px;font-size:10.5px;line-height:1.5;white-space:pre}
 .viewnav button{background:transparent;color:var(--ink-soft);border:1px solid var(--rule);
   font-size:14px;padding:7px 15px}
 .viewnav button.on{background:var(--ink);color:var(--card);border-color:var(--ink)}
@@ -471,6 +474,7 @@ table.tbl .mal{display:none}
 <nav class="viewnav hidden" id="viewnav">
   <button class="on" data-view="coupon">Kupong</button>
   <button data-view="stats">Statistik</button>
+  <button class="navexp" id="exportbtn">Exportera</button>
 </nav>
 
 <div class="status" id="status">Hämtar omgången…</div>
@@ -601,7 +605,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-26 at';
+const VERSION = '2026-08-26 au';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1720,6 +1724,192 @@ function refresh(){
   });
 }
 
+/* ---------- export ---------- */
+// Text, inte bild. En språkmodell läser siffror rätt ur text men får gissa
+// ur ett diagram, och då bygger analysen på felavlästa tal.
+function buildExport(){
+  const L = [];
+  const nz = v => v == null ? '–' : v;
+  const dec = (v, n) => v == null ? '–' : v.toFixed(n || 2).replace('.', ',');
+
+  L.push('# ' + (drawInfo.drawComment || 'Stryktipset'));
+  if (drawInfo.regCloseDescription) L.push(drawInfo.regCloseDescription);
+  L.push('Omgång ' + (drawInfo.drawNumber || '?') +
+         '. Data hämtad ' + (drawStamp ? new Date(drawStamp).toLocaleString('sv-SE') : '?') + '.');
+  L.push('');
+  L.push('Spelvärde = sannolikhet enligt odds delat med andel av strecken.');
+  L.push('Över 1,00 betyder att tecknet är lägre spelat än oddsen motiverar.');
+  L.push('');
+
+  events.forEach((ev, i) => {
+    const p = probs(ev), d = distOf(ev), o = ev.odds || {}, so = ev.startOdds || {};
+    const t = sides(ev), key = keyOf(ev);
+    const league = (ev.match && ev.match.league && ev.match.league.name) || '';
+
+    L.push('## ' + (ev.eventNumber || i+1) + '. ' + t.home.name + ' – ' + t.away.name);
+    L.push(league + (when(ev) ? ' · ' + when(ev) : ''));
+    L.push('');
+
+    const val = {};
+    OUT.forEach(k => {
+      const dist = d[k] && d[k].now;
+      val[k] = (dist && dist > 0 && p[k]) ? p[k] / dist : null;
+    });
+
+    L.push('| Tecken | Odds | Sedan start | Streck | Sedan start | Spelvärde |');
+    L.push('|---|---|---|---|---|---|');
+    OUT.forEach(k => {
+      const dd = d[k] || {};
+      const od = oddsDelta(num(o[k]), num(so[k]));
+      const sd = distDelta(dd.now, distStart(key, OUT.indexOf(k), dd.ref));
+      L.push('| ' + LBL[k] + ' | ' + dec(num(o[k])) + ' | ' + (od.t || '±0') +
+             ' | ' + (dd.now != null ? dd.now + '%' : '–') + ' | ' + (sd.t || '±0') +
+             ' | ' + dec(val[k]) + ' |');
+    });
+    L.push('');
+
+    [['Hemmalag', t.home], ['Bortalag', t.away]].forEach(([label, part]) => {
+      const hit = findTeam(part);
+      if (!hit || !hit.TOTAL || !hit.TOTAL.playedGames){
+        L.push('- ' + label + ' ' + part.name + ': ingen tabelldata.');
+        return;
+      }
+      const tt = hit.TOTAL, comp = fdComps[hit.comp.code];
+      const form = formOf(hit.team.id).map(m => m.r).join('');
+      L.push('- ' + label + ' ' + part.name + ': plats ' + hit.rank_TOTAL +
+        ' av ' + (comp ? comp.count : '?') +
+        ', ' + tt.points + ' p av ' + (tt.playedGames * 3) +
+        ', spelade ' + tt.playedGames +
+        ', V-O-F ' + record(tt) +
+        ', form ' + (form || '–') +
+        ', hemma ' + (formOf(hit.team.id, 'home').map(m => m.r).join('') || '–') +
+        ', borta ' + (formOf(hit.team.id, 'away').map(m => m.r).join('') || '–') +
+        ', mål ' + tt.goalsFor + '-' + tt.goalsAgainst +
+        ', målsnitt ' + dec(tt.goalsFor / tt.playedGames));
+    });
+    L.push('');
+
+    // Spindeldiagrammets värden som siffror.
+    const sp = spiderNumbers(t, p, d);
+    if (sp){
+      L.push('Jämförelse, andel av parets summa (' + t.home.name + '/' + t.away.name + '):');
+      AXES.forEach(a => {
+        if (sp.home[a] == null && sp.away[a] == null) return;
+        L.push('- ' + a + ': ' + Math.round(sp.home[a] == null ? 50 : sp.home[a]) +
+               '/' + Math.round(sp.away[a] == null ? 50 : sp.away[a]));
+      });
+      L.push('');
+    }
+
+    const hitH = findTeam(t.home), hitA = findTeam(t.away);
+    if (hitH && hitA){
+      const k2 = Math.min(hitH.team.id, hitA.team.id) + '-' +
+                 Math.max(hitH.team.id, hitA.team.id);
+      const meet = (h2hIndex[k2] || []).slice(0, 5);
+      if (meet.length){
+        L.push('Inbördes möten:');
+        meet.forEach(m => L.push('- ' + shortDate(m.d) + ' ' + m.hn + ' ' +
+          m.hg + '–' + m.ag + ' ' + m.an));
+        L.push('');
+      }
+    }
+
+    if (notes[key]){
+      L.push('Egen anteckning: ' + notes[key]);
+      L.push('');
+    }
+
+    const sel = picks[i] || [];
+    if (sel.length){
+      L.push('Mitt val: ' + OUT.filter(x => sel.indexOf(x) > -1).map(x => LBL[x]).join(''));
+      L.push('');
+    }
+  });
+
+  const marked = events.filter((e, i) => (picks[i] || []).length).length;
+  if (marked){
+    const rows = events.reduce((a, e, i) => a * ((picks[i] || []).length || 0), 1);
+    L.push('## Min rad');
+    L.push(marked + ' av ' + events.length + ' matcher markerade' +
+      (marked === events.length ? ', ' + rows + ' rader' : ''));
+  }
+
+  return L.join('\n');
+}
+
+// Samma uträkning som spindeldiagrammet, men bara talen.
+function spiderNumbers(t, p, d){
+  const H = teamRaw(t.home), A = teamRaw(t.away);
+  const home = {}, away = {};
+  home.Form = share(H.form, A.form);
+  away.Form = share(A.form, H.form);
+  home['Målsnitt'] = share(H.goals, A.goals);
+  away['Målsnitt'] = share(A.goals, H.goals);
+  home.Odds = share(p.one, p.two);
+  away.Odds = share(p.two, p.one);
+  const dh = d.one && d.one.now, da = d.two && d.two.now;
+  home['Sv. folket'] = share(dh, da);
+  away['Sv. folket'] = share(da, dh);
+
+  if (H.hit && A.hit){
+    const k = Math.min(H.hit.team.id, A.hit.team.id) + '-' +
+              Math.max(H.hit.team.id, A.hit.team.id);
+    const list = (h2hIndex[k] || []).slice(0, 6);
+    if (list.length){
+      let ph = 0, pa = 0;
+      list.forEach(m => {
+        const homeIsH = m.h === H.hit.team.id;
+        const hg = homeIsH ? m.hg : m.ag, ag = homeIsH ? m.ag : m.hg;
+        if (hg > ag) ph += 3; else if (hg < ag) pa += 3; else { ph += 1; pa += 1; }
+      });
+      home['Inbördes'] = share(ph, pa);
+      away['Inbördes'] = share(pa, ph);
+    }
+  }
+  return {home: home, away: away};
+}
+
+function openExport(){
+  const text = buildExport();
+  document.getElementById('sheettitle').textContent = 'Export';
+  document.getElementById('tabs').classList.add('hidden');
+  document.getElementById('sheetbody').innerHTML =
+    '<p class="lead" style="margin:12px 0 10px">Hela omgången som text. Kopiera och ' +
+    'klistra in där du vill ha den analyserad.</p>' +
+    '<div class="btnrow" style="margin-bottom:11px">' +
+      '<button id="copyexp">Kopiera</button>' +
+      '<button class="ghost" id="dlexp">Ladda ner</button>' +
+    '</div><div id="expmsg"></div>' +
+    '<textarea id="exptext" class="exportbox" readonly></textarea>';
+
+  document.getElementById('exptext').value = text;
+  document.getElementById('sheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  document.getElementById('copyexp').addEventListener('click', async () => {
+    const msg = document.getElementById('expmsg');
+    try {
+      await navigator.clipboard.writeText(text);
+      msg.className = 'ok'; msg.textContent = 'Kopierat.';
+    } catch (e){
+      const ta = document.getElementById('exptext');
+      ta.focus(); ta.setSelectionRange(0, ta.value.length);
+      msg.className = 'err';
+      msg.textContent = 'Kunde inte kopiera automatiskt. Texten är markerad — ' +
+        'håll på den och välj Kopiera.';
+    }
+  });
+
+  document.getElementById('dlexp').addEventListener('click', () => {
+    const blob = new Blob([text], {type: 'text/markdown;charset=utf-8'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'stryktipset-' + (drawInfo.drawNumber || 'omgang') + '.md';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
+}
+
 /* ---------- statistik ---------- */
 // Favoritraden: lägsta odds i varje match. Folkets rad: högsta streck.
 // Utan dem säger "sex rätt" ingenting — sex rätt när favoriten gav fem är
@@ -2091,7 +2281,7 @@ function showView(name){
   document.getElementById('stats').classList.toggle('hidden', !stats);
   document.getElementById('slip').classList.toggle('hidden', stats || !hasPicks());
   if (stats) document.getElementById('stats').innerHTML = statsView();
-  document.querySelectorAll('#viewnav button').forEach(b =>
+  document.querySelectorAll('#viewnav button[data-view]').forEach(b =>
     b.classList.toggle('on', b.dataset.view === name));
 
   document.querySelectorAll('.boxhead').forEach(btn => {
@@ -2515,8 +2705,10 @@ async function auto(){
 }
 
 /* ---------- knappar ---------- */
-document.querySelectorAll('#viewnav button').forEach(b =>
+document.querySelectorAll('#viewnav button[data-view]').forEach(b =>
   b.addEventListener('click', () => showView(b.dataset.view)));
+
+document.getElementById('exportbtn').addEventListener('click', openExport);
 
 document.getElementById('more').addEventListener('click', e => {
   const p = document.getElementById('explain');
