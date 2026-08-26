@@ -601,7 +601,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-24 as';
+const VERSION = '2026-08-26 at';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1160,40 +1160,55 @@ function chart(matchId, field, focus){
   const x = t => L + ((t - t0) / tspan) * (W - L - R);
   const y = v => T + (1 - (v - lo) / span) * (H - T - B);
 
-  // Märkenas täthet följer hur långt spannet är. Sex timmar behöver timmar,
-  // en vecka behöver dygn.
+  // Korta spann märks med klockslag, längre med en etikett per dygn.
+  // Dygnsetiketten centreras över sin egen del av kurvan i stället för att
+  // sitta vid midnatt, där den hamnar i kanten och blir svårläst.
   const HOUR = 3600000, DAY = 24 * HOUR;
   const hoursSpan = tspan / HOUR;
-  const step = hoursSpan <= 8  ? 2 * HOUR
-             : hoursSpan <= 18 ? 3 * HOUR
-             : hoursSpan <= 40 ? 6 * HOUR
-             : hoursSpan <= 96 ? DAY
-             : 2 * DAY;
 
   const WD = ['sön','mån','tis','ons','tors','fre','lör'];
   const pad2 = n => String(n).padStart(2,'0');
-  const stampAt = d => WD[d.getDay()] + ' ' + d.getDate() + '/' + (d.getMonth()+1) +
-                       ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+  const dayLabel = d => WD[d.getDay()] + ' ' + d.getDate() + '/' + (d.getMonth()+1);
+  const stampAt = d => dayLabel(d) + ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
 
-  const ticks = [];
-  const anchor = new Date(t0); anchor.setMinutes(0,0,0);
-  for (let t = +anchor; t <= t1 + step; t += step){
-    if (t < t0 || t > t1) continue;
-    const d = new Date(t);
-    const midnight = d.getHours() === 0;
-    ticks.push({
-      t: t,
-      lbl: (step >= DAY || midnight)
-        ? WD[d.getDay()] + ' ' + d.getDate() + '/' + (d.getMonth()+1)
-        : pad2(d.getHours()) + ':' + pad2(d.getMinutes())
+  let grid = '';
+
+  if (hoursSpan <= 18){
+    const step = hoursSpan <= 8 ? 2 * HOUR : 3 * HOUR;
+    const anchor = new Date(t0); anchor.setMinutes(0,0,0);
+    for (let t = +anchor; t <= t1; t += step){
+      if (t < t0) continue;
+      const d = new Date(t);
+      grid += '<line class="vgrid" x1="' + x(t).toFixed(1) + '" y1="' + T +
+        '" x2="' + x(t).toFixed(1) + '" y2="' + (H - B) + '"/>' +
+        '<text class="ax" x="' + x(t).toFixed(1) + '" y="' + (H - B + 13) +
+        '" text-anchor="middle">' + pad2(d.getHours()) + ':' + pad2(d.getMinutes()) +
+        '</text>';
+    }
+  } else {
+    // Ett block per kalenderdygn som kurvan berör.
+    const first = new Date(t0); first.setHours(0,0,0,0);
+    const days = [];
+    for (let d = new Date(first); +d <= t1; d.setDate(d.getDate() + 1)){
+      const from = Math.max(t0, +d);
+      const to = Math.min(t1, +d + DAY);
+      if (to > from) days.push({from: from, to: to, label: dayLabel(new Date(+d))});
+    }
+
+    // Vid många dygn skulle etiketterna kollidera, så vi glesar ut dem.
+    const every = Math.ceil(days.length / 6);
+
+    days.forEach((day, i) => {
+      if (+new Date(day.from) > t0){
+        grid += '<line class="vgrid" x1="' + x(day.from).toFixed(1) + '" y1="' + T +
+          '" x2="' + x(day.from).toFixed(1) + '" y2="' + (H - B) + '"/>';
+      }
+      if (i % every) return;
+      const mid = (x(day.from) + x(day.to)) / 2;
+      grid += '<text class="ax" x="' + mid.toFixed(1) + '" y="' + (H - B + 13) +
+        '" text-anchor="middle">' + day.label + '</text>';
     });
   }
-
-  const grid = ticks.map(g =>
-    '<line class="vgrid" x1="' + x(g.t).toFixed(1) + '" y1="' + T +
-      '" x2="' + x(g.t).toFixed(1) + '" y2="' + (H - B) + '"/>' +
-    '<text class="ax" x="' + x(g.t).toFixed(1) + '" y="' + (H - B + 13) +
-      '" text-anchor="middle">' + g.lbl + '</text>').join('');
 
   const lines = OUT.map(k => {
     const i = OUT.indexOf(k), s = series[i];
