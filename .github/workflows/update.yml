@@ -125,6 +125,25 @@ jobs:
             done
           done
 
+      # Kostar pengar per körning, så den går bara vid några tillfällen
+      # i veckan då presskonferenserna hunnit komma.
+      - name: Hämta lagnyheter
+        continue-on-error: true
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          NEWS_MODEL: ${{ vars.NEWS_MODEL }}
+          FORCE_NEWS: ${{ github.event_name == 'workflow_dispatch' && '1' || '0' }}
+        run: |
+          HOUR=$(date -u +%H)
+          DOW=$(date -u +%u)
+          if [ "$FORCE_NEWS" = "1" ] || \
+             { [ "$HOUR" = "16" ] && { [ "$DOW" = "4" ] || [ "$DOW" = "5" ]; }; } || \
+             { [ "$HOUR" = "09" ] && [ "$DOW" = "6" ]; }; then
+            python3 .github/scripts/news.py
+          else
+            echo "Utanför nyhetsfönstret (tors och fre 16 UTC, lör 09 UTC)."
+          fi
+
       - name: Sätt ihop football.json
         continue-on-error: true
         env:
@@ -183,6 +202,7 @@ jobs:
           git add football.json || true
           git add history.json || true
           git add rows.json || true
+          git add news.json || true
 
           if git diff --staged --quiet; then
             echo "Ingen förändring sedan förra hämtningen."
