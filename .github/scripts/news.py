@@ -20,7 +20,9 @@ from datetime import datetime, timezone
 OUT = "news.json"
 SOURCES = "sources.json"
 KEY = os.environ.get("OPENAI_API_KEY", "")
-MODEL = os.environ.get("NEWS_MODEL", "gpt-4o-mini")
+# En odefinierad repository-variabel blir tom sträng, inte frånvarande.
+# Utan "or" skulle den tomma strängen slå ut standardnamnet.
+MODEL = os.environ.get("NEWS_MODEL") or "gpt-4o-mini"
 FORCED = os.environ.get("FORCE_NEWS") == "1"
 
 API = "https://api.openai.com/v1/responses"
