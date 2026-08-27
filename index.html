@@ -36,6 +36,27 @@ h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;
   font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;
   letter-spacing:.06em;text-decoration:underline;cursor:pointer}
 
+.analysis{border:1px solid var(--ink);border-radius:3px;padding:12px;margin:15px 0 0}
+.analysis .foldhead{padding:0;font-family:'Barlow Condensed',sans-serif;font-size:19px;
+  font-weight:700;letter-spacing:.01em;color:var(--ink);text-transform:uppercase}
+.analysis .foldbody{padding:0}
+.anrow{display:flex;align-items:baseline;gap:7px;padding:6px 0;
+  border-top:1px solid #EDEEEA;font-size:13px}
+.anrow:first-of-type{border-top:none}
+.annum{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-faint);
+  min-width:16px}
+.anteam{flex:1;min-width:0;font-family:'Barlow Condensed',sans-serif;font-weight:600;
+  font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ansign{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;
+  line-height:1;width:20px;height:20px;display:flex;align-items:center;
+  justify-content:center;border-radius:50%;background:var(--ink);color:var(--card);
+  flex-shrink:0}
+.anval{font-family:'IBM Plex Mono',monospace;font-size:13.5px;font-weight:600;
+  min-width:38px;text-align:right}
+.anpct{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint);
+  min-width:64px;text-align:right}
+.legend .foldhead{font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
 .viewnav{display:flex;gap:7px;margin:14px 0 4px}
 .addgrid{display:grid;gap:7px;margin-bottom:2px}
 .addgrid input{width:100%;border:1px solid var(--rule);border-radius:3px;padding:9px;
@@ -67,6 +88,23 @@ h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;
   font-weight:700;margin:20px 0 4px}
 .stats h2:first-child{margin-top:6px}
 .stats p.lead{font-size:13px;color:var(--ink-soft);margin-bottom:11px;line-height:1.45}
+.analysis{margin-top:11px}
+.arow{display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid #EDEEEA}
+.arow:first-of-type{border-top:none}
+.arow.picked{background:rgba(21,23,27,.04);margin:0 -6px;padding-left:6px;padding-right:6px;
+  border-radius:3px}
+.anum{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-faint);
+  min-width:12px}
+.asign{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;
+  line-height:1;width:23px;height:23px;display:flex;align-items:center;
+  justify-content:center;border-radius:50%;background:var(--ink);color:var(--card);
+  flex-shrink:0}
+.ateams{flex:1;min-width:0;font-family:'Barlow Condensed',sans-serif;font-weight:600;
+  font-size:16px;line-height:1.15}
+.ateams em{display:block;font-style:normal;font-family:'IBM Plex Mono',monospace;
+  font-size:9.5px;color:var(--ink-faint);letter-spacing:.02em;margin-top:1px}
+.aval{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;
+  flex-shrink:0}
 .statbox{background:var(--card);border:1px solid var(--rule);border-radius:3px;
   padding:13px;margin-bottom:11px}
 .bignums{display:flex;gap:18px;flex-wrap:wrap}
@@ -521,7 +559,9 @@ table.tbl .mal{display:none}
 </section>
 
 <section class="legend hidden" id="legend">
-  <h3>Så läser du rutorna</h3>
+  <button class="foldhead" data-fold="legend" style="padding:0 0 4px">Så läser du rutorna
+    <span class="expand">visa</span></button>
+  <div class="foldbody" id="fold-legend">
   <div class="lrow"><span class="lex">4,50<br>−0,13</span>
     <span>Överst oddset nu, under det förändringen sedan omgången öppnade.
     <b>±0</b> betyder oförändrat.</span></div>
@@ -572,7 +612,12 @@ table.tbl .mal{display:none}
     En skräll kan ha värde 1,40 och ändå förlora nio gånger av tio. Måttet visar var
     folket avviker från oddsen, inte vad som kommer hända.</p>
   </div>
+  </div>
 </section>
+
+<section id="analysis"></section>
+
+<section class="analysis hidden" id="analysis"></section>
 
 <main id="list"></main>
 
@@ -636,7 +681,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-26 aw';
+const VERSION = '2026-08-29 az';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1486,8 +1531,19 @@ function newsBlock(key){
     (entry.checkedAt ? '<br><br>Hämtat ' +
       new Date(entry.checkedAt).toLocaleString('sv-SE') + '.' : ''));
 
-  return '<div class="dlabel">Lagnyheter' + info.mark + '</div>' +
-    info.panel + '<div class="newsbox">' + rows + '</div>';
+  const fid = 'news-' + key;
+  const n = entry.items.length;
+
+  return '<div class="fold">' +
+    '<button class="foldhead" data-fold="' + fid + '">AI-hämtad information' +
+      '<span class="expand">' + n + ' ' + (n === 1 ? 'notis' : 'notiser') +
+      ' · visa</span></button>' +
+    '<div class="foldbody" id="fold-' + fid + '">' +
+      '<div class="newsbox">' + rows + '</div>' +
+      '<button class="qline" data-info="' + info.id + '">Om uppgifterna' +
+        '<span class="expand">visa</span></button>' +
+      '<div class="infopanel wide" id="info-' + info.id + '">' + info.text + '</div>' +
+    '</div></div>';
 }
 
 function detailPanel(t, key, ev, p, d){
@@ -1698,6 +1754,10 @@ function render(draw, keep){
   document.getElementById('loader').classList.add('hidden');
   document.getElementById('legend').classList.remove('hidden');
   document.getElementById('viewnav').classList.remove('hidden');
+  document.getElementById('analysis').innerHTML = analysisBox();
+  bindFolds(document.getElementById('analysis'));
+  bindInfo(document.getElementById('analysis'));
+  bindFolds(document.getElementById('legend'));
   refresh();
 }
 
@@ -1722,6 +1782,19 @@ function refresh(){
 
   const half = events.filter((e,i) => (picks[i]||[]).length === 2).length;
   const full = events.filter((e,i) => (picks[i]||[]).length === 3).length;
+
+  const an = document.getElementById('analysis');
+  if (an){
+    an.innerHTML = events.length ? analysisView() : '';
+    bindInfo(an);
+    an.querySelectorAll('.boxhead').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const panel = document.getElementById('exp-' + btn.dataset.exp);
+        const open = panel.classList.toggle('show');
+        btn.querySelector('.expand').textContent = open ? 'dölj' : 'visa mer';
+      });
+    });
+  }
 
   const box = document.getElementById('summary');
   if (!events.length){ box.classList.add('hidden'); return; }
@@ -1784,6 +1857,118 @@ function refresh(){
     tb.classList.toggle('hidden');
     if (!tb.classList.contains('hidden')) tb.scrollIntoView({behavior:'smooth'});
   });
+}
+
+/* ---------- dagens analys ---------- */
+// Alla trettionio tecken i en lista, sorterade på spelvärde. Att leta upp
+// dem för hand i tretton rutor är precis vad en dator ska göra åt en.
+function allSigns(){
+  const out = [];
+  events.forEach((ev, i) => {
+    const p = probs(ev), d = distOf(ev), o = ev.odds || {};
+    const t = sides(ev);
+    OUT.forEach(k => {
+      const dist = d[k] && d[k].now;
+      const prob = p[k];
+      if (!dist || dist <= 0 || prob == null) return;
+      out.push({
+        i: i,
+        n: ev.eventNumber || i + 1,
+        home: t.home.name, away: t.away.name,
+        sign: k,
+        value: prob / dist,
+        prob: prob,
+        dist: dist,
+        odds: num(o[k])
+      });
+    });
+  });
+  return out;
+}
+
+function signRow(x, rank){
+  const marked = (picks[x.i] || []).indexOf(x.sign) > -1;
+  return '<div class="arow' + (marked ? ' picked' : '') + '">' +
+    '<span class="anum">' + rank + '</span>' +
+    '<span class="asign">' + LBL[x.sign] + '</span>' +
+    '<span class="ateams">' + esc(x.home) + ' – ' + esc(x.away) +
+      '<em>match ' + x.n + ' · odds ' + fmt(x.odds) + ' · ' + x.dist + '%</em></span>' +
+    '<span class="aval">' + x.value.toFixed(2).replace('.',',') + '</span>' +
+  '</div>';
+}
+
+function analysisView(){
+  const all = allSigns();
+  if (all.length < 6) return '';
+
+  const high = all.slice().sort((a, b) => b.value - a.value).slice(0, 5);
+  const low = all.slice().sort((a, b) => a.value - b.value).slice(0, 4);
+
+  const info = withInfo(
+    '<p>Spelvärde är sannolikhet enligt odds delat med andel av strecken. ' +
+    'Listan är samma tal som står i kupongens rutor, bara sorterat.</p>' +
+    '<p><b>Högst spelvärde</b> betyder lägst spelat i förhållande till oddsen. ' +
+    'Det säger inget om att utfallet är troligt — en skräll kan ligga överst ' +
+    'och ändå förlora nio gånger av tio.</p>' +
+    '<p><b>Mest överspelat</b> är tvärtom: fler tippar tecknet än oddsen ' +
+    'motiverar, så en träff delas med många.</p>');
+
+  return '<div class="statbox">' +
+    '<button class="boxhead" data-exp="an-high">Högst spelvärde' +
+      '<span class="expand">visa mer</span></button>' +
+    high.map((x, i) => signRow(x, i + 1)).join('') +
+    '<div class="boxdetail" id="exp-an-high">' +
+      '<div class="dlabel" style="margin:14px 0 4px">Mest överspelat</div>' +
+      low.map((x, i) => signRow(x, i + 1)).join('') +
+      scatterChart(all) +
+      '<div class="axrow" style="border-top:1px dashed var(--rule);margin-top:10px">' +
+        '<span>Om måttet' + info.mark + '</span></div>' +
+      info.panel +
+    '</div></div>';
+}
+
+// Värde mot sannolikhet. Samma tal som i rutorna, men strukturen syns:
+// högt värde uppe, troliga utfall till höger.
+function scatterChart(all){
+  const W = 320, H = 210, L = 30, R = 10, T = 14, B = 26;
+
+  const probs2 = all.map(x => x.prob);
+  const vals = all.map(x => x.value);
+  const px0 = Math.max(0, Math.floor(Math.min.apply(null, probs2) / 10) * 10 - 5);
+  const px1 = Math.min(100, Math.ceil(Math.max.apply(null, probs2) / 10) * 10 + 5);
+  const vy0 = Math.min(0.7, Math.floor(Math.min.apply(null, vals) * 10) / 10);
+  const vy1 = Math.max(1.4, Math.ceil(Math.max.apply(null, vals) * 10) / 10);
+
+  const x = v => L + ((v - px0) / (px1 - px0 || 1)) * (W - L - R);
+  const y = v => T + (1 - (v - vy0) / (vy1 - vy0 || 1)) * (H - T - B);
+
+  const dots = all.map(x2 =>
+    '<circle cx="' + x(x2.prob).toFixed(1) + '" cy="' + y(x2.value).toFixed(1) +
+    '" r="4" fill="' + LINE[x2.sign] + '" fill-opacity=".75"/>').join('');
+
+  const one = y(1);
+
+  return '<div class="chart" style="margin-top:14px">' +
+    '<div class="dlabel">Värde mot sannolikhet</div>' +
+    '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid meet">' +
+      '<line class="grid" x1="' + L + '" y1="' + T + '" x2="' + W + '" y2="' + T + '"/>' +
+      '<line class="grid" x1="' + L + '" y1="' + (H - B) + '" x2="' + W + '" y2="' + (H - B) + '"/>' +
+      '<line class="zero" x1="' + L + '" y1="' + one.toFixed(1) +
+        '" x2="' + W + '" y2="' + one.toFixed(1) + '"/>' +
+      '<text class="ax" x="0" y="' + (T + 4) + '">' + vy1.toFixed(1).replace('.',',') + '</text>' +
+      '<text class="ax" x="0" y="' + (one + 3).toFixed(1) + '">1,00</text>' +
+      '<text class="ax" x="0" y="' + (H - B) + '">' + vy0.toFixed(1).replace('.',',') + '</text>' +
+      '<text class="ax" x="' + L + '" y="' + (H - B + 14) + '">' + px0 + '%</text>' +
+      '<text class="ax" x="' + W + '" y="' + (H - B + 14) + '" text-anchor="end">' + px1 + '%</text>' +
+      dots +
+    '</svg>' +
+    '<div class="clegend" style="flex-direction:row;gap:14px">' +
+      OUT.map(k => '<span><i style="background:' + LINE[k] + '"></i>' + LBL[k] + '</span>').join('') +
+    '</div>' +
+    '<div class="thin">Varje punkt är ett tecken. Höjden är spelvärdet, ' +
+    'sidled sannolikheten enligt oddsen. Över linjen 1,00 är tecknet lägre ' +
+    'spelat än oddsen motiverar. Uppe till höger ligger troliga utfall som ' +
+    'ändå är lågt spelade, uppe till vänster skrällar med värde.</div></div>';
 }
 
 /* ---------- källor ---------- */
@@ -2453,6 +2638,23 @@ function withInfo(text){
   };
 }
 
+function bindFolds(root){
+  if (!root) return;
+  root.querySelectorAll('.foldhead').forEach(fb => {
+    if (fb.dataset.bound) return;
+    fb.dataset.bound = '1';
+    const label = fb.querySelector('.expand');
+    const base = label.textContent.replace(/ ?· ?visa$/, '').replace(/^visa$/, '');
+    fb.addEventListener('click', () => {
+      const body = document.getElementById('fold-' + fb.dataset.fold);
+      if (!body) return;
+      const open = body.classList.toggle('show');
+      const word = open ? 'dölj' : 'visa';
+      label.textContent = base ? base + ' · ' + word : word;
+    });
+  });
+}
+
 function bindInfo(root){
   root.querySelectorAll('.qmark, .qline').forEach(btn => {
     btn.addEventListener('click', e => {
@@ -2528,6 +2730,8 @@ function multiChart(series){
 function showView(name){
   const coupon = name === 'coupon';
   document.getElementById('list').classList.toggle('hidden', !coupon);
+  document.getElementById('analysis').classList.toggle('hidden', !coupon || !events.length);
+  document.getElementById('analysis').classList.toggle('hidden', !coupon);
   document.getElementById('legend').classList.toggle('hidden', !coupon);
   document.getElementById('summary').classList.toggle('hidden', !coupon || !events.length);
   document.getElementById('stats').classList.toggle('hidden', name !== 'stats');
@@ -2976,6 +3180,17 @@ document.querySelectorAll('#viewnav button[data-view]').forEach(b =>
   b.addEventListener('click', () => showView(b.dataset.view)));
 
 document.getElementById('exportbtn').addEventListener('click', openExport);
+
+// Ligger utanför matchkorten, så den behöver egen koppling.
+(function(){
+  const head = document.querySelector('#legend .foldhead');
+  if (!head) return;
+  head.addEventListener('click', () => {
+    const body = document.getElementById('fold-legend');
+    const open = body.classList.toggle('show');
+    head.querySelector('.expand').textContent = open ? 'dölj' : 'visa';
+  });
+})();
 
 document.getElementById('more').addEventListener('click', e => {
   const p = document.getElementById('explain');
