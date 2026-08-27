@@ -1,6 +1,249 @@
 {
  "drawNumber": 4968,
- "updatedAt": "2026-08-27T11:55:32Z",
- "model": "",
- "matches": {}
+ "updatedAt": "2026-08-27T12:19:32Z",
+ "model": "gpt-4o-mini",
+ "matches": {
+  "92163": {
+   "home": "Tottenham",
+   "away": "Newcastle",
+   "items": [
+    {
+     "team": "Tottenham",
+     "text": "Cristian Romero är avstängd för matchen mot Newcastle efter att ha fått ett rött kort mot Manchester United.",
+     "source": "Tottenham Hotspur",
+     "url": "https://www.tottenhamhotspur.com/news/1009160/romero-suspended-for-newcastle-clash",
+     "date": "2026-02-09",
+     "trusted": true
+    },
+    {
+     "team": "Tottenham",
+     "text": "Destiny Udogie är skadad och förväntas vara borta i fyra till fem veckor efter en hamstringskada.",
+     "source": "Tottenham Hotspur",
+     "url": "https://www.tottenhamhotspur.com/news/1009073/team-news-destiny-out-four-to-five-weeks-latest-on-danso",
+     "date": "2026-02-09",
+     "trusted": true
+    },
+    {
+     "team": "Tottenham",
+     "text": "Djed Spence återvänder från en mindre vadskada och är tillgänglig för matchen mot Newcastle.",
+     "source": "Tottenham Hotspur",
+     "url": "https://www.tottenhamhotspur.com/news/1009073/team-news-destiny-out-four-to-five-weeks-latest-on-danso",
+     "date": "2026-02-09",
+     "trusted": true
+    },
+    {
+     "team": "Tottenham",
+     "text": "Rodrigo Bentancur är avstängd för matchen mot Newcastle efter att ha fått ett rött kort mot Manchester United.",
+     "source": "Tottenham Hotspur",
+     "url": "https://www.tottenhamhotspur.com/news/1009160/romero-suspended-for-newcastle-clash",
+     "date": "2026-02-09",
+     "trusted": true
+    },
+    {
+     "team": "Newcastle",
+     "text": "Joelinton är skadad och kommer inte att spela mot Tottenham.",
+     "source": "Tottenham Hotspur",
+     "url": "https://www.tottenhamhotspur.com/news/1008805/opposition-team-news-late-fitness-tests-for-gordon-and-miley-joelinton-ruled-out",
+     "date": "2026-02-09",
+     "trusted": true
+    },
+    {
+     "team": "Newcastle",
+     "text": "Anthony Gordon och Lewis Miley kommer att genomgå sena fitnesskontroller inför matchen mot Tottenham.",
+     "source": "Tottenham Hotspur",
+     "url": "https://www.tottenhamhotspur.com/news/1008805/opposition-team-news-late-fitness-tests-for-gordon-and-miley-joelinton-ruled-out",
+     "date": "2026-02-09",
+     "trusted": true
+    },
+    {
+     "team": "Newcastle",
+     "text": "Tino Livramento och Fabian Schar är skadade och missar matchen mot Tottenham.",
+     "source": "Tottenham Hotspur",
+     "url": "https://www.tottenhamhotspur.com/news/1008805/opposition-team-news-late-fitness-tests-for-gordon-and-miley-joelinton-ruled-out",
+     "date": "2026-02-09",
+     "trusted": true
+    }
+   ],
+   "checkedAt": "2026-08-27T12:18:36Z"
+  },
+  "92156": {
+   "home": "Bournemouth",
+   "away": "Everton",
+   "items": [
+    {
+     "team": "Bournemouth",
+     "text": "Inget nytt om skador, avstängningar eller sjukdomar har rapporterats de senaste sju dagarna.",
+     "source": "afcb.co.uk",
+     "url": "https://www.afcb.co.uk",
+     "date": "2026-08-27",
+     "trusted": true
+    },
+    {
+     "team": "Everton",
+     "text": "Inget nytt om skador, avstängningar eller sjukdomar har rapporterats de senaste sju dagarna.",
+     "source": "evertonfc.com",
+     "url": "https://www.evertonfc.com",
+     "date": "2026-08-27",
+     "trusted": true
+    }
+   ],
+   "checkedAt": "2026-08-27T12:18:43Z"
+  },
+  "92155": {
+   "home": "Coventry",
+   "away": "Hull",
+   "items": [
+    {
+     "team": "Hull",
+     "text": "Hull City har vunnit sina senaste två matcher, inklusive en 2-0-seger mot Manchester United den 22 augusti 2026.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/hull-city-scores-fixtures",
+     "date": "2026-08-22",
+     "trusted": true
+    },
+    {
+     "team": "Hull",
+     "text": "Hull City förlorade mot Arsenal med 0-3 den 21 augusti 2026.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/coventry-city-scores-fixtures",
+     "date": "2026-08-21",
+     "trusted": true
+    },
+    {
+     "team": "Hull",
+     "text": "Hull City förlorade mot Sheffield United med 1-2 den 25 april 2026.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/hull-city-scores-fixtures",
+     "date": "2026-04-25",
+     "trusted": true
+    },
+    {
+     "team": "Hull",
+     "text": "Hull City förlorade mot Norwich City med 1-2 den 2 maj 2026.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/hull-city-scores-fixtures",
+     "date": "2026-05-02",
+     "trusted": true
+    }
+   ],
+   "checkedAt": "2026-08-27T12:18:51Z"
+  },
+  "92148": {
+   "home": "Blackburn",
+   "away": "Queens Park Rangers",
+   "items": [],
+   "checkedAt": "2026-08-27T12:18:55Z"
+  },
+  "92130": {
+   "home": "Bolton",
+   "away": "Lincoln",
+   "items": [],
+   "checkedAt": "2026-08-27T12:18:57Z"
+  },
+  "92135": {
+   "home": "Bristol City",
+   "away": "Portsmouth",
+   "items": [],
+   "checkedAt": "2026-08-27T12:19:01Z"
+  },
+  "92138": {
+   "home": "Cardiff",
+   "away": "Sheffield U",
+   "items": [],
+   "checkedAt": "2026-08-27T12:19:03Z"
+  },
+  "92149": {
+   "home": "Charlton",
+   "away": "Preston",
+   "items": [],
+   "checkedAt": "2026-08-27T12:19:06Z"
+  },
+  "92153": {
+   "home": "Norwich",
+   "away": "Burnley",
+   "items": [],
+   "checkedAt": "2026-08-27T12:19:09Z"
+  },
+  "92132": {
+   "home": "Southampton",
+   "away": "Millwall",
+   "items": [
+    {
+     "team": "Southampton",
+     "text": "Southampton har blivit uteslutna från Championship-playoffen efter att ha erkänt flera överträdelser av reglerna om obehörig filmning av motståndarnas träning, inklusive före semifinalen mot Middlesbrough.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/11688/13545415/southampton-expelled-from-championship-play-offs-over-spygate-with-middlesbrough-reinstated",
+     "date": "2026-05-20",
+     "trusted": true
+    },
+    {
+     "team": "Southampton",
+     "text": "Southampton har överklagat beslutet om uteslutning från playoffen och fått en fyrpoängs avdrag för nästa säsong.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/11700/13546248/southampton-expelled-from-play-offs-saints-chief-executive-describes-spygate-punishment-as-manifestly-disproportionate-to-the-offence",
+     "date": "2026-05-20",
+     "trusted": true
+    },
+    {
+     "team": "Southampton",
+     "text": "Southampton har blivit åtalade av FA för misskötsel och potentiellt för att ha dragit ned spelets anseende över 'Spygate'-skandalen.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/11700/13565861/tonda-eckert-southampton-boss-charged-by-fa-over-spygate-scandal-that-expelled-club-from-championship-play-offs",
+     "date": "2026-07-22",
+     "trusted": true
+    },
+    {
+     "team": "Southampton",
+     "text": "Southampton förlorade 1-4 mot West Ham United i Carabao Cup andra omgången, där West Hams debutant Josh Ayala gjorde två mål.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/11095/13577047/southampton-west-ham-united",
+     "date": "2026-08-25",
+     "trusted": true
+    },
+    {
+     "team": "Millwall",
+     "text": "Millwall besegrade Norwich City med 3-0, där Tairyk Arconte gjorde två mål och Luke Cundle ett.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/11095/13575437/millwall-3-0-norwich-city-tairyk-arconte-scores-twice-as-lions-ease-to-victory",
+     "date": "2026-08-22",
+     "trusted": true
+    },
+    {
+     "team": "Millwall",
+     "text": "Millwall vann 1-0 mot Cambridge United i Carabao Cup andra omgången.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/millwall-scores-fixtures/2026-08-01",
+     "date": "2026-08-25",
+     "trusted": true
+    },
+    {
+     "team": "Millwall",
+     "text": "Millwall har vunnit sina två senaste matcher i Championship, inklusive en 3-0-seger mot Norwich City.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/millwall-scores-fixtures/2026-08-01",
+     "date": "2026-08-22",
+     "trusted": true
+    }
+   ],
+   "checkedAt": "2026-08-27T12:19:22Z"
+  },
+  "92159": {
+   "home": "Watford",
+   "away": "West Ham",
+   "items": [],
+   "checkedAt": "2026-08-27T12:19:26Z"
+  },
+  "92144": {
+   "home": "Cambridge",
+   "away": "Huddersfield",
+   "items": [],
+   "checkedAt": "2026-08-27T12:19:29Z"
+  },
+  "92128": {
+   "home": "Leyton Orient",
+   "away": "Barnsley",
+   "items": [],
+   "checkedAt": "2026-08-27T12:19:32Z"
+  }
+ }
 }
