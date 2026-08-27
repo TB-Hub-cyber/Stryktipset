@@ -39,6 +39,9 @@ Sök efter nyheter från de senaste sju dagarna om skador, avstängningar,
 sjukdomar, tränarbyten och besked om laguppställning.
 {sources}
 
+Sök både med lagnamnet plus ord som injury, team news, skador och
+laguppställning, och med site-sökning mot de angivna domänerna.
+
 Svara med enbart JSON, utan förklaring och utan kodstaket:
 
 {{"items": [
@@ -47,12 +50,13 @@ Svara med enbart JSON, utan förklaring och utan kodstaket:
     "source": "källans namn",
     "url": "fullständig länk",
     "date": "ÅÅÅÅ-MM-DD"}}
-]}}
+],
+ "note": "kort beskrivning av vad du sökte efter, en mening"}}
 
 Regler:
 - Högst {maxi} poster per lag.
 - Varje post måste ha en fungerande länk till sidan där uppgiften står.
-- Hittar du inget, svara {{"items": []}}. Hitta aldrig på.
+- Hittar du inget, svara med tom lista men fyll alltid i note. Hitta aldrig på.
 - Skriv inget om form, tabelläge eller sannolikheter."""
 
 
@@ -130,6 +134,23 @@ def extract_text(body):
             if part.get("type") in ("output_text", "text") and part.get("text"):
                 chunks.append(part["text"])
     return "\n".join(chunks)
+
+
+def parse_body(text):
+    """Returnerar både posterna och modellens egen anteckning."""
+    text = (text or "").strip()
+    if text.startswith("```"):
+        text = text.strip("`")
+        if text.lower().startswith("json"):
+            text = text[4:]
+    start, end = text.find("{"), text.rfind("}")
+    if start < 0 or end < 0:
+        return [], ""
+    try:
+        data = json.loads(text[start:end + 1]) or {}
+    except ValueError:
+        return [], ""
+    return (data.get("items") or []), (data.get("note") or "")
 
 
 def parse_items(text):
@@ -249,9 +270,14 @@ def main():
         kickoff = (match.get("matchStart") or "")[:10]
 
         hints = []
+        missing = []
         for name in (home, away):
-            for domain in team_domains(name, per_team):
-                hints.append(name + ": " + domain)
+            domains = team_domains(name, per_team)
+            if domains:
+                for domain in domains:
+                    hints.append(name + ": " + domain)
+            else:
+                missing.append(name)
 
         source_text = "Sök i första hand på dessa webbplatser:\n"
         if hints:
@@ -270,8 +296,9 @@ def main():
             print("Anropet för %s misslyckades: %s" % (key, exc), file=sys.stderr)
             continue
 
-        items = parse_items(extract_text(body))
+        items, note = parse_body(extract_text(body))
         kept = []
+        dropped = []
 
         for item in items:
             url = (item.get("url") or "").strip()
@@ -279,7 +306,7 @@ def main():
             if not url or not text:
                 continue
             if not link_works(url):
-                print("  Länk svarar inte, hoppas över: %s" % url)
+                dropped.append(url)
                 continue
 
             host = urllib.parse.urlparse(url).netloc.lower()
@@ -300,6 +327,14 @@ def main():
         }
         print("%s mot %s: %d av %d poster behölls." %
               (home, away, len(kept), len(items)))
+        if missing:
+            print("   Saknar egen källa: %s" % ", ".join(missing))
+        elif hints:
+            print("   Sökte i: %s" % ", ".join(h.split(": ")[1] for h in hints))
+        for url in dropped:
+            print("   Länk svarade inte: %s" % url)
+        if not kept and note:
+            print("   Modellen säger: %s" % note[:200])
 
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump({"drawNumber": draw_number,
