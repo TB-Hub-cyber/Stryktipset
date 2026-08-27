@@ -131,7 +131,10 @@ jobs:
         continue-on-error: true
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          # Lämnas tom om variabeln inte finns — skriptet faller då tillbaka
+          # på sitt standardnamn.
           NEWS_MODEL: ${{ vars.NEWS_MODEL }}
+          NEWS_TOOL: ${{ vars.NEWS_TOOL }}
           FORCE_NEWS: ${{ github.event_name == 'workflow_dispatch' && '1' || '0' }}
         run: |
           HOUR=$(date -u +%H)
