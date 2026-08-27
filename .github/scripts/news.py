@@ -54,6 +54,13 @@ Regler:
 - Skriv inget om form, tabelläge eller sannolikheter."""
 
 
+# Verktygets namn har hetat olika saker i olika versioner av API:et.
+# Vi provar tills ett fungerar och håller fast vid det.
+TOOL_CANDIDATES = [os.environ.get("NEWS_TOOL"), "web_search", "web_search_preview"]
+TOOL_CANDIDATES = [t for t in TOOL_CANDIDATES if t]
+chosen_tool = None
+
+
 def call_model(payload):
     req = urllib.request.Request(
         API,
@@ -61,8 +68,53 @@ def call_model(payload):
         headers={"Authorization": "Bearer " + KEY,
                  "Content-Type": "application/json"},
     )
-    with urllib.request.urlopen(req, timeout=120) as resp:
-        return json.load(resp)
+    try:
+        with urllib.request.urlopen(req, timeout=120) as resp:
+            return json.load(resp)
+    except urllib.error.HTTPError as exc:
+        # OpenAI förklarar alltid vad som är fel i svarskroppen. Utan den
+        # ser man bara statuskoden, vilket inte hjälper någon.
+        detail = ""
+        try:
+            body = json.load(exc)
+            detail = ((body.get("error") or {}).get("message")) or json.dumps(body)
+        except Exception:
+            detail = "kunde inte läsa svaret"
+        raise RuntimeError("HTTP %s: %s" % (exc.code, detail))
+
+
+def ask(prompt):
+    """Provar verktygsnamnen tills ett accepteras."""
+    global chosen_tool
+
+    names = [chosen_tool] if chosen_tool else list(TOOL_CANDIDATES)
+    last = None
+
+    for name in names:
+        try:
+            body = call_model({
+                "model": MODEL,
+                "input": prompt,
+                "tools": [{"type": name}],
+            })
+            if not chosen_tool:
+                chosen_tool = name
+                print("Använder verktyget '%s'." % name)
+            return body
+        except RuntimeError as exc:
+            last = exc
+            if "HTTP 400" in str(exc):
+                print("  Verktyget '%s' avvisades: %s" % (name, exc), file=sys.stderr)
+                continue
+            raise
+
+    # Sista utvägen: kör utan sökverktyg, så vi åtminstone ser om
+    # resten av anropet fungerar.
+    print("  Inget sökverktyg accepterades, provar utan.", file=sys.stderr)
+    try:
+        return call_model({"model": MODEL, "input": prompt})
+    except RuntimeError:
+        raise last
 
 
 def extract_text(body):
@@ -210,11 +262,7 @@ def main():
                                sources=source_text)
 
         try:
-            body = call_model({
-                "model": MODEL,
-                "input": prompt,
-                "tools": [{"type": "web_search"}],
-            })
+            body = ask(prompt)
             calls += 1
         except Exception as exc:
             print("Anropet för %s misslyckades: %s" % (key, exc), file=sys.stderr)
