@@ -681,7 +681,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-29 ba';
+const VERSION = '2026-08-29 bb';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1769,7 +1769,7 @@ function render(draw, keep){
   document.getElementById('loader').classList.add('hidden');
   document.getElementById('legend').classList.remove('hidden');
   document.getElementById('viewnav').classList.remove('hidden');
-  document.getElementById('analysis').innerHTML = analysisBox();
+  document.getElementById('analysis').innerHTML = analysisView();
   bindFolds(document.getElementById('analysis'));
   bindInfo(document.getElementById('analysis'));
   bindFolds(document.getElementById('legend'));
@@ -1798,18 +1798,12 @@ function refresh(){
   const half = events.filter((e,i) => (picks[i]||[]).length === 2).length;
   const full = events.filter((e,i) => (picks[i]||[]).length === 3).length;
 
-  const an = document.getElementById('analysis');
-  if (an){
-    an.innerHTML = events.length ? analysisView() : '';
-    bindInfo(an);
-    an.querySelectorAll('.boxhead').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const panel = document.getElementById('exp-' + btn.dataset.exp);
-        const open = panel.classList.toggle('show');
-        btn.querySelector('.expand').textContent = open ? 'dölj' : 'visa mer';
-      });
-    });
-  }
+  // Rutan ritas i render. Här uppdateras bara markeringarna, så att den
+  // inte fälls ihop varje gång ett tecken kryssas.
+  document.querySelectorAll('#analysis .arow').forEach(row => {
+    const sel = picks[Number(row.dataset.i)] || [];
+    row.classList.toggle('picked', sel.indexOf(row.dataset.sign) > -1);
+  });
 
   const box = document.getElementById('summary');
   if (!events.length){ box.classList.add('hidden'); return; }
@@ -1903,7 +1897,8 @@ function allSigns(){
 
 function signRow(x, rank){
   const marked = (picks[x.i] || []).indexOf(x.sign) > -1;
-  return '<div class="arow' + (marked ? ' picked' : '') + '">' +
+  return '<div class="arow' + (marked ? ' picked' : '') +
+      '" data-i="' + x.i + '" data-sign="' + x.sign + '">' +
     '<span class="anum">' + rank + '</span>' +
     '<span class="asign">' + LBL[x.sign] + '</span>' +
     '<span class="ateams">' + esc(x.home) + ' – ' + esc(x.away) +
@@ -1929,10 +1924,10 @@ function analysisView(){
     'motiverar, så en träff delas med många.</p>');
 
   return '<div class="statbox">' +
-    '<button class="boxhead" data-exp="an-high">Högst spelvärde' +
+    '<button class="foldhead" data-fold="analys">Högst spelvärde' +
       '<span class="expand">visa mer</span></button>' +
     high.map((x, i) => signRow(x, i + 1)).join('') +
-    '<div class="boxdetail" id="exp-an-high">' +
+    '<div class="foldbody" id="fold-analys">' +
       '<div class="dlabel" style="margin:14px 0 4px">Mest överspelat</div>' +
       low.map((x, i) => signRow(x, i + 1)).join('') +
       scatterChart(all) +
