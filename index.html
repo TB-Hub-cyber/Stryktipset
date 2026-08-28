@@ -681,7 +681,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-30 bf';
+const VERSION = '2026-08-30 bg';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1508,15 +1508,19 @@ function quadChart(ev, p, d, key){
   ].map(z => {
     const tx = z[5] === 'start' ? x(z[0]) + 5 : x(z[1]) - 5;
     const ty = z[6] === 'top' ? y(y1) + 12 : y(y0) - 6;
-    return '<text class="zonelbl" x="' + tx.toFixed(1) + '" y="' + ty.toFixed(1) +
-      '" text-anchor="' + z[5] + '">' + z[4] + '</text>';
+    return '<text x="' + tx.toFixed(1) + '" y="' + ty.toFixed(1) +
+      '" text-anchor="' + z[5] + '" font-family="IBM Plex Mono, monospace" ' +
+      'font-size="8.5" fill="#A2A7AC" letter-spacing="0.4">' +
+      z[4].toUpperCase() + '</text>';
   }).join('');
 
   const dots = pts.map(q =>
     '<circle cx="' + x(q.prob).toFixed(1) + '" cy="' + y(q.value).toFixed(1) +
       '" r="13" fill="' + LINE[q.sign] + '" fill-opacity=".9"/>' +
-    '<text class="dotlbl" x="' + x(q.prob).toFixed(1) + '" y="' +
-      (y(q.value) + 5).toFixed(1) + '" text-anchor="middle">' + LBL[q.sign] + '</text>'
+    '<text x="' + x(q.prob).toFixed(1) + '" y="' +
+      (y(q.value) + 5).toFixed(1) + '" text-anchor="middle" ' +
+      'font-family="Barlow Condensed, sans-serif" font-weight="700" ' +
+      'font-size="14" fill="#ffffff">' + LBL[q.sign] + '</text>'
   ).join('');
 
   const rows = pts.map(q => {
@@ -1545,7 +1549,8 @@ function quadChart(ev, p, d, key){
     '<div class="foldbody" id="fold-' + fid + '">' +
       '<div class="chart"><svg viewBox="0 0 ' + W + ' ' + H + '" ' +
         'preserveAspectRatio="xMidYMid meet">' +
-        '<rect class="zonebg" x="' + x(ZX).toFixed(1) + '" y="' + y(y1).toFixed(1) +
+        '<rect fill="#2C6B4C" fill-opacity="0.07" ' +
+          'x="' + x(ZX).toFixed(1) + '" y="' + y(y1).toFixed(1) +
           '" width="' + (x(x1) - x(ZX)).toFixed(1) + '" height="' +
           (y(ZY) - y(y1)).toFixed(1) + '"/>' +
         '<line class="zero" x1="' + L + '" y1="' + y(ZY).toFixed(1) +
