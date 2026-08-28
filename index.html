@@ -681,7 +681,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-29 bb';
+const VERSION = '2026-08-29 be';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1679,13 +1679,9 @@ function render(draw, keep){
       if (opening && !wired){
         wired = true;
         bindInfo(card);
-        card.querySelectorAll('.foldhead').forEach(fb => {
-          fb.addEventListener('click', () => {
-            const body = document.getElementById('fold-' + fb.dataset.fold);
-            const open = body.classList.toggle('show');
-            fb.querySelector('.expand').textContent = open ? 'dölj' : 'visa';
-          });
-        });
+        // Samma funktion som resten av sidan använder. En egen kopia här
+        // tappade bort etikettens prefix, som "7 notiser".
+        bindFolds(card);
       }
       const before = card.getBoundingClientRect().top;
 
@@ -2654,12 +2650,17 @@ function bindFolds(root){
     if (fb.dataset.bound) return;
     fb.dataset.bound = '1';
     const label = fb.querySelector('.expand');
-    const base = label.textContent.replace(/ ?· ?visa$/, '').replace(/^visa$/, '');
+    // Etiketten kan vara "visa", "visa mer" eller "7 notiser · visa".
+    // Bara den sista har ett prefix att bevara.
+    const raw = label.textContent.trim();
+    const base = raw.indexOf('·') > -1 ? raw.split('·')[0].trim() : '';
+    const opened = raw === 'visa mer' ? 'dölj' : 'dölj';
+    const closed = raw === 'visa mer' ? 'visa mer' : 'visa';
     fb.addEventListener('click', () => {
       const body = document.getElementById('fold-' + fb.dataset.fold);
       if (!body) return;
       const open = body.classList.toggle('show');
-      const word = open ? 'dölj' : 'visa';
+      const word = open ? opened : closed;
       label.textContent = base ? base + ' · ' + word : word;
     });
   });
@@ -3209,17 +3210,6 @@ document.querySelectorAll('#viewnav button[data-view]').forEach(b =>
   b.addEventListener('click', () => showView(b.dataset.view)));
 
 document.getElementById('exportbtn').addEventListener('click', openExport);
-
-// Ligger utanför matchkorten, så den behöver egen koppling.
-(function(){
-  const head = document.querySelector('#legend .foldhead');
-  if (!head) return;
-  head.addEventListener('click', () => {
-    const body = document.getElementById('fold-legend');
-    const open = body.classList.toggle('show');
-    head.querySelector('.expand').textContent = open ? 'dölj' : 'visa';
-  });
-})();
 
 document.getElementById('more').addEventListener('click', e => {
   const p = document.getElementById('explain');
