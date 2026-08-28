@@ -681,7 +681,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-29 be';
+const VERSION = '2026-08-30 bf';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1479,6 +1479,88 @@ function spiderChart(t, ev, p, d, key){
     '</div></div></div>';
 }
 
+/* ---------- värde och sannolikhet per match ---------- */
+// Tre punkter i stället för trettionio, med fälten namngivna. Fasta skalor
+// gör att matcher går att jämföra med varandra.
+const ZX = 34;      // gräns i sannolikhet, ungefär ett jämnt tresidigt utfall
+const ZY = 1.0;     // gräns i spelvärde
+
+function quadChart(ev, p, d, key){
+  const pts = [];
+  OUT.forEach(k => {
+    const dist = d[k] && d[k].now;
+    if (!dist || dist <= 0 || p[k] == null) return;
+    pts.push({sign: k, prob: p[k], value: p[k] / dist, dist: dist});
+  });
+  if (pts.length < 2) return '';
+
+  const W = 320, H = 220, L = 8, R = 8, T = 16, B = 24;
+  const x0 = 5, x1 = 75, y0 = 0.6, y1 = 1.6;
+  const cl = (v, a, b) => Math.max(a, Math.min(b, v));
+  const x = v => L + ((cl(v, x0, x1) - x0) / (x1 - x0)) * (W - L - R);
+  const y = v => T + (1 - (cl(v, y0, y1) - y0) / (y1 - y0)) * (H - T - B);
+
+  const zones = [
+    [x0, ZX, ZY, y1, 'Skrällvärden', 'start', 'top'],
+    [ZX, x1, ZY, y1, 'Intressanta', 'end', 'top'],
+    [x0, ZX, y0, ZY, 'Ointressanta', 'start', 'bottom'],
+    [ZX, x1, y0, ZY, 'Överspelade favoriter', 'end', 'bottom']
+  ].map(z => {
+    const tx = z[5] === 'start' ? x(z[0]) + 5 : x(z[1]) - 5;
+    const ty = z[6] === 'top' ? y(y1) + 12 : y(y0) - 6;
+    return '<text class="zonelbl" x="' + tx.toFixed(1) + '" y="' + ty.toFixed(1) +
+      '" text-anchor="' + z[5] + '">' + z[4] + '</text>';
+  }).join('');
+
+  const dots = pts.map(q =>
+    '<circle cx="' + x(q.prob).toFixed(1) + '" cy="' + y(q.value).toFixed(1) +
+      '" r="13" fill="' + LINE[q.sign] + '" fill-opacity=".9"/>' +
+    '<text class="dotlbl" x="' + x(q.prob).toFixed(1) + '" y="' +
+      (y(q.value) + 5).toFixed(1) + '" text-anchor="middle">' + LBL[q.sign] + '</text>'
+  ).join('');
+
+  const rows = pts.map(q => {
+    const zone = q.value >= ZY
+      ? (q.prob >= ZX ? 'Intressant' : 'Skrällvärde')
+      : (q.prob >= ZX ? 'Överspelad favorit' : 'Ointressant');
+    return '<div class="axrow"><span><b>' + LBL[q.sign] + '</b> ' + zone + '</span>' +
+      '<span>' + Math.round(q.prob) + '%</span>' +
+      '<span>' + q.value.toFixed(2).replace('.',',') + '</span></div>';
+  }).join('');
+
+  const info = withInfo(
+    '<p>Vågrätt är sannolikheten enligt oddsen, lodrätt spelvärdet. ' +
+    'Linjerna går vid ' + ZX + ' procent och 1,00.</p>' +
+    '<p><b>Intressanta</b> är troliga utfall som ändå är lågt spelade. ' +
+    '<b>Skrällvärden</b> är lågt spelade men också osannolika. ' +
+    '<b>Överspelade favoriter</b> är troliga men fler tippar dem än oddsen ' +
+    'motiverar.</p>' +
+    '<p>Skalorna är fasta, 5 till 75 procent och 0,6 till 1,6, så att matcher ' +
+    'går att jämföra. Värden utanför ritas vid kanten.</p>');
+
+  const fid = 'quad-' + key;
+  return '<div class="fold">' +
+    '<button class="foldhead" data-fold="' + fid + '">Värde och sannolikhet' +
+      '<span class="expand">visa</span></button>' +
+    '<div class="foldbody" id="fold-' + fid + '">' +
+      '<div class="chart"><svg viewBox="0 0 ' + W + ' ' + H + '" ' +
+        'preserveAspectRatio="xMidYMid meet">' +
+        '<rect class="zonebg" x="' + x(ZX).toFixed(1) + '" y="' + y(y1).toFixed(1) +
+          '" width="' + (x(x1) - x(ZX)).toFixed(1) + '" height="' +
+          (y(ZY) - y(y1)).toFixed(1) + '"/>' +
+        '<line class="zero" x1="' + L + '" y1="' + y(ZY).toFixed(1) +
+          '" x2="' + (W - R) + '" y2="' + y(ZY).toFixed(1) + '"/>' +
+        '<line class="zero" x1="' + x(ZX).toFixed(1) + '" y1="' + y(y1).toFixed(1) +
+          '" x2="' + x(ZX).toFixed(1) + '" y2="' + y(y0).toFixed(1) + '"/>' +
+        zones + dots +
+      '</svg></div>' +
+      '<div class="axtable">' + rows + '</div>' +
+      '<button class="qline" data-info="' + info.id + '">Så läser du fälten' +
+        '<span class="expand">visa</span></button>' +
+      '<div class="infopanel wide" id="info-' + info.id + '">' + info.text + '</div>' +
+    '</div></div>';
+}
+
 /* ---------- detaljpanel ---------- */
 function h2hBlock(t){
   const a = findTeam(t.home), b = findTeam(t.away);
@@ -1551,6 +1633,7 @@ function detailPanel(t, key, ev, p, d){
   return '<div class="dlabel">Lagdata</div>' +
     '<div class="teamgrid">' + teamBox(t.home) + teamBox(t.away) + '</div>' +
     spiderChart(t, ev, p, d, key) +
+    quadChart(ev, p, d, key) +
     newsBlock(key) +
     h2hBlock(t) +
     '<div class="dlabel">Anteckningar</div>' +
@@ -1926,55 +2009,10 @@ function analysisView(){
     '<div class="foldbody" id="fold-analys">' +
       '<div class="dlabel" style="margin:14px 0 4px">Mest överspelat</div>' +
       low.map((x, i) => signRow(x, i + 1)).join('') +
-      scatterChart(all) +
       '<div class="axrow" style="border-top:1px dashed var(--rule);margin-top:10px">' +
         '<span>Om måttet' + info.mark + '</span></div>' +
       info.panel +
     '</div></div>';
-}
-
-// Värde mot sannolikhet. Samma tal som i rutorna, men strukturen syns:
-// högt värde uppe, troliga utfall till höger.
-function scatterChart(all){
-  const W = 320, H = 210, L = 30, R = 10, T = 14, B = 26;
-
-  const probs2 = all.map(x => x.prob);
-  const vals = all.map(x => x.value);
-  const px0 = Math.max(0, Math.floor(Math.min.apply(null, probs2) / 10) * 10 - 5);
-  const px1 = Math.min(100, Math.ceil(Math.max.apply(null, probs2) / 10) * 10 + 5);
-  const vy0 = Math.min(0.7, Math.floor(Math.min.apply(null, vals) * 10) / 10);
-  const vy1 = Math.max(1.4, Math.ceil(Math.max.apply(null, vals) * 10) / 10);
-
-  const x = v => L + ((v - px0) / (px1 - px0 || 1)) * (W - L - R);
-  const y = v => T + (1 - (v - vy0) / (vy1 - vy0 || 1)) * (H - T - B);
-
-  const dots = all.map(x2 =>
-    '<circle cx="' + x(x2.prob).toFixed(1) + '" cy="' + y(x2.value).toFixed(1) +
-    '" r="4" fill="' + LINE[x2.sign] + '" fill-opacity=".75"/>').join('');
-
-  const one = y(1);
-
-  return '<div class="chart" style="margin-top:14px">' +
-    '<div class="dlabel">Värde mot sannolikhet</div>' +
-    '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid meet">' +
-      '<line class="grid" x1="' + L + '" y1="' + T + '" x2="' + W + '" y2="' + T + '"/>' +
-      '<line class="grid" x1="' + L + '" y1="' + (H - B) + '" x2="' + W + '" y2="' + (H - B) + '"/>' +
-      '<line class="zero" x1="' + L + '" y1="' + one.toFixed(1) +
-        '" x2="' + W + '" y2="' + one.toFixed(1) + '"/>' +
-      '<text class="ax" x="0" y="' + (T + 4) + '">' + vy1.toFixed(1).replace('.',',') + '</text>' +
-      '<text class="ax" x="0" y="' + (one + 3).toFixed(1) + '">1,00</text>' +
-      '<text class="ax" x="0" y="' + (H - B) + '">' + vy0.toFixed(1).replace('.',',') + '</text>' +
-      '<text class="ax" x="' + L + '" y="' + (H - B + 14) + '">' + px0 + '%</text>' +
-      '<text class="ax" x="' + W + '" y="' + (H - B + 14) + '" text-anchor="end">' + px1 + '%</text>' +
-      dots +
-    '</svg>' +
-    '<div class="clegend" style="flex-direction:row;gap:14px">' +
-      OUT.map(k => '<span><i style="background:' + LINE[k] + '"></i>' + LBL[k] + '</span>').join('') +
-    '</div>' +
-    '<div class="thin">Varje punkt är ett tecken. Höjden är spelvärdet, ' +
-    'sidled sannolikheten enligt oddsen. Över linjen 1,00 är tecknet lägre ' +
-    'spelat än oddsen motiverar. Uppe till höger ligger troliga utfall som ' +
-    'ändå är lågt spelade, uppe till vänster skrällar med värde.</div></div>';
 }
 
 /* ---------- källor ---------- */
