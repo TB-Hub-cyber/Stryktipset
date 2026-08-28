@@ -681,7 +681,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-29 az';
+const VERSION = '2026-08-29 ba';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1587,8 +1587,10 @@ function render(draw, keep){
 
   const list = document.getElementById('list');
   list.innerHTML = '';
+  const failed = [];
 
   events.forEach((ev, i) => {
+   try {
     const p = probs(ev), d = distOf(ev), o = ev.odds || {}, so = ev.startOdds || {};
     const t = sides(ev), key = keyOf(ev);
 
@@ -1749,7 +1751,20 @@ function render(draw, keep){
     });
 
     list.appendChild(card);
+
+   } catch (err){
+    // Ett kort som kraschar ska inte ta med sig de andra tolv.
+    const msg = (err && err.message) ? err.message : String(err);
+    failed.push((ev.eventNumber || i + 1) + ': ' + msg);
+    const broken = document.createElement('article');
+    broken.className = 'match';
+    broken.innerHTML = '<div class="oddsnote">Match ' + (ev.eventNumber || i + 1) +
+      ' kunde inte ritas upp. ' + esc(msg) + '</div>';
+    list.appendChild(broken);
+   }
   });
+
+  if (failed.length) console.warn('Matcher som inte kunde ritas:', failed);
 
   document.getElementById('loader').classList.add('hidden');
   document.getElementById('legend').classList.remove('hidden');
@@ -3169,9 +3184,28 @@ async function auto(){
     status.classList.add('hidden');
   } catch (e){
     status.classList.add('hidden');
+    console.error('Fel vid inläsning:', e);
+
+    // Skilj på "hittade ingen data" och "datan fanns men något kraschade".
+    // Utan det ser båda likadana ut, och felsökningen börjar på fel ställe.
+    const gotData = events && events.length;
+    if (gotData){
+      const s = document.getElementById('stamp');
+      s.classList.remove('hidden');
+      s.innerHTML = '<div style="color:var(--low);text-transform:none;letter-spacing:0;' +
+        'line-height:1.5">Kupongen lästes in, men något gick fel efteråt:<br>' +
+        esc(e && e.message ? e.message : String(e)) + '</div>' +
+        '<button id="refresh">försök igen</button>';
+      const rb = document.getElementById('refresh');
+      if (rb) rb.addEventListener('click', () => location.reload());
+      return;
+    }
+
     document.getElementById('loader').classList.remove('hidden');
     document.getElementById('err').textContent =
-      'Ingen sparad omgång hittades än. Kör arbetsflödet i Actions, eller klistra in datan här nedanför.';
+      'Ingen sparad omgång hittades än (' +
+      esc(e && e.message ? e.message : String(e)) +
+      '). Kör arbetsflödet i Actions, eller klistra in datan här nedanför.';
   }
 }
 
