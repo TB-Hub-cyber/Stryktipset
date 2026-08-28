@@ -1,76 +1,19 @@
 {
  "drawNumber": 4968,
- "updatedAt": "2026-08-27T12:42:23Z",
+ "updatedAt": "2026-08-28T11:09:32Z",
  "model": "gpt-4o-mini",
  "matches": {
   "92163": {
    "home": "Tottenham",
    "away": "Newcastle",
-   "items": [
-    {
-     "team": "Tottenham",
-     "text": "Destiny Udogie är borta i fyra till fem veckor på grund av en hamstringskada.",
-     "source": "Tottenham Hotspur",
-     "url": "https://www.tottenhamhotspur.com/news/1009073/team-news-destiny-out-four-to-five-weeks-latest-on-danso",
-     "date": "2026-02-09",
-     "trusted": true
-    },
-    {
-     "team": "Tottenham",
-     "text": "Kevin Danso och Pedro Porro är tillbaka efter skador och tillgängliga för matchen mot Fulham.",
-     "source": "Tottenham Hotspur",
-     "url": "https://www.tottenhamhotspur.com/news/1009094/team-news-danso-porro-back-to-face-fulham-van-de-ven-okay-after-minor-issue",
-     "date": "2026-02-26",
-     "trusted": true
-    },
-    {
-     "team": "Tottenham",
-     "text": "Djed Spence missade matchen mot Fulham på grund av muskelömhet.",
-     "source": "Tottenham Hotspur",
-     "url": "https://www.tottenhamhotspur.com/news/1008879",
-     "date": "2026-03-01",
-     "trusted": true
-    },
-    {
-     "team": "Tottenham",
-     "text": "Cristian Romero, Djed Spence och Radu Dragusin är tillbaka efter skador och tillgängliga för matchen mot Atletico Madrid.",
-     "source": "Tottenham Hotspur",
-     "url": "https://www.tottenhamhotspur.com/news/2026/march/atletico-madrid-vs-spurs-uefa-champions-league-team-news-cristian-romero-djed-spence-radu-dragusin-back-to-face-atleti/",
-     "date": "2026-03-09",
-     "trusted": true
-    },
-    {
-     "team": "Newcastle",
-     "text": "Anthony Gordon och Tino Livramento är mycket nära att återvända från sina skador.",
-     "source": "Newcastle United",
-     "url": "https://www.newcastleunited.com/en/news/howe-gordon-and-livramento-very-close-to-magpies-return",
-     "date": "2025-11-21",
-     "trusted": true
-    },
-    {
-     "team": "Newcastle",
-     "text": "Jacob Ramsey gör sin första start för Newcastle mot Leeds United.",
-     "source": "Newcastle United",
-     "url": "https://www.newcastleunited.com/en/news/team-news-ramsey-makes-first-magpies-start-at-elland-road",
-     "date": "2025-08-30",
-     "trusted": true
-    },
-    {
-     "team": "Newcastle",
-     "text": "Joe Willock återvänder till startelvan mot Blackburn Rovers efter en längre skadefrånvaro.",
-     "source": "Newcastle United",
-     "url": "https://www.newcastleunited.com/en/news/team-news-willock-returns-to-starting-xi-at-ewood-park",
-     "date": "2024-02-27",
-     "trusted": true
-    }
-   ],
-   "checkedAt": "2026-08-27T12:41:24Z"
+   "items": [],
+   "checkedAt": "2026-08-28T11:08:30Z"
   },
   "92156": {
    "home": "Bournemouth",
    "away": "Everton",
    "items": [],
-   "checkedAt": "2026-08-27T12:41:27Z"
+   "checkedAt": "2026-08-28T11:08:39Z"
   },
   "92155": {
    "home": "Coventry",
@@ -78,17 +21,9 @@
    "items": [
     {
      "team": "Coventry",
-     "text": "Andrew Whing och Richard Bush behöver båda genomgå operationer; Whing för en bråckoperation och Bush för en handledsoperation.",
+     "text": "Andrew Whing och Richard Bush behöver båda operationer; Whing för en bråckoperation och Bush för en handledsoperation.",
      "source": "Sky Sports",
      "url": "https://www.skysports.com/football/news/2319558/coventry-duo-crocked",
-     "date": "2026-08-27",
-     "trusted": true
-    },
-    {
-     "team": "Coventry",
-     "text": "Youssef Chippo har ådragit sig en spräckt revben och beräknas vara borta i cirka tre veckor.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2252029/chippo-blow-for-sky-blues",
      "date": "2026-08-27",
      "trusted": true
     },
@@ -97,162 +32,96 @@
      "text": "John Welsh har brutit benet och kommer att missa resten av säsongen.",
      "source": "Sky Sports",
      "url": "https://www.skysports.com/football/news/2408105/tigers-confirm-welsh-blow",
-     "date": "2026-06-27",
-     "trusted": true
-    },
-    {
-     "team": "Hull",
-     "text": "Ryan Mason återvänder till träning efter att ha återhämtat sig från en allvarlig skallskada.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/11714/10915848/hulls-ryan-mason-back-in-training-after-suffering-serious-head-injury",
-     "date": "2026-06-14",
+     "date": "2026-08-27",
      "trusted": true
     }
    ],
-   "checkedAt": "2026-08-27T12:41:36Z"
+   "checkedAt": "2026-08-28T11:08:47Z"
   },
   "92148": {
    "home": "Blackburn",
    "away": "Queens Park Rangers",
-   "items": [
-    {
-     "team": "Blackburn",
-     "text": "Blackburn Rovers har inga nya skadeproblem inför matchen mot Bristol City den 24 februari 2026.",
-     "source": "rovers.co.uk",
-     "url": "https://www.rovers.co.uk/news/2026/february/23/no-fresh-injury-concerns-for-robins-test/",
-     "date": "2026-02-23",
-     "trusted": true
-    },
-    {
-     "team": "Blackburn",
-     "text": "Blackburn Rovers har inga nya skadeproblem inför matchen mot Bristol City den 24 februari 2026.",
-     "source": "rovers.co.uk",
-     "url": "https://www.rovers.co.uk/news/2026/february/23/no-fresh-injury-concerns-for-robins-test/",
-     "date": "2026-02-23",
-     "trusted": true
-    },
-    {
-     "team": "Queens Park Rangers",
-     "text": "Queens Park Rangers har inga nya skadeproblem inför matchen mot Swansea City den 21 april 2026.",
-     "source": "skysports.com",
-     "url": "https://www.skysports.com/football/news/11095/13534624/queens-park-rangers-1-2-swansea-city-zan-vipotnik-scores-again-in-swans-win",
-     "date": "2026-04-21",
-     "trusted": true
-    },
-    {
-     "team": "Queens Park Rangers",
-     "text": "Queens Park Rangers har inga nya skadeproblem inför matchen mot Swansea City den 21 april 2026.",
-     "source": "skysports.com",
-     "url": "https://www.skysports.com/football/news/11095/13534624/queens-park-rangers-1-2-swansea-city-zan-vipotnik-scores-again-in-swans-win",
-     "date": "2026-04-21",
-     "trusted": true
-    }
-   ],
-   "checkedAt": "2026-08-27T12:41:43Z"
+   "items": [],
+   "checkedAt": "2026-08-28T11:08:50Z"
   },
   "92130": {
    "home": "Bolton",
    "away": "Lincoln",
    "items": [],
-   "checkedAt": "2026-08-27T12:41:46Z"
+   "checkedAt": "2026-08-28T11:08:54Z"
   },
   "92135": {
    "home": "Bristol City",
    "away": "Portsmouth",
    "items": [],
-   "checkedAt": "2026-08-27T12:41:51Z"
+   "checkedAt": "2026-08-28T11:09:01Z"
   },
   "92138": {
    "home": "Cardiff",
    "away": "Sheffield U",
    "items": [],
-   "checkedAt": "2026-08-27T12:41:54Z"
+   "checkedAt": "2026-08-28T11:09:05Z"
   },
   "92149": {
    "home": "Charlton",
    "away": "Preston",
    "items": [],
-   "checkedAt": "2026-08-27T12:41:57Z"
+   "checkedAt": "2026-08-28T11:09:12Z"
   },
   "92153": {
    "home": "Norwich",
    "away": "Burnley",
-   "items": [
-    {
-     "team": "Burnley",
-     "text": "Burnleys mittfältare Dean Marney missar resten av säsongen efter en korsbandsskada.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/11708/10743492/burnley-midfielder-dean-marney-ruled-out-for-the-season-with-knee-injury",
-     "date": "2017-01-26",
-     "trusted": true
-    },
-    {
-     "team": "Burnley",
-     "text": "Burnleys målvakt Nick Pope har genomgått en operation för en urvriden axel.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/11708/11456216/burnley-goalkeeper-nick-pope-has-surgery-on-dislocated-shoulder",
-     "date": "2018-08-02",
-     "trusted": true
-    },
-    {
-     "team": "Burnley",
-     "text": "Burnleys anfallare Ashley Barnes har genomgått en operation för en ljumskbråck.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/11065/11909751/burnleys-ashley-barnes-undergoes-hernia-surgery",
-     "date": "2020-01-17",
-     "trusted": true
-    },
-    {
-     "team": "Burnley",
-     "text": "Burnleys mittfältare Jack Cork kan behöva genomgå en mindre operation för en fotledsskada.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/11708/12022990/burnleys-ben-mee-and-jack-cork-likely-to-miss-rest-of-season",
-     "date": "2020-07-07",
-     "trusted": true
-    }
-   ],
-   "checkedAt": "2026-08-27T12:42:05Z"
+   "items": [],
+   "checkedAt": "2026-08-28T11:09:15Z"
   },
   "92132": {
    "home": "Southampton",
    "away": "Millwall",
-   "items": [],
-   "checkedAt": "2026-08-27T12:42:08Z"
+   "items": [
+    {
+     "team": "Southampton",
+     "text": "Southampton förlorade 1-4 mot West Ham i Carabao Cup, där Josh Ayala gjorde två mål på sin debut.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/11095/13577047/southampton-west-ham-united",
+     "date": "2026-08-25",
+     "trusted": true
+    },
+    {
+     "team": "Southampton",
+     "text": "Southampton besegrade Stoke City med 3-1, där Divin Mubama gjorde ett sent mål på sin hemmapremiär.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/11700/13575431/southampton-3-1-stoke-city-saints-strike-late-to-beat-potters",
+     "date": "2026-08-22",
+     "trusted": true
+    },
+    {
+     "team": "Millwall",
+     "text": "Millwall vann med 3-0 mot Norwich City, där Tairyk Arconte gjorde två mål.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/11095/13575437/millwall-3-0-norwich-city-tairyk-arconte-scores-twice-as-lions-ease-to-victory",
+     "date": "2026-08-22",
+     "trusted": true
+    }
+   ],
+   "checkedAt": "2026-08-28T11:09:23Z"
   },
   "92159": {
    "home": "Watford",
    "away": "West Ham",
-   "items": [
-    {
-     "team": "West Ham",
-     "text": "Arne Engels och Joël Piroe debuterade för West Ham mot Charlton Athletic den 22 augusti 2026.",
-     "source": "West Ham United FC",
-     "url": "https://www.whufc.com/en/news/starting-xi-or-engels-and-piroe-to-make-debuts-against-charlton-athletic",
-     "date": "2026-08-26",
-     "trusted": true
-    },
-    {
-     "team": "West Ham",
-     "text": "Nuno Espírito Santo gjorde två ändringar i startelvan mot Stevenage den 22 juli 2026, med Airidas Golambeckis och James Ward-Prowse in i laget.",
-     "source": "West Ham United FC",
-     "url": "https://www.whufc.com/en/news/starting-xi-or-nuno-makes-two-changes-for-stevenage-trip",
-     "date": "2026-07-22",
-     "trusted": true
-    }
-   ],
-   "checkedAt": "2026-08-27T12:42:17Z"
+   "items": [],
+   "checkedAt": "2026-08-28T11:09:26Z"
   },
   "92144": {
    "home": "Cambridge",
    "away": "Huddersfield",
    "items": [],
-   "checkedAt": "2026-08-27T12:42:20Z"
+   "checkedAt": "2026-08-28T11:09:29Z"
   },
   "92128": {
    "home": "Leyton Orient",
    "away": "Barnsley",
    "items": [],
-   "checkedAt": "2026-08-27T12:42:23Z"
+   "checkedAt": "2026-08-28T11:09:32Z"
   }
  }
 }
