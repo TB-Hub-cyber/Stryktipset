@@ -29,6 +29,7 @@ API = "https://api.openai.com/v1/responses"
 MAX_MATCHES = 13
 MAX_ITEMS = 4              # per lag
 LINK_TIMEOUT = 8
+MAX_AGE_DAYS = 10          # äldre notiser hör till en annan säsong
 
 PROMPT = """Du samlar lagnyheter inför en fotbollsmatch. Du ska INTE bedöma
 matchen, tippa utfall eller resonera om odds.
@@ -168,6 +169,27 @@ def parse_items(text):
         return []
 
 
+def fresh_enough(value):
+    """Datumkontroll i koden, inte bara i uppdraget.
+
+    Modellen ignorerade instruktionen om sju dagar och tog med notiser från
+    förra säsongen. Ett påstående utan datum går inte att bedöma, så det
+    kastas också.
+    """
+    text = (value or "").strip()[:10]
+    try:
+        when = datetime.strptime(text, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+    except ValueError:
+        return False, "saknar datum"
+
+    age = (datetime.now(timezone.utc) - when).days
+    if age > MAX_AGE_DAYS:
+        return False, "%d dagar gammal" % age
+    if age < -2:
+        return False, "daterad i framtiden"
+    return True, ""
+
+
 def link_works(url):
     """En länk som inte svarar är oftast en påhittad länk."""
     try:
@@ -299,12 +321,19 @@ def main():
         items, note = parse_body(extract_text(body))
         kept = []
         dropped = []
+        stale = []
 
         for item in items:
             url = (item.get("url") or "").strip()
             text = (item.get("text") or "").strip()
             if not url or not text:
                 continue
+
+            ok, why = fresh_enough(item.get("date"))
+            if not ok:
+                stale.append("%s (%s)" % (text[:40], why))
+                continue
+
             if not link_works(url):
                 dropped.append(url)
                 continue
@@ -333,6 +362,8 @@ def main():
             print("   Sökte i: %s" % ", ".join(h.split(": ")[1] for h in hints))
         for url in dropped:
             print("   Länk svarade inte: %s" % url)
+        for item in stale:
+            print("   För gammal: %s" % item)
         if not kept and note:
             print("   Modellen säger: %s" % note[:200])
 
