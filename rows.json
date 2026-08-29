@@ -381,6 +381,125 @@
    },
    "correct": 6,
    "gradedAt": "2026-08-22T18:58:06Z"
+  },
+  "4968": {
+   "savedAt": "2026-08-29T05:21:29.772Z",
+   "closeTime": "2026-08-29T15:59:00+02:00",
+   "label": "Stryktipset v. 2026-35",
+   "picks": {
+    "92128": [
+     "two"
+    ],
+    "92130": [
+     "one"
+    ],
+    "92132": [
+     "two"
+    ],
+    "92135": [
+     "x"
+    ],
+    "92138": [
+     "one"
+    ],
+    "92144": [
+     "one"
+    ],
+    "92148": [
+     "x"
+    ],
+    "92149": [
+     "one",
+     "x"
+    ],
+    "92153": [
+     "two"
+    ],
+    "92155": [
+     "one",
+     "x"
+    ],
+    "92156": [
+     "one",
+     "x"
+    ],
+    "92159": [
+     "two",
+     "x"
+    ],
+    "92163": [
+     "x",
+     "two"
+    ]
+   },
+   "matches": {
+    "92128": {
+     "n": 13,
+     "home": "Leyton Orient",
+     "away": "Barnsley"
+    },
+    "92130": {
+     "n": 5,
+     "home": "Bolton",
+     "away": "Lincoln"
+    },
+    "92132": {
+     "n": 10,
+     "home": "Southampton",
+     "away": "Millwall"
+    },
+    "92135": {
+     "n": 6,
+     "home": "Bristol City",
+     "away": "Portsmouth"
+    },
+    "92138": {
+     "n": 7,
+     "home": "Cardiff",
+     "away": "Sheffield U"
+    },
+    "92144": {
+     "n": 12,
+     "home": "Cambridge",
+     "away": "Huddersfield"
+    },
+    "92148": {
+     "n": 4,
+     "home": "Blackburn",
+     "away": "Queens Park Rangers"
+    },
+    "92149": {
+     "n": 8,
+     "home": "Charlton",
+     "away": "Preston"
+    },
+    "92153": {
+     "n": 9,
+     "home": "Norwich",
+     "away": "Burnley"
+    },
+    "92155": {
+     "n": 3,
+     "home": "Coventry",
+     "away": "Hull"
+    },
+    "92156": {
+     "n": 2,
+     "home": "Bournemouth",
+     "away": "Everton"
+    },
+    "92159": {
+     "n": 11,
+     "home": "Watford",
+     "away": "West Ham"
+    },
+    "92163": {
+     "n": 1,
+     "home": "Tottenham",
+     "away": "Newcastle"
+    }
+   },
+   "result": null
   }
  }
 }
