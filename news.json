@@ -1,127 +1,85 @@
 {
  "drawNumber": 4968,
- "updatedAt": "2026-08-28T11:09:32Z",
+ "updatedAt": "2026-08-30T06:04:09Z",
  "model": "gpt-4o-mini",
  "matches": {
   "92163": {
    "home": "Tottenham",
    "away": "Newcastle",
    "items": [],
-   "checkedAt": "2026-08-28T11:08:30Z"
+   "checkedAt": "2026-08-30T06:03:19Z"
   },
   "92156": {
    "home": "Bournemouth",
    "away": "Everton",
    "items": [],
-   "checkedAt": "2026-08-28T11:08:39Z"
+   "checkedAt": "2026-08-30T06:03:23Z"
   },
   "92155": {
    "home": "Coventry",
    "away": "Hull",
-   "items": [
-    {
-     "team": "Coventry",
-     "text": "Andrew Whing och Richard Bush behöver båda operationer; Whing för en bråckoperation och Bush för en handledsoperation.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2319558/coventry-duo-crocked",
-     "date": "2026-08-27",
-     "trusted": true
-    },
-    {
-     "team": "Hull",
-     "text": "John Welsh har brutit benet och kommer att missa resten av säsongen.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2408105/tigers-confirm-welsh-blow",
-     "date": "2026-08-27",
-     "trusted": true
-    }
-   ],
-   "checkedAt": "2026-08-28T11:08:47Z"
+   "items": [],
+   "checkedAt": "2026-08-30T06:03:27Z"
   },
   "92148": {
    "home": "Blackburn",
    "away": "Queens Park Rangers",
    "items": [],
-   "checkedAt": "2026-08-28T11:08:50Z"
+   "checkedAt": "2026-08-30T06:03:31Z"
   },
   "92130": {
    "home": "Bolton",
    "away": "Lincoln",
    "items": [],
-   "checkedAt": "2026-08-28T11:08:54Z"
+   "checkedAt": "2026-08-30T06:03:35Z"
   },
   "92135": {
    "home": "Bristol City",
    "away": "Portsmouth",
    "items": [],
-   "checkedAt": "2026-08-28T11:09:01Z"
+   "checkedAt": "2026-08-30T06:03:40Z"
   },
   "92138": {
    "home": "Cardiff",
    "away": "Sheffield U",
    "items": [],
-   "checkedAt": "2026-08-28T11:09:05Z"
+   "checkedAt": "2026-08-30T06:03:45Z"
   },
   "92149": {
    "home": "Charlton",
    "away": "Preston",
    "items": [],
-   "checkedAt": "2026-08-28T11:09:12Z"
+   "checkedAt": "2026-08-30T06:03:49Z"
   },
   "92153": {
    "home": "Norwich",
    "away": "Burnley",
    "items": [],
-   "checkedAt": "2026-08-28T11:09:15Z"
+   "checkedAt": "2026-08-30T06:03:53Z"
   },
   "92132": {
    "home": "Southampton",
    "away": "Millwall",
-   "items": [
-    {
-     "team": "Southampton",
-     "text": "Southampton förlorade 1-4 mot West Ham i Carabao Cup, där Josh Ayala gjorde två mål på sin debut.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/11095/13577047/southampton-west-ham-united",
-     "date": "2026-08-25",
-     "trusted": true
-    },
-    {
-     "team": "Southampton",
-     "text": "Southampton besegrade Stoke City med 3-1, där Divin Mubama gjorde ett sent mål på sin hemmapremiär.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/11700/13575431/southampton-3-1-stoke-city-saints-strike-late-to-beat-potters",
-     "date": "2026-08-22",
-     "trusted": true
-    },
-    {
-     "team": "Millwall",
-     "text": "Millwall vann med 3-0 mot Norwich City, där Tairyk Arconte gjorde två mål.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/11095/13575437/millwall-3-0-norwich-city-tairyk-arconte-scores-twice-as-lions-ease-to-victory",
-     "date": "2026-08-22",
-     "trusted": true
-    }
-   ],
-   "checkedAt": "2026-08-28T11:09:23Z"
+   "items": [],
+   "checkedAt": "2026-08-30T06:03:58Z"
   },
   "92159": {
    "home": "Watford",
    "away": "West Ham",
    "items": [],
-   "checkedAt": "2026-08-28T11:09:26Z"
+   "checkedAt": "2026-08-30T06:04:01Z"
   },
   "92144": {
    "home": "Cambridge",
    "away": "Huddersfield",
    "items": [],
-   "checkedAt": "2026-08-28T11:09:29Z"
+   "checkedAt": "2026-08-30T06:04:05Z"
   },
   "92128": {
    "home": "Leyton Orient",
    "away": "Barnsley",
    "items": [],
-   "checkedAt": "2026-08-28T11:09:32Z"
+   "checkedAt": "2026-08-30T06:04:09Z"
   }
  }
 }
