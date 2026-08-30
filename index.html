@@ -112,6 +112,22 @@ h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;
 .bignums span{display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;
   letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
 .bignums b{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:600;line-height:1.1}
+.cmp{margin-bottom:9px}
+.cmprow{display:flex;align-items:center;gap:8px;padding:5px 0}
+.cmplabel{font-family:'Barlow',sans-serif;font-size:13px;color:var(--ink-soft);
+  min-width:96px;flex-shrink:0}
+.cmprow.me .cmplabel{color:var(--ink);font-weight:600}
+.cmpbar{flex:1;height:14px;background:#E9EAE5;border-radius:3px;overflow:hidden;
+  min-width:30px}
+.cmpbar i{display:block;height:100%;background:var(--ink-faint);border-radius:3px}
+.cmprow.me .cmpbar i{background:var(--ink)}
+.cmpval{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;
+  min-width:34px;text-align:right}
+.cmpsum{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint);
+  min-width:52px;text-align:right}
+.cmptext{font-size:13px;color:var(--ink-soft);line-height:1.5;padding-top:9px;
+  border-top:1px solid #EDEEEA}
+.cmptext b{color:var(--ink)}
 .bench{display:flex;align-items:baseline;gap:9px;padding:6px 0;
   border-top:1px solid #EDEEEA;font-family:'IBM Plex Mono',monospace;font-size:12.5px}
 .bench > span:first-child{flex:1;min-width:0}
@@ -681,7 +697,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-30 bg';
+const VERSION = '2026-08-30 bh';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -2471,22 +2487,44 @@ function statsView(){
         Math.abs(diff).toFixed(1).replace('.',',') + '</b></span></div>';
   };
 
+  // Staplar i stället för en differenskolumn. Siffran +1,0 stod på
+  // favoritradens rad och lästes som att favoriten var plus ett.
+  const totalMine = withBench.reduce((a, x) => a + x.mine, 0);
+  const totalFav = withBench.reduce((a, x) => a + x.fav, 0);
+  const totalPpl = withBench.reduce((a, x) => a + x.people, 0);
+
+  const top = Math.max(avg, mean('fav') || 0, mean('people') || 0, 1);
+  const bar = (label, value, total, strong) =>
+    '<div class="cmprow' + (strong ? ' me' : '') + '">' +
+      '<span class="cmplabel">' + label + '</span>' +
+      '<span class="cmpbar"><i style="width:' +
+        Math.round((value / top) * 100) + '%"></i></span>' +
+      '<span class="cmpval">' + value.toFixed(1).replace('.',',') + '</span>' +
+      '<span class="cmpsum">' + total + ' rätt</span>' +
+    '</div>';
+
+  const diffText = (other, name) => {
+    if (other == null) return '';
+    const diff = avg - other;
+    if (Math.abs(diff) < 0.05) return 'Du ligger jämnt med ' + name + '. ';
+    return 'Du har i snitt <b>' + Math.abs(diff).toFixed(1).replace('.',',') +
+      ' rätt ' + (diff > 0 ? 'mer' : 'färre') + '</b> än ' + name + '. ';
+  };
+
   const benchBox = withBench.length
     ? box('Jämförelse', 'bench',
-        '<div class="bench bhead"><span></span>' +
-          '<span class="bcol">Snitt</span>' +
-          '<span class="bcol">Mot dig</span></div>' +
-        '<div class="bench"><span><b>Din rad</b></span>' +
-          '<span class="bcol"><b>' + avg.toFixed(1).replace('.',',') + '</b></span>' +
-          '<span class="bcol">–</span></div>' +
-        cmp(mean('fav'), 'Favoritraden') +
-        cmp(mean('people'), 'Folkets rad'),
+        '<div class="cmp">' +
+          bar('Din rad', avg, totalMine, true) +
+          bar('Favoritraden', mean('fav'), totalFav) +
+          bar('Folkets rad', mean('people'), totalPpl) +
+        '</div>' +
+        '<p class="cmptext">' + diffText(mean('fav'), 'favoritraden') +
+          diffText(mean('people'), 'folkets rad') + '</p>',
         multiChart(series) +
-        '<div class="thin">Kolumnen längst till höger är skillnaden mot din rad. ' +
-        'Grönt betyder att du haft fler rätt än den raden, rött att du haft färre.' +
-        '<br><br>Favoritraden tar lägsta odds i varje match, folkets rad det mest ' +
-        'spelade tecknet. Båda räknas på värdena vid stängning.</div>')
+        '<div class="thin">Favoritraden tar lägsta odds i varje match, folkets ' +
+        'rad det mest spelade tecknet. Båda räknas på värdena vid stängning.</div>')
     : '';
+
 
   // Garderingar
   const buckets = {1:{n:0,hit:0}, 2:{n:0,hit:0}, 3:{n:0,hit:0}};
