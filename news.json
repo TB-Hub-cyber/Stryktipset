@@ -1,85 +1,102 @@
 {
  "drawNumber": 4968,
- "updatedAt": "2026-08-30T06:04:09Z",
+ "updatedAt": "2026-08-30T07:55:19Z",
  "model": "gpt-4o-mini",
  "matches": {
   "92163": {
    "home": "Tottenham",
    "away": "Newcastle",
    "items": [],
-   "checkedAt": "2026-08-30T06:03:19Z"
+   "checkedAt": "2026-08-30T07:54:26Z"
   },
   "92156": {
    "home": "Bournemouth",
    "away": "Everton",
    "items": [],
-   "checkedAt": "2026-08-30T06:03:23Z"
+   "checkedAt": "2026-08-30T07:54:30Z"
   },
   "92155": {
    "home": "Coventry",
    "away": "Hull",
    "items": [],
-   "checkedAt": "2026-08-30T06:03:27Z"
+   "checkedAt": "2026-08-30T07:54:35Z"
   },
   "92148": {
    "home": "Blackburn",
    "away": "Queens Park Rangers",
    "items": [],
-   "checkedAt": "2026-08-30T06:03:31Z"
+   "checkedAt": "2026-08-30T07:54:41Z"
   },
   "92130": {
    "home": "Bolton",
    "away": "Lincoln",
    "items": [],
-   "checkedAt": "2026-08-30T06:03:35Z"
+   "checkedAt": "2026-08-30T07:54:44Z"
   },
   "92135": {
    "home": "Bristol City",
    "away": "Portsmouth",
    "items": [],
-   "checkedAt": "2026-08-30T06:03:40Z"
+   "checkedAt": "2026-08-30T07:54:48Z"
   },
   "92138": {
    "home": "Cardiff",
    "away": "Sheffield U",
    "items": [],
-   "checkedAt": "2026-08-30T06:03:45Z"
+   "checkedAt": "2026-08-30T07:54:51Z"
   },
   "92149": {
    "home": "Charlton",
    "away": "Preston",
    "items": [],
-   "checkedAt": "2026-08-30T06:03:49Z"
+   "checkedAt": "2026-08-30T07:54:55Z"
   },
   "92153": {
    "home": "Norwich",
    "away": "Burnley",
-   "items": [],
-   "checkedAt": "2026-08-30T06:03:53Z"
+   "items": [
+    {
+     "team": "Burnley",
+     "text": "Burnley förlorade 1-4 mot Norwich den 29 augusti 2026, där Josh Laurent gjorde mål för Burnley men blev utvisad i den 77:e minuten.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/norwich-vs-burnley/report/560529",
+     "date": "2026-08-29",
+     "trusted": true
+    },
+    {
+     "team": "Burnley",
+     "text": "Burnley förlorade 1-3 mot West Bromwich Albion den 23 augusti 2026, där Isaac Price gjorde två mål för West Bromwich.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/west-bromwich-albion-vs-burnley/report/560519",
+     "date": "2026-08-23",
+     "trusted": true
+    }
+   ],
+   "checkedAt": "2026-08-30T07:55:03Z"
   },
   "92132": {
    "home": "Southampton",
    "away": "Millwall",
    "items": [],
-   "checkedAt": "2026-08-30T06:03:58Z"
+   "checkedAt": "2026-08-30T07:55:06Z"
   },
   "92159": {
    "home": "Watford",
    "away": "West Ham",
    "items": [],
-   "checkedAt": "2026-08-30T06:04:01Z"
+   "checkedAt": "2026-08-30T07:55:11Z"
   },
   "92144": {
    "home": "Cambridge",
    "away": "Huddersfield",
    "items": [],
-   "checkedAt": "2026-08-30T06:04:05Z"
+   "checkedAt": "2026-08-30T07:55:14Z"
   },
   "92128": {
    "home": "Leyton Orient",
    "away": "Barnsley",
    "items": [],
-   "checkedAt": "2026-08-30T06:04:09Z"
+   "checkedAt": "2026-08-30T07:55:19Z"
   }
  }
 }
