@@ -1,0 +1,245 @@
+name: Hämta stryktipsomgång
+
+on:
+  schedule:
+    - cron: "0 */3 * * *"
+    - cron: "0 * * * 5,6,0"
+    # Sista mätningen före stopp. Tiderna är UTC — 13:50 är 15:50 svensk
+    # sommartid, 14:50 är 15:50 vintertid. Den som inte gäller för dagen
+    # hämtar bara data i onödan.
+    - cron: "50 13 * * 6"
+    - cron: "50 14 * * 6"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hamta-data
+  cancel-in-progress: true
+
+env:
+  TRIM: >-
+    [.matches[]
+     | select(.score.fullTime.home != null)
+     | {d: .utcDate,
+        c: $c,
+        md: .matchday,
+        h: .homeTeam.id, a: .awayTeam.id,
+        hn: (.homeTeam.shortName // .homeTeam.name),
+        an: (.awayTeam.shortName // .awayTeam.name),
+        hg: .score.fullTime.home, ag: .score.fullTime.away,
+        hh: .score.halfTime.home, ah: .score.halfTime.away}]
+
+jobs:
+  hamta:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hämta repot
+        uses: actions/checkout@v4
+
+      - name: Hämta omgången från Svenska Spel
+        # Namnuppslagning och nät hos GitHubs maskiner fallerar ibland. Ett
+        # tillfälligt hicka ska inte stoppa rättning och tabellhämtning, som
+        # inte har med kupongen att göra.
+        continue-on-error: true
+        run: |
+          # --retry täcker inte namnuppslagningsfel, därför en egen slinga.
+          for attempt in 1 2 3; do
+            if curl -sS -f --connect-timeout 15 --max-time 45 \
+                 -H "User-Agent: stryktips-hobbyprojekt" \
+                 -H "Accept: application/json" \
+                 "https://api.spela.svenskaspel.se/draw/1/stryktipset/draws" \
+                 -o raw.json; then
+              echo "Hämtningen lyckades på försök $attempt."
+              break
+            fi
+            echo "Försök $attempt misslyckades."
+            rm -f raw.json
+            [ "$attempt" = "3" ] || sleep 20
+          done
+
+          if [ ! -s raw.json ]; then
+            echo "Kunde inte nå Svenska Spel. Behåller föregående data.json."
+            exit 0
+          fi
+
+          jq empty raw.json
+
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+          # Mellan stopptid och nästa öppning svarar Svenska Spel med en tom
+          # lista. Kupongen behålls då, men tidsstämpeln uppdateras ändå —
+          # annars kan appen inte se skillnad på "inget nytt" och "trasigt".
+          if [ "$(jq '.draws | length' raw.json)" -eq 0 ]; then
+            if [ -f data.json ]; then
+              jq --arg t "$NOW" '.fetchedAt = $t | .noOpenDraw = true' \
+                data.json > tmp.json && mv tmp.json data.json
+              echo "Ingen öppen omgång — behåller kupongen, uppdaterar tidsstämpeln."
+            else
+              echo "Ingen öppen omgång och ingen tidigare data att behålla."
+            fi
+          else
+            jq --arg t "$NOW" '{fetchedAt: $t, draw: .}' raw.json > data.json
+          fi
+
+          rm raw.json
+
+      - name: Spara ögonblicksbild i historiken
+        continue-on-error: true
+        run: |
+          if [ -f data.json ]; then
+            python3 .github/scripts/history.py
+          else
+            echo "Ingen data.json ännu, hoppar över."
+          fi
+
+      - name: Rätta inlämnade rader
+        continue-on-error: true
+        run: python3 .github/scripts/results.py
+
+      - name: Avgör vilka ligor som behövs
+        id: leagues
+        run: echo "codes=$(python3 .github/scripts/leagues.py)" >> "$GITHUB_OUTPUT"
+
+      - name: Hämta tabeller och resultat
+        continue-on-error: true
+        env:
+          FD: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+          CODES: ${{ steps.leagues.outputs.codes }}
+        run: |
+          for code in $CODES; do
+            curl -sS -f -H "X-Auth-Token: $FD" \
+              "https://api.football-data.org/v4/competitions/$code/standings" \
+              -o "st-$code.json" || { echo "Tabell för $code misslyckades."; continue; }
+            sleep 7
+
+            # Säsongen måste anges uttryckligen. Utan den returnerar API:et
+            # bara en delmängd av matcherna, vilket gav form på en match
+            # trots att tabellen visade två spelade.
+            SEASON=$(jq -r '.season.startDate // "" | split("-")[0]' "st-$code.json")
+            [ -n "$SEASON" ] || SEASON=$(date -u +%Y)
+
+            curl -sS -f -H "X-Auth-Token: $FD" \
+              "https://api.football-data.org/v4/competitions/$code/matches?status=FINISHED&season=$SEASON" \
+              -o "ma-$code.json" || { echo "Matcher för $code misslyckades."; continue; }
+            sleep 7
+
+            jq --arg c "$code" "$TRIM" "ma-$code.json" > "sm-$code.json"
+            echo "$code säsong $SEASON: $(jq 'length' "sm-$code.json") spelade matcher."
+          done
+
+      - name: Försök hämta tidigare säsonger
+        continue-on-error: true
+        env:
+          FD: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+          CODES: ${{ steps.leagues.outputs.codes }}
+        run: |
+          for season in 2025 2024; do
+            for code in $CODES; do
+              if curl -sS -f -H "X-Auth-Token: $FD" \
+                   "https://api.football-data.org/v4/competitions/$code/matches?status=FINISHED&season=$season" \
+                   -o "old-$code-$season.json"; then
+                jq --arg c "$code" "$TRIM" "old-$code-$season.json" > "po-$code-$season.json"
+              else
+                echo "Säsong $season för $code nekades eller saknas."
+              fi
+              sleep 7
+            done
+          done
+
+      # Kostar pengar per körning, så den går bara vid några tillfällen
+      # i veckan då presskonferenserna hunnit komma.
+      - name: Hämta lagnyheter
+        continue-on-error: true
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          # Lämnas tom om variabeln inte finns — skriptet faller då tillbaka
+          # på sitt standardnamn.
+          NEWS_MODEL: ${{ vars.NEWS_MODEL }}
+          NEWS_TOOL: ${{ vars.NEWS_TOOL }}
+          FORCE_NEWS: ${{ github.event_name == 'workflow_dispatch' && '1' || '0' }}
+        run: |
+          HOUR=$(date -u +%H)
+          DOW=$(date -u +%u)
+          if [ "$FORCE_NEWS" = "1" ] || \
+             { [ "$HOUR" = "16" ] && { [ "$DOW" = "4" ] || [ "$DOW" = "5" ]; }; } || \
+             { [ "$HOUR" = "09" ] && [ "$DOW" = "6" ]; }; then
+            python3 .github/scripts/news.py
+          else
+            echo "Utanför nyhetsfönstret (tors och fre 16 UTC, lör 09 UTC)."
+          fi
+
+      - name: Sätt ihop football.json
+        continue-on-error: true
+        env:
+          CODES: ${{ steps.leagues.outputs.codes }}
+        run: |
+          python3 - "$CODES" << 'PY'
+          import glob, json, os, sys, datetime
+
+          codes = sys.argv[1].split()
+
+          def load(path, fallback):
+              if not os.path.exists(path):
+                  return fallback
+              try:
+                  with open(path, encoding="utf-8") as fh:
+                      return json.load(fh)
+              except (ValueError, OSError):
+                  return fallback
+
+          competitions = {}
+          results = {}
+          for code in codes:
+              standings = load("st-%s.json" % code, None)
+              if standings:
+                  competitions[code] = standings
+              results[code] = load("sm-%s.json" % code, [])
+
+          past = []
+          for path in sorted(glob.glob("po-*.json")):
+              past.extend(load(path, []))
+
+          out = {
+              "fetchedAt": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+              "competitions": competitions,
+              "results": results,
+              "past": past,
+          }
+          with open("football.json", "w", encoding="utf-8") as fh:
+              json.dump(out, fh, ensure_ascii=False, separators=(",", ":"))
+
+          print("Ligor: %s" % ", ".join(sorted(competitions)))
+          for code in sorted(results):
+              print("  %s: %d matcher" % (code, len(results[code])))
+          print("Matcher denna säsong: %d" % sum(len(v) for v in results.values()))
+          print("Tidigare möten: %d" % len(past))
+          PY
+
+          rm -f st-*.json ma-*.json sm-*.json old-*.json po-*.json
+
+      # Måste ligga efter football.json, som den räknar på.
+      - name: Sätt modellens rad
+        continue-on-error: true
+        run: python3 .github/scripts/model.py
+
+      - name: Spara om något ändrats
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+
+          git add data.json || true
+          git add football.json || true
+          git add history.json || true
+          git add rows.json || true
+          git add news.json || true
+          git add model.json || true
+
+          if git diff --staged --quiet; then
+            echo "Ingen förändring sedan förra hämtningen."
+          else
+            git commit -m "Uppdaterad omgångs- och tabelldata"
+            git pull --rebase --autostash origin ${{ github.ref_name }}
+            git push
+          fi

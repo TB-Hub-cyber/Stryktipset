@@ -124,6 +124,20 @@ def closing_values(draw_number, close_time):
     return out
 
 
+def load_model(draw_number):
+    """Modellens tecken för omgången, om de hann sparas före stopptid."""
+    if not os.path.exists("model.json"):
+        return None
+    try:
+        with open("model.json", encoding="utf-8") as fh:
+            data = json.load(fh)
+    except (ValueError, OSError):
+        return None
+    if str(data.get("drawNumber")) != str(draw_number):
+        return None
+    return data.get("picks") or None
+
+
 def load_rows():
     if not os.path.exists(ROWS):
         return {"rounds": {}}
@@ -172,6 +186,17 @@ def main():
                       if facit.get(key) in (sel or []))
 
         closing = closing_values(number, entry.get("closeTime"))
+
+        # Modellens rad låstes vid stopptid av model.py.
+        if not entry.get("model"):
+            saved = load_model(number)
+            if saved:
+                entry["model"] = saved
+
+        if entry.get("model"):
+            hits = sum(1 for k, v in entry["model"].items() if facit.get(k) == v)
+            entry["modelCorrect"] = hits
+            print("Modellen fick %d rätt." % hits)
 
         entry["result"] = facit
         entry["scores"] = scores
