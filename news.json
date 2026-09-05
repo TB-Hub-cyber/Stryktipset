@@ -1,55 +1,88 @@
 {
  "drawNumber": 4969,
- "updatedAt": "2026-09-05T07:43:03Z",
+ "updatedAt": "2026-09-05T07:55:46Z",
  "model": "gpt-4o-mini",
  "matches": {
   "92436": {
    "home": "Hull",
    "away": "Aston Villa",
    "items": [],
-   "checkedAt": "2026-09-05T07:42:12Z"
+   "checkedAt": "2026-09-05T07:54:51Z"
   },
   "92437": {
    "home": "Brighton",
    "away": "Leeds",
-   "items": [],
-   "checkedAt": "2026-09-05T07:42:17Z"
+   "items": [
+    {
+     "team": "Leeds",
+     "text": "Leeds United har bekräftat att anfallaren Michael Bridges kommer att vara borta i fyra månader efter en operation på sin skadade fotled.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/2194202/bridges-blow-after-op",
+     "date": "2026-08-30",
+     "trusted": true
+    },
+    {
+     "team": "Leeds",
+     "text": "Leeds United har bekräftat att anfallaren Michael Bridges kommer att vara borta i fyra månader efter en operation på sin skadade fotled.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/2194202/bridges-blow-after-op",
+     "date": "2026-08-30",
+     "trusted": true
+    },
+    {
+     "team": "Leeds",
+     "text": "Leeds United har bekräftat att anfallaren Michael Bridges kommer att vara borta i fyra månader efter en operation på sin skadade fotled.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/2194202/bridges-blow-after-op",
+     "date": "2026-08-30",
+     "trusted": true
+    },
+    {
+     "team": "Leeds",
+     "text": "Leeds United har bekräftat att anfallaren Michael Bridges kommer att vara borta i fyra månader efter en operation på sin skadade fotled.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/2194202/bridges-blow-after-op",
+     "date": "2026-08-30",
+     "trusted": true
+    }
+   ],
+   "checkedAt": "2026-09-05T07:54:58Z"
   },
   "92434": {
    "home": "Fulham",
    "away": "Crystal Palace",
    "items": [],
-   "checkedAt": "2026-09-05T07:42:20Z"
+   "checkedAt": "2026-09-05T07:55:02Z"
   },
   "92433": {
    "home": "Manchester City",
    "away": "Coventry",
    "items": [],
-   "checkedAt": "2026-09-05T07:42:27Z"
+   "checkedAt": "2026-09-05T07:55:06Z"
   },
   "92435": {
    "home": "Nottingham",
    "away": "Tottenham",
    "items": [],
-   "checkedAt": "2026-09-05T07:42:32Z"
+   "checkedAt": "2026-09-05T07:55:10Z"
   },
   "92438": {
    "home": "Brentford",
    "away": "Sunderland",
    "items": [],
-   "checkedAt": "2026-09-05T07:42:35Z"
+   "checkedAt": "2026-09-05T07:55:14Z"
   },
   "92440": {
    "home": "Burnley",
    "away": "Bristol City",
    "items": [],
-   "checkedAt": "2026-09-05T07:42:39Z"
+   "checkedAt": "2026-09-05T07:55:19Z"
   },
   "92443": {
    "home": "Millwall",
    "away": "Bolton",
    "items": [],
-   "checkedAt": "2026-09-05T07:42:43Z"
+   "checkedAt": "2026-09-05T07:55:21Z"
   },
   "92445": {
    "home": "Portsmouth",
@@ -64,31 +97,40 @@
      "trusted": true
     }
    ],
-   "checkedAt": "2026-09-05T07:42:49Z"
+   "checkedAt": "2026-09-05T07:55:29Z"
   },
   "92446": {
    "home": "Queens Park Rangers",
    "away": "Middlesbrough",
    "items": [],
-   "checkedAt": "2026-09-05T07:42:52Z"
+   "checkedAt": "2026-09-05T07:55:32Z"
   },
   "92442": {
    "home": "Sheffield U",
    "away": "Norwich",
    "items": [],
-   "checkedAt": "2026-09-05T07:42:55Z"
+   "checkedAt": "2026-09-05T07:55:36Z"
   },
   "92439": {
    "home": "West Bromwich",
    "away": "Watford",
    "items": [],
-   "checkedAt": "2026-09-05T07:43:00Z"
+   "checkedAt": "2026-09-05T07:55:39Z"
   },
   "92441": {
    "home": "Swansea",
    "away": "Wrexham",
-   "items": [],
-   "checkedAt": "2026-09-05T07:43:03Z"
+   "items": [
+    {
+     "team": "Wrexham",
+     "text": "Målvakten Andy Dibble har opererat sitt finger och beräknas vara borta i upp till tre månader.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/2311720/finger-op-for-dibble",
+     "date": "2026-09-02",
+     "trusted": true
+    }
+   ],
+   "checkedAt": "2026-09-05T07:55:46Z"
   }
  }
 }
