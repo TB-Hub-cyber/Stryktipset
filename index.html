@@ -88,6 +88,8 @@ h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;
   font-weight:700;margin:20px 0 4px}
 .stats h2:first-child{margin-top:6px}
 .stats p.lead{font-size:13px;color:var(--ink-soft);margin-bottom:11px;line-height:1.45}
+.modelintro{font-size:12.5px;color:var(--ink-soft);line-height:1.5;margin-top:2px}
+.modelintro b{color:var(--ink)}
 .analysis{margin-top:11px}
 .arow{display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid #EDEEEA}
 .arow:first-of-type{border-top:none}
@@ -697,7 +699,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-30 bh';
+const VERSION = '2026-08-30 bl';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -1869,7 +1871,7 @@ function render(draw, keep){
   document.getElementById('loader').classList.add('hidden');
   document.getElementById('legend').classList.remove('hidden');
   document.getElementById('viewnav').classList.remove('hidden');
-  document.getElementById('analysis').innerHTML = analysisView();
+  document.getElementById('analysis').innerHTML = analysisView() + modelBox();
   bindFolds(document.getElementById('analysis'));
   bindInfo(document.getElementById('analysis'));
   bindFolds(document.getElementById('legend'));
@@ -1966,6 +1968,91 @@ function refresh(){
     tb.classList.toggle('hidden');
     if (!tb.classList.contains('hidden')) tb.scrollIntoView({behavior:'smooth'});
   });
+}
+
+/* ---------- modellen ---------- */
+// Uträkningen görs i arbetsflödet av model.py och läses in här. Två
+// implementationer av samma formel glider isär, och den i arbetsflödet
+// fångar dessutom raden vid stopptid även om appen aldrig öppnas.
+let modelFile = {picks:{}, detail:{}};
+
+function modelReady(){
+  return String(modelFile.drawNumber || '') === String(drawInfo.drawNumber || '') &&
+         Object.keys(modelFile.picks || {}).length >= 3;
+}
+
+function modelBox(){
+  if (!modelReady()) return '';
+
+  const rows = events.map((ev, i) => {
+    const key = keyOf(ev), t = sides(ev);
+    return {i: i, n: ev.eventNumber || i + 1, key: key,
+            home: t.home.name, away: t.away.name,
+            m: (modelFile.detail || {})[key] || null};
+  });
+
+  const ok = rows.filter(r => r.m).length;
+  const agree = rows.filter(r => r.m && (picks[r.i] || []).indexOf(r.m.sign) > -1).length;
+  const marked = events.filter((e, i) => (picks[i] || []).length).length;
+
+  const info = withInfo(
+    '<p><b>Så räknar den.</b> Varje lags anfallsstyrka är gjorda mål i ' +
+    'förhållande till liga-snittet, försvarsstyrkan insläppta mål på samma ' +
+    'sätt. Hemma och borta räknas var för sig, eftersom många lag är helt ' +
+    'olika beroende på plan.</p>' +
+    '<p>Väntade mål blir hemmalagets anfall gånger bortalagets försvar, gånger ' +
+    'liga-snittet för hemmamål. Sannolikheten för varje resultat räknas med ' +
+    'Poissonfördelning och summeras till 1, X och 2.</p>' +
+    '<p><b>Form</b> räknas in genom att matcher viktas efter ålder — en match ' +
+    'väger hälften efter 90 dygn. Lag med tunt underlag dras mot liga-snittet, ' +
+    'så en enskild storseger inte får styra.</p>' +
+    '<p><b>Den ser inte odds eller streck.</b> Gjorde den det skulle den bara ' +
+    'reproducera favoritraden. Den använder inte heller inbördes möten — två ' +
+    'eller tre matcher är för lite för att väga in utan att gissa vikten — ' +
+    'eller tabellpoäng, som i praktiken är samma information som målen fast ' +
+    'grövre.</p>' +
+    '<p><b>Förvänta dig inte att den slår oddsen.</b> Marknaden känner till ' +
+    'skador, avstängningar och rotationsplaner. Vi har mål. Det intressanta ' +
+    'är om den träffar på andra matcher än marknaden.</p>' +
+    (modelFile.sample ? '<p>Underlag: ' + modelFile.sample + ' spelade matcher. ' +
+      'Satt ' + (modelFile.updatedAt
+        ? new Date(modelFile.updatedAt).toLocaleString('sv-SE') : '') + '.</p>' : ''));
+
+  const list = rows.map(r => {
+    if (!r.m){
+      return '<div class="arow"><span class="anum">' + r.n + '</span>' +
+        '<span class="asign" style="background:var(--rule);color:var(--ink-faint)">–</span>' +
+        '<span class="ateams">' + esc(r.home) + ' – ' + esc(r.away) +
+          '<em>saknar underlag</em></span></div>';
+    }
+    const p = r.m, pr = p.p || {};
+    const mine = (picks[r.i] || []).indexOf(p.sign) > -1;
+    return '<div class="arow' + (mine ? ' picked' : '') +
+        '" data-i="' + r.i + '" data-sign="' + p.sign + '">' +
+      '<span class="anum">' + r.n + '</span>' +
+      '<span class="asign">' + LBL[p.sign] + '</span>' +
+      '<span class="ateams">' + esc(r.home) + ' – ' + esc(r.away) +
+        '<em>' + Math.round(pr.one) + ' / ' + Math.round(pr.x) + ' / ' +
+        Math.round(pr.two) + ' % · väntade mål ' +
+        String(p.lh).replace('.',',') + '–' + String(p.la).replace('.',',') +
+        '</em></span>' +
+      '<span class="aval">' + Math.round(Math.max(pr.one, pr.x, pr.two)) + '%</span>' +
+    '</div>';
+  }).join('');
+
+  return '<div class="statbox">' +
+    '<button class="foldhead" data-fold="model">Modellens rad' +
+      '<span class="expand">visa</span></button>' +
+    '<p class="modelintro">En oberoende rad räknad på mål, form och ' +
+    'hemmafördel — utan odds och streck. Sätts automatiskt och låses vid ' +
+    'spelstopp, så den kan jämföras med din i efterhand.' +
+    (marked ? ' Ni har samma tecken på <b>' + agree + ' av ' + ok + '</b>.' : '') +
+    '</p>' +
+    '<div class="foldbody" id="fold-model">' + list +
+      '<button class="qline" data-info="' + info.id + '">Vad den bygger på' +
+        '<span class="expand">visa</span></button>' +
+      '<div class="infopanel wide" id="info-' + info.id + '">' + info.text + '</div>' +
+    '</div></div>';
 }
 
 /* ---------- dagens analys ---------- */
@@ -2469,8 +2556,13 @@ function statsView(){
   // Per omgång: din rad, favoritraden, folkets rad.
   const series = rounds.map(r => {
     const f = benchRow(r, 'fav'), p = benchRow(r, 'people');
+    let model = null;
+    if (r.model && Object.keys(r.model).length){
+      const facit = r.result || {};
+      model = Object.keys(facit).filter(k => r.model[k] === facit[k]).length;
+    }
     return {n: r.number, mine: r.correct || 0,
-            fav: f ? f.hits : null, people: p ? p.hits : null};
+            fav: f ? f.hits : null, people: p ? p.hits : null, model: model};
   });
   const withBench = series.filter(x => x.fav != null);
   const mean = key => withBench.length
@@ -2493,7 +2585,12 @@ function statsView(){
   const totalFav = withBench.reduce((a, x) => a + x.fav, 0);
   const totalPpl = withBench.reduce((a, x) => a + x.people, 0);
 
-  const top = Math.max(avg, mean('fav') || 0, mean('people') || 0, 1);
+  const withModel = series.filter(x => x.model != null);
+  const modelAvg = withModel.length
+    ? withModel.reduce((a, x) => a + x.model, 0) / withModel.length : null;
+  const totalModel = withModel.reduce((a, x) => a + x.model, 0);
+
+  const top = Math.max(avg, mean('fav') || 0, mean('people') || 0, modelAvg || 0, 1);
   const bar = (label, value, total, strong) =>
     '<div class="cmprow' + (strong ? ' me' : '') + '">' +
       '<span class="cmplabel">' + label + '</span>' +
@@ -2517,9 +2614,15 @@ function statsView(){
           bar('Din rad', avg, totalMine, true) +
           bar('Favoritraden', mean('fav'), totalFav) +
           bar('Folkets rad', mean('people'), totalPpl) +
+          (modelAvg != null ? bar('Modellen', modelAvg, totalModel) : '') +
         '</div>' +
         '<p class="cmptext">' + diffText(mean('fav'), 'favoritraden') +
-          diffText(mean('people'), 'folkets rad') + '</p>',
+          diffText(mean('people'), 'folkets rad') +
+          (modelAvg != null ? diffText(modelAvg, 'modellen') : '') +
+          (modelAvg != null && withModel.length < rounds.length
+            ? '<br><span style="color:var(--ink-faint)">Modellen räknas på ' +
+              withModel.length + ' av ' + rounds.length + ' omgångar.</span>'
+            : '') + '</p>',
         multiChart(series) +
         '<div class="thin">Favoritraden tar lägsta odds i varje match, folkets ' +
         'rad det mest spelade tecknet. Båda räknas på värdena vid stängning.</div>')
@@ -2788,7 +2891,8 @@ function multiChart(series){
 
   const keys = [['mine', '#15171B', 'Din rad'],
                 ['fav',  '#C08118', 'Favoriter'],
-                ['people', '#3C5A78', 'Folket']];
+                ['people', '#3C5A78', 'Folket'],
+                ['model', '#7A2E6B', 'Modellen']];
   const W = 320, H = 130, L = 26, R = 8, T = 10, B = 22;
   const hi = 13, lo = 0;
   const x = i => L + (series.length === 1 ? 0.5 : i / (series.length - 1)) * (W - L - R);
@@ -3039,8 +3143,13 @@ async function submitRow(){
   });
 
   const next = {rounds: Object.assign({}, rowsFile.rounds)};
+  // Modellens val sparas som ögonblicksbild. Räknas det fram i efterhand
+  // bygger det på annan data än den som fanns vid inlämning.
+  const modelPicks = modelReady() ? Object.assign({}, modelFile.picks) : {};
+
   next.rounds[drawKey()] = {
     savedAt: new Date().toISOString(),
+    model: modelPicks,
     closeTime: drawInfo.regCloseTime || null,
     label: drawInfo.drawComment || null,
     picks: picksOut,
@@ -3136,10 +3245,10 @@ async function grab(name){
 }
 
 async function loadAll(keep){
-  const [draw, fd, nt, hi, rw, nw, sr] = await Promise.all([
+  const [draw, fd, nt, hi, rw, nw, sr, md] = await Promise.all([
     grab('data.json'), grab('football.json'), grab('notes.json'),
     grab('history.json'), grab('rows.json'), grab('news.json'),
-    grab('sources.json')
+    grab('sources.json'), grab('model.json')
   ]);
   rowsFile = (rw && rw.rounds) ? rw : {rounds:{}};
   // Nyheter gäller en viss omgång. Är de från en tidigare, visa dem inte.
@@ -3152,6 +3261,7 @@ async function loadAll(keep){
   }
   if (!draw) throw new Error('data.json saknas');
 
+  modelFile = (md && md.picks) ? md : {picks:{}, detail:{}};
   buildIndex(fd);
 
   const drawObj = pick(draw.draw || draw);
