@@ -93,7 +93,7 @@ h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;
 .modelmeta{display:block;font-style:normal;font-family:'IBM Plex Mono',monospace;
   font-size:9.5px;color:var(--ink-faint);letter-spacing:.02em;margin-top:1px;
   font-weight:400}
-.modelline{display:flex;gap:3px;flex-wrap:wrap;margin:8px 0 2px}
+.modelline{display:flex;gap:3px;flex-wrap:wrap;margin:4px 0 12px}
 .ml{font-style:normal;font-family:'Barlow Condensed',sans-serif;font-weight:700;
   font-size:13px;line-height:1;width:21px;height:21px;display:flex;
   align-items:center;justify-content:center;border-radius:50%;
@@ -738,7 +738,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-09-05 bo';
+const VERSION = '2026-09-05 bp';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -2085,17 +2085,16 @@ function modelBox(){
   return '<div class="statbox">' +
     '<button class="foldhead" data-fold="model">Målmodellen' +
       '<span class="expand">visa</span></button>' +
-    // Hela raden på en rad, så den går att läsa utan att fälla ut.
-    '<div class="modelline">' +
-      rows.map(r => '<i class="' + (r.m ? 'ml' : 'ml none') + '">' +
-        (r.m ? LBL[r.m.sign] : '·') + '</i>').join('') +
-    '</div>' +
     '<p class="modelintro">En oberoende rad räknad på mål, form och ' +
     'hemmafördel — utan odds och streck. Sätts automatiskt och låses vid ' +
     'spelstopp, så den kan jämföras med din i efterhand.' +
     (marked ? ' Ni har samma tecken på <b>' + agree + ' av ' + ok + '</b>.' : '') +
     '</p>' +
-    '<div class="foldbody" id="fold-model">' + list +
+    '<div class="foldbody" id="fold-model">' +
+      '<div class="modelline">' +
+        rows.map(r => '<i class="' + (r.m ? 'ml' : 'ml none') + '">' +
+          (r.m ? LBL[r.m.sign] : '·') + '</i>').join('') +
+      '</div>' + list +
       '<button class="qline" data-info="' + info.id + '">Vad den bygger på' +
         '<span class="expand">visa</span></button>' +
       '<div class="infopanel wide" id="info-' + info.id + '">' + info.text + '</div>' +
