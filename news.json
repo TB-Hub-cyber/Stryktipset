@@ -1,102 +1,194 @@
 {
- "drawNumber": 4968,
- "updatedAt": "2026-08-30T07:55:19Z",
+ "drawNumber": 4969,
+ "updatedAt": "2026-09-05T07:38:35Z",
  "model": "gpt-4o-mini",
  "matches": {
-  "92163": {
-   "home": "Tottenham",
-   "away": "Newcastle",
+  "92436": {
+   "home": "Hull",
+   "away": "Aston Villa",
    "items": [],
-   "checkedAt": "2026-08-30T07:54:26Z"
+   "checkedAt": "2026-09-05T07:37:38Z"
   },
-  "92156": {
-   "home": "Bournemouth",
-   "away": "Everton",
+  "92437": {
+   "home": "Brighton",
+   "away": "Leeds",
    "items": [],
-   "checkedAt": "2026-08-30T07:54:30Z"
+   "checkedAt": "2026-09-05T07:37:42Z"
   },
-  "92155": {
-   "home": "Coventry",
-   "away": "Hull",
+  "92434": {
+   "home": "Fulham",
+   "away": "Crystal Palace",
    "items": [],
-   "checkedAt": "2026-08-30T07:54:35Z"
+   "checkedAt": "2026-09-05T07:37:47Z"
   },
-  "92148": {
-   "home": "Blackburn",
-   "away": "Queens Park Rangers",
+  "92433": {
+   "home": "Manchester City",
+   "away": "Coventry",
    "items": [],
-   "checkedAt": "2026-08-30T07:54:41Z"
+   "checkedAt": "2026-09-05T07:37:51Z"
   },
-  "92130": {
-   "home": "Bolton",
-   "away": "Lincoln",
-   "items": [],
-   "checkedAt": "2026-08-30T07:54:44Z"
-  },
-  "92135": {
-   "home": "Bristol City",
-   "away": "Portsmouth",
-   "items": [],
-   "checkedAt": "2026-08-30T07:54:48Z"
-  },
-  "92138": {
-   "home": "Cardiff",
-   "away": "Sheffield U",
-   "items": [],
-   "checkedAt": "2026-08-30T07:54:51Z"
-  },
-  "92149": {
-   "home": "Charlton",
-   "away": "Preston",
-   "items": [],
-   "checkedAt": "2026-08-30T07:54:55Z"
-  },
-  "92153": {
-   "home": "Norwich",
-   "away": "Burnley",
+  "92435": {
+   "home": "Nottingham",
+   "away": "Tottenham",
    "items": [
     {
-     "team": "Burnley",
-     "text": "Burnley förlorade 1-4 mot Norwich den 29 augusti 2026, där Josh Laurent gjorde mål för Burnley men blev utvisad i den 77:e minuten.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/norwich-vs-burnley/report/560529",
-     "date": "2026-08-29",
+     "team": "Nottingham",
+     "text": "Daniel Muñoz, Nottingham Forests senaste nyförvärv, är tillgänglig för spel efter att ha genomgått näsoperation och spelade med skyddsmask mot Everton.",
+     "source": "Tottenham Hotspur",
+     "url": "https://www.tottenhamhotspur.com/news/1088466/opposition-team-news-forests-new-signing-munoz-available",
+     "date": "2026-09-05",
      "trusted": true
     },
     {
-     "team": "Burnley",
-     "text": "Burnley förlorade 1-3 mot West Bromwich Albion den 23 augusti 2026, där Isaac Price gjorde två mål för West Bromwich.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/west-bromwich-albion-vs-burnley/report/560519",
-     "date": "2026-08-23",
+     "team": "Nottingham",
+     "text": "Daniel Muñoz, Nottingham Forests senaste nyförvärv, är tillgänglig för spel efter att ha genomgått näsoperation och spelade med skyddsmask mot Everton.",
+     "source": "Tottenham Hotspur",
+     "url": "https://www.tottenhamhotspur.com/news/1088466/opposition-team-news-forests-new-signing-munoz-available",
+     "date": "2026-09-05",
      "trusted": true
     }
    ],
-   "checkedAt": "2026-08-30T07:55:03Z"
+   "checkedAt": "2026-09-05T07:38:00Z"
   },
-  "92132": {
-   "home": "Southampton",
-   "away": "Millwall",
+  "92438": {
+   "home": "Brentford",
+   "away": "Sunderland",
    "items": [],
-   "checkedAt": "2026-08-30T07:55:06Z"
+   "checkedAt": "2026-09-05T07:38:03Z"
   },
-  "92159": {
-   "home": "Watford",
-   "away": "West Ham",
-   "items": [],
-   "checkedAt": "2026-08-30T07:55:11Z"
+  "92440": {
+   "home": "Burnley",
+   "away": "Bristol City",
+   "items": [
+    {
+     "team": "Burnley",
+     "text": "Burnley har inte publicerat några senaste lagnyheter på sin officiella webbplats.",
+     "source": "burnleyfootballclub.com",
+     "url": "https://www.burnleyfootballclub.com",
+     "date": "2026-09-05",
+     "trusted": true
+    },
+    {
+     "team": "Bristol City",
+     "text": "Bristol City har inte publicerat några senaste lagnyheter på sin officiella webbplats.",
+     "source": "bcfc.co.uk",
+     "url": "https://www.bcfc.co.uk",
+     "date": "2026-09-05",
+     "trusted": true
+    },
+    {
+     "team": "Bristol City",
+     "text": "Bristol City har inte publicerat några senaste lagnyheter på BBC Sport.",
+     "source": "bbc.co.uk",
+     "url": "https://www.bbc.co.uk/sport/football/teams/bristol-city",
+     "date": "2026-09-05",
+     "trusted": true
+    },
+    {
+     "team": "Bristol City",
+     "text": "Bristol City har inte publicerat några senaste lagnyheter på Sky Sports.",
+     "source": "skysports.com",
+     "url": "https://www.skysports.com/football/teams/bristol-city",
+     "date": "2026-09-05",
+     "trusted": true
+    }
+   ],
+   "checkedAt": "2026-09-05T07:38:09Z"
   },
-  "92144": {
-   "home": "Cambridge",
-   "away": "Huddersfield",
+  "92443": {
+   "home": "Millwall",
+   "away": "Bolton",
    "items": [],
-   "checkedAt": "2026-08-30T07:55:14Z"
+   "checkedAt": "2026-09-05T07:38:12Z"
   },
-  "92128": {
-   "home": "Leyton Orient",
-   "away": "Barnsley",
+  "92445": {
+   "home": "Portsmouth",
+   "away": "Cardiff",
+   "items": [
+    {
+     "team": "Portsmouth",
+     "text": "Portsmouths mittfältare Neil Barrett kommer att vara borta i sex veckor med en knäskada.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/2245875/barretts-injury-lay-off",
+     "date": "2026-09-02",
+     "trusted": true
+    }
+   ],
+   "checkedAt": "2026-09-05T07:38:19Z"
+  },
+  "92446": {
+   "home": "Queens Park Rangers",
+   "away": "Middlesbrough",
+   "items": [
+    {
+     "team": "Queens Park Rangers",
+     "text": "Queens Park Rangers har inte rapporterat några skador eller avstängningar inför matchen mot Middlesbrough den 5 september 2026.",
+     "source": "Queens Park Rangers officiella webbplats",
+     "url": "https://www.qpr.co.uk",
+     "date": "2026-09-05",
+     "trusted": true
+    },
+    {
+     "team": "Middlesbrough",
+     "text": "Middlesbrough har inte rapporterat några skador eller avstängningar inför matchen mot Queens Park Rangers den 5 september 2026.",
+     "source": "Middlesbrough officiella webbplats",
+     "url": "https://www.mfc.co.uk",
+     "date": "2026-09-05",
+     "trusted": false
+    }
+   ],
+   "checkedAt": "2026-09-05T07:38:23Z"
+  },
+  "92442": {
+   "home": "Sheffield U",
+   "away": "Norwich",
    "items": [],
-   "checkedAt": "2026-08-30T07:55:19Z"
+   "checkedAt": "2026-09-05T07:38:26Z"
+  },
+  "92439": {
+   "home": "West Bromwich",
+   "away": "Watford",
+   "items": [],
+   "checkedAt": "2026-09-05T07:38:29Z"
+  },
+  "92441": {
+   "home": "Swansea",
+   "away": "Wrexham",
+   "items": [
+    {
+     "team": "Wrexham",
+     "text": "Målvakten Andy Dibble har skadat sitt finger och kommer att vara borta i upp till tre månader.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/2311720/finger-op-for-dibble",
+     "date": "2026-09-03",
+     "trusted": true
+    },
+    {
+     "team": "Wrexham",
+     "text": "Målvakten Andy Dibble har skadat sitt finger och kommer att vara borta i upp till tre månader.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/2311720/finger-op-for-dibble",
+     "date": "2026-09-03",
+     "trusted": true
+    },
+    {
+     "team": "Wrexham",
+     "text": "Målvakten Andy Dibble har skadat sitt finger och kommer att vara borta i upp till tre månader.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/2311720/finger-op-for-dibble",
+     "date": "2026-09-03",
+     "trusted": true
+    },
+    {
+     "team": "Wrexham",
+     "text": "Målvakten Andy Dibble har skadat sitt finger och kommer att vara borta i upp till tre månader.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/2311720/finger-op-for-dibble",
+     "date": "2026-09-03",
+     "trusted": true
+    }
+   ],
+   "checkedAt": "2026-09-05T07:38:35Z"
   }
  }
 }
