@@ -219,6 +219,11 @@ jobs:
 
           rm -f st-*.json ma-*.json sm-*.json old-*.json po-*.json
 
+      # Måste ligga efter football.json, som den räknar på.
+      - name: Sätt modellens rad
+        continue-on-error: true
+        run: python3 .github/scripts/model.py
+
       - name: Spara om något ändrats
         run: |
           git config user.name "github-actions"
@@ -229,6 +234,7 @@ jobs:
           git add history.json || true
           git add rows.json || true
           git add news.json || true
+          git add model.json || true
 
           if git diff --staged --quiet; then
             echo "Ingen förändring sedan förra hämtningen."
