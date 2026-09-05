@@ -88,6 +88,11 @@ h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;
   font-weight:700;margin:20px 0 4px}
 .stats h2:first-child{margin-top:6px}
 .stats p.lead{font-size:13px;color:var(--ink-soft);margin-bottom:11px;line-height:1.45}
+.srow.agree{background:rgba(21,23,27,.04);margin:0 -6px;padding-left:6px;
+  padding-right:6px;border-radius:3px}
+.modelmeta{display:block;font-style:normal;font-family:'IBM Plex Mono',monospace;
+  font-size:9.5px;color:var(--ink-faint);letter-spacing:.02em;margin-top:1px;
+  font-weight:400}
 .modelintro{font-size:12.5px;color:var(--ink-soft);line-height:1.5;margin-top:2px}
 .modelintro b{color:var(--ink)}
 .analysis{margin-top:11px}
@@ -114,6 +119,34 @@ h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;
 .bignums span{display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;
   letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
 .bignums b{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:600;line-height:1.1}
+.rdtabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.rdtab{background:transparent;color:var(--ink-soft);border:1px solid var(--rule);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 10px;
+  letter-spacing:.04em;text-transform:none}
+.rdtab.on{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.rdlabel{font-size:12.5px;color:var(--ink-soft);margin-bottom:9px}
+.rdtable{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
+.rdrow{display:flex;align-items:center;gap:5px;padding:5px 0;
+  border-top:1px solid #EDEEEA}
+.rdrow.rdhead{border-top:none;padding-bottom:3px}
+.rdhead .rdcell{font-size:9px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-faint)}
+.rdnum{min-width:14px;color:var(--ink-faint);font-size:10px}
+.rdteams{flex:1;min-width:0;font-family:'Barlow Condensed',sans-serif;font-weight:600;
+  font-size:14px;line-height:1.15;overflow:hidden}
+.rdteams em{display:block;font-style:normal;font-family:'IBM Plex Mono',monospace;
+  font-size:9px;color:var(--ink-faint);font-weight:400;margin-top:1px}
+.rdcell{min-width:30px;display:flex;justify-content:center;flex-shrink:0}
+.rdcell i{font-style:normal;font-family:'Barlow Condensed',sans-serif;font-weight:700;
+  font-size:12px;line-height:1;width:20px;height:20px;display:flex;
+  align-items:center;justify-content:center;border-radius:50%}
+.rdhit{background:var(--high);color:#fff}
+.rdno{background:transparent;color:var(--ink-faint);border:1px solid var(--rule)}
+.rdmiss{color:#D8DAD3}
+.rdsum{border-top:2px solid var(--ink);padding-top:7px}
+.rdsum .rdteams{font-family:'IBM Plex Mono',monospace;font-size:10px;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint);font-weight:400}
+.rdsum b{font-family:'IBM Plex Mono',monospace;font-size:15px}
 .cmp{margin-bottom:9px}
 .cmprow{display:flex;align-items:center;gap:8px;padding:5px 0}
 .cmplabel{font-family:'Barlow',sans-serif;font-size:13px;color:var(--ink-soft);
@@ -699,7 +732,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-08-30 bl';
+const VERSION = '2026-09-05 bn';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -2020,28 +2053,31 @@ function modelBox(){
 
   const list = rows.map(r => {
     if (!r.m){
-      return '<div class="arow"><span class="anum">' + r.n + '</span>' +
-        '<span class="asign" style="background:var(--rule);color:var(--ink-faint)">–</span>' +
-        '<span class="ateams">' + esc(r.home) + ' – ' + esc(r.away) +
-          '<em>saknar underlag</em></span></div>';
+      return '<div class="srow"><span class="snum">' + r.n + '</span>' +
+        '<span class="steams">' + esc(r.home) + ' – ' + esc(r.away) +
+          '<em class="modelmeta">saknar underlag</em></span>' +
+        '<span class="smarks">' +
+          OUT.map(k => '<i class="off">' + LBL[k] + '</i>').join('') +
+        '</span></div>';
     }
+
     const p = r.m, pr = p.p || {};
-    const mine = (picks[r.i] || []).indexOf(p.sign) > -1;
-    return '<div class="arow' + (mine ? ' picked' : '') +
-        '" data-i="' + r.i + '" data-sign="' + p.sign + '">' +
-      '<span class="anum">' + r.n + '</span>' +
-      '<span class="asign">' + LBL[p.sign] + '</span>' +
-      '<span class="ateams">' + esc(r.home) + ' – ' + esc(r.away) +
-        '<em>' + Math.round(pr.one) + ' / ' + Math.round(pr.x) + ' / ' +
-        Math.round(pr.two) + ' % · väntade mål ' +
+    const marks = OUT.map(k =>
+      '<i class="' + (k === p.sign ? 'on' : 'off') + '">' + LBL[k] + '</i>').join('');
+    const same = (picks[r.i] || []).indexOf(p.sign) > -1;
+
+    return '<div class="srow' + (same ? ' agree' : '') + '">' +
+      '<span class="snum">' + r.n + '</span>' +
+      '<span class="steams">' + esc(r.home) + ' – ' + esc(r.away) +
+        '<em class="modelmeta">' + Math.round(pr.one) + ' / ' + Math.round(pr.x) +
+        ' / ' + Math.round(pr.two) + ' % · väntade mål ' +
         String(p.lh).replace('.',',') + '–' + String(p.la).replace('.',',') +
         '</em></span>' +
-      '<span class="aval">' + Math.round(Math.max(pr.one, pr.x, pr.two)) + '%</span>' +
-    '</div>';
+      '<span class="smarks">' + marks + '</span></div>';
   }).join('');
 
   return '<div class="statbox">' +
-    '<button class="foldhead" data-fold="model">Modellens rad' +
+    '<button class="foldhead" data-fold="model">Målmodellen' +
       '<span class="expand">visa</span></button>' +
     '<p class="modelintro">En oberoende rad räknad på mål, form och ' +
     'hemmafördel — utan odds och streck. Sätts automatiskt och låses vid ' +
@@ -2538,6 +2574,68 @@ function gradedRounds(){
     .map(n => Object.assign({number: n}, rowsFile.rounds[n]));
 }
 
+// Vilket tecken varje mätstock valde i en enskild match.
+function benchPick(closing, key, mode){
+  const cv = (closing || {})[key];
+  if (!cv) return null;
+  const src = mode === 'fav' ? cv.odds : cv.dist;
+  if (!src) return null;
+  return pickBest(src, mode === 'fav' ? 'min' : 'max');
+}
+
+function roundDetail(round){
+  const facit = round.result || {};
+  const matches = round.matches || {};
+  const closing = round.closing || {};
+  const model = round.model || {};
+  const scores = round.scores || {};
+
+  const keys = Object.keys(facit).sort((a, b) =>
+    ((matches[a] || {}).n || 0) - ((matches[b] || {}).n || 0));
+  if (!keys.length) return '<p class="lead">Ingen rättad data för omgången.</p>';
+
+  const cols = [
+    ['Du', k => (round.picks || {})[k] || []],
+    ['Favorit', k => [benchPick(closing, k, 'fav')].filter(Boolean)],
+    ['Folket', k => [benchPick(closing, k, 'people')].filter(Boolean)],
+    ['Modell', k => [model[k]].filter(Boolean)]
+  ];
+
+  const totals = cols.map(c =>
+    keys.filter(k => c[1](k).indexOf(facit[k]) > -1).length);
+
+  const head = '<div class="rdrow rdhead"><span class="rdnum"></span>' +
+    '<span class="rdteams"></span>' +
+    cols.map(c => '<span class="rdcell">' + c[0] + '</span>').join('') + '</div>';
+
+  const body = keys.map(k => {
+    const m = matches[k] || {};
+    const sc = scores[k];
+    return '<div class="rdrow">' +
+      '<span class="rdnum">' + (m.n || '') + '</span>' +
+      '<span class="rdteams">' + esc(m.home) + ' – ' + esc(m.away) +
+        '<em>' + (sc ? sc.h + '–' + sc.a + ' · ' : '') + LBL[facit[k]] + '</em></span>' +
+      cols.map(c => {
+        const sel = c[1](k);
+        if (!sel.length) return '<span class="rdcell"><i class="rdmiss">–</i></span>';
+        const hit = sel.indexOf(facit[k]) > -1;
+        const shown = hit ? facit[k] : sel[0];
+        return '<span class="rdcell"><i class="' + (hit ? 'rdhit' : 'rdno') + '">' +
+          LBL[shown] + '</i></span>';
+      }).join('') +
+    '</div>';
+  }).join('');
+
+  const sum = '<div class="rdrow rdsum"><span class="rdnum"></span>' +
+    '<span class="rdteams">Rätt av ' + keys.length + '</span>' +
+    totals.map(t => '<span class="rdcell"><b>' + t + '</b></span>').join('') + '</div>';
+
+  return '<div class="rdtable">' + head + body + sum + '</div>' +
+    '<div class="thin">Grönt är rätt tecken. Är flera markerade visas det som ' +
+    'gick in när du hade det, annars ditt första val. Streck betyder att ' +
+    'raden saknade tecken för matchen.</div>';
+}
+
 function statsView(){
   const rounds = gradedRounds();
 
@@ -2809,7 +2907,28 @@ function statsView(){
       '<div><span>Bäst</span><b>' + best + '</b></div>' +
       '<div><span>Totalt</span><b>' + sum + '</b></div>' +
     '</div></div>' +
-    benchBox + gardBox + oddsBox + distBox + teamBox2;
+    benchBox + roundBox(rounds) + gardBox + oddsBox + distBox + teamBox2;
+}
+
+// Vald omgång i detaljvyn. Behålls mellan uppritningar.
+let openRound = null;
+
+function roundBox(rounds){
+  if (!rounds.length) return '';
+  if (!openRound || !rounds.some(r => r.number === openRound))
+    openRound = rounds[rounds.length - 1].number;
+
+  const tabs = rounds.map(r =>
+    '<button class="rdtab' + (r.number === openRound ? ' on' : '') +
+    '" data-round="' + r.number + '">' + r.number + '</button>').join('');
+
+  const round = rounds.filter(r => r.number === openRound)[0];
+
+  return '<div class="statbox">' +
+    '<div class="dlabel">Omgång för omgång</div>' +
+    '<div class="rdtabs">' + tabs + '</div>' +
+    '<div class="rdlabel">' + esc(round.label || ('Omgång ' + round.number)) + '</div>' +
+    roundDetail(round) + '</div>';
 }
 
 const LBLSHORT = {1:'spik', 2:'halv', 3:'hel'};
@@ -2941,6 +3060,13 @@ function showView(name){
   }
   document.querySelectorAll('#viewnav button[data-view]').forEach(b =>
     b.classList.toggle('on', b.dataset.view === name));
+
+  document.querySelectorAll('.rdtab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      openRound = btn.dataset.round;
+      showView('stats');
+    });
+  });
 
   document.querySelectorAll('.boxhead').forEach(btn => {
     btn.addEventListener('click', () => {
