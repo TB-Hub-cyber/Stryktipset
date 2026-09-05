@@ -1,105 +1,55 @@
 {
  "drawNumber": 4969,
- "updatedAt": "2026-09-05T07:38:35Z",
+ "updatedAt": "2026-09-05T07:43:03Z",
  "model": "gpt-4o-mini",
  "matches": {
   "92436": {
    "home": "Hull",
    "away": "Aston Villa",
    "items": [],
-   "checkedAt": "2026-09-05T07:37:38Z"
+   "checkedAt": "2026-09-05T07:42:12Z"
   },
   "92437": {
    "home": "Brighton",
    "away": "Leeds",
    "items": [],
-   "checkedAt": "2026-09-05T07:37:42Z"
+   "checkedAt": "2026-09-05T07:42:17Z"
   },
   "92434": {
    "home": "Fulham",
    "away": "Crystal Palace",
    "items": [],
-   "checkedAt": "2026-09-05T07:37:47Z"
+   "checkedAt": "2026-09-05T07:42:20Z"
   },
   "92433": {
    "home": "Manchester City",
    "away": "Coventry",
    "items": [],
-   "checkedAt": "2026-09-05T07:37:51Z"
+   "checkedAt": "2026-09-05T07:42:27Z"
   },
   "92435": {
    "home": "Nottingham",
    "away": "Tottenham",
-   "items": [
-    {
-     "team": "Nottingham",
-     "text": "Daniel Muñoz, Nottingham Forests senaste nyförvärv, är tillgänglig för spel efter att ha genomgått näsoperation och spelade med skyddsmask mot Everton.",
-     "source": "Tottenham Hotspur",
-     "url": "https://www.tottenhamhotspur.com/news/1088466/opposition-team-news-forests-new-signing-munoz-available",
-     "date": "2026-09-05",
-     "trusted": true
-    },
-    {
-     "team": "Nottingham",
-     "text": "Daniel Muñoz, Nottingham Forests senaste nyförvärv, är tillgänglig för spel efter att ha genomgått näsoperation och spelade med skyddsmask mot Everton.",
-     "source": "Tottenham Hotspur",
-     "url": "https://www.tottenhamhotspur.com/news/1088466/opposition-team-news-forests-new-signing-munoz-available",
-     "date": "2026-09-05",
-     "trusted": true
-    }
-   ],
-   "checkedAt": "2026-09-05T07:38:00Z"
+   "items": [],
+   "checkedAt": "2026-09-05T07:42:32Z"
   },
   "92438": {
    "home": "Brentford",
    "away": "Sunderland",
    "items": [],
-   "checkedAt": "2026-09-05T07:38:03Z"
+   "checkedAt": "2026-09-05T07:42:35Z"
   },
   "92440": {
    "home": "Burnley",
    "away": "Bristol City",
-   "items": [
-    {
-     "team": "Burnley",
-     "text": "Burnley har inte publicerat några senaste lagnyheter på sin officiella webbplats.",
-     "source": "burnleyfootballclub.com",
-     "url": "https://www.burnleyfootballclub.com",
-     "date": "2026-09-05",
-     "trusted": true
-    },
-    {
-     "team": "Bristol City",
-     "text": "Bristol City har inte publicerat några senaste lagnyheter på sin officiella webbplats.",
-     "source": "bcfc.co.uk",
-     "url": "https://www.bcfc.co.uk",
-     "date": "2026-09-05",
-     "trusted": true
-    },
-    {
-     "team": "Bristol City",
-     "text": "Bristol City har inte publicerat några senaste lagnyheter på BBC Sport.",
-     "source": "bbc.co.uk",
-     "url": "https://www.bbc.co.uk/sport/football/teams/bristol-city",
-     "date": "2026-09-05",
-     "trusted": true
-    },
-    {
-     "team": "Bristol City",
-     "text": "Bristol City har inte publicerat några senaste lagnyheter på Sky Sports.",
-     "source": "skysports.com",
-     "url": "https://www.skysports.com/football/teams/bristol-city",
-     "date": "2026-09-05",
-     "trusted": true
-    }
-   ],
-   "checkedAt": "2026-09-05T07:38:09Z"
+   "items": [],
+   "checkedAt": "2026-09-05T07:42:39Z"
   },
   "92443": {
    "home": "Millwall",
    "away": "Bolton",
    "items": [],
-   "checkedAt": "2026-09-05T07:38:12Z"
+   "checkedAt": "2026-09-05T07:42:43Z"
   },
   "92445": {
    "home": "Portsmouth",
@@ -107,88 +57,38 @@
    "items": [
     {
      "team": "Portsmouth",
-     "text": "Portsmouths mittfältare Neil Barrett kommer att vara borta i sex veckor med en knäskada.",
+     "text": "Mittfältaren Neil Barrett är borta i sex veckor efter en knäskada.",
      "source": "Sky Sports",
      "url": "https://www.skysports.com/football/news/2245875/barretts-injury-lay-off",
      "date": "2026-09-02",
      "trusted": true
     }
    ],
-   "checkedAt": "2026-09-05T07:38:19Z"
+   "checkedAt": "2026-09-05T07:42:49Z"
   },
   "92446": {
    "home": "Queens Park Rangers",
    "away": "Middlesbrough",
-   "items": [
-    {
-     "team": "Queens Park Rangers",
-     "text": "Queens Park Rangers har inte rapporterat några skador eller avstängningar inför matchen mot Middlesbrough den 5 september 2026.",
-     "source": "Queens Park Rangers officiella webbplats",
-     "url": "https://www.qpr.co.uk",
-     "date": "2026-09-05",
-     "trusted": true
-    },
-    {
-     "team": "Middlesbrough",
-     "text": "Middlesbrough har inte rapporterat några skador eller avstängningar inför matchen mot Queens Park Rangers den 5 september 2026.",
-     "source": "Middlesbrough officiella webbplats",
-     "url": "https://www.mfc.co.uk",
-     "date": "2026-09-05",
-     "trusted": false
-    }
-   ],
-   "checkedAt": "2026-09-05T07:38:23Z"
+   "items": [],
+   "checkedAt": "2026-09-05T07:42:52Z"
   },
   "92442": {
    "home": "Sheffield U",
    "away": "Norwich",
    "items": [],
-   "checkedAt": "2026-09-05T07:38:26Z"
+   "checkedAt": "2026-09-05T07:42:55Z"
   },
   "92439": {
    "home": "West Bromwich",
    "away": "Watford",
    "items": [],
-   "checkedAt": "2026-09-05T07:38:29Z"
+   "checkedAt": "2026-09-05T07:43:00Z"
   },
   "92441": {
    "home": "Swansea",
    "away": "Wrexham",
-   "items": [
-    {
-     "team": "Wrexham",
-     "text": "Målvakten Andy Dibble har skadat sitt finger och kommer att vara borta i upp till tre månader.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2311720/finger-op-for-dibble",
-     "date": "2026-09-03",
-     "trusted": true
-    },
-    {
-     "team": "Wrexham",
-     "text": "Målvakten Andy Dibble har skadat sitt finger och kommer att vara borta i upp till tre månader.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2311720/finger-op-for-dibble",
-     "date": "2026-09-03",
-     "trusted": true
-    },
-    {
-     "team": "Wrexham",
-     "text": "Målvakten Andy Dibble har skadat sitt finger och kommer att vara borta i upp till tre månader.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2311720/finger-op-for-dibble",
-     "date": "2026-09-03",
-     "trusted": true
-    },
-    {
-     "team": "Wrexham",
-     "text": "Målvakten Andy Dibble har skadat sitt finger och kommer att vara borta i upp till tre månader.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2311720/finger-op-for-dibble",
-     "date": "2026-09-03",
-     "trusted": true
-    }
-   ],
-   "checkedAt": "2026-09-05T07:38:35Z"
+   "items": [],
+   "checkedAt": "2026-09-05T07:43:03Z"
   }
  }
 }
