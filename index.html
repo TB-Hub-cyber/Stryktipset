@@ -738,7 +738,7 @@ const REPO   = 'Stryktipset';
 const BRANCH = 'main';
 const WORKFLOW = 'update.yml';
 // Höj den här när du laddar upp en ny version, så syns det i appen.
-const VERSION = '2026-09-05 bp';
+const VERSION = '2026-09-06 bq';
 // ---------------------------------------------------------------
 
 const OUT = ['one','x','two'], LBL = {one:'1', x:'X', two:'2'};
@@ -2886,16 +2886,28 @@ function statsView(){
           cell('Folket', ppl, t.ppl, t.pplN) +
         '</div></div>';
     };
-    const worst = ranked.slice(0, 5).map(row).join('');
-    const bestT = ranked.slice(-5).reverse().map(row).join('');
+    // Med få lag skulle fem sämsta och fem bästa överlappa, och samma lag
+    // stod i båda listorna. Dela i stället listan på mitten.
+    const half = Math.min(5, Math.floor(ranked.length / 2));
+    const worst = ranked.slice(0, half).map(row).join('');
+    const bestT = ranked.slice(ranked.length - half).reverse().map(row).join('');
+    const middle = ranked.slice(half, ranked.length - half);
 
     teamBox2 = box('Efter lag', 'teams',
       '<div class="dlabel" style="margin-bottom:4px">Svårast</div>' + worst,
+      (middle.length
+        ? '<div class="dlabel" style="margin:14px 0 4px">Däremellan</div>' +
+          middle.map(row).join('')
+        : '') +
       '<div class="dlabel" style="margin:14px 0 4px">Lättast</div>' + bestT +
       '<div class="thin">Andel matcher med rätt tecken, av de gånger laget ' +
-      'förekommit på kupongen. Favorit och folket räknas på samma matcher, så ' +
-      'de visar om laget är svårt för alla eller bara för dig. Lag med färre än ' +
-      MIN_APPEARANCES + ' framträdanden visas inte.</div>');
+      'förekommit på kupongen. De tre kolumnerna är tre olika rader mätta på ' +
+      '<b>samma</b> matcher — inte rätt mot fel. Står det 33 procent i alla tre ' +
+      'fick ni lika många rätt, en av tre.' +
+      '<br><br>Favorit och folket visar om laget är svårt för alla eller bara ' +
+      'för dig. Lag med färre än ' + MIN_APPEARANCES + ' framträdanden visas inte, ' +
+      'och med bara ' + ranked.length + ' lag i listan säger ordningen ännu ' +
+      'mycket lite.</div>');
   } else {
     const most = Object.keys(teams).reduce((a, n) =>
       Math.max(a, teams[n].n), 0);
