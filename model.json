@@ -1,180 +1,141 @@
 {
- "drawNumber": 4970,
- "updatedAt": "2026-09-12T13:57:01Z",
- "sample": 1977,
- "avgHome": 1.507,
- "avgAway": 1.213,
+ "drawNumber": 4971,
+ "updatedAt": "2026-09-13T22:43:23Z",
+ "sample": 1994,
+ "avgHome": 1.494,
+ "avgAway": 1.236,
  "picks": {
-  "93093": "two",
-  "93088": "two",
-  "93091": "one",
-  "93094": "two",
-  "93090": "two",
-  "93092": "two",
-  "93089": "one",
-  "93102": "two",
-  "93100": "one",
-  "93103": "one",
-  "93101": "two",
-  "93096": "one",
-  "93099": "one"
+  "93430": "one",
+  "93432": "two",
+  "93434": "one",
+  "93433": "two",
+  "93435": "one",
+  "93437": "two",
+  "93439": "two",
+  "93438": "one",
+  "93443": "one",
+  "93436": "two"
  },
  "detail": {
-  "93093": {
+  "93430": {
    "p": {
-    "one": 30.4,
-    "x": 28.7,
-    "two": 40.9
+    "one": 35.2,
+    "x": 30.0,
+    "two": 34.9
    },
-   "lh": 1.01,
-   "la": 1.22,
+   "lh": 1.05,
+   "la": 1.05,
+   "sign": "one",
+   "home": "Nottingham",
+   "away": "Coventry"
+  },
+  "93432": {
+   "p": {
+    "one": 34.8,
+    "x": 27.6,
+    "two": 37.6
+   },
+   "lh": 1.17,
+   "la": 1.23,
    "sign": "two",
-   "home": "Sunderland",
+   "home": "Brighton",
    "away": "Arsenal"
   },
-  "93088": {
+  "93434": {
    "p": {
-    "one": 31.3,
-    "x": 26.4,
-    "two": 42.3
+    "one": 42.1,
+    "x": 22.2,
+    "two": 35.8
    },
-   "lh": 1.16,
-   "la": 1.4,
-   "sign": "two",
-   "home": "Tottenham",
-   "away": "Everton"
-  },
-  "93091": {
-   "p": {
-    "one": 52.4,
-    "x": 24.9,
-    "two": 22.7
-   },
-   "lh": 1.61,
-   "la": 0.97,
+   "lh": 1.83,
+   "la": 1.68,
    "sign": "one",
-   "home": "Liverpool",
-   "away": "Fulham"
-  },
-  "93094": {
-   "p": {
-    "one": 34.7,
-    "x": 24.6,
-    "two": 40.7
-   },
-   "lh": 1.4,
-   "la": 1.53,
-   "sign": "two",
-   "home": "Chelsea",
-   "away": "Hull"
-  },
-  "93090": {
-   "p": {
-    "one": 33.7,
-    "x": 23.2,
-    "two": 43.0
-   },
-   "lh": 1.5,
-   "la": 1.72,
-   "sign": "two",
-   "home": "Crystal Palace",
+   "home": "Everton",
    "away": "Ipswich"
   },
-  "93092": {
+  "93433": {
    "p": {
-    "one": 36.8,
+    "one": 37.3,
     "x": 23.7,
-    "two": 39.5
+    "two": 39.0
    },
-   "lh": 1.54,
-   "la": 1.6,
+   "lh": 1.55,
+   "la": 1.59,
    "sign": "two",
-   "home": "Aston Villa",
-   "away": "Nottingham"
+   "home": "Newcastle",
+   "away": "Hull"
   },
-  "93089": {
+  "93435": {
    "p": {
-    "one": 44.8,
-    "x": 26.2,
-    "two": 29.1
+    "one": 39.5,
+    "x": 25.8,
+    "two": 34.6
+   },
+   "lh": 1.4,
+   "la": 1.29,
+   "sign": "one",
+   "home": "Birmingham",
+   "away": "Middlesbrough"
+  },
+  "93437": {
+   "p": {
+    "one": 34.7,
+    "x": 25.1,
+    "two": 40.2
+   },
+   "lh": 1.35,
+   "la": 1.47,
+   "sign": "two",
+   "home": "Burnley",
+   "away": "Derby"
+  },
+  "93439": {
+   "p": {
+    "one": 32.9,
+    "x": 26.5,
+    "two": 40.6
+   },
+   "lh": 1.2,
+   "la": 1.37,
+   "sign": "two",
+   "home": "Lincoln",
+   "away": "Swansea"
+  },
+  "93438": {
+   "p": {
+    "one": 38.7,
+    "x": 28.2,
+    "two": 33.1
+   },
+   "lh": 1.21,
+   "la": 1.1,
+   "sign": "one",
+   "home": "Portsmouth",
+   "away": "Blackburn"
+  },
+  "93443": {
+   "p": {
+    "one": 44.0,
+    "x": 26.1,
+    "two": 29.8
    },
    "lh": 1.45,
-   "la": 1.11,
+   "la": 1.14,
    "sign": "one",
-   "home": "Bournemouth",
-   "away": "Brentford"
+   "home": "Queens Park Rangers",
+   "away": "Preston"
   },
-  "93102": {
+  "93436": {
    "p": {
-    "one": 33.3,
-    "x": 27.0,
-    "two": 39.7
+    "one": 33.7,
+    "x": 24.3,
+    "two": 41.9
    },
-   "lh": 1.18,
-   "la": 1.31,
+   "lh": 1.39,
+   "la": 1.58,
    "sign": "two",
-   "home": "Blackburn",
-   "away": "Millwall"
-  },
-  "93100": {
-   "p": {
-    "one": 41.4,
-    "x": 27.1,
-    "two": 31.5
-   },
-   "lh": 1.33,
-   "la": 1.12,
-   "sign": "one",
-   "home": "Charlton",
-   "away": "Portsmouth"
-  },
-  "93103": {
-   "p": {
-    "one": 47.1,
-    "x": 25.6,
-    "two": 27.3
-   },
-   "lh": 1.52,
-   "la": 1.09,
-   "sign": "one",
-   "home": "Middlesbrough",
-   "away": "Norwich"
-  },
-  "93101": {
-   "p": {
-    "one": 31.8,
-    "x": 25.4,
-    "two": 42.8
-   },
-   "lh": 1.24,
-   "la": 1.49,
-   "sign": "two",
-   "home": "Preston",
-   "away": "Lincoln"
-  },
-  "93096": {
-   "p": {
-    "one": 53.3,
-    "x": 22.3,
-    "two": 24.4
-   },
-   "lh": 1.91,
-   "la": 1.23,
-   "sign": "one",
-   "home": "Southampton",
-   "away": "Bristol City"
-  },
-  "93099": {
-   "p": {
-    "one": 52.9,
-    "x": 24.8,
-    "two": 22.3
-   },
-   "lh": 1.62,
-   "la": 0.96,
-   "sign": "one",
-   "home": "Watford",
-   "away": "Stoke"
+   "home": "Wrexham",
+   "away": "Southampton"
   }
  }
 }
