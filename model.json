@@ -1,141 +1,24 @@
 {
- "drawNumber": 4971,
- "updatedAt": "2026-09-19T12:46:03Z",
- "sample": 1999,
- "avgHome": 1.503,
- "avgAway": 1.228,
+ "drawNumber": 4972,
+ "updatedAt": "2026-09-23T23:17:55Z",
+ "sample": 2019,
+ "avgHome": 1.521,
+ "avgAway": 1.24,
  "picks": {
-  "93430": "one",
-  "93432": "two",
-  "93434": "one",
-  "93433": "two",
-  "93435": "one",
-  "93437": "two",
-  "93439": "two",
-  "93438": "one",
-  "93443": "one",
-  "93436": "two"
+  "94199": "one"
  },
  "detail": {
-  "93430": {
+  "94199": {
    "p": {
-    "one": 35.4,
-    "x": 29.8,
-    "two": 34.7
+    "one": 46.1,
+    "x": 22.1,
+    "two": 31.8
    },
-   "lh": 1.06,
-   "la": 1.05,
+   "lh": 1.91,
+   "la": 1.55,
    "sign": "one",
-   "home": "Nottingham",
-   "away": "Coventry"
-  },
-  "93432": {
-   "p": {
-    "one": 35.0,
-    "x": 27.6,
-    "two": 37.4
-   },
-   "lh": 1.18,
-   "la": 1.23,
-   "sign": "two",
-   "home": "Brighton",
-   "away": "Arsenal"
-  },
-  "93434": {
-   "p": {
-    "one": 42.1,
-    "x": 22.2,
-    "two": 35.7
-   },
-   "lh": 1.83,
-   "la": 1.67,
-   "sign": "one",
-   "home": "Everton",
-   "away": "Ipswich"
-  },
-  "93433": {
-   "p": {
-    "one": 37.5,
-    "x": 23.7,
-    "two": 38.8
-   },
-   "lh": 1.55,
-   "la": 1.58,
-   "sign": "two",
-   "home": "Newcastle",
-   "away": "Hull"
-  },
-  "93435": {
-   "p": {
-    "one": 39.6,
-    "x": 25.8,
-    "two": 34.6
-   },
-   "lh": 1.4,
-   "la": 1.29,
-   "sign": "one",
-   "home": "Birmingham",
-   "away": "Middlesbrough"
-  },
-  "93437": {
-   "p": {
-    "one": 34.9,
-    "x": 25.1,
-    "two": 40.0
-   },
-   "lh": 1.35,
-   "la": 1.47,
-   "sign": "two",
-   "home": "Burnley",
-   "away": "Derby"
-  },
-  "93439": {
-   "p": {
-    "one": 33.3,
-    "x": 26.4,
-    "two": 40.3
-   },
-   "lh": 1.21,
-   "la": 1.36,
-   "sign": "two",
-   "home": "Lincoln",
-   "away": "Swansea"
-  },
-  "93438": {
-   "p": {
-    "one": 38.8,
-    "x": 28.2,
-    "two": 33.1
-   },
-   "lh": 1.22,
-   "la": 1.1,
-   "sign": "one",
-   "home": "Portsmouth",
-   "away": "Blackburn"
-  },
-  "93443": {
-   "p": {
-    "one": 44.0,
-    "x": 26.1,
-    "two": 29.9
-   },
-   "lh": 1.45,
-   "la": 1.14,
-   "sign": "one",
-   "home": "Queens Park Rangers",
-   "away": "Preston"
-  },
-  "93436": {
-   "p": {
-    "one": 33.9,
-    "x": 24.3,
-    "two": 41.8
-   },
-   "lh": 1.4,
-   "la": 1.57,
-   "sign": "two",
-   "home": "Wrexham",
-   "away": "Southampton"
+   "home": "Cheltenham",
+   "away": "Chesterfield"
   }
  }
 }
