@@ -1,136 +1,94 @@
 {
- "drawNumber": 4969,
- "updatedAt": "2026-09-05T07:55:46Z",
+ "drawNumber": 4972,
+ "updatedAt": "2026-09-26T09:47:59Z",
  "model": "gpt-4o-mini",
  "matches": {
-  "92436": {
-   "home": "Hull",
-   "away": "Aston Villa",
+  "94211": {
+   "home": "England",
+   "away": "Spanien",
    "items": [],
-   "checkedAt": "2026-09-05T07:54:51Z"
+   "checkedAt": "2026-09-26T09:47:10Z"
   },
-  "92437": {
-   "home": "Brighton",
-   "away": "Leeds",
+  "94205": {
+   "home": "Tjeckien",
+   "away": "Kroatien",
+   "items": [],
+   "checkedAt": "2026-09-26T09:47:15Z"
+  },
+  "94193": {
+   "home": "Cambridge",
+   "away": "Wimbledon",
+   "items": [],
+   "checkedAt": "2026-09-26T09:47:20Z"
+  },
+  "94190": {
+   "home": "Plymouth",
+   "away": "Burton",
+   "items": [],
+   "checkedAt": "2026-09-26T09:47:23Z"
+  },
+  "94191": {
+   "home": "Stockport",
+   "away": "Peterborough ",
+   "items": [],
+   "checkedAt": "2026-09-26T09:47:27Z"
+  },
+  "94192": {
+   "home": "Wycombe",
+   "away": "Reading",
+   "items": [],
+   "checkedAt": "2026-09-26T09:47:30Z"
+  },
+  "94199": {
+   "home": "Cheltenham",
+   "away": "Chesterfield",
+   "items": [],
+   "checkedAt": "2026-09-26T09:47:33Z"
+  },
+  "94195": {
+   "home": "Fleetwood",
+   "away": "Rochdale",
+   "items": [],
+   "checkedAt": "2026-09-26T09:47:37Z"
+  },
+  "94194": {
+   "home": "Newport",
+   "away": "Grimsby",
+   "items": [],
+   "checkedAt": "2026-09-26T09:47:42Z"
+  },
+  "94201": {
+   "home": "Rotherham",
+   "away": "Crewe",
+   "items": [],
+   "checkedAt": "2026-09-26T09:47:46Z"
+  },
+  "94196": {
+   "home": "Shrewsbury",
+   "away": "Colchester",
+   "items": [],
+   "checkedAt": "2026-09-26T09:47:49Z"
+  },
+  "94202": {
+   "home": "Swindon",
+   "away": "Accrington",
+   "items": [],
+   "checkedAt": "2026-09-26T09:47:53Z"
+  },
+  "94200": {
+   "home": "Tranmere",
+   "away": "Walsall",
    "items": [
     {
-     "team": "Leeds",
-     "text": "Leeds United har bekräftat att anfallaren Michael Bridges kommer att vara borta i fyra månader efter en operation på sin skadade fotled.",
+     "team": "Tranmere",
+     "text": "John Achterberg förväntas vara borta i sex veckor efter en knäskada mot Hull City.",
      "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2194202/bridges-blow-after-op",
-     "date": "2026-08-30",
-     "trusted": true
-    },
-    {
-     "team": "Leeds",
-     "text": "Leeds United har bekräftat att anfallaren Michael Bridges kommer att vara borta i fyra månader efter en operation på sin skadade fotled.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2194202/bridges-blow-after-op",
-     "date": "2026-08-30",
-     "trusted": true
-    },
-    {
-     "team": "Leeds",
-     "text": "Leeds United har bekräftat att anfallaren Michael Bridges kommer att vara borta i fyra månader efter en operation på sin skadade fotled.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2194202/bridges-blow-after-op",
-     "date": "2026-08-30",
-     "trusted": true
-    },
-    {
-     "team": "Leeds",
-     "text": "Leeds United har bekräftat att anfallaren Michael Bridges kommer att vara borta i fyra månader efter en operation på sin skadade fotled.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2194202/bridges-blow-after-op",
-     "date": "2026-08-30",
+     "url": "https://www.skysports.com/football/news/2319907/keeper-woe-for-tranmere",
+     "date": "2026-09-19",
      "trusted": true
     }
    ],
-   "checkedAt": "2026-09-05T07:54:58Z"
-  },
-  "92434": {
-   "home": "Fulham",
-   "away": "Crystal Palace",
-   "items": [],
-   "checkedAt": "2026-09-05T07:55:02Z"
-  },
-  "92433": {
-   "home": "Manchester City",
-   "away": "Coventry",
-   "items": [],
-   "checkedAt": "2026-09-05T07:55:06Z"
-  },
-  "92435": {
-   "home": "Nottingham",
-   "away": "Tottenham",
-   "items": [],
-   "checkedAt": "2026-09-05T07:55:10Z"
-  },
-  "92438": {
-   "home": "Brentford",
-   "away": "Sunderland",
-   "items": [],
-   "checkedAt": "2026-09-05T07:55:14Z"
-  },
-  "92440": {
-   "home": "Burnley",
-   "away": "Bristol City",
-   "items": [],
-   "checkedAt": "2026-09-05T07:55:19Z"
-  },
-  "92443": {
-   "home": "Millwall",
-   "away": "Bolton",
-   "items": [],
-   "checkedAt": "2026-09-05T07:55:21Z"
-  },
-  "92445": {
-   "home": "Portsmouth",
-   "away": "Cardiff",
-   "items": [
-    {
-     "team": "Portsmouth",
-     "text": "Mittfältaren Neil Barrett är borta i sex veckor efter en knäskada.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2245875/barretts-injury-lay-off",
-     "date": "2026-09-02",
-     "trusted": true
-    }
-   ],
-   "checkedAt": "2026-09-05T07:55:29Z"
-  },
-  "92446": {
-   "home": "Queens Park Rangers",
-   "away": "Middlesbrough",
-   "items": [],
-   "checkedAt": "2026-09-05T07:55:32Z"
-  },
-  "92442": {
-   "home": "Sheffield U",
-   "away": "Norwich",
-   "items": [],
-   "checkedAt": "2026-09-05T07:55:36Z"
-  },
-  "92439": {
-   "home": "West Bromwich",
-   "away": "Watford",
-   "items": [],
-   "checkedAt": "2026-09-05T07:55:39Z"
-  },
-  "92441": {
-   "home": "Swansea",
-   "away": "Wrexham",
-   "items": [
-    {
-     "team": "Wrexham",
-     "text": "Målvakten Andy Dibble har opererat sitt finger och beräknas vara borta i upp till tre månader.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2311720/finger-op-for-dibble",
-     "date": "2026-09-02",
-     "trusted": true
-    }
-   ],
-   "checkedAt": "2026-09-05T07:55:46Z"
+   "checkedAt": "2026-09-26T09:47:59Z"
   }
  }
 }
