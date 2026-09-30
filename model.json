@@ -1,24 +1,9 @@
 {
- "drawNumber": 4972,
- "updatedAt": "2026-09-26T13:28:06Z",
+ "drawNumber": 4973,
+ "updatedAt": "2026-09-30T21:38:03Z",
  "sample": 2019,
  "avgHome": 1.521,
  "avgAway": 1.24,
- "picks": {
-  "94199": "one"
- },
- "detail": {
-  "94199": {
-   "p": {
-    "one": 46.1,
-    "x": 22.1,
-    "two": 31.8
-   },
-   "lh": 1.9,
-   "la": 1.55,
-   "sign": "one",
-   "home": "Cheltenham",
-   "away": "Chesterfield"
-  }
- }
+ "picks": {},
+ "detail": {}
 }
