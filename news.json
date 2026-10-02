@@ -1,94 +1,112 @@
 {
- "drawNumber": 4972,
- "updatedAt": "2026-09-26T09:47:59Z",
+ "drawNumber": 4973,
+ "updatedAt": "2026-10-02T17:00:06Z",
  "model": "gpt-4o-mini",
  "matches": {
-  "94211": {
-   "home": "England",
-   "away": "Spanien",
+  "94599": {
+   "home": "Kroatien",
+   "away": "England",
    "items": [],
-   "checkedAt": "2026-09-26T09:47:10Z"
+   "checkedAt": "2026-10-02T16:59:11Z"
   },
-  "94205": {
-   "home": "Tjeckien",
-   "away": "Kroatien",
-   "items": [],
-   "checkedAt": "2026-09-26T09:47:15Z"
-  },
-  "94193": {
-   "home": "Cambridge",
-   "away": "Wimbledon",
-   "items": [],
-   "checkedAt": "2026-09-26T09:47:20Z"
-  },
-  "94190": {
-   "home": "Plymouth",
-   "away": "Burton",
-   "items": [],
-   "checkedAt": "2026-09-26T09:47:23Z"
-  },
-  "94191": {
-   "home": "Stockport",
-   "away": "Peterborough ",
-   "items": [],
-   "checkedAt": "2026-09-26T09:47:27Z"
-  },
-  "94192": {
-   "home": "Wycombe",
-   "away": "Reading",
-   "items": [],
-   "checkedAt": "2026-09-26T09:47:30Z"
-  },
-  "94199": {
-   "home": "Cheltenham",
-   "away": "Chesterfield",
-   "items": [],
-   "checkedAt": "2026-09-26T09:47:33Z"
-  },
-  "94195": {
-   "home": "Fleetwood",
-   "away": "Rochdale",
-   "items": [],
-   "checkedAt": "2026-09-26T09:47:37Z"
-  },
-  "94194": {
-   "home": "Newport",
-   "away": "Grimsby",
-   "items": [],
-   "checkedAt": "2026-09-26T09:47:42Z"
-  },
-  "94201": {
-   "home": "Rotherham",
-   "away": "Crewe",
-   "items": [],
-   "checkedAt": "2026-09-26T09:47:46Z"
-  },
-  "94196": {
-   "home": "Shrewsbury",
-   "away": "Colchester",
-   "items": [],
-   "checkedAt": "2026-09-26T09:47:49Z"
-  },
-  "94202": {
-   "home": "Swindon",
-   "away": "Accrington",
-   "items": [],
-   "checkedAt": "2026-09-26T09:47:53Z"
-  },
-  "94200": {
-   "home": "Tranmere",
-   "away": "Walsall",
+  "94609": {
+   "home": "Nordmakedonien",
+   "away": "Skottland",
    "items": [
     {
-     "team": "Tranmere",
-     "text": "John Achterberg förväntas vara borta i sex veckor efter en knäskada mot Hull City.",
+     "team": "Skottland",
+     "text": "Sebastien Pocognoli uttryckte sin besvikelse över 3-0-förlusten mot Schweiz och betonade vikten av att vinna nästa Nations League-match mot Nordmakedonien.",
      "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2319907/keeper-woe-for-tranmere",
-     "date": "2026-09-19",
+     "url": "https://www.skysports.com/football/news/13593544/scotland-sebastian-pocognolis-sad-hampden-debut-as-he-demands-nations-league-response",
+     "date": "2026-09-30",
      "trusted": true
     }
    ],
-   "checkedAt": "2026-09-26T09:47:59Z"
+   "checkedAt": "2026-10-02T16:59:18Z"
+  },
+  "94593": {
+   "home": "Schweiz",
+   "away": "Slovenien",
+   "items": [],
+   "checkedAt": "2026-10-02T16:59:22Z"
+  },
+  "94614": {
+   "home": "Burton",
+   "away": "Huddersfield",
+   "items": [],
+   "checkedAt": "2026-10-02T16:59:26Z"
+  },
+  "94612": {
+   "home": "Leyton Orient",
+   "away": "Plymouth",
+   "items": [
+    {
+     "team": "Leyton Orient",
+     "text": "Matthew Lockwood kommer att vara borta i en månad efter att ha ådragit sig en mjältruptur.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/11742/2217115",
+     "date": "2026-09-25",
+     "trusted": true
+    }
+   ],
+   "checkedAt": "2026-10-02T16:59:34Z"
+  },
+  "94613": {
+   "home": "Reading",
+   "away": "Bradford",
+   "items": [],
+   "checkedAt": "2026-10-02T16:59:38Z"
+  },
+  "94618": {
+   "home": "Accrington",
+   "away": "Cheltenham",
+   "items": [],
+   "checkedAt": "2026-10-02T16:59:41Z"
+  },
+  "94621": {
+   "home": "Crewe",
+   "away": "Bristol Rovers",
+   "items": [],
+   "checkedAt": "2026-10-02T16:59:45Z"
+  },
+  "94616": {
+   "home": "Exeter",
+   "away": "Rotherham",
+   "items": [],
+   "checkedAt": "2026-10-02T16:59:48Z"
+  },
+  "94615": {
+   "home": "Gillingham",
+   "away": "Newport",
+   "items": [],
+   "checkedAt": "2026-10-02T16:59:51Z"
+  },
+  "94620": {
+   "home": "Grimsby",
+   "away": "Shrewsbury",
+   "items": [
+    {
+     "team": "Shrewsbury",
+     "text": "Målvakten Paul Edwards skadade sig under en match mot Cheltenham och kan vara borta i upp till tio veckor.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/2202233/shrews-facing-keeper-crisis",
+     "date": "2026-09-25",
+     "trusted": true
+    }
+   ],
+   "checkedAt": "2026-10-02T16:59:58Z"
+  },
+  "94617": {
+   "home": "Rochdale",
+   "away": "Swindon",
+   "items": [],
+   "checkedAt": "2026-10-02T17:00:02Z"
+  },
+  "94619": {
+   "home": "Salford",
+   "away": "Fleetwood",
+   "items": [],
+   "checkedAt": "2026-10-02T17:00:06Z"
   }
  }
 }
