@@ -1,34 +1,34 @@
 {
-  "fetchedAt": "2026-10-05T09:45:08Z",
+  "fetchedAt": "2026-10-06T01:35:11Z",
   "draw": {
     "draws": [
       {
         "productName": "Stryktipset",
         "seasonLastDraw": false,
         "productId": 1,
-        "currentNetSale": "11792186,00",
-        "regCloseDescription": "Stryktipset v 40, stänger 2026-10-03 15:59",
+        "currentNetSale": "573853,00",
+        "regCloseDescription": "Stryktipset v 41, stänger 2026-10-10 15:59",
         "extraInfo": null,
-        "drawNumber": 4973,
+        "drawNumber": 4974,
         "betIndex": 0,
         "drawState": "Open",
         "drawStateId": 2,
         "regBetDisabled": "NotDisabled",
-        "regOpenTime": "2026-09-30T07:00:00+02:00",
-        "regCloseTime": "2026-10-03T15:59:00+02:00",
-        "cancelCloseTime": "2026-10-03T16:00:00+02:00",
+        "regOpenTime": "2026-10-05T07:00:00+02:00",
+        "regCloseTime": "2026-10-10T15:59:00+02:00",
+        "cancelCloseTime": "2026-10-10T16:00:00+02:00",
         "sport": {
           "id": 1,
           "type": 1,
           "name": "Fotboll"
         },
-        "drawComment": "Stryktipset v. 2026-40",
-        "bombenDrawNum": 983,
+        "drawComment": "Stryktipset v. 2026-41",
+        "bombenDrawNum": 984,
         "relatedDraws": [
           {
             "productId": 23,
-            "drawNumber": 983,
-            "regCloseTime": "2026-10-03T15:59:00+02:00"
+            "drawNumber": 984,
+            "regCloseTime": "2026-10-10T15:59:00+02:00"
           }
         ],
         "rowPrice": "1,00",
@@ -37,452 +37,44 @@
           {
             "cancelled": false,
             "eventComment": "",
-            "eventDescription": "Kroatien - England",
+            "eventDescription": "Man Utd - Tottenham",
             "extraInfo": null,
             "eventNumber": 1,
             "eventTypeId": 1,
             "participantType": "Team",
             "match": {
-              "matchId": 94599,
-              "matchStart": "2026-10-03T18:00:00+02:00",
+              "matchId": 95038,
+              "matchStart": "2026-10-10T18:30:00+02:00",
               "status": "Inte startat",
               "statusId": 0,
               "sportEventStatus": "NotStarted",
-              "statusTime": "2026-09-25T10:17:29+02:00",
+              "statusTime": "2026-10-01T14:24:03+02:00",
               "coverage": 0,
               "participants": [
                 {
-                  "id": 23,
+                  "id": 85,
                   "type": "home",
-                  "name": "Kroatien",
-                  "shortName": "CRO",
-                  "mediumName": "Kroatien",
-                  "countryId": 13,
-                  "countryName": "Kroatien",
-                  "isoCode": "HRV"
+                  "name": "Manchester United",
+                  "shortName": "MNU",
+                  "mediumName": "Man Utd",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
                 },
                 {
-                  "id": 697,
+                  "id": 86,
                   "type": "away",
-                  "name": "England",
-                  "shortName": "ENG",
-                  "mediumName": "England",
+                  "name": "Tottenham",
+                  "shortName": "TOT",
+                  "mediumName": "Tottenham",
                   "countryId": 2,
                   "countryName": "England",
                   "isoCode": "ENG"
                 }
               ],
               "league": {
-                "id": 69,
-                "name": "UEFA Nations League",
-                "country": {
-                  "id": 1,
-                  "name": "Internationell",
-                  "isoCode": "INT"
-                }
-              },
-              "result": []
-            },
-            "odds": {
-              "one": "4,90",
-              "x": "4,20",
-              "two": "1,71"
-            },
-            "favouriteOdds": {
-              "one": "19.87",
-              "x": "23.18",
-              "two": "56.94"
-            },
-            "startOdds": {
-              "one": "4,20",
-              "x": "3,85",
-              "two": "1,89"
-            },
-            "betMetrics": {
-              "eventTypeId": 1,
-              "eventType": "1X2",
-              "eventSubTypeId": 2,
-              "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-03T15:11:14.768+02:00",
-              "distributionRefDate": "2026-10-03T15:10:11.256+02:00",
-              "values": [
-                {
-                  "outcome": "1",
-                  "odds": {
-                    "odds": "4,90",
-                    "favouriteOdds": "19,87",
-                    "startOdds": "4,20"
-                  },
-                  "distribution": {
-                    "distribution": "15",
-                    "refDistribution": "15"
-                  }
-                },
-                {
-                  "outcome": "X",
-                  "odds": {
-                    "odds": "4,20",
-                    "favouriteOdds": "23,18",
-                    "startOdds": "3,85"
-                  },
-                  "distribution": {
-                    "distribution": "24",
-                    "refDistribution": "24"
-                  }
-                },
-                {
-                  "outcome": "2",
-                  "odds": {
-                    "odds": "1,71",
-                    "favouriteOdds": "56,94",
-                    "startOdds": "1,89"
-                  },
-                  "distribution": {
-                    "distribution": "61",
-                    "refDistribution": "61"
-                  }
-                }
-              ]
-            },
-            "complementaryBetMetrics": [],
-            "outcomes": null,
-            "svenskaFolket": {
-              "one": "15",
-              "x": "24",
-              "two": "61",
-              "date": "2026-10-03T15:11:14.768+02:00",
-              "refOne": "15",
-              "refX": "24",
-              "refTwo": "61",
-              "refDate": "2026-10-03T15:10:11.256+02:00"
-            },
-            "tioTidningarsTips": null,
-            "providerIds": [
-              {
-                "provider": "BetRadar",
-                "type": "Normal",
-                "id": "68931698"
-              },
-              {
-                "provider": "Kambi",
-                "type": "Normal",
-                "id": "1026632410"
-              }
-            ]
-          },
-          {
-            "cancelled": false,
-            "eventComment": "",
-            "eventDescription": "Nordmaked - Skottland",
-            "extraInfo": null,
-            "eventNumber": 2,
-            "eventTypeId": 1,
-            "participantType": "Team",
-            "match": {
-              "matchId": 94609,
-              "matchStart": "2026-10-03T20:45:00+02:00",
-              "status": "Inte startat",
-              "statusId": 0,
-              "sportEventStatus": "NotStarted",
-              "statusTime": "2026-09-25T10:17:39+02:00",
-              "coverage": 0,
-              "participants": [
-                {
-                  "id": 702,
-                  "type": "home",
-                  "name": "Nordmakedonien",
-                  "shortName": "MKD",
-                  "mediumName": "Nordmaked",
-                  "countryId": 66,
-                  "countryName": "Nordmakedonien",
-                  "isoCode": "MKD"
-                },
-                {
-                  "id": 725,
-                  "type": "away",
-                  "name": "Skottland",
-                  "shortName": "SCO",
-                  "mediumName": "Skottland",
-                  "countryId": 23,
-                  "countryName": "Skottland",
-                  "isoCode": "SCO"
-                }
-              ],
-              "league": {
-                "id": 69,
-                "name": "UEFA Nations League",
-                "country": {
-                  "id": 1,
-                  "name": "Internationell",
-                  "isoCode": "INT"
-                }
-              },
-              "result": []
-            },
-            "odds": {
-              "one": "5,80",
-              "x": "3,80",
-              "two": "1,65"
-            },
-            "favouriteOdds": {
-              "one": "16.55",
-              "x": "25.26",
-              "two": "58.18"
-            },
-            "startOdds": {
-              "one": "4,75",
-              "x": "3,65",
-              "two": "1,81"
-            },
-            "betMetrics": {
-              "eventTypeId": 1,
-              "eventType": "1X2",
-              "eventSubTypeId": 2,
-              "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-03T15:11:14.768+02:00",
-              "distributionRefDate": "2026-10-03T15:10:11.256+02:00",
-              "values": [
-                {
-                  "outcome": "1",
-                  "odds": {
-                    "odds": "5,80",
-                    "favouriteOdds": "16,55",
-                    "startOdds": "4,75"
-                  },
-                  "distribution": {
-                    "distribution": "13",
-                    "refDistribution": "13"
-                  }
-                },
-                {
-                  "outcome": "X",
-                  "odds": {
-                    "odds": "3,80",
-                    "favouriteOdds": "25,26",
-                    "startOdds": "3,65"
-                  },
-                  "distribution": {
-                    "distribution": "23",
-                    "refDistribution": "23"
-                  }
-                },
-                {
-                  "outcome": "2",
-                  "odds": {
-                    "odds": "1,65",
-                    "favouriteOdds": "58,18",
-                    "startOdds": "1,81"
-                  },
-                  "distribution": {
-                    "distribution": "64",
-                    "refDistribution": "64"
-                  }
-                }
-              ]
-            },
-            "complementaryBetMetrics": [],
-            "outcomes": null,
-            "svenskaFolket": {
-              "one": "13",
-              "x": "23",
-              "two": "64",
-              "date": "2026-10-03T15:11:14.768+02:00",
-              "refOne": "13",
-              "refX": "23",
-              "refTwo": "64",
-              "refDate": "2026-10-03T15:10:11.256+02:00"
-            },
-            "tioTidningarsTips": null,
-            "providerIds": [
-              {
-                "provider": "BetRadar",
-                "type": "Normal",
-                "id": "68932788"
-              },
-              {
-                "provider": "Kambi",
-                "type": "Normal",
-                "id": "1026632462"
-              }
-            ]
-          },
-          {
-            "cancelled": false,
-            "eventComment": "",
-            "eventDescription": "Schweiz - Slovenien",
-            "extraInfo": null,
-            "eventNumber": 3,
-            "eventTypeId": 1,
-            "participantType": "Team",
-            "match": {
-              "matchId": 94593,
-              "matchStart": "2026-10-03T20:45:00+02:00",
-              "status": "Inte startat",
-              "statusId": 0,
-              "sportEventStatus": "NotStarted",
-              "statusTime": "2026-09-25T10:17:30+02:00",
-              "coverage": 0,
-              "participants": [
-                {
-                  "id": 673,
-                  "type": "home",
-                  "name": "Schweiz",
-                  "shortName": "SUI",
-                  "mediumName": "Schweiz",
-                  "countryId": 29,
-                  "countryName": "Schweiz",
-                  "isoCode": "CHE"
-                },
-                {
-                  "id": 690,
-                  "type": "away",
-                  "name": "Slovenien",
-                  "shortName": "SLO",
-                  "mediumName": "Slovenien",
-                  "countryId": 57,
-                  "countryName": "Slovenien",
-                  "isoCode": "SVN"
-                }
-              ],
-              "league": {
-                "id": 69,
-                "name": "UEFA Nations League",
-                "country": {
-                  "id": 1,
-                  "name": "Internationell",
-                  "isoCode": "INT"
-                }
-              },
-              "result": []
-            },
-            "odds": {
-              "one": "1,26",
-              "x": "5,80",
-              "two": "15,00"
-            },
-            "favouriteOdds": {
-              "one": "76.85",
-              "x": "16.69",
-              "two": "6.46"
-            },
-            "startOdds": {
-              "one": "1,35",
-              "x": "5,00",
-              "two": "10,50"
-            },
-            "betMetrics": {
-              "eventTypeId": 1,
-              "eventType": "1X2",
-              "eventSubTypeId": 2,
-              "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-03T15:11:14.768+02:00",
-              "distributionRefDate": "2026-10-03T15:10:11.256+02:00",
-              "values": [
-                {
-                  "outcome": "1",
-                  "odds": {
-                    "odds": "1,26",
-                    "favouriteOdds": "76,85",
-                    "startOdds": "1,35"
-                  },
-                  "distribution": {
-                    "distribution": "81",
-                    "refDistribution": "81"
-                  }
-                },
-                {
-                  "outcome": "X",
-                  "odds": {
-                    "odds": "5,80",
-                    "favouriteOdds": "16,69",
-                    "startOdds": "5,00"
-                  },
-                  "distribution": {
-                    "distribution": "13",
-                    "refDistribution": "13"
-                  }
-                },
-                {
-                  "outcome": "2",
-                  "odds": {
-                    "odds": "15,00",
-                    "favouriteOdds": "6,46",
-                    "startOdds": "10,50"
-                  },
-                  "distribution": {
-                    "distribution": "6",
-                    "refDistribution": "6"
-                  }
-                }
-              ]
-            },
-            "complementaryBetMetrics": [],
-            "outcomes": null,
-            "svenskaFolket": {
-              "one": "81",
-              "x": "13",
-              "two": "6",
-              "date": "2026-10-03T15:11:14.768+02:00",
-              "refOne": "81",
-              "refX": "13",
-              "refTwo": "6",
-              "refDate": "2026-10-03T15:10:11.256+02:00"
-            },
-            "tioTidningarsTips": null,
-            "providerIds": [
-              {
-                "provider": "BetRadar",
-                "type": "Normal",
-                "id": "68932790"
-              },
-              {
-                "provider": "Kambi",
-                "type": "Normal",
-                "id": "1026632469"
-              }
-            ]
-          },
-          {
-            "cancelled": false,
-            "eventComment": "",
-            "eventDescription": "Burton - Huddersfi",
-            "extraInfo": null,
-            "eventNumber": 4,
-            "eventTypeId": 1,
-            "participantType": "Team",
-            "match": {
-              "matchId": 94614,
-              "matchStart": "2026-10-03T16:00:00+02:00",
-              "status": "Inte startat",
-              "statusId": 0,
-              "sportEventStatus": "NotStarted",
-              "statusTime": "2026-09-25T10:17:33+02:00",
-              "coverage": 0,
-              "participants": [
-                {
-                  "id": 109,
-                  "type": "home",
-                  "name": "Burton",
-                  "shortName": "BUR",
-                  "mediumName": "Burton",
-                  "countryId": 2,
-                  "countryName": "England",
-                  "isoCode": "ENG"
-                },
-                {
-                  "id": 94,
-                  "type": "away",
-                  "name": "Huddersfield",
-                  "shortName": "HUD",
-                  "mediumName": "Huddersfi",
-                  "countryId": 2,
-                  "countryName": "England",
-                  "isoCode": "ENG"
-                }
-              ],
-              "league": {
-                "id": 8,
-                "name": "League One",
+                "id": 1,
+                "name": "Premier League",
                 "country": {
                   "id": 2,
                   "name": "England",
@@ -492,45 +84,589 @@
               "result": []
             },
             "odds": {
-              "one": "4,10",
-              "x": "3,70",
-              "two": "1,82"
+              "one": "1,75",
+              "x": "4,25",
+              "two": "4,60"
             },
             "favouriteOdds": {
-              "one": "22.93",
-              "x": "25.41",
-              "two": "51.66"
+              "one": "55.80",
+              "x": "22.98",
+              "two": "21.23"
             },
             "startOdds": {
-              "one": "3,85",
-              "x": "3,65",
-              "two": "1,88"
+              "one": "1,75",
+              "x": "4,25",
+              "two": "4,60"
             },
             "betMetrics": {
               "eventTypeId": 1,
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-03T15:11:14.768+02:00",
-              "distributionRefDate": "2026-10-03T15:10:11.256+02:00",
+              "distributionDate": "2026-10-06T03:34:25.004+02:00",
+              "distributionRefDate": "2026-10-06T03:29:34.591+02:00",
               "values": [
                 {
                   "outcome": "1",
                   "odds": {
-                    "odds": "4,10",
-                    "favouriteOdds": "22,93",
-                    "startOdds": "3,85"
+                    "odds": "1,75",
+                    "favouriteOdds": "55,80",
+                    "startOdds": "1,75"
                   },
                   "distribution": {
-                    "distribution": "26",
-                    "refDistribution": "26"
+                    "distribution": "56",
+                    "refDistribution": "56"
+                  }
+                },
+                {
+                  "outcome": "X",
+                  "odds": {
+                    "odds": "4,25",
+                    "favouriteOdds": "22,98",
+                    "startOdds": "4,25"
+                  },
+                  "distribution": {
+                    "distribution": "21",
+                    "refDistribution": "21"
+                  }
+                },
+                {
+                  "outcome": "2",
+                  "odds": {
+                    "odds": "4,60",
+                    "favouriteOdds": "21,23",
+                    "startOdds": "4,60"
+                  },
+                  "distribution": {
+                    "distribution": "23",
+                    "refDistribution": "23"
+                  }
+                }
+              ]
+            },
+            "complementaryBetMetrics": [],
+            "outcomes": null,
+            "svenskaFolket": {
+              "one": "56",
+              "x": "21",
+              "two": "23",
+              "date": "2026-10-06T03:34:25.004+02:00",
+              "refOne": "56",
+              "refX": "21",
+              "refTwo": "23",
+              "refDate": "2026-10-06T03:29:34.591+02:00"
+            },
+            "tioTidningarsTips": null,
+            "providerIds": [
+              {
+                "provider": "BetRadar",
+                "type": "Normal",
+                "id": "72221308"
+              },
+              {
+                "provider": "Kambi",
+                "type": "Normal",
+                "id": "1028072680"
+              }
+            ]
+          },
+          {
+            "cancelled": false,
+            "eventComment": "",
+            "eventDescription": "Chelsea - Bournemou",
+            "extraInfo": null,
+            "eventNumber": 2,
+            "eventTypeId": 1,
+            "participantType": "Team",
+            "match": {
+              "matchId": 95030,
+              "matchStart": "2026-10-10T16:00:00+02:00",
+              "status": "Inte startat",
+              "statusId": 0,
+              "sportEventStatus": "NotStarted",
+              "statusTime": "2026-10-01T14:24:00+02:00",
+              "coverage": 0,
+              "participants": [
+                {
+                  "id": 71,
+                  "type": "home",
+                  "name": "Chelsea",
+                  "shortName": "CHE",
+                  "mediumName": "Chelsea",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                },
+                {
+                  "id": 64,
+                  "type": "away",
+                  "name": "Bournemouth",
+                  "shortName": "BRN",
+                  "mediumName": "Bournemou",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                }
+              ],
+              "league": {
+                "id": 1,
+                "name": "Premier League",
+                "country": {
+                  "id": 2,
+                  "name": "England",
+                  "isoCode": "ENG"
+                }
+              },
+              "result": []
+            },
+            "odds": {
+              "one": "1,74",
+              "x": "4,35",
+              "two": "4,50"
+            },
+            "favouriteOdds": {
+              "one": "55.97",
+              "x": "22.39",
+              "two": "21.64"
+            },
+            "startOdds": {
+              "one": "1,78",
+              "x": "4,25",
+              "two": "4,40"
+            },
+            "betMetrics": {
+              "eventTypeId": 1,
+              "eventType": "1X2",
+              "eventSubTypeId": 2,
+              "eventSubType": "Fulltid",
+              "distributionDate": "2026-10-06T03:34:25.004+02:00",
+              "distributionRefDate": "2026-10-06T03:29:34.591+02:00",
+              "values": [
+                {
+                  "outcome": "1",
+                  "odds": {
+                    "odds": "1,74",
+                    "favouriteOdds": "55,97",
+                    "startOdds": "1,78"
+                  },
+                  "distribution": {
+                    "distribution": "52",
+                    "refDistribution": "52"
+                  }
+                },
+                {
+                  "outcome": "X",
+                  "odds": {
+                    "odds": "4,35",
+                    "favouriteOdds": "22,39",
+                    "startOdds": "4,25"
+                  },
+                  "distribution": {
+                    "distribution": "24",
+                    "refDistribution": "24"
+                  }
+                },
+                {
+                  "outcome": "2",
+                  "odds": {
+                    "odds": "4,50",
+                    "favouriteOdds": "21,64",
+                    "startOdds": "4,40"
+                  },
+                  "distribution": {
+                    "distribution": "24",
+                    "refDistribution": "24"
+                  }
+                }
+              ]
+            },
+            "complementaryBetMetrics": [],
+            "outcomes": null,
+            "svenskaFolket": {
+              "one": "52",
+              "x": "24",
+              "two": "24",
+              "date": "2026-10-06T03:34:25.004+02:00",
+              "refOne": "52",
+              "refX": "24",
+              "refTwo": "24",
+              "refDate": "2026-10-06T03:29:34.591+02:00"
+            },
+            "tioTidningarsTips": null,
+            "providerIds": [
+              {
+                "provider": "BetRadar",
+                "type": "Normal",
+                "id": "72221296"
+              },
+              {
+                "provider": "Kambi",
+                "type": "Normal",
+                "id": "1028072799"
+              }
+            ]
+          },
+          {
+            "cancelled": false,
+            "eventComment": "",
+            "eventDescription": "Aston V - Brentford",
+            "extraInfo": null,
+            "eventNumber": 3,
+            "eventTypeId": 1,
+            "participantType": "Team",
+            "match": {
+              "matchId": 95034,
+              "matchStart": "2026-10-10T16:00:00+02:00",
+              "status": "Inte startat",
+              "statusId": 0,
+              "sportEventStatus": "NotStarted",
+              "statusTime": "2026-10-01T14:24:02+02:00",
+              "coverage": 0,
+              "participants": [
+                {
+                  "id": 84,
+                  "type": "home",
+                  "name": "Aston Villa",
+                  "shortName": "AST",
+                  "mediumName": "Aston V",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                },
+                {
+                  "id": 80,
+                  "type": "away",
+                  "name": "Brentford",
+                  "shortName": "BRE",
+                  "mediumName": "Brentford",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                }
+              ],
+              "league": {
+                "id": 1,
+                "name": "Premier League",
+                "country": {
+                  "id": 2,
+                  "name": "England",
+                  "isoCode": "ENG"
+                }
+              },
+              "result": []
+            },
+            "odds": {
+              "one": "2,65",
+              "x": "3,65",
+              "two": "2,65"
+            },
+            "favouriteOdds": {
+              "one": "36.68",
+              "x": "26.63",
+              "two": "36.68"
+            },
+            "startOdds": {
+              "one": "2,65",
+              "x": "3,65",
+              "two": "2,65"
+            },
+            "betMetrics": {
+              "eventTypeId": 1,
+              "eventType": "1X2",
+              "eventSubTypeId": 2,
+              "eventSubType": "Fulltid",
+              "distributionDate": "2026-10-06T03:34:25.004+02:00",
+              "distributionRefDate": "2026-10-06T03:29:34.591+02:00",
+              "values": [
+                {
+                  "outcome": "1",
+                  "odds": {
+                    "odds": "2,65",
+                    "favouriteOdds": "36,68",
+                    "startOdds": "2,65"
+                  },
+                  "distribution": {
+                    "distribution": "44",
+                    "refDistribution": "44"
+                  }
+                },
+                {
+                  "outcome": "X",
+                  "odds": {
+                    "odds": "3,65",
+                    "favouriteOdds": "26,63",
+                    "startOdds": "3,65"
+                  },
+                  "distribution": {
+                    "distribution": "25",
+                    "refDistribution": "25"
+                  }
+                },
+                {
+                  "outcome": "2",
+                  "odds": {
+                    "odds": "2,65",
+                    "favouriteOdds": "36,68",
+                    "startOdds": "2,65"
+                  },
+                  "distribution": {
+                    "distribution": "31",
+                    "refDistribution": "31"
+                  }
+                }
+              ]
+            },
+            "complementaryBetMetrics": [],
+            "outcomes": null,
+            "svenskaFolket": {
+              "one": "44",
+              "x": "25",
+              "two": "31",
+              "date": "2026-10-06T03:34:25.004+02:00",
+              "refOne": "44",
+              "refX": "25",
+              "refTwo": "31",
+              "refDate": "2026-10-06T03:29:34.591+02:00"
+            },
+            "tioTidningarsTips": null,
+            "providerIds": [
+              {
+                "provider": "BetRadar",
+                "type": "Normal",
+                "id": "72221294"
+              },
+              {
+                "provider": "Kambi",
+                "type": "Normal",
+                "id": "1028072796"
+              }
+            ]
+          },
+          {
+            "cancelled": false,
+            "eventComment": "",
+            "eventDescription": "Sunderlan - Brighton",
+            "extraInfo": null,
+            "eventNumber": 4,
+            "eventTypeId": 1,
+            "participantType": "Team",
+            "match": {
+              "matchId": 95032,
+              "matchStart": "2026-10-10T16:00:00+02:00",
+              "status": "Inte startat",
+              "statusId": 0,
+              "sportEventStatus": "NotStarted",
+              "statusTime": "2026-10-01T14:24:01+02:00",
+              "coverage": 0,
+              "participants": [
+                {
+                  "id": 129,
+                  "type": "home",
+                  "name": "Sunderland",
+                  "shortName": "SUN",
+                  "mediumName": "Sunderlan",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                },
+                {
+                  "id": 5,
+                  "type": "away",
+                  "name": "Brighton",
+                  "shortName": "BHA",
+                  "mediumName": "Brighton",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                }
+              ],
+              "league": {
+                "id": 1,
+                "name": "Premier League",
+                "country": {
+                  "id": 2,
+                  "name": "England",
+                  "isoCode": "ENG"
+                }
+              },
+              "result": []
+            },
+            "odds": {
+              "one": "2,95",
+              "x": "3,70",
+              "two": "2,43"
+            },
+            "favouriteOdds": {
+              "one": "33.21",
+              "x": "26.48",
+              "two": "40.31"
+            },
+            "startOdds": {
+              "one": "3,00",
+              "x": "3,70",
+              "two": "2,38"
+            },
+            "betMetrics": {
+              "eventTypeId": 1,
+              "eventType": "1X2",
+              "eventSubTypeId": 2,
+              "eventSubType": "Fulltid",
+              "distributionDate": "2026-10-06T03:34:25.004+02:00",
+              "distributionRefDate": "2026-10-06T03:29:34.591+02:00",
+              "values": [
+                {
+                  "outcome": "1",
+                  "odds": {
+                    "odds": "2,95",
+                    "favouriteOdds": "33,21",
+                    "startOdds": "3,00"
+                  },
+                  "distribution": {
+                    "distribution": "41",
+                    "refDistribution": "41"
                   }
                 },
                 {
                   "outcome": "X",
                   "odds": {
                     "odds": "3,70",
-                    "favouriteOdds": "25,41",
+                    "favouriteOdds": "26,48",
+                    "startOdds": "3,70"
+                  },
+                  "distribution": {
+                    "distribution": "24",
+                    "refDistribution": "24"
+                  }
+                },
+                {
+                  "outcome": "2",
+                  "odds": {
+                    "odds": "2,43",
+                    "favouriteOdds": "40,31",
+                    "startOdds": "2,38"
+                  },
+                  "distribution": {
+                    "distribution": "35",
+                    "refDistribution": "35"
+                  }
+                }
+              ]
+            },
+            "complementaryBetMetrics": [],
+            "outcomes": null,
+            "svenskaFolket": {
+              "one": "41",
+              "x": "24",
+              "two": "35",
+              "date": "2026-10-06T03:34:25.004+02:00",
+              "refOne": "41",
+              "refX": "24",
+              "refTwo": "35",
+              "refDate": "2026-10-06T03:29:34.591+02:00"
+            },
+            "tioTidningarsTips": null,
+            "providerIds": [
+              {
+                "provider": "BetRadar",
+                "type": "Normal",
+                "id": "72221310"
+              },
+              {
+                "provider": "Kambi",
+                "type": "Normal",
+                "id": "1028072687"
+              }
+            ]
+          },
+          {
+            "cancelled": false,
+            "eventComment": "",
+            "eventDescription": "Ipswich - Fulham",
+            "extraInfo": null,
+            "eventNumber": 5,
+            "eventTypeId": 1,
+            "participantType": "Team",
+            "match": {
+              "matchId": 95033,
+              "matchStart": "2026-10-10T16:00:00+02:00",
+              "status": "Inte startat",
+              "statusId": 0,
+              "sportEventStatus": "NotStarted",
+              "statusTime": "2026-10-01T14:24:01+02:00",
+              "coverage": 0,
+              "participants": [
+                {
+                  "id": 110,
+                  "type": "home",
+                  "name": "Ipswich",
+                  "shortName": "IPS",
+                  "mediumName": "Ipswich",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                },
+                {
+                  "id": 68,
+                  "type": "away",
+                  "name": "Fulham",
+                  "shortName": "FUL",
+                  "mediumName": "Fulham",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                }
+              ],
+              "league": {
+                "id": 1,
+                "name": "Premier League",
+                "country": {
+                  "id": 2,
+                  "name": "England",
+                  "isoCode": "ENG"
+                }
+              },
+              "result": []
+            },
+            "odds": {
+              "one": "2,70",
+              "x": "3,65",
+              "two": "2,63"
+            },
+            "favouriteOdds": {
+              "one": "36.15",
+              "x": "26.74",
+              "two": "37.11"
+            },
+            "startOdds": {
+              "one": "2,70",
+              "x": "3,65",
+              "two": "2,63"
+            },
+            "betMetrics": {
+              "eventTypeId": 1,
+              "eventType": "1X2",
+              "eventSubTypeId": 2,
+              "eventSubType": "Fulltid",
+              "distributionDate": "2026-10-06T03:34:25.004+02:00",
+              "distributionRefDate": "2026-10-06T03:29:34.591+02:00",
+              "values": [
+                {
+                  "outcome": "1",
+                  "odds": {
+                    "odds": "2,70",
+                    "favouriteOdds": "36,15",
+                    "startOdds": "2,70"
+                  },
+                  "distribution": {
+                    "distribution": "42",
+                    "refDistribution": "42"
+                  }
+                },
+                {
+                  "outcome": "X",
+                  "odds": {
+                    "odds": "3,65",
+                    "favouriteOdds": "26,74",
                     "startOdds": "3,65"
                   },
                   "distribution": {
@@ -541,13 +677,13 @@
                 {
                   "outcome": "2",
                   "odds": {
-                    "odds": "1,82",
-                    "favouriteOdds": "51,66",
-                    "startOdds": "1,88"
+                    "odds": "2,63",
+                    "favouriteOdds": "37,11",
+                    "startOdds": "2,63"
                   },
                   "distribution": {
-                    "distribution": "47",
-                    "refDistribution": "47"
+                    "distribution": "31",
+                    "refDistribution": "31"
                   }
                 }
               ]
@@ -555,206 +691,70 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "26",
+              "one": "42",
               "x": "27",
-              "two": "47",
-              "date": "2026-10-03T15:11:14.768+02:00",
-              "refOne": "26",
+              "two": "31",
+              "date": "2026-10-06T03:34:25.004+02:00",
+              "refOne": "42",
               "refX": "27",
-              "refTwo": "47",
-              "refDate": "2026-10-03T15:10:11.256+02:00"
+              "refTwo": "31",
+              "refDate": "2026-10-06T03:29:34.591+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
               {
                 "provider": "BetRadar",
                 "type": "Normal",
-                "id": "72341222"
+                "id": "72221304"
               },
               {
                 "provider": "Kambi",
                 "type": "Normal",
-                "id": "1028143539"
+                "id": "1028072678"
               }
             ]
           },
           {
             "cancelled": false,
             "eventComment": "",
-            "eventDescription": "Leyton Or - Plymouth",
-            "extraInfo": null,
-            "eventNumber": 5,
-            "eventTypeId": 1,
-            "participantType": "Team",
-            "match": {
-              "matchId": 94612,
-              "matchStart": "2026-10-03T16:00:00+02:00",
-              "status": "Inte startat",
-              "statusId": 0,
-              "sportEventStatus": "NotStarted",
-              "statusTime": "2026-09-25T10:17:26+02:00",
-              "coverage": 0,
-              "participants": [
-                {
-                  "id": 122,
-                  "type": "home",
-                  "name": "Leyton Orient",
-                  "shortName": "LEY",
-                  "mediumName": "Leyton Or",
-                  "countryId": 2,
-                  "countryName": "England",
-                  "isoCode": "ENG"
-                },
-                {
-                  "id": 126,
-                  "type": "away",
-                  "name": "Plymouth",
-                  "shortName": "PA",
-                  "mediumName": "Plymouth",
-                  "countryId": 2,
-                  "countryName": "England",
-                  "isoCode": "ENG"
-                }
-              ],
-              "league": {
-                "id": 8,
-                "name": "League One",
-                "country": {
-                  "id": 2,
-                  "name": "England",
-                  "isoCode": "ENG"
-                }
-              },
-              "result": []
-            },
-            "odds": {
-              "one": "3,10",
-              "x": "3,55",
-              "two": "2,18"
-            },
-            "favouriteOdds": {
-              "one": "30.35",
-              "x": "26.50",
-              "two": "43.15"
-            },
-            "startOdds": {
-              "one": "3,45",
-              "x": "3,60",
-              "two": "2,00"
-            },
-            "betMetrics": {
-              "eventTypeId": 1,
-              "eventType": "1X2",
-              "eventSubTypeId": 2,
-              "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-03T15:11:14.768+02:00",
-              "distributionRefDate": "2026-10-03T15:10:11.256+02:00",
-              "values": [
-                {
-                  "outcome": "1",
-                  "odds": {
-                    "odds": "3,10",
-                    "favouriteOdds": "30,35",
-                    "startOdds": "3,45"
-                  },
-                  "distribution": {
-                    "distribution": "21",
-                    "refDistribution": "21"
-                  }
-                },
-                {
-                  "outcome": "X",
-                  "odds": {
-                    "odds": "3,55",
-                    "favouriteOdds": "26,50",
-                    "startOdds": "3,60"
-                  },
-                  "distribution": {
-                    "distribution": "23",
-                    "refDistribution": "23"
-                  }
-                },
-                {
-                  "outcome": "2",
-                  "odds": {
-                    "odds": "2,18",
-                    "favouriteOdds": "43,15",
-                    "startOdds": "2,00"
-                  },
-                  "distribution": {
-                    "distribution": "56",
-                    "refDistribution": "56"
-                  }
-                }
-              ]
-            },
-            "complementaryBetMetrics": [],
-            "outcomes": null,
-            "svenskaFolket": {
-              "one": "21",
-              "x": "23",
-              "two": "56",
-              "date": "2026-10-03T15:11:14.768+02:00",
-              "refOne": "21",
-              "refX": "23",
-              "refTwo": "56",
-              "refDate": "2026-10-03T15:10:11.256+02:00"
-            },
-            "tioTidningarsTips": null,
-            "providerIds": [
-              {
-                "provider": "BetRadar",
-                "type": "Normal",
-                "id": "72341224"
-              },
-              {
-                "provider": "Kambi",
-                "type": "Normal",
-                "id": "1028143537"
-              }
-            ]
-          },
-          {
-            "cancelled": false,
-            "eventComment": "",
-            "eventDescription": "Reading - Bradford",
+            "eventDescription": "Blackburn - Cardiff",
             "extraInfo": null,
             "eventNumber": 6,
             "eventTypeId": 1,
             "participantType": "Team",
             "match": {
-              "matchId": 94613,
-              "matchStart": "2026-10-03T16:00:00+02:00",
+              "matchId": 95047,
+              "matchStart": "2026-10-10T16:00:00+02:00",
               "status": "Inte startat",
               "statusId": 0,
               "sportEventStatus": "NotStarted",
-              "statusTime": "2026-09-25T10:17:27+02:00",
+              "statusTime": "2026-10-01T14:24:40+02:00",
               "coverage": 0,
               "participants": [
                 {
-                  "id": 31,
+                  "id": 91,
                   "type": "home",
-                  "name": "Reading",
-                  "shortName": "REA",
-                  "mediumName": "Reading",
+                  "name": "Blackburn",
+                  "shortName": "BLA",
+                  "mediumName": "Blackburn",
                   "countryId": 2,
                   "countryName": "England",
                   "isoCode": "ENG"
                 },
                 {
-                  "id": 114,
+                  "id": 90,
                   "type": "away",
-                  "name": "Bradford",
-                  "shortName": "BRA",
-                  "mediumName": "Bradford",
+                  "name": "Cardiff",
+                  "shortName": "CAR",
+                  "mediumName": "Cardiff",
                   "countryId": 2,
                   "countryName": "England",
                   "isoCode": "ENG"
                 }
               ],
               "league": {
-                "id": 8,
-                "name": "League One",
+                "id": 6,
+                "name": "Championship",
                 "country": {
                   "id": 2,
                   "name": "England",
@@ -764,34 +764,34 @@
               "result": []
             },
             "odds": {
-              "one": "2,12",
-              "x": "3,25",
-              "two": "3,40"
+              "one": "2,70",
+              "x": "3,65",
+              "two": "2,55"
             },
             "favouriteOdds": {
-              "one": "43.94",
-              "x": "28.66",
-              "two": "27.40"
+              "one": "35.73",
+              "x": "26.43",
+              "two": "37.83"
             },
             "startOdds": {
-              "one": "2,28",
-              "x": "3,25",
-              "two": "3,10"
+              "one": "2,70",
+              "x": "3,65",
+              "two": "2,55"
             },
             "betMetrics": {
               "eventTypeId": 1,
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-03T15:11:14.768+02:00",
-              "distributionRefDate": "2026-10-03T15:10:11.256+02:00",
+              "distributionDate": "2026-10-06T03:34:25.004+02:00",
+              "distributionRefDate": "2026-10-06T03:29:34.591+02:00",
               "values": [
                 {
                   "outcome": "1",
                   "odds": {
-                    "odds": "2,12",
-                    "favouriteOdds": "43,94",
-                    "startOdds": "2,28"
+                    "odds": "2,70",
+                    "favouriteOdds": "35,73",
+                    "startOdds": "2,70"
                   },
                   "distribution": {
                     "distribution": "46",
@@ -801,20 +801,428 @@
                 {
                   "outcome": "X",
                   "odds": {
-                    "odds": "3,25",
-                    "favouriteOdds": "28,66",
-                    "startOdds": "3,25"
+                    "odds": "3,65",
+                    "favouriteOdds": "26,43",
+                    "startOdds": "3,65"
                   },
                   "distribution": {
-                    "distribution": "25",
-                    "refDistribution": "25"
+                    "distribution": "26",
+                    "refDistribution": "26"
                   }
                 },
                 {
                   "outcome": "2",
                   "odds": {
-                    "odds": "3,40",
-                    "favouriteOdds": "27,40",
+                    "odds": "2,55",
+                    "favouriteOdds": "37,83",
+                    "startOdds": "2,55"
+                  },
+                  "distribution": {
+                    "distribution": "28",
+                    "refDistribution": "28"
+                  }
+                }
+              ]
+            },
+            "complementaryBetMetrics": [],
+            "outcomes": null,
+            "svenskaFolket": {
+              "one": "46",
+              "x": "26",
+              "two": "28",
+              "date": "2026-10-06T03:34:25.004+02:00",
+              "refOne": "46",
+              "refX": "26",
+              "refTwo": "28",
+              "refDate": "2026-10-06T03:29:34.591+02:00"
+            },
+            "tioTidningarsTips": null,
+            "providerIds": [
+              {
+                "provider": "BetRadar",
+                "type": "Normal",
+                "id": "72339864"
+              },
+              {
+                "provider": "Kambi",
+                "type": "Normal",
+                "id": "1028142956"
+              }
+            ]
+          },
+          {
+            "cancelled": false,
+            "eventComment": "",
+            "eventDescription": "Bolton - Stoke",
+            "extraInfo": null,
+            "eventNumber": 7,
+            "eventTypeId": 1,
+            "participantType": "Team",
+            "match": {
+              "matchId": 95043,
+              "matchStart": "2026-10-10T16:00:00+02:00",
+              "status": "Inte startat",
+              "statusId": 0,
+              "sportEventStatus": "NotStarted",
+              "statusTime": "2026-10-01T14:24:38+02:00",
+              "coverage": 0,
+              "participants": [
+                {
+                  "id": 44,
+                  "type": "home",
+                  "name": "Bolton",
+                  "shortName": "BOL",
+                  "mediumName": "Bolton",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                },
+                {
+                  "id": 32,
+                  "type": "away",
+                  "name": "Stoke",
+                  "shortName": "STO",
+                  "mediumName": "Stoke",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                }
+              ],
+              "league": {
+                "id": 6,
+                "name": "Championship",
+                "country": {
+                  "id": 2,
+                  "name": "England",
+                  "isoCode": "ENG"
+                }
+              },
+              "result": []
+            },
+            "odds": {
+              "one": "2,55",
+              "x": "3,50",
+              "two": "2,75"
+            },
+            "favouriteOdds": {
+              "one": "37.65",
+              "x": "27.43",
+              "two": "34.91"
+            },
+            "startOdds": {
+              "one": "2,55",
+              "x": "3,50",
+              "two": "2,75"
+            },
+            "betMetrics": {
+              "eventTypeId": 1,
+              "eventType": "1X2",
+              "eventSubTypeId": 2,
+              "eventSubType": "Fulltid",
+              "distributionDate": "2026-10-06T03:34:25.004+02:00",
+              "distributionRefDate": "2026-10-06T03:29:34.591+02:00",
+              "values": [
+                {
+                  "outcome": "1",
+                  "odds": {
+                    "odds": "2,55",
+                    "favouriteOdds": "37,65",
+                    "startOdds": "2,55"
+                  },
+                  "distribution": {
+                    "distribution": "41",
+                    "refDistribution": "41"
+                  }
+                },
+                {
+                  "outcome": "X",
+                  "odds": {
+                    "odds": "3,50",
+                    "favouriteOdds": "27,43",
+                    "startOdds": "3,50"
+                  },
+                  "distribution": {
+                    "distribution": "26",
+                    "refDistribution": "26"
+                  }
+                },
+                {
+                  "outcome": "2",
+                  "odds": {
+                    "odds": "2,75",
+                    "favouriteOdds": "34,91",
+                    "startOdds": "2,75"
+                  },
+                  "distribution": {
+                    "distribution": "33",
+                    "refDistribution": "33"
+                  }
+                }
+              ]
+            },
+            "complementaryBetMetrics": [],
+            "outcomes": null,
+            "svenskaFolket": {
+              "one": "41",
+              "x": "26",
+              "two": "33",
+              "date": "2026-10-06T03:34:25.004+02:00",
+              "refOne": "41",
+              "refX": "26",
+              "refTwo": "33",
+              "refDate": "2026-10-06T03:29:34.591+02:00"
+            },
+            "tioTidningarsTips": null,
+            "providerIds": [
+              {
+                "provider": "BetRadar",
+                "type": "Normal",
+                "id": "72339866"
+              },
+              {
+                "provider": "Kambi",
+                "type": "Normal",
+                "id": "1028142959"
+              }
+            ]
+          },
+          {
+            "cancelled": false,
+            "eventComment": "",
+            "eventDescription": "Derby - Wrexham",
+            "extraInfo": null,
+            "eventNumber": 8,
+            "eventTypeId": 1,
+            "participantType": "Team",
+            "match": {
+              "matchId": 95039,
+              "matchStart": "2026-10-10T16:00:00+02:00",
+              "status": "Inte startat",
+              "statusId": 0,
+              "sportEventStatus": "NotStarted",
+              "statusTime": "2026-10-01T14:24:36+02:00",
+              "coverage": 0,
+              "participants": [
+                {
+                  "id": 97,
+                  "type": "home",
+                  "name": "Derby",
+                  "shortName": "DER",
+                  "mediumName": "Derby",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                },
+                {
+                  "id": 1554,
+                  "type": "away",
+                  "name": "Wrexham",
+                  "shortName": "WRE",
+                  "mediumName": "Wrexham",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                }
+              ],
+              "league": {
+                "id": 6,
+                "name": "Championship",
+                "country": {
+                  "id": 2,
+                  "name": "England",
+                  "isoCode": "ENG"
+                }
+              },
+              "result": []
+            },
+            "odds": {
+              "one": "2,75",
+              "x": "3,35",
+              "two": "2,65"
+            },
+            "favouriteOdds": {
+              "one": "34.98",
+              "x": "28.72",
+              "two": "36.30"
+            },
+            "startOdds": {
+              "one": "2,75",
+              "x": "3,35",
+              "two": "2,65"
+            },
+            "betMetrics": {
+              "eventTypeId": 1,
+              "eventType": "1X2",
+              "eventSubTypeId": 2,
+              "eventSubType": "Fulltid",
+              "distributionDate": "2026-10-06T03:34:25.004+02:00",
+              "distributionRefDate": "2026-10-06T03:29:34.591+02:00",
+              "values": [
+                {
+                  "outcome": "1",
+                  "odds": {
+                    "odds": "2,75",
+                    "favouriteOdds": "34,98",
+                    "startOdds": "2,75"
+                  },
+                  "distribution": {
+                    "distribution": "42",
+                    "refDistribution": "42"
+                  }
+                },
+                {
+                  "outcome": "X",
+                  "odds": {
+                    "odds": "3,35",
+                    "favouriteOdds": "28,72",
+                    "startOdds": "3,35"
+                  },
+                  "distribution": {
+                    "distribution": "27",
+                    "refDistribution": "27"
+                  }
+                },
+                {
+                  "outcome": "2",
+                  "odds": {
+                    "odds": "2,65",
+                    "favouriteOdds": "36,30",
+                    "startOdds": "2,65"
+                  },
+                  "distribution": {
+                    "distribution": "31",
+                    "refDistribution": "31"
+                  }
+                }
+              ]
+            },
+            "complementaryBetMetrics": [],
+            "outcomes": null,
+            "svenskaFolket": {
+              "one": "42",
+              "x": "27",
+              "two": "31",
+              "date": "2026-10-06T03:34:25.004+02:00",
+              "refOne": "42",
+              "refX": "27",
+              "refTwo": "31",
+              "refDate": "2026-10-06T03:29:34.591+02:00"
+            },
+            "tioTidningarsTips": null,
+            "providerIds": [
+              {
+                "provider": "BetRadar",
+                "type": "Normal",
+                "id": "72339870"
+              },
+              {
+                "provider": "Kambi",
+                "type": "Normal",
+                "id": "1028142985"
+              }
+            ]
+          },
+          {
+            "cancelled": false,
+            "eventComment": "",
+            "eventDescription": "Middlesbr - Wolves",
+            "extraInfo": null,
+            "eventNumber": 9,
+            "eventTypeId": 1,
+            "participantType": "Team",
+            "match": {
+              "matchId": 95040,
+              "matchStart": "2026-10-10T16:00:00+02:00",
+              "status": "Inte startat",
+              "statusId": 0,
+              "sportEventStatus": "NotStarted",
+              "statusTime": "2026-10-01T14:24:37+02:00",
+              "coverage": 0,
+              "participants": [
+                {
+                  "id": 67,
+                  "type": "home",
+                  "name": "Middlesbrough",
+                  "shortName": "MID",
+                  "mediumName": "Middlesbr",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                },
+                {
+                  "id": 89,
+                  "type": "away",
+                  "name": "Wolverhampton",
+                  "shortName": "WOL",
+                  "mediumName": "Wolves",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                }
+              ],
+              "league": {
+                "id": 6,
+                "name": "Championship",
+                "country": {
+                  "id": 2,
+                  "name": "England",
+                  "isoCode": "ENG"
+                }
+              },
+              "result": []
+            },
+            "odds": {
+              "one": "2,20",
+              "x": "3,80",
+              "two": "3,10"
+            },
+            "favouriteOdds": {
+              "one": "43.69",
+              "x": "25.30",
+              "two": "31.01"
+            },
+            "startOdds": {
+              "one": "2,20",
+              "x": "3,80",
+              "two": "3,10"
+            },
+            "betMetrics": {
+              "eventTypeId": 1,
+              "eventType": "1X2",
+              "eventSubTypeId": 2,
+              "eventSubType": "Fulltid",
+              "distributionDate": "2026-10-06T03:34:25.004+02:00",
+              "distributionRefDate": "2026-10-06T03:29:34.591+02:00",
+              "values": [
+                {
+                  "outcome": "1",
+                  "odds": {
+                    "odds": "2,20",
+                    "favouriteOdds": "43,69",
+                    "startOdds": "2,20"
+                  },
+                  "distribution": {
+                    "distribution": "47",
+                    "refDistribution": "47"
+                  }
+                },
+                {
+                  "outcome": "X",
+                  "odds": {
+                    "odds": "3,80",
+                    "favouriteOdds": "25,30",
+                    "startOdds": "3,80"
+                  },
+                  "distribution": {
+                    "distribution": "24",
+                    "refDistribution": "24"
+                  }
+                },
+                {
+                  "outcome": "2",
+                  "odds": {
+                    "odds": "3,10",
+                    "favouriteOdds": "31,01",
                     "startOdds": "3,10"
                   },
                   "distribution": {
@@ -827,478 +1235,70 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "46",
-              "x": "25",
+              "one": "47",
+              "x": "24",
               "two": "29",
-              "date": "2026-10-03T15:11:14.768+02:00",
-              "refOne": "46",
-              "refX": "25",
+              "date": "2026-10-06T03:34:25.004+02:00",
+              "refOne": "47",
+              "refX": "24",
               "refTwo": "29",
-              "refDate": "2026-10-03T15:10:11.256+02:00"
+              "refDate": "2026-10-06T03:29:34.591+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
               {
                 "provider": "BetRadar",
                 "type": "Normal",
-                "id": "72341232"
+                "id": "72339872"
               },
               {
                 "provider": "Kambi",
                 "type": "Normal",
-                "id": "1028143560"
+                "id": "1028142987"
               }
             ]
           },
           {
             "cancelled": false,
             "eventComment": "",
-            "eventDescription": "Accringto - Cheltenha",
-            "extraInfo": null,
-            "eventNumber": 7,
-            "eventTypeId": 1,
-            "participantType": "Team",
-            "match": {
-              "matchId": 94618,
-              "matchStart": "2026-10-03T16:00:00+02:00",
-              "status": "Inte startat",
-              "statusId": 0,
-              "sportEventStatus": "NotStarted",
-              "statusTime": "2026-09-25T10:17:27+02:00",
-              "coverage": 0,
-              "participants": [
-                {
-                  "id": 108,
-                  "type": "home",
-                  "name": "Accrington",
-                  "shortName": "ACC",
-                  "mediumName": "Accringto",
-                  "countryId": 2,
-                  "countryName": "England",
-                  "isoCode": "ENG"
-                },
-                {
-                  "id": 101,
-                  "type": "away",
-                  "name": "Cheltenham",
-                  "shortName": "CHE",
-                  "mediumName": "Cheltenha",
-                  "countryId": 2,
-                  "countryName": "England",
-                  "isoCode": "ENG"
-                }
-              ],
-              "league": {
-                "id": 13,
-                "name": "League Two",
-                "country": {
-                  "id": 2,
-                  "name": "England",
-                  "isoCode": "ENG"
-                }
-              },
-              "result": []
-            },
-            "odds": {
-              "one": "2,60",
-              "x": "3,35",
-              "two": "2,55"
-            },
-            "favouriteOdds": {
-              "one": "35.77",
-              "x": "27.76",
-              "two": "36.47"
-            },
-            "startOdds": {
-              "one": "2,35",
-              "x": "3,25",
-              "two": "2,70"
-            },
-            "betMetrics": {
-              "eventTypeId": 1,
-              "eventType": "1X2",
-              "eventSubTypeId": 2,
-              "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-03T15:11:14.768+02:00",
-              "distributionRefDate": "2026-10-03T15:10:11.256+02:00",
-              "values": [
-                {
-                  "outcome": "1",
-                  "odds": {
-                    "odds": "2,60",
-                    "favouriteOdds": "35,77",
-                    "startOdds": "2,35"
-                  },
-                  "distribution": {
-                    "distribution": "36",
-                    "refDistribution": "36"
-                  }
-                },
-                {
-                  "outcome": "X",
-                  "odds": {
-                    "odds": "3,35",
-                    "favouriteOdds": "27,76",
-                    "startOdds": "3,25"
-                  },
-                  "distribution": {
-                    "distribution": "30",
-                    "refDistribution": "30"
-                  }
-                },
-                {
-                  "outcome": "2",
-                  "odds": {
-                    "odds": "2,55",
-                    "favouriteOdds": "36,47",
-                    "startOdds": "2,70"
-                  },
-                  "distribution": {
-                    "distribution": "34",
-                    "refDistribution": "34"
-                  }
-                }
-              ]
-            },
-            "complementaryBetMetrics": [],
-            "outcomes": null,
-            "svenskaFolket": {
-              "one": "36",
-              "x": "30",
-              "two": "34",
-              "date": "2026-10-03T15:11:14.768+02:00",
-              "refOne": "36",
-              "refX": "30",
-              "refTwo": "34",
-              "refDate": "2026-10-03T15:10:11.256+02:00"
-            },
-            "tioTidningarsTips": null,
-            "providerIds": [
-              {
-                "provider": "BetRadar",
-                "type": "Normal",
-                "id": "72342094"
-              },
-              {
-                "provider": "Kambi",
-                "type": "Normal",
-                "id": "1028143802"
-              }
-            ]
-          },
-          {
-            "cancelled": false,
-            "eventComment": "",
-            "eventDescription": "Crewe - Bristol R",
-            "extraInfo": null,
-            "eventNumber": 8,
-            "eventTypeId": 1,
-            "participantType": "Team",
-            "match": {
-              "matchId": 94621,
-              "matchStart": "2026-10-03T16:00:00+02:00",
-              "status": "Inte startat",
-              "statusId": 0,
-              "sportEventStatus": "NotStarted",
-              "statusTime": "2026-09-25T10:17:28+02:00",
-              "coverage": 0,
-              "participants": [
-                {
-                  "id": 139,
-                  "type": "home",
-                  "name": "Crewe",
-                  "shortName": "CRA",
-                  "mediumName": "Crewe",
-                  "countryId": 2,
-                  "countryName": "England",
-                  "isoCode": "ENG"
-                },
-                {
-                  "id": 137,
-                  "type": "away",
-                  "name": "Bristol Rovers",
-                  "shortName": "BR",
-                  "mediumName": "Bristol R",
-                  "countryId": 2,
-                  "countryName": "England",
-                  "isoCode": "ENG"
-                }
-              ],
-              "league": {
-                "id": 13,
-                "name": "League Two",
-                "country": {
-                  "id": 2,
-                  "name": "England",
-                  "isoCode": "ENG"
-                }
-              },
-              "result": []
-            },
-            "odds": {
-              "one": "2,75",
-              "x": "3,30",
-              "two": "2,30"
-            },
-            "favouriteOdds": {
-              "one": "33.01",
-              "x": "27.51",
-              "two": "39.47"
-            },
-            "startOdds": {
-              "one": "2,70",
-              "x": "3,25",
-              "two": "2,33"
-            },
-            "betMetrics": {
-              "eventTypeId": 1,
-              "eventType": "1X2",
-              "eventSubTypeId": 2,
-              "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-03T15:11:14.768+02:00",
-              "distributionRefDate": "2026-10-03T15:10:11.256+02:00",
-              "values": [
-                {
-                  "outcome": "1",
-                  "odds": {
-                    "odds": "2,75",
-                    "favouriteOdds": "33,01",
-                    "startOdds": "2,70"
-                  },
-                  "distribution": {
-                    "distribution": "31",
-                    "refDistribution": "31"
-                  }
-                },
-                {
-                  "outcome": "X",
-                  "odds": {
-                    "odds": "3,30",
-                    "favouriteOdds": "27,51",
-                    "startOdds": "3,25"
-                  },
-                  "distribution": {
-                    "distribution": "34",
-                    "refDistribution": "34"
-                  }
-                },
-                {
-                  "outcome": "2",
-                  "odds": {
-                    "odds": "2,30",
-                    "favouriteOdds": "39,47",
-                    "startOdds": "2,33"
-                  },
-                  "distribution": {
-                    "distribution": "35",
-                    "refDistribution": "35"
-                  }
-                }
-              ]
-            },
-            "complementaryBetMetrics": [],
-            "outcomes": null,
-            "svenskaFolket": {
-              "one": "31",
-              "x": "34",
-              "two": "35",
-              "date": "2026-10-03T15:11:14.768+02:00",
-              "refOne": "31",
-              "refX": "34",
-              "refTwo": "35",
-              "refDate": "2026-10-03T15:10:11.256+02:00"
-            },
-            "tioTidningarsTips": null,
-            "providerIds": [
-              {
-                "provider": "BetRadar",
-                "type": "Normal",
-                "id": "72342110"
-              },
-              {
-                "provider": "Kambi",
-                "type": "Normal",
-                "id": "1028143919"
-              }
-            ]
-          },
-          {
-            "cancelled": false,
-            "eventComment": "",
-            "eventDescription": "Exeter - Rotherham",
-            "extraInfo": null,
-            "eventNumber": 9,
-            "eventTypeId": 1,
-            "participantType": "Team",
-            "match": {
-              "matchId": 94616,
-              "matchStart": "2026-10-03T16:00:00+02:00",
-              "status": "Inte startat",
-              "statusId": 0,
-              "sportEventStatus": "NotStarted",
-              "statusTime": "2026-09-25T10:17:36+02:00",
-              "coverage": 0,
-              "participants": [
-                {
-                  "id": 123,
-                  "type": "home",
-                  "name": "Exeter",
-                  "shortName": "EXE",
-                  "mediumName": "Exeter",
-                  "countryId": 2,
-                  "countryName": "England",
-                  "isoCode": "ENG"
-                },
-                {
-                  "id": 102,
-                  "type": "away",
-                  "name": "Rotherham",
-                  "shortName": "ROT",
-                  "mediumName": "Rotherham",
-                  "countryId": 2,
-                  "countryName": "England",
-                  "isoCode": "ENG"
-                }
-              ],
-              "league": {
-                "id": 13,
-                "name": "League Two",
-                "country": {
-                  "id": 2,
-                  "name": "England",
-                  "isoCode": "ENG"
-                }
-              },
-              "result": []
-            },
-            "odds": {
-              "one": "2,48",
-              "x": "3,35",
-              "two": "2,70"
-            },
-            "favouriteOdds": {
-              "one": "37.61",
-              "x": "27.84",
-              "two": "34.55"
-            },
-            "startOdds": {
-              "one": "2,48",
-              "x": "3,35",
-              "two": "2,70"
-            },
-            "betMetrics": {
-              "eventTypeId": 1,
-              "eventType": "1X2",
-              "eventSubTypeId": 2,
-              "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-03T15:11:14.768+02:00",
-              "distributionRefDate": "2026-10-03T15:10:11.256+02:00",
-              "values": [
-                {
-                  "outcome": "1",
-                  "odds": {
-                    "odds": "2,48",
-                    "favouriteOdds": "37,61",
-                    "startOdds": "2,48"
-                  },
-                  "distribution": {
-                    "distribution": "35",
-                    "refDistribution": "35"
-                  }
-                },
-                {
-                  "outcome": "X",
-                  "odds": {
-                    "odds": "3,35",
-                    "favouriteOdds": "27,84",
-                    "startOdds": "3,35"
-                  },
-                  "distribution": {
-                    "distribution": "30",
-                    "refDistribution": "30"
-                  }
-                },
-                {
-                  "outcome": "2",
-                  "odds": {
-                    "odds": "2,70",
-                    "favouriteOdds": "34,55",
-                    "startOdds": "2,70"
-                  },
-                  "distribution": {
-                    "distribution": "35",
-                    "refDistribution": "35"
-                  }
-                }
-              ]
-            },
-            "complementaryBetMetrics": [],
-            "outcomes": null,
-            "svenskaFolket": {
-              "one": "35",
-              "x": "30",
-              "two": "35",
-              "date": "2026-10-03T15:11:14.768+02:00",
-              "refOne": "35",
-              "refX": "30",
-              "refTwo": "35",
-              "refDate": "2026-10-03T15:10:11.256+02:00"
-            },
-            "tioTidningarsTips": null,
-            "providerIds": [
-              {
-                "provider": "BetRadar",
-                "type": "Normal",
-                "id": "72342114"
-              },
-              {
-                "provider": "Kambi",
-                "type": "Normal",
-                "id": "1028143920"
-              }
-            ]
-          },
-          {
-            "cancelled": false,
-            "eventComment": "",
-            "eventDescription": "Gillingha - Newport",
+            "eventDescription": "Preston - Millwall",
             "extraInfo": null,
             "eventNumber": 10,
             "eventTypeId": 1,
             "participantType": "Team",
             "match": {
-              "matchId": 94615,
-              "matchStart": "2026-10-03T16:00:00+02:00",
+              "matchId": 95049,
+              "matchStart": "2026-10-10T16:00:00+02:00",
               "status": "Inte startat",
               "statusId": 0,
               "sportEventStatus": "NotStarted",
-              "statusTime": "2026-09-25T10:17:28+02:00",
+              "statusTime": "2026-10-01T14:24:42+02:00",
               "coverage": 0,
               "participants": [
                 {
-                  "id": 127,
+                  "id": 37,
                   "type": "home",
-                  "name": "Gillingham",
-                  "shortName": "GIL",
-                  "mediumName": "Gillingha",
+                  "name": "Preston",
+                  "shortName": "PRE",
+                  "mediumName": "Preston",
                   "countryId": 2,
                   "countryName": "England",
                   "isoCode": "ENG"
                 },
                 {
-                  "id": 135,
+                  "id": 33,
                   "type": "away",
-                  "name": "Newport",
-                  "shortName": "NC",
-                  "mediumName": "Newport",
+                  "name": "Millwall",
+                  "shortName": "MIL",
+                  "mediumName": "Millwall",
                   "countryId": 2,
                   "countryName": "England",
                   "isoCode": "ENG"
                 }
               ],
               "league": {
-                "id": 13,
-                "name": "League Two",
+                "id": 6,
+                "name": "Championship",
                 "country": {
                   "id": 2,
                   "name": "England",
@@ -1308,318 +1308,46 @@
               "result": []
             },
             "odds": {
-              "one": "1,87",
-              "x": "3,35",
-              "two": "3,65"
+              "one": "2,70",
+              "x": "3,55",
+              "two": "2,60"
             },
             "favouriteOdds": {
-              "one": "48.30",
-              "x": "26.96",
-              "two": "24.74"
+              "one": "35.73",
+              "x": "27.17",
+              "two": "37.10"
             },
             "startOdds": {
-              "one": "1,93",
-              "x": "3,35",
-              "two": "3,50"
+              "one": "2,70",
+              "x": "3,50",
+              "two": "2,60"
             },
             "betMetrics": {
               "eventTypeId": 1,
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-03T15:11:14.768+02:00",
-              "distributionRefDate": "2026-10-03T15:10:11.256+02:00",
+              "distributionDate": "2026-10-06T03:34:25.004+02:00",
+              "distributionRefDate": "2026-10-06T03:29:34.591+02:00",
               "values": [
                 {
                   "outcome": "1",
                   "odds": {
-                    "odds": "1,87",
-                    "favouriteOdds": "48,30",
-                    "startOdds": "1,93"
+                    "odds": "2,70",
+                    "favouriteOdds": "35,73",
+                    "startOdds": "2,70"
                   },
                   "distribution": {
-                    "distribution": "54",
-                    "refDistribution": "54"
-                  }
-                },
-                {
-                  "outcome": "X",
-                  "odds": {
-                    "odds": "3,35",
-                    "favouriteOdds": "26,96",
-                    "startOdds": "3,35"
-                  },
-                  "distribution": {
-                    "distribution": "23",
-                    "refDistribution": "23"
-                  }
-                },
-                {
-                  "outcome": "2",
-                  "odds": {
-                    "odds": "3,65",
-                    "favouriteOdds": "24,74",
-                    "startOdds": "3,50"
-                  },
-                  "distribution": {
-                    "distribution": "23",
-                    "refDistribution": "23"
-                  }
-                }
-              ]
-            },
-            "complementaryBetMetrics": [],
-            "outcomes": null,
-            "svenskaFolket": {
-              "one": "54",
-              "x": "23",
-              "two": "23",
-              "date": "2026-10-03T15:11:14.768+02:00",
-              "refOne": "54",
-              "refX": "23",
-              "refTwo": "23",
-              "refDate": "2026-10-03T15:10:11.256+02:00"
-            },
-            "tioTidningarsTips": null,
-            "providerIds": [
-              {
-                "provider": "BetRadar",
-                "type": "Normal",
-                "id": "72342118"
-              },
-              {
-                "provider": "Kambi",
-                "type": "Normal",
-                "id": "1028143947"
-              }
-            ]
-          },
-          {
-            "cancelled": false,
-            "eventComment": "",
-            "eventDescription": "Grimsby - Shrewsbur",
-            "extraInfo": null,
-            "eventNumber": 11,
-            "eventTypeId": 1,
-            "participantType": "Team",
-            "match": {
-              "matchId": 94620,
-              "matchStart": "2026-10-03T16:00:00+02:00",
-              "status": "Inte startat",
-              "statusId": 0,
-              "sportEventStatus": "NotStarted",
-              "statusTime": "2026-09-25T10:17:37+02:00",
-              "coverage": 0,
-              "participants": [
-                {
-                  "id": 785,
-                  "type": "home",
-                  "name": "Grimsby",
-                  "shortName": "GRI",
-                  "mediumName": "Grimsby",
-                  "countryId": 2,
-                  "countryName": "England",
-                  "isoCode": "ENG"
-                },
-                {
-                  "id": 130,
-                  "type": "away",
-                  "name": "Shrewsbury",
-                  "shortName": "SHR",
-                  "mediumName": "Shrewsbur",
-                  "countryId": 2,
-                  "countryName": "England",
-                  "isoCode": "ENG"
-                }
-              ],
-              "league": {
-                "id": 13,
-                "name": "League Two",
-                "country": {
-                  "id": 2,
-                  "name": "England",
-                  "isoCode": "ENG"
-                }
-              },
-              "result": []
-            },
-            "odds": {
-              "one": "1,67",
-              "x": "3,55",
-              "two": "4,50"
-            },
-            "favouriteOdds": {
-              "one": "54.30",
-              "x": "25.55",
-              "two": "20.15"
-            },
-            "startOdds": {
-              "one": "1,67",
-              "x": "3,55",
-              "two": "4,50"
-            },
-            "betMetrics": {
-              "eventTypeId": 1,
-              "eventType": "1X2",
-              "eventSubTypeId": 2,
-              "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-03T15:11:14.768+02:00",
-              "distributionRefDate": "2026-10-03T15:10:11.256+02:00",
-              "values": [
-                {
-                  "outcome": "1",
-                  "odds": {
-                    "odds": "1,67",
-                    "favouriteOdds": "54,30",
-                    "startOdds": "1,67"
-                  },
-                  "distribution": {
-                    "distribution": "72",
-                    "refDistribution": "72"
+                    "distribution": "40",
+                    "refDistribution": "40"
                   }
                 },
                 {
                   "outcome": "X",
                   "odds": {
                     "odds": "3,55",
-                    "favouriteOdds": "25,55",
-                    "startOdds": "3,55"
-                  },
-                  "distribution": {
-                    "distribution": "17",
-                    "refDistribution": "17"
-                  }
-                },
-                {
-                  "outcome": "2",
-                  "odds": {
-                    "odds": "4,50",
-                    "favouriteOdds": "20,15",
-                    "startOdds": "4,50"
-                  },
-                  "distribution": {
-                    "distribution": "11",
-                    "refDistribution": "11"
-                  }
-                }
-              ]
-            },
-            "complementaryBetMetrics": [],
-            "outcomes": null,
-            "svenskaFolket": {
-              "one": "72",
-              "x": "17",
-              "two": "11",
-              "date": "2026-10-03T15:11:14.768+02:00",
-              "refOne": "72",
-              "refX": "17",
-              "refTwo": "11",
-              "refDate": "2026-10-03T15:10:11.256+02:00"
-            },
-            "tioTidningarsTips": null,
-            "providerIds": [
-              {
-                "provider": "BetRadar",
-                "type": "Normal",
-                "id": "72342122"
-              },
-              {
-                "provider": "Kambi",
-                "type": "Normal",
-                "id": "1028143940"
-              }
-            ]
-          },
-          {
-            "cancelled": false,
-            "eventComment": "",
-            "eventDescription": "Rochdale - Swindon",
-            "extraInfo": null,
-            "eventNumber": 12,
-            "eventTypeId": 1,
-            "participantType": "Team",
-            "match": {
-              "matchId": 94617,
-              "matchStart": "2026-10-03T16:00:00+02:00",
-              "status": "Inte startat",
-              "statusId": 0,
-              "sportEventStatus": "NotStarted",
-              "statusTime": "2026-09-25T10:17:29+02:00",
-              "coverage": 0,
-              "participants": [
-                {
-                  "id": 115,
-                  "type": "home",
-                  "name": "Rochdale",
-                  "shortName": "ROC",
-                  "mediumName": "Rochdale",
-                  "countryId": 2,
-                  "countryName": "England",
-                  "isoCode": "ENG"
-                },
-                {
-                  "id": 134,
-                  "type": "away",
-                  "name": "Swindon",
-                  "shortName": "SWI",
-                  "mediumName": "Swindon",
-                  "countryId": 2,
-                  "countryName": "England",
-                  "isoCode": "ENG"
-                }
-              ],
-              "league": {
-                "id": 13,
-                "name": "League Two",
-                "country": {
-                  "id": 2,
-                  "name": "England",
-                  "isoCode": "ENG"
-                }
-              },
-              "result": []
-            },
-            "odds": {
-              "one": "2,15",
-              "x": "3,35",
-              "two": "2,95"
-            },
-            "favouriteOdds": {
-              "one": "42.18",
-              "x": "27.07",
-              "two": "30.74"
-            },
-            "startOdds": {
-              "one": "2,15",
-              "x": "3,35",
-              "two": "2,95"
-            },
-            "betMetrics": {
-              "eventTypeId": 1,
-              "eventType": "1X2",
-              "eventSubTypeId": 2,
-              "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-03T15:11:14.768+02:00",
-              "distributionRefDate": "2026-10-03T15:10:11.256+02:00",
-              "values": [
-                {
-                  "outcome": "1",
-                  "odds": {
-                    "odds": "2,15",
-                    "favouriteOdds": "42,18",
-                    "startOdds": "2,15"
-                  },
-                  "distribution": {
-                    "distribution": "45",
-                    "refDistribution": "45"
-                  }
-                },
-                {
-                  "outcome": "X",
-                  "odds": {
-                    "odds": "3,35",
-                    "favouriteOdds": "27,07",
-                    "startOdds": "3,35"
+                    "favouriteOdds": "27,17",
+                    "startOdds": "3,50"
                   },
                   "distribution": {
                     "distribution": "27",
@@ -1629,9 +1357,145 @@
                 {
                   "outcome": "2",
                   "odds": {
-                    "odds": "2,95",
-                    "favouriteOdds": "30,74",
-                    "startOdds": "2,95"
+                    "odds": "2,60",
+                    "favouriteOdds": "37,10",
+                    "startOdds": "2,60"
+                  },
+                  "distribution": {
+                    "distribution": "33",
+                    "refDistribution": "33"
+                  }
+                }
+              ]
+            },
+            "complementaryBetMetrics": [],
+            "outcomes": null,
+            "svenskaFolket": {
+              "one": "40",
+              "x": "27",
+              "two": "33",
+              "date": "2026-10-06T03:34:25.004+02:00",
+              "refOne": "40",
+              "refX": "27",
+              "refTwo": "33",
+              "refDate": "2026-10-06T03:29:34.591+02:00"
+            },
+            "tioTidningarsTips": null,
+            "providerIds": [
+              {
+                "provider": "BetRadar",
+                "type": "Normal",
+                "id": "72339874"
+              },
+              {
+                "provider": "Kambi",
+                "type": "Normal",
+                "id": "1028142989"
+              }
+            ]
+          },
+          {
+            "cancelled": false,
+            "eventComment": "",
+            "eventDescription": "Sheff U - Lincoln",
+            "extraInfo": null,
+            "eventNumber": 11,
+            "eventTypeId": 1,
+            "participantType": "Team",
+            "match": {
+              "matchId": 95042,
+              "matchStart": "2026-10-10T16:00:00+02:00",
+              "status": "Inte startat",
+              "statusId": 0,
+              "sportEventStatus": "NotStarted",
+              "statusTime": "2026-10-01T14:24:38+02:00",
+              "coverage": 0,
+              "participants": [
+                {
+                  "id": 39,
+                  "type": "home",
+                  "name": "Sheffield U",
+                  "shortName": "SHU",
+                  "mediumName": "Sheff U",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                },
+                {
+                  "id": 104,
+                  "type": "away",
+                  "name": "Lincoln",
+                  "shortName": "LIC",
+                  "mediumName": "Lincoln",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                }
+              ],
+              "league": {
+                "id": 6,
+                "name": "Championship",
+                "country": {
+                  "id": 2,
+                  "name": "England",
+                  "isoCode": "ENG"
+                }
+              },
+              "result": []
+            },
+            "odds": {
+              "one": "2,02",
+              "x": "3,55",
+              "two": "3,85"
+            },
+            "favouriteOdds": {
+              "one": "47.76",
+              "x": "27.18",
+              "two": "25.06"
+            },
+            "startOdds": {
+              "one": "2,02",
+              "x": "3,55",
+              "two": "3,85"
+            },
+            "betMetrics": {
+              "eventTypeId": 1,
+              "eventType": "1X2",
+              "eventSubTypeId": 2,
+              "eventSubType": "Fulltid",
+              "distributionDate": "2026-10-06T03:34:25.004+02:00",
+              "distributionRefDate": "2026-10-06T03:29:34.591+02:00",
+              "values": [
+                {
+                  "outcome": "1",
+                  "odds": {
+                    "odds": "2,02",
+                    "favouriteOdds": "47,76",
+                    "startOdds": "2,02"
+                  },
+                  "distribution": {
+                    "distribution": "48",
+                    "refDistribution": "48"
+                  }
+                },
+                {
+                  "outcome": "X",
+                  "odds": {
+                    "odds": "3,55",
+                    "favouriteOdds": "27,18",
+                    "startOdds": "3,55"
+                  },
+                  "distribution": {
+                    "distribution": "24",
+                    "refDistribution": "24"
+                  }
+                },
+                {
+                  "outcome": "2",
+                  "odds": {
+                    "odds": "3,85",
+                    "favouriteOdds": "25,06",
+                    "startOdds": "3,85"
                   },
                   "distribution": {
                     "distribution": "28",
@@ -1643,70 +1507,70 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "45",
-              "x": "27",
+              "one": "48",
+              "x": "24",
               "two": "28",
-              "date": "2026-10-03T15:11:14.768+02:00",
-              "refOne": "45",
-              "refX": "27",
+              "date": "2026-10-06T03:34:25.004+02:00",
+              "refOne": "48",
+              "refX": "24",
               "refTwo": "28",
-              "refDate": "2026-10-03T15:10:11.256+02:00"
+              "refDate": "2026-10-06T03:29:34.591+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
               {
                 "provider": "BetRadar",
                 "type": "Normal",
-                "id": "72342130"
+                "id": "72339876"
               },
               {
                 "provider": "Kambi",
                 "type": "Normal",
-                "id": "1028143676"
+                "id": "1028142978"
               }
             ]
           },
           {
             "cancelled": false,
             "eventComment": "",
-            "eventDescription": "Salford - Fleetwood",
+            "eventDescription": "Watford - Burnley",
             "extraInfo": null,
-            "eventNumber": 13,
+            "eventNumber": 12,
             "eventTypeId": 1,
             "participantType": "Team",
             "match": {
-              "matchId": 94619,
-              "matchStart": "2026-10-03T16:00:00+02:00",
+              "matchId": 95046,
+              "matchStart": "2026-10-10T16:00:00+02:00",
               "status": "Inte startat",
               "statusId": 0,
               "sportEventStatus": "NotStarted",
-              "statusTime": "2026-09-25T10:17:40+02:00",
+              "statusTime": "2026-10-01T14:24:39+02:00",
               "coverage": 0,
               "participants": [
                 {
-                  "id": 117,
+                  "id": 79,
                   "type": "home",
-                  "name": "Salford",
-                  "shortName": "SAL",
-                  "mediumName": "Salford",
+                  "name": "Watford",
+                  "shortName": "WAT",
+                  "mediumName": "Watford",
                   "countryId": 2,
                   "countryName": "England",
                   "isoCode": "ENG"
                 },
                 {
-                  "id": 105,
+                  "id": 1,
                   "type": "away",
-                  "name": "Fleetwood",
-                  "shortName": "FLE",
-                  "mediumName": "Fleetwood",
+                  "name": "Burnley",
+                  "shortName": "BUR",
+                  "mediumName": "Burnley",
                   "countryId": 2,
                   "countryName": "England",
                   "isoCode": "ENG"
                 }
               ],
               "league": {
-                "id": 13,
-                "name": "League Two",
+                "id": 6,
+                "name": "Championship",
                 "country": {
                   "id": 2,
                   "name": "England",
@@ -1716,62 +1580,62 @@
               "result": []
             },
             "odds": {
-              "one": "1,62",
-              "x": "3,80",
-              "two": "4,50"
+              "one": "2,95",
+              "x": "3,50",
+              "two": "2,43"
             },
             "favouriteOdds": {
-              "one": "55.98",
-              "x": "23.87",
-              "two": "20.15"
+              "one": "32.71",
+              "x": "27.57",
+              "two": "39.71"
             },
             "startOdds": {
-              "one": "1,61",
-              "x": "3,80",
-              "two": "4,50"
+              "one": "3,00",
+              "x": "3,50",
+              "two": "2,38"
             },
             "betMetrics": {
               "eventTypeId": 1,
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-03T15:11:14.768+02:00",
-              "distributionRefDate": "2026-10-03T15:10:11.256+02:00",
+              "distributionDate": "2026-10-06T03:34:25.004+02:00",
+              "distributionRefDate": "2026-10-06T03:29:34.591+02:00",
               "values": [
                 {
                   "outcome": "1",
                   "odds": {
-                    "odds": "1,62",
-                    "favouriteOdds": "55,98",
-                    "startOdds": "1,61"
+                    "odds": "2,95",
+                    "favouriteOdds": "32,71",
+                    "startOdds": "3,00"
                   },
                   "distribution": {
-                    "distribution": "66",
-                    "refDistribution": "66"
+                    "distribution": "45",
+                    "refDistribution": "45"
                   }
                 },
                 {
                   "outcome": "X",
                   "odds": {
-                    "odds": "3,80",
-                    "favouriteOdds": "23,87",
-                    "startOdds": "3,80"
+                    "odds": "3,50",
+                    "favouriteOdds": "27,57",
+                    "startOdds": "3,50"
                   },
                   "distribution": {
-                    "distribution": "22",
-                    "refDistribution": "22"
+                    "distribution": "26",
+                    "refDistribution": "26"
                   }
                 },
                 {
                   "outcome": "2",
                   "odds": {
-                    "odds": "4,50",
-                    "favouriteOdds": "20,15",
-                    "startOdds": "4,50"
+                    "odds": "2,43",
+                    "favouriteOdds": "39,71",
+                    "startOdds": "2,38"
                   },
                   "distribution": {
-                    "distribution": "12",
-                    "refDistribution": "12"
+                    "distribution": "29",
+                    "refDistribution": "29"
                   }
                 }
               ]
@@ -1779,34 +1643,170 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "66",
-              "x": "22",
-              "two": "12",
-              "date": "2026-10-03T15:11:14.768+02:00",
-              "refOne": "66",
-              "refX": "22",
-              "refTwo": "12",
-              "refDate": "2026-10-03T15:10:11.256+02:00"
+              "one": "45",
+              "x": "26",
+              "two": "29",
+              "date": "2026-10-06T03:34:25.004+02:00",
+              "refOne": "45",
+              "refX": "26",
+              "refTwo": "29",
+              "refDate": "2026-10-06T03:29:34.591+02:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
               {
                 "provider": "BetRadar",
                 "type": "Normal",
-                "id": "72342132"
+                "id": "72339882"
               },
               {
                 "provider": "Kambi",
                 "type": "Normal",
-                "id": "1028143674"
+                "id": "1028142926"
+              }
+            ]
+          },
+          {
+            "cancelled": false,
+            "eventComment": "",
+            "eventDescription": "Huddersfi - Sheff W",
+            "extraInfo": null,
+            "eventNumber": 13,
+            "eventTypeId": 1,
+            "participantType": "Team",
+            "match": {
+              "matchId": 95055,
+              "matchStart": "2026-10-10T16:00:00+02:00",
+              "status": "Inte startat",
+              "statusId": 0,
+              "sportEventStatus": "NotStarted",
+              "statusTime": "2026-10-01T14:25:09+02:00",
+              "coverage": 0,
+              "participants": [
+                {
+                  "id": 94,
+                  "type": "home",
+                  "name": "Huddersfield",
+                  "shortName": "HUD",
+                  "mediumName": "Huddersfi",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                },
+                {
+                  "id": 100,
+                  "type": "away",
+                  "name": "Sheffield W",
+                  "shortName": "SHW",
+                  "mediumName": "Sheff W",
+                  "countryId": 2,
+                  "countryName": "England",
+                  "isoCode": "ENG"
+                }
+              ],
+              "league": {
+                "id": 8,
+                "name": "League One",
+                "country": {
+                  "id": 2,
+                  "name": "England",
+                  "isoCode": "ENG"
+                }
+              },
+              "result": []
+            },
+            "odds": {
+              "one": "1,70",
+              "x": "4,00",
+              "two": "4,40"
+            },
+            "favouriteOdds": {
+              "one": "55.21",
+              "x": "23.46",
+              "two": "21.33"
+            },
+            "startOdds": {
+              "one": "1,70",
+              "x": "4,00",
+              "two": "4,40"
+            },
+            "betMetrics": {
+              "eventTypeId": 1,
+              "eventType": "1X2",
+              "eventSubTypeId": 2,
+              "eventSubType": "Fulltid",
+              "distributionDate": "2026-10-06T03:34:25.004+02:00",
+              "distributionRefDate": "2026-10-06T03:29:34.591+02:00",
+              "values": [
+                {
+                  "outcome": "1",
+                  "odds": {
+                    "odds": "1,70",
+                    "favouriteOdds": "55,21",
+                    "startOdds": "1,70"
+                  },
+                  "distribution": {
+                    "distribution": "47",
+                    "refDistribution": "47"
+                  }
+                },
+                {
+                  "outcome": "X",
+                  "odds": {
+                    "odds": "4,00",
+                    "favouriteOdds": "23,46",
+                    "startOdds": "4,00"
+                  },
+                  "distribution": {
+                    "distribution": "28",
+                    "refDistribution": "28"
+                  }
+                },
+                {
+                  "outcome": "2",
+                  "odds": {
+                    "odds": "4,40",
+                    "favouriteOdds": "21,33",
+                    "startOdds": "4,40"
+                  },
+                  "distribution": {
+                    "distribution": "25",
+                    "refDistribution": "25"
+                  }
+                }
+              ]
+            },
+            "complementaryBetMetrics": [],
+            "outcomes": null,
+            "svenskaFolket": {
+              "one": "47",
+              "x": "28",
+              "two": "25",
+              "date": "2026-10-06T03:34:25.004+02:00",
+              "refOne": "47",
+              "refX": "28",
+              "refTwo": "25",
+              "refDate": "2026-10-06T03:29:34.591+02:00"
+            },
+            "tioTidningarsTips": null,
+            "providerIds": [
+              {
+                "provider": "BetRadar",
+                "type": "Normal",
+                "id": "72341244"
+              },
+              {
+                "provider": "Kambi",
+                "type": "Normal",
+                "id": "1028143506"
               }
             ]
           }
         ],
-        "retailerOpenTime": "2026-09-30T07:00:00+02:00",
-        "retailerCloseTime": "2026-10-03T15:59:00+02:00",
-        "retailerCancelCloseTime": "2026-10-03T16:00:00+02:00",
-        "lastDateWithoutTimeOfDay": "2026-10-04T00:00:00+02:00"
+        "retailerOpenTime": "2026-10-05T07:00:00+02:00",
+        "retailerCloseTime": "2026-10-10T15:59:00+02:00",
+        "retailerCancelCloseTime": "2026-10-10T16:00:00+02:00",
+        "lastDateWithoutTimeOfDay": "2026-10-11T00:00:00+02:00"
       }
     ],
     "error": null,
@@ -1814,12 +1814,11 @@
       "elapsedTime": 2,
       "apiVersion": 1
     },
-    "requestId": "4fde7dc3-6405-4524-88da-22b467245c56",
+    "requestId": "481076ea-2613-440b-befe-04957bdb426c",
     "sessionId": null,
-    "deviceId": "bdf45407-732f-47a6-beec-73d3485d6830",
+    "deviceId": "4e837d2b-a36a-4861-bdc5-3fd63fc4e4d6",
     "session": null,
     "sessionUser": null,
     "clientInfo": null
-  },
-  "noOpenDraw": true
+  }
 }

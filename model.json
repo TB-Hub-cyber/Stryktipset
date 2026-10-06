@@ -1,9 +1,167 @@
 {
- "drawNumber": 4973,
- "updatedAt": "2026-10-03T13:13:15Z",
+ "drawNumber": 4974,
+ "updatedAt": "2026-10-06T01:36:17Z",
  "sample": 2019,
  "avgHome": 1.521,
  "avgAway": 1.24,
- "picks": {},
- "detail": {}
+ "picks": {
+  "95038": "one",
+  "95030": "one",
+  "95034": "one",
+  "95032": "two",
+  "95033": "one",
+  "95047": "one",
+  "95043": "one",
+  "95039": "one",
+  "95040": "one",
+  "95049": "two",
+  "95042": "two",
+  "95046": "one"
+ },
+ "detail": {
+  "95038": {
+   "p": {
+    "one": 52.9,
+    "x": 23.5,
+    "two": 23.6
+   },
+   "lh": 1.76,
+   "la": 1.1,
+   "sign": "one",
+   "home": "Manchester United",
+   "away": "Tottenham"
+  },
+  "95030": {
+   "p": {
+    "one": 39.8,
+    "x": 23.1,
+    "two": 37.1
+   },
+   "lh": 1.67,
+   "la": 1.6,
+   "sign": "one",
+   "home": "Chelsea",
+   "away": "Bournemouth"
+  },
+  "95034": {
+   "p": {
+    "one": 40.6,
+    "x": 25.1,
+    "two": 34.3
+   },
+   "lh": 1.48,
+   "la": 1.34,
+   "sign": "one",
+   "home": "Aston Villa",
+   "away": "Brentford"
+  },
+  "95032": {
+   "p": {
+    "one": 29.6,
+    "x": 24.7,
+    "two": 45.8
+   },
+   "lh": 1.24,
+   "la": 1.6,
+   "sign": "two",
+   "home": "Sunderland",
+   "away": "Brighton"
+  },
+  "95033": {
+   "p": {
+    "one": 48.7,
+    "x": 27.7,
+    "two": 23.7
+   },
+   "lh": 1.37,
+   "la": 0.86,
+   "sign": "one",
+   "home": "Ipswich",
+   "away": "Fulham"
+  },
+  "95047": {
+   "p": {
+    "one": 46.4,
+    "x": 26.3,
+    "two": 27.4
+   },
+   "lh": 1.46,
+   "la": 1.06,
+   "sign": "one",
+   "home": "Blackburn",
+   "away": "Cardiff"
+  },
+  "95043": {
+   "p": {
+    "one": 49.1,
+    "x": 25.1,
+    "two": 25.8
+   },
+   "lh": 1.58,
+   "la": 1.07,
+   "sign": "one",
+   "home": "Bolton",
+   "away": "Stoke"
+  },
+  "95039": {
+   "p": {
+    "one": 37.5,
+    "x": 26.4,
+    "two": 36.0
+   },
+   "lh": 1.31,
+   "la": 1.28,
+   "sign": "one",
+   "home": "Derby",
+   "away": "Wrexham"
+  },
+  "95040": {
+   "p": {
+    "one": 54.2,
+    "x": 21.8,
+    "two": 23.9
+   },
+   "lh": 1.97,
+   "la": 1.24,
+   "sign": "one",
+   "home": "Middlesbrough",
+   "away": "Wolverhampton"
+  },
+  "95049": {
+   "p": {
+    "one": 32.2,
+    "x": 24.4,
+    "two": 43.4
+   },
+   "lh": 1.34,
+   "la": 1.59,
+   "sign": "two",
+   "home": "Preston",
+   "away": "Millwall"
+  },
+  "95042": {
+   "p": {
+    "one": 31.2,
+    "x": 27.3,
+    "two": 41.5
+   },
+   "lh": 1.11,
+   "la": 1.32,
+   "sign": "two",
+   "home": "Sheffield U",
+   "away": "Lincoln"
+  },
+  "95046": {
+   "p": {
+    "one": 53.3,
+    "x": 23.0,
+    "two": 23.7
+   },
+   "lh": 1.82,
+   "la": 1.14,
+   "sign": "one",
+   "home": "Watford",
+   "away": "Burnley"
+  }
+ }
 }
