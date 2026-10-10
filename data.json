@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-10T12:13:33Z",
+  "fetchedAt": "2026-10-10T16:30:59Z",
   "draw": {
     "draws": [
       {
@@ -1820,5 +1820,6 @@
     "session": null,
     "sessionUser": null,
     "clientInfo": null
-  }
+  },
+  "noOpenDraw": true
 }
