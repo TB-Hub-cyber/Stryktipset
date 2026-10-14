@@ -1,9 +1,9 @@
 {
  "drawNumber": 4975,
- "updatedAt": "2026-10-13T20:25:58Z",
- "sample": 2041,
+ "updatedAt": "2026-10-14T00:01:19Z",
+ "sample": 2045,
  "avgHome": 1.523,
- "avgAway": 1.243,
+ "avgAway": 1.247,
  "picks": {
   "95612": "one",
   "95608": "one",
@@ -69,24 +69,24 @@
   },
   "95615": {
    "p": {
-    "one": 40.5,
-    "x": 26.4,
-    "two": 33.1
+    "one": 46.8,
+    "x": 25.4,
+    "two": 27.8
    },
-   "lh": 1.37,
-   "la": 1.21,
+   "lh": 1.53,
+   "la": 1.12,
    "sign": "one",
    "home": "Birmingham",
    "away": "Queens Park Rangers"
   },
   "95616": {
    "p": {
-    "one": 34.9,
-    "x": 27.7,
-    "two": 37.5
+    "one": 32.7,
+    "x": 28.3,
+    "two": 39.0
    },
-   "lh": 1.17,
-   "la": 1.23,
+   "lh": 1.08,
+   "la": 1.21,
    "sign": "two",
    "home": "Bristol City",
    "away": "Sheffield U"
@@ -117,12 +117,12 @@
   },
   "95614": {
    "p": {
-    "one": 67.8,
-    "x": 17.3,
-    "two": 14.9
+    "one": 62.8,
+    "x": 18.6,
+    "two": 18.5
    },
-   "lh": 2.51,
-   "la": 1.11,
+   "lh": 2.4,
+   "la": 1.24,
    "sign": "one",
    "home": "Southampton",
    "away": "Bolton"
@@ -141,24 +141,24 @@
   },
   "95620": {
    "p": {
-    "one": 42.7,
-    "x": 28.0,
-    "two": 29.3
+    "one": 40.2,
+    "x": 29.0,
+    "two": 30.9
    },
-   "lh": 1.29,
-   "la": 1.02,
+   "lh": 1.19,
+   "la": 1.01,
    "sign": "one",
    "home": "West Bromwich",
    "away": "Blackburn"
   },
   "95622": {
    "p": {
-    "one": 44.9,
-    "x": 24.5,
-    "two": 30.6
+    "one": 49.4,
+    "x": 23.6,
+    "two": 27.1
    },
-   "lh": 1.61,
-   "la": 1.29,
+   "lh": 1.74,
+   "la": 1.23,
    "sign": "one",
    "home": "Wrexham",
    "away": "Preston"
