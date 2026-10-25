@@ -1,12 +1,12 @@
 {
-  "fetchedAt": "2026-10-25T17:56:44Z",
+  "fetchedAt": "2026-10-25T18:49:24Z",
   "draw": {
     "draws": [
       {
         "productName": "Stryktipset",
         "seasonLastDraw": false,
         "productId": 1,
-        "currentNetSale": "448081,00",
+        "currentNetSale": "452026,00",
         "regCloseDescription": "Stryktipset v 44, stänger 2026-10-31 15:59",
         "extraInfo": null,
         "drawNumber": 4977,
@@ -103,7 +103,7 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-25T18:56:08.932+01:00",
+              "distributionDate": "2026-10-25T19:49:16.79+01:00",
               "distributionRefDate": "2026-10-24T20:41:33.88+02:00",
               "values": [
                 {
@@ -150,7 +150,7 @@
               "one": "52",
               "x": "22",
               "two": "26",
-              "date": "2026-10-25T18:56:08.932+01:00",
+              "date": "2026-10-25T19:49:16.79+01:00",
               "refOne": "52",
               "refX": "22",
               "refTwo": "26",
@@ -239,7 +239,7 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-25T18:56:08.932+01:00",
+              "distributionDate": "2026-10-25T19:49:16.79+01:00",
               "distributionRefDate": "2026-10-24T20:41:33.88+02:00",
               "values": [
                 {
@@ -286,7 +286,7 @@
               "one": "48",
               "x": "26",
               "two": "26",
-              "date": "2026-10-25T18:56:08.932+01:00",
+              "date": "2026-10-25T19:49:16.79+01:00",
               "refOne": "47",
               "refX": "26",
               "refTwo": "27",
@@ -375,7 +375,7 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-25T18:56:08.932+01:00",
+              "distributionDate": "2026-10-25T19:49:16.79+01:00",
               "distributionRefDate": "2026-10-24T20:41:33.88+02:00",
               "values": [
                 {
@@ -422,7 +422,7 @@
               "one": "45",
               "x": "25",
               "two": "30",
-              "date": "2026-10-25T18:56:08.932+01:00",
+              "date": "2026-10-25T19:49:16.79+01:00",
               "refOne": "45",
               "refX": "25",
               "refTwo": "30",
@@ -511,7 +511,7 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-25T18:56:08.932+01:00",
+              "distributionDate": "2026-10-25T19:49:16.79+01:00",
               "distributionRefDate": "2026-10-24T20:41:33.88+02:00",
               "values": [
                 {
@@ -534,7 +534,7 @@
                     "startOdds": "3,60"
                   },
                   "distribution": {
-                    "distribution": "25",
+                    "distribution": "26",
                     "refDistribution": "25"
                   }
                 },
@@ -546,7 +546,7 @@
                     "startOdds": "3,45"
                   },
                   "distribution": {
-                    "distribution": "29",
+                    "distribution": "28",
                     "refDistribution": "29"
                   }
                 }
@@ -556,9 +556,9 @@
             "outcomes": null,
             "svenskaFolket": {
               "one": "46",
-              "x": "25",
-              "two": "29",
-              "date": "2026-10-25T18:56:08.932+01:00",
+              "x": "26",
+              "two": "28",
+              "date": "2026-10-25T19:49:16.79+01:00",
               "refOne": "46",
               "refX": "25",
               "refTwo": "29",
@@ -647,7 +647,7 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-25T18:56:08.932+01:00",
+              "distributionDate": "2026-10-25T19:49:16.79+01:00",
               "distributionRefDate": "2026-10-24T20:41:33.88+02:00",
               "values": [
                 {
@@ -694,7 +694,7 @@
               "one": "43",
               "x": "28",
               "two": "29",
-              "date": "2026-10-25T18:56:08.932+01:00",
+              "date": "2026-10-25T19:49:16.79+01:00",
               "refOne": "43",
               "refX": "28",
               "refTwo": "29",
@@ -783,7 +783,7 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-25T18:56:08.932+01:00",
+              "distributionDate": "2026-10-25T19:49:16.79+01:00",
               "distributionRefDate": "2026-10-24T20:41:33.88+02:00",
               "values": [
                 {
@@ -830,7 +830,7 @@
               "one": "45",
               "x": "25",
               "two": "30",
-              "date": "2026-10-25T18:56:08.932+01:00",
+              "date": "2026-10-25T19:49:16.79+01:00",
               "refOne": "45",
               "refX": "25",
               "refTwo": "30",
@@ -919,7 +919,7 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-25T18:56:08.932+01:00",
+              "distributionDate": "2026-10-25T19:49:16.79+01:00",
               "distributionRefDate": "2026-10-24T20:41:33.88+02:00",
               "values": [
                 {
@@ -966,7 +966,7 @@
               "one": "42",
               "x": "26",
               "two": "32",
-              "date": "2026-10-25T18:56:08.932+01:00",
+              "date": "2026-10-25T19:49:16.79+01:00",
               "refOne": "42",
               "refX": "26",
               "refTwo": "32",
@@ -1055,7 +1055,7 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-25T18:56:08.932+01:00",
+              "distributionDate": "2026-10-25T19:49:16.79+01:00",
               "distributionRefDate": "2026-10-24T20:41:33.88+02:00",
               "values": [
                 {
@@ -1102,7 +1102,7 @@
               "one": "44",
               "x": "28",
               "two": "28",
-              "date": "2026-10-25T18:56:08.932+01:00",
+              "date": "2026-10-25T19:49:16.79+01:00",
               "refOne": "44",
               "refX": "28",
               "refTwo": "28",
@@ -1191,7 +1191,7 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-25T18:56:08.932+01:00",
+              "distributionDate": "2026-10-25T19:49:16.79+01:00",
               "distributionRefDate": "2026-10-24T20:41:33.88+02:00",
               "values": [
                 {
@@ -1238,7 +1238,7 @@
               "one": "45",
               "x": "25",
               "two": "30",
-              "date": "2026-10-25T18:56:08.932+01:00",
+              "date": "2026-10-25T19:49:16.79+01:00",
               "refOne": "45",
               "refX": "25",
               "refTwo": "30",
@@ -1327,7 +1327,7 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-25T18:56:08.932+01:00",
+              "distributionDate": "2026-10-25T19:49:16.79+01:00",
               "distributionRefDate": "2026-10-24T20:41:33.88+02:00",
               "values": [
                 {
@@ -1350,7 +1350,7 @@
                     "startOdds": "3,90"
                   },
                   "distribution": {
-                    "distribution": "26",
+                    "distribution": "27",
                     "refDistribution": "26"
                   }
                 },
@@ -1362,7 +1362,7 @@
                     "startOdds": "4,70"
                   },
                   "distribution": {
-                    "distribution": "29",
+                    "distribution": "28",
                     "refDistribution": "29"
                   }
                 }
@@ -1372,9 +1372,9 @@
             "outcomes": null,
             "svenskaFolket": {
               "one": "45",
-              "x": "26",
-              "two": "29",
-              "date": "2026-10-25T18:56:08.932+01:00",
+              "x": "27",
+              "two": "28",
+              "date": "2026-10-25T19:49:16.79+01:00",
               "refOne": "45",
               "refX": "26",
               "refTwo": "29",
@@ -1463,7 +1463,7 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-25T18:56:08.932+01:00",
+              "distributionDate": "2026-10-25T19:49:16.79+01:00",
               "distributionRefDate": "2026-10-24T20:41:33.88+02:00",
               "values": [
                 {
@@ -1510,7 +1510,7 @@
               "one": "44",
               "x": "26",
               "two": "30",
-              "date": "2026-10-25T18:56:08.932+01:00",
+              "date": "2026-10-25T19:49:16.79+01:00",
               "refOne": "44",
               "refX": "26",
               "refTwo": "30",
@@ -1599,7 +1599,7 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-25T18:56:08.932+01:00",
+              "distributionDate": "2026-10-25T19:49:16.79+01:00",
               "distributionRefDate": "2026-10-24T20:41:33.88+02:00",
               "values": [
                 {
@@ -1646,7 +1646,7 @@
               "one": "45",
               "x": "26",
               "two": "29",
-              "date": "2026-10-25T18:56:08.932+01:00",
+              "date": "2026-10-25T19:49:16.79+01:00",
               "refOne": "45",
               "refX": "26",
               "refTwo": "29",
@@ -1735,7 +1735,7 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-10-25T18:56:08.932+01:00",
+              "distributionDate": "2026-10-25T19:49:16.79+01:00",
               "distributionRefDate": "2026-10-24T20:41:33.88+02:00",
               "values": [
                 {
@@ -1782,7 +1782,7 @@
               "one": "44",
               "x": "28",
               "two": "28",
-              "date": "2026-10-25T18:56:08.932+01:00",
+              "date": "2026-10-25T19:49:16.79+01:00",
               "refOne": "44",
               "refX": "28",
               "refTwo": "28",
@@ -1811,12 +1811,12 @@
     ],
     "error": null,
     "requestInfo": {
-      "elapsedTime": 2,
+      "elapsedTime": 1,
       "apiVersion": 1
     },
-    "requestId": "5708b5ae-ffcc-44c3-a094-57339256c10a",
+    "requestId": "8e3dac10-d876-455a-8194-674364fa3c2d",
     "sessionId": null,
-    "deviceId": "cb62a1c0-5472-4fae-85ff-2cea7962991c",
+    "deviceId": "9c8df078-8891-4af3-e016-101b24360232",
     "session": null,
     "sessionUser": null,
     "clientInfo": null
