@@ -1,6 +1,6 @@
 {
  "drawNumber": 4977,
- "updatedAt": "2026-10-29T11:55:30Z",
+ "updatedAt": "2026-10-29T17:44:32Z",
  "sample": 2098,
  "avgHome": 1.516,
  "avgAway": 1.249,
@@ -108,7 +108,7 @@
    "p": {
     "one": 29.8,
     "x": 24.2,
-    "two": 46.1
+    "two": 46.0
    },
    "lh": 1.28,
    "la": 1.65,
@@ -122,7 +122,7 @@
     "x": 26.8,
     "two": 39.2
    },
-   "lh": 1.2,
+   "lh": 1.21,
    "la": 1.32,
    "sign": "two",
    "home": "Burnley",
@@ -142,12 +142,12 @@
   },
   "96467": {
    "p": {
-    "one": 59.9,
+    "one": 59.8,
     "x": 22.9,
     "two": 17.2
    },
    "lh": 1.78,
-   "la": 0.83,
+   "la": 0.84,
    "sign": "one",
    "home": "Southampton",
    "away": "Queens Park Rangers"
