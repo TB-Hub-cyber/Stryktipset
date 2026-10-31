@@ -1,112 +1,201 @@
 {
- "drawNumber": 4973,
- "updatedAt": "2026-10-02T17:00:06Z",
+ "drawNumber": 4977,
+ "updatedAt": "2026-10-31T09:29:25Z",
  "model": "gpt-4o-mini",
  "matches": {
-  "94599": {
-   "home": "Kroatien",
-   "away": "England",
-   "items": [],
-   "checkedAt": "2026-10-02T16:59:11Z"
-  },
-  "94609": {
-   "home": "Nordmakedonien",
-   "away": "Skottland",
+  "96462": {
+   "home": "Aston Villa",
+   "away": "Fulham",
    "items": [
     {
-     "team": "Skottland",
-     "text": "Sebastien Pocognoli uttryckte sin besvikelse över 3-0-förlusten mot Schweiz och betonade vikten av att vinna nästa Nations League-match mot Nordmakedonien.",
+     "team": "Fulham",
+     "text": "Emile Smith Rowe saknades från truppen mot Crystal Palace på grund av tidigare problem, men inte en skada.",
      "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/13593544/scotland-sebastian-pocognolis-sad-hampden-debut-as-he-demands-nations-league-response",
-     "date": "2026-09-30",
+     "url": "https://www.skysports.com/transfer/news/13279313/fulham-transfers-latest-news-rumours-and-gossip-live-updates-goals-and-highlights",
+     "date": "2026-10-28",
+     "trusted": true
+    },
+    {
+     "team": "Fulham",
+     "text": "Alvaro Arbeloa förklarade att Emile Smith Rowe inte var skadad men saknades från truppen mot Crystal Palace.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/transfer/news/13279313/fulham-transfers-latest-news-rumours-and-gossip-live-updates-goals-and-highlights",
+     "date": "2026-10-28",
+     "trusted": true
+    },
+    {
+     "team": "Fulham",
+     "text": "Alvaro Arbeloa uttryckte besvikelse över förlusten mot Crystal Palace och nämnde Emile Smith Rowes frånvaro.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/transfer/news/13279313/fulham-transfers-latest-news-rumours-and-gossip-live-updates-goals-and-highlights",
+     "date": "2026-10-28",
+     "trusted": true
+    },
+    {
+     "team": "Fulham",
+     "text": "Alvaro Arbeloa förklarade att Emile Smith Rowe inte var skadad men saknades från truppen mot Crystal Palace.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/transfer/news/13279313/fulham-transfers-latest-news-rumours-and-gossip-live-updates-goals-and-highlights",
+     "date": "2026-10-28",
      "trusted": true
     }
    ],
-   "checkedAt": "2026-10-02T16:59:18Z"
+   "checkedAt": "2026-10-31T09:28:31Z"
   },
-  "94593": {
-   "home": "Schweiz",
-   "away": "Slovenien",
-   "items": [],
-   "checkedAt": "2026-10-02T16:59:22Z"
-  },
-  "94614": {
-   "home": "Burton",
-   "away": "Huddersfield",
-   "items": [],
-   "checkedAt": "2026-10-02T16:59:26Z"
-  },
-  "94612": {
-   "home": "Leyton Orient",
-   "away": "Plymouth",
+  "96461": {
+   "home": "Tottenham",
+   "away": "Crystal Palace",
    "items": [
     {
-     "team": "Leyton Orient",
-     "text": "Matthew Lockwood kommer att vara borta i en månad efter att ha ådragit sig en mjältruptur.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/11742/2217115",
-     "date": "2026-09-25",
+     "team": "Tottenham",
+     "text": "Destiny Udogie är tillbaka och tillgänglig för matchen mot Crystal Palace.",
+     "source": "Tottenham Hotspur",
+     "url": "https://www.tottenhamhotspur.com/news/1182287/team-news-udogie-back-bergvall-savio-tosin-out-for-palace-clash",
+     "date": "2026-10-31",
+     "trusted": true
+    },
+    {
+     "team": "Tottenham",
+     "text": "Rodrigo Bentancur avtjänar den sista matchen av sin tre matcher långa avstängning.",
+     "source": "Tottenham Hotspur",
+     "url": "https://www.tottenhamhotspur.com/news/1182287/team-news-udogie-back-bergvall-savio-tosin-out-for-palace-clash",
+     "date": "2026-10-31",
+     "trusted": true
+    },
+    {
+     "team": "Tottenham",
+     "text": "Lucas Bergvall, Tosin och Savio är alla otillgängliga för matchen mot Crystal Palace.",
+     "source": "Tottenham Hotspur",
+     "url": "https://www.tottenhamhotspur.com/news/1182287/team-news-udogie-back-bergvall-savio-tosin-out-for-palace-clash",
+     "date": "2026-10-31",
+     "trusted": true
+    },
+    {
+     "team": "Tottenham",
+     "text": "Mykhailo Mudryk, Xavi Simons och Wilson Odobert är långtidsskadade och missar matchen mot Crystal Palace.",
+     "source": "Tottenham Hotspur",
+     "url": "https://www.tottenhamhotspur.com/news/1182287/team-news-udogie-back-bergvall-savio-tosin-out-for-palace-clash",
+     "date": "2026-10-31",
      "trusted": true
     }
    ],
-   "checkedAt": "2026-10-02T16:59:34Z"
+   "checkedAt": "2026-10-31T09:28:38Z"
   },
-  "94613": {
-   "home": "Reading",
-   "away": "Bradford",
+  "96458": {
+   "home": "Manchester City",
+   "away": "Brighton",
    "items": [],
-   "checkedAt": "2026-10-02T16:59:38Z"
+   "checkedAt": "2026-10-31T09:28:42Z"
   },
-  "94618": {
-   "home": "Accrington",
-   "away": "Cheltenham",
+  "96457": {
+   "home": "Bournemouth",
+   "away": "Leeds",
    "items": [],
-   "checkedAt": "2026-10-02T16:59:41Z"
+   "checkedAt": "2026-10-31T09:28:46Z"
   },
-  "94621": {
-   "home": "Crewe",
-   "away": "Bristol Rovers",
+  "96463": {
+   "home": "Coventry",
+   "away": "Sunderland",
    "items": [],
-   "checkedAt": "2026-10-02T16:59:45Z"
+   "checkedAt": "2026-10-31T09:28:49Z"
   },
-  "94616": {
-   "home": "Exeter",
-   "away": "Rotherham",
+  "96456": {
+   "home": "Brentford",
+   "away": "Nottingham",
    "items": [],
-   "checkedAt": "2026-10-02T16:59:48Z"
+   "checkedAt": "2026-10-31T09:28:54Z"
   },
-  "94615": {
-   "home": "Gillingham",
-   "away": "Newport",
+  "96460": {
+   "home": "Hull",
+   "away": "Ipswich",
    "items": [],
-   "checkedAt": "2026-10-02T16:59:51Z"
+   "checkedAt": "2026-10-31T09:28:58Z"
   },
-  "94620": {
-   "home": "Grimsby",
-   "away": "Shrewsbury",
+  "96468": {
+   "home": "Bolton",
+   "away": "Bristol City",
+   "items": [],
+   "checkedAt": "2026-10-31T09:29:02Z"
+  },
+  "96473": {
+   "home": "Burnley",
+   "away": "Portsmouth",
    "items": [
     {
-     "team": "Shrewsbury",
-     "text": "Målvakten Paul Edwards skadade sig under en match mot Cheltenham och kan vara borta i upp till tio veckor.",
+     "team": "Portsmouth",
+     "text": "Pedro Mendes har genomgått en operation på sin högra fotled och förväntas vara borta i minst åtta veckor.",
      "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2202233/shrews-facing-keeper-crisis",
-     "date": "2026-09-25",
+     "url": "https://www.skysports.com/football/news/2407133/mendes-rues-ankle-injury",
+     "date": "2026-10-29",
+     "trusted": true
+    },
+    {
+     "team": "Portsmouth",
+     "text": "Neil Barrett kommer att vara borta i sex veckor på grund av en knäskada.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/2245875/barretts-injury-lay-off",
+     "date": "2026-10-29",
      "trusted": true
     }
    ],
-   "checkedAt": "2026-10-02T16:59:58Z"
+   "checkedAt": "2026-10-31T09:29:08Z"
   },
-  "94617": {
-   "home": "Rochdale",
-   "away": "Swindon",
+  "96464": {
+   "home": "Millwall",
+   "away": "Derby",
    "items": [],
-   "checkedAt": "2026-10-02T17:00:02Z"
+   "checkedAt": "2026-10-31T09:29:11Z"
   },
-  "94619": {
-   "home": "Salford",
-   "away": "Fleetwood",
+  "96467": {
+   "home": "Southampton",
+   "away": "Queens Park Rangers",
    "items": [],
-   "checkedAt": "2026-10-02T17:00:06Z"
+   "checkedAt": "2026-10-31T09:29:15Z"
+  },
+  "96470": {
+   "home": "Swansea",
+   "away": "Blackburn",
+   "items": [],
+   "checkedAt": "2026-10-31T09:29:18Z"
+  },
+  "96474": {
+   "home": "West Ham",
+   "away": "West Bromwich",
+   "items": [
+    {
+     "team": "West Ham",
+     "text": "Dinos Mavropanos återhämtar sig från en knäskada och tränade individuellt den 30 oktober 2026.",
+     "source": "West Ham United FC",
+     "url": "https://www.whufc.com/en/news/team-news-or-nuno-provides-squad-update-ahead-of-west-brom-clash",
+     "date": "2026-10-30",
+     "trusted": true
+    },
+    {
+     "team": "West Ham",
+     "text": "Jarrod Bowen, lagkapten, återhämtar sig från en stukad fotled och deltog i träning den 30 oktober 2026.",
+     "source": "West Ham United FC",
+     "url": "https://www.whufc.com/en/news/team-news-or-nuno-provides-squad-update-ahead-of-west-brom-clash",
+     "date": "2026-10-30",
+     "trusted": true
+    },
+    {
+     "team": "West Ham",
+     "text": "Keiber Lamadrid, mittfältare, är på väg tillbaka efter en knäskada och förväntas vara tillgänglig snart.",
+     "source": "West Ham United FC",
+     "url": "https://www.whufc.com/en/news/team-news-or-lamadrid-edging-closer-to-return",
+     "date": "2026-10-23",
+     "trusted": true
+    },
+    {
+     "team": "West Ham",
+     "text": "Joël Veltman, försvarare, missade matchen mot Southampton den 29 oktober 2026 på grund av en skada.",
+     "source": "West Ham United FC",
+     "url": "https://www.whufc.com/en/news/team-news-or-nuno-provides-squad-update-ahead-of-west-brom-clash",
+     "date": "2026-10-30",
+     "trusted": true
+    }
+   ],
+   "checkedAt": "2026-10-31T09:29:25Z"
   }
  }
 }
