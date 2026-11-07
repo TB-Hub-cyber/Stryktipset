@@ -1,12 +1,12 @@
 {
-  "fetchedAt": "2026-11-07T06:56:22Z",
+  "fetchedAt": "2026-11-07T09:22:42Z",
   "draw": {
     "draws": [
       {
         "productName": "Stryktipset",
         "seasonLastDraw": false,
         "productId": 1,
-        "currentNetSale": "7015423,00",
+        "currentNetSale": "9469503,00",
         "regCloseDescription": "Stryktipset v 45, stänger 2026-11-07 15:59",
         "extraInfo": null,
         "drawNumber": 4978,
@@ -84,14 +84,14 @@
               "result": []
             },
             "odds": {
-              "one": "5,00",
-              "x": "4,10",
+              "one": "4,90",
+              "x": "4,20",
               "two": "1,73"
             },
             "favouriteOdds": {
-              "one": "19.57",
-              "x": "23.87",
-              "two": "56.56"
+              "one": "20.00",
+              "x": "23.34",
+              "two": "56.66"
             },
             "startOdds": {
               "one": "4,80",
@@ -103,14 +103,14 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-11-07T07:55:22.078+01:00",
-              "distributionRefDate": "2026-11-07T07:54:20.063+01:00",
+              "distributionDate": "2026-11-07T10:22:36.004+01:00",
+              "distributionRefDate": "2026-11-07T10:21:33.938+01:00",
               "values": [
                 {
                   "outcome": "1",
                   "odds": {
-                    "odds": "5,00",
-                    "favouriteOdds": "19,57",
+                    "odds": "4,90",
+                    "favouriteOdds": "20,00",
                     "startOdds": "4,80"
                   },
                   "distribution": {
@@ -121,8 +121,8 @@
                 {
                   "outcome": "X",
                   "odds": {
-                    "odds": "4,10",
-                    "favouriteOdds": "23,87",
+                    "odds": "4,20",
+                    "favouriteOdds": "23,34",
                     "startOdds": "4,30"
                   },
                   "distribution": {
@@ -134,7 +134,7 @@
                   "outcome": "2",
                   "odds": {
                     "odds": "1,73",
-                    "favouriteOdds": "56,56",
+                    "favouriteOdds": "56,66",
                     "startOdds": "1,72"
                   },
                   "distribution": {
@@ -150,11 +150,11 @@
               "one": "15",
               "x": "22",
               "two": "63",
-              "date": "2026-11-07T07:55:22.078+01:00",
+              "date": "2026-11-07T10:22:36.004+01:00",
               "refOne": "15",
               "refX": "22",
               "refTwo": "63",
-              "refDate": "2026-11-07T07:54:20.063+01:00"
+              "refDate": "2026-11-07T10:21:33.938+01:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -220,14 +220,14 @@
               "result": []
             },
             "odds": {
-              "one": "1,16",
-              "x": "8,50",
-              "two": "21,00"
+              "one": "1,15",
+              "x": "9,00",
+              "two": "23,00"
             },
             "favouriteOdds": {
-              "one": "83.91",
-              "x": "11.45",
-              "two": "4.64"
+              "one": "84.91",
+              "x": "10.85",
+              "two": "4.25"
             },
             "startOdds": {
               "one": "1,17",
@@ -239,26 +239,26 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-11-07T07:55:22.078+01:00",
-              "distributionRefDate": "2026-11-07T07:54:20.063+01:00",
+              "distributionDate": "2026-11-07T10:22:36.004+01:00",
+              "distributionRefDate": "2026-11-07T10:21:33.938+01:00",
               "values": [
                 {
                   "outcome": "1",
                   "odds": {
-                    "odds": "1,16",
-                    "favouriteOdds": "83,91",
+                    "odds": "1,15",
+                    "favouriteOdds": "84,91",
                     "startOdds": "1,17"
                   },
                   "distribution": {
-                    "distribution": "86",
-                    "refDistribution": "86"
+                    "distribution": "87",
+                    "refDistribution": "87"
                   }
                 },
                 {
                   "outcome": "X",
                   "odds": {
-                    "odds": "8,50",
-                    "favouriteOdds": "11,45",
+                    "odds": "9,00",
+                    "favouriteOdds": "10,85",
                     "startOdds": "8,50"
                   },
                   "distribution": {
@@ -269,13 +269,13 @@
                 {
                   "outcome": "2",
                   "odds": {
-                    "odds": "21,00",
-                    "favouriteOdds": "4,64",
+                    "odds": "23,00",
+                    "favouriteOdds": "4,25",
                     "startOdds": "21,00"
                   },
                   "distribution": {
-                    "distribution": "5",
-                    "refDistribution": "5"
+                    "distribution": "4",
+                    "refDistribution": "4"
                   }
                 }
               ]
@@ -283,14 +283,14 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "86",
+              "one": "87",
               "x": "9",
-              "two": "5",
-              "date": "2026-11-07T07:55:22.078+01:00",
-              "refOne": "86",
+              "two": "4",
+              "date": "2026-11-07T10:22:36.004+01:00",
+              "refOne": "87",
               "refX": "9",
-              "refTwo": "5",
-              "refDate": "2026-11-07T07:54:20.063+01:00"
+              "refTwo": "4",
+              "refDate": "2026-11-07T10:21:33.938+01:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -356,14 +356,14 @@
               "result": []
             },
             "odds": {
-              "one": "2,02",
+              "one": "2,06",
               "x": "3,75",
-              "two": "3,80"
+              "two": "3,70"
             },
             "favouriteOdds": {
-              "one": "48.30",
-              "x": "26.02",
-              "two": "25.68"
+              "one": "47.48",
+              "x": "26.08",
+              "two": "26.44"
             },
             "startOdds": {
               "one": "2,23",
@@ -375,14 +375,14 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-11-07T07:55:22.078+01:00",
-              "distributionRefDate": "2026-11-07T07:54:20.063+01:00",
+              "distributionDate": "2026-11-07T10:22:36.004+01:00",
+              "distributionRefDate": "2026-11-07T10:21:33.938+01:00",
               "values": [
                 {
                   "outcome": "1",
                   "odds": {
-                    "odds": "2,02",
-                    "favouriteOdds": "48,30",
+                    "odds": "2,06",
+                    "favouriteOdds": "47,48",
                     "startOdds": "2,23"
                   },
                   "distribution": {
@@ -394,7 +394,7 @@
                   "outcome": "X",
                   "odds": {
                     "odds": "3,75",
-                    "favouriteOdds": "26,02",
+                    "favouriteOdds": "26,08",
                     "startOdds": "3,65"
                   },
                   "distribution": {
@@ -405,8 +405,8 @@
                 {
                   "outcome": "2",
                   "odds": {
-                    "odds": "3,80",
-                    "favouriteOdds": "25,68",
+                    "odds": "3,70",
+                    "favouriteOdds": "26,44",
                     "startOdds": "3,35"
                   },
                   "distribution": {
@@ -422,11 +422,11 @@
               "one": "45",
               "x": "28",
               "two": "27",
-              "date": "2026-11-07T07:55:22.078+01:00",
+              "date": "2026-11-07T10:22:36.004+01:00",
               "refOne": "45",
               "refX": "28",
               "refTwo": "27",
-              "refDate": "2026-11-07T07:54:20.063+01:00"
+              "refDate": "2026-11-07T10:21:33.938+01:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -511,8 +511,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-11-07T07:55:22.078+01:00",
-              "distributionRefDate": "2026-11-07T07:54:20.063+01:00",
+              "distributionDate": "2026-11-07T10:22:36.004+01:00",
+              "distributionRefDate": "2026-11-07T10:21:33.938+01:00",
               "values": [
                 {
                   "outcome": "1",
@@ -522,8 +522,8 @@
                     "startOdds": "4,75"
                   },
                   "distribution": {
-                    "distribution": "23",
-                    "refDistribution": "23"
+                    "distribution": "21",
+                    "refDistribution": "21"
                   }
                 },
                 {
@@ -546,8 +546,8 @@
                     "startOdds": "1,73"
                   },
                   "distribution": {
-                    "distribution": "52",
-                    "refDistribution": "52"
+                    "distribution": "54",
+                    "refDistribution": "54"
                   }
                 }
               ]
@@ -555,14 +555,14 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "23",
+              "one": "21",
               "x": "25",
-              "two": "52",
-              "date": "2026-11-07T07:55:22.078+01:00",
-              "refOne": "23",
+              "two": "54",
+              "date": "2026-11-07T10:22:36.004+01:00",
+              "refOne": "21",
               "refX": "25",
-              "refTwo": "52",
-              "refDate": "2026-11-07T07:54:20.063+01:00"
+              "refTwo": "54",
+              "refDate": "2026-11-07T10:21:33.938+01:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -647,8 +647,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-11-07T07:55:22.078+01:00",
-              "distributionRefDate": "2026-11-07T07:54:20.063+01:00",
+              "distributionDate": "2026-11-07T10:22:36.004+01:00",
+              "distributionRefDate": "2026-11-07T10:21:33.938+01:00",
               "values": [
                 {
                   "outcome": "1",
@@ -658,8 +658,8 @@
                     "startOdds": "2,18"
                   },
                   "distribution": {
-                    "distribution": "57",
-                    "refDistribution": "57"
+                    "distribution": "58",
+                    "refDistribution": "58"
                   }
                 },
                 {
@@ -682,8 +682,8 @@
                     "startOdds": "3,40"
                   },
                   "distribution": {
-                    "distribution": "17",
-                    "refDistribution": "17"
+                    "distribution": "16",
+                    "refDistribution": "16"
                   }
                 }
               ]
@@ -691,14 +691,14 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "57",
+              "one": "58",
               "x": "26",
-              "two": "17",
-              "date": "2026-11-07T07:55:22.078+01:00",
-              "refOne": "57",
+              "two": "16",
+              "date": "2026-11-07T10:22:36.004+01:00",
+              "refOne": "58",
               "refX": "26",
-              "refTwo": "17",
-              "refDate": "2026-11-07T07:54:20.063+01:00"
+              "refTwo": "16",
+              "refDate": "2026-11-07T10:21:33.938+01:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -783,8 +783,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-11-07T07:55:22.078+01:00",
-              "distributionRefDate": "2026-11-07T07:54:20.063+01:00",
+              "distributionDate": "2026-11-07T10:22:36.004+01:00",
+              "distributionRefDate": "2026-11-07T10:21:33.938+01:00",
               "values": [
                 {
                   "outcome": "1",
@@ -794,7 +794,7 @@
                     "startOdds": "2,28"
                   },
                   "distribution": {
-                    "distribution": "50",
+                    "distribution": "49",
                     "refDistribution": "50"
                   }
                 },
@@ -818,7 +818,7 @@
                     "startOdds": "2,95"
                   },
                   "distribution": {
-                    "distribution": "23",
+                    "distribution": "24",
                     "refDistribution": "23"
                   }
                 }
@@ -827,14 +827,14 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "50",
+              "one": "49",
               "x": "27",
-              "two": "23",
-              "date": "2026-11-07T07:55:22.078+01:00",
+              "two": "24",
+              "date": "2026-11-07T10:22:36.004+01:00",
               "refOne": "50",
               "refX": "27",
               "refTwo": "23",
-              "refDate": "2026-11-07T07:54:20.063+01:00"
+              "refDate": "2026-11-07T10:21:33.938+01:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -919,8 +919,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-11-07T07:55:22.078+01:00",
-              "distributionRefDate": "2026-11-07T07:54:20.063+01:00",
+              "distributionDate": "2026-11-07T10:22:36.004+01:00",
+              "distributionRefDate": "2026-11-07T10:21:33.938+01:00",
               "values": [
                 {
                   "outcome": "1",
@@ -930,8 +930,8 @@
                     "startOdds": "3,00"
                   },
                   "distribution": {
-                    "distribution": "20",
-                    "refDistribution": "20"
+                    "distribution": "19",
+                    "refDistribution": "19"
                   }
                 },
                 {
@@ -954,8 +954,8 @@
                     "startOdds": "2,40"
                   },
                   "distribution": {
-                    "distribution": "53",
-                    "refDistribution": "53"
+                    "distribution": "54",
+                    "refDistribution": "54"
                   }
                 }
               ]
@@ -963,14 +963,14 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "20",
+              "one": "19",
               "x": "27",
-              "two": "53",
-              "date": "2026-11-07T07:55:22.078+01:00",
-              "refOne": "20",
+              "two": "54",
+              "date": "2026-11-07T10:22:36.004+01:00",
+              "refOne": "19",
               "refX": "27",
-              "refTwo": "53",
-              "refDate": "2026-11-07T07:54:20.063+01:00"
+              "refTwo": "54",
+              "refDate": "2026-11-07T10:21:33.938+01:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -1037,13 +1037,13 @@
             },
             "odds": {
               "one": "5,20",
-              "x": "4,40",
-              "two": "1,63"
+              "x": "4,25",
+              "two": "1,66"
             },
             "favouriteOdds": {
-              "one": "18.62",
-              "x": "22.00",
-              "two": "59.39"
+              "one": "18.67",
+              "x": "22.84",
+              "two": "58.49"
             },
             "startOdds": {
               "one": "5,10",
@@ -1055,26 +1055,26 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-11-07T07:55:22.078+01:00",
-              "distributionRefDate": "2026-11-07T07:54:20.063+01:00",
+              "distributionDate": "2026-11-07T10:22:36.004+01:00",
+              "distributionRefDate": "2026-11-07T10:21:33.938+01:00",
               "values": [
                 {
                   "outcome": "1",
                   "odds": {
                     "odds": "5,20",
-                    "favouriteOdds": "18,62",
+                    "favouriteOdds": "18,67",
                     "startOdds": "5,10"
                   },
                   "distribution": {
-                    "distribution": "14",
-                    "refDistribution": "14"
+                    "distribution": "13",
+                    "refDistribution": "13"
                   }
                 },
                 {
                   "outcome": "X",
                   "odds": {
-                    "odds": "4,40",
-                    "favouriteOdds": "22,00",
+                    "odds": "4,25",
+                    "favouriteOdds": "22,84",
                     "startOdds": "4,50"
                   },
                   "distribution": {
@@ -1085,13 +1085,13 @@
                 {
                   "outcome": "2",
                   "odds": {
-                    "odds": "1,63",
-                    "favouriteOdds": "59,39",
+                    "odds": "1,66",
+                    "favouriteOdds": "58,49",
                     "startOdds": "1,63"
                   },
                   "distribution": {
-                    "distribution": "68",
-                    "refDistribution": "68"
+                    "distribution": "69",
+                    "refDistribution": "69"
                   }
                 }
               ]
@@ -1099,14 +1099,14 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "14",
+              "one": "13",
               "x": "18",
-              "two": "68",
-              "date": "2026-11-07T07:55:22.078+01:00",
-              "refOne": "14",
+              "two": "69",
+              "date": "2026-11-07T10:22:36.004+01:00",
+              "refOne": "13",
               "refX": "18",
-              "refTwo": "68",
-              "refDate": "2026-11-07T07:54:20.063+01:00"
+              "refTwo": "69",
+              "refDate": "2026-11-07T10:21:33.938+01:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -1191,8 +1191,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-11-07T07:55:22.078+01:00",
-              "distributionRefDate": "2026-11-07T07:54:20.063+01:00",
+              "distributionDate": "2026-11-07T10:22:36.004+01:00",
+              "distributionRefDate": "2026-11-07T10:21:33.938+01:00",
               "values": [
                 {
                   "outcome": "1",
@@ -1202,8 +1202,8 @@
                     "startOdds": "1,91"
                   },
                   "distribution": {
-                    "distribution": "71",
-                    "refDistribution": "71"
+                    "distribution": "72",
+                    "refDistribution": "72"
                   }
                 },
                 {
@@ -1226,8 +1226,8 @@
                     "startOdds": "4,10"
                   },
                   "distribution": {
-                    "distribution": "11",
-                    "refDistribution": "11"
+                    "distribution": "10",
+                    "refDistribution": "10"
                   }
                 }
               ]
@@ -1235,14 +1235,14 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "71",
+              "one": "72",
               "x": "18",
-              "two": "11",
-              "date": "2026-11-07T07:55:22.078+01:00",
-              "refOne": "71",
+              "two": "10",
+              "date": "2026-11-07T10:22:36.004+01:00",
+              "refOne": "72",
               "refX": "18",
-              "refTwo": "11",
-              "refDate": "2026-11-07T07:54:20.063+01:00"
+              "refTwo": "10",
+              "refDate": "2026-11-07T10:21:33.938+01:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -1327,8 +1327,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-11-07T07:55:22.078+01:00",
-              "distributionRefDate": "2026-11-07T07:54:20.063+01:00",
+              "distributionDate": "2026-11-07T10:22:36.004+01:00",
+              "distributionRefDate": "2026-11-07T10:21:33.938+01:00",
               "values": [
                 {
                   "outcome": "1",
@@ -1338,8 +1338,8 @@
                     "startOdds": "6,10"
                   },
                   "distribution": {
-                    "distribution": "19",
-                    "refDistribution": "19"
+                    "distribution": "18",
+                    "refDistribution": "18"
                   }
                 },
                 {
@@ -1362,8 +1362,8 @@
                     "startOdds": "1,52"
                   },
                   "distribution": {
-                    "distribution": "57",
-                    "refDistribution": "57"
+                    "distribution": "58",
+                    "refDistribution": "58"
                   }
                 }
               ]
@@ -1371,14 +1371,14 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "19",
+              "one": "18",
               "x": "24",
-              "two": "57",
-              "date": "2026-11-07T07:55:22.078+01:00",
-              "refOne": "19",
+              "two": "58",
+              "date": "2026-11-07T10:22:36.004+01:00",
+              "refOne": "18",
               "refX": "24",
-              "refTwo": "57",
-              "refDate": "2026-11-07T07:54:20.063+01:00"
+              "refTwo": "58",
+              "refDate": "2026-11-07T10:21:33.938+01:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -1463,8 +1463,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-11-07T07:55:22.078+01:00",
-              "distributionRefDate": "2026-11-07T07:54:20.063+01:00",
+              "distributionDate": "2026-11-07T10:22:36.004+01:00",
+              "distributionRefDate": "2026-11-07T10:21:33.938+01:00",
               "values": [
                 {
                   "outcome": "1",
@@ -1486,8 +1486,8 @@
                     "startOdds": "3,65"
                   },
                   "distribution": {
-                    "distribution": "26",
-                    "refDistribution": "26"
+                    "distribution": "27",
+                    "refDistribution": "27"
                   }
                 },
                 {
@@ -1498,8 +1498,8 @@
                     "startOdds": "3,45"
                   },
                   "distribution": {
-                    "distribution": "16",
-                    "refDistribution": "16"
+                    "distribution": "15",
+                    "refDistribution": "15"
                   }
                 }
               ]
@@ -1508,13 +1508,13 @@
             "outcomes": null,
             "svenskaFolket": {
               "one": "58",
-              "x": "26",
-              "two": "16",
-              "date": "2026-11-07T07:55:22.078+01:00",
+              "x": "27",
+              "two": "15",
+              "date": "2026-11-07T10:22:36.004+01:00",
               "refOne": "58",
-              "refX": "26",
-              "refTwo": "16",
-              "refDate": "2026-11-07T07:54:20.063+01:00"
+              "refX": "27",
+              "refTwo": "15",
+              "refDate": "2026-11-07T10:21:33.938+01:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -1599,8 +1599,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-11-07T07:55:22.078+01:00",
-              "distributionRefDate": "2026-11-07T07:54:20.063+01:00",
+              "distributionDate": "2026-11-07T10:22:36.004+01:00",
+              "distributionRefDate": "2026-11-07T10:21:33.938+01:00",
               "values": [
                 {
                   "outcome": "1",
@@ -1646,11 +1646,11 @@
               "one": "42",
               "x": "31",
               "two": "27",
-              "date": "2026-11-07T07:55:22.078+01:00",
+              "date": "2026-11-07T10:22:36.004+01:00",
               "refOne": "42",
               "refX": "31",
               "refTwo": "27",
-              "refDate": "2026-11-07T07:54:20.063+01:00"
+              "refDate": "2026-11-07T10:21:33.938+01:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -1735,8 +1735,8 @@
               "eventType": "1X2",
               "eventSubTypeId": 2,
               "eventSubType": "Fulltid",
-              "distributionDate": "2026-11-07T07:55:22.078+01:00",
-              "distributionRefDate": "2026-11-07T07:54:20.063+01:00",
+              "distributionDate": "2026-11-07T10:22:36.004+01:00",
+              "distributionRefDate": "2026-11-07T10:21:33.938+01:00",
               "values": [
                 {
                   "outcome": "1",
@@ -1746,8 +1746,8 @@
                     "startOdds": "1,95"
                   },
                   "distribution": {
-                    "distribution": "59",
-                    "refDistribution": "59"
+                    "distribution": "61",
+                    "refDistribution": "61"
                   }
                 },
                 {
@@ -1758,8 +1758,8 @@
                     "startOdds": "3,50"
                   },
                   "distribution": {
-                    "distribution": "26",
-                    "refDistribution": "26"
+                    "distribution": "25",
+                    "refDistribution": "25"
                   }
                 },
                 {
@@ -1770,8 +1770,8 @@
                     "startOdds": "3,75"
                   },
                   "distribution": {
-                    "distribution": "15",
-                    "refDistribution": "15"
+                    "distribution": "14",
+                    "refDistribution": "14"
                   }
                 }
               ]
@@ -1779,14 +1779,14 @@
             "complementaryBetMetrics": [],
             "outcomes": null,
             "svenskaFolket": {
-              "one": "59",
-              "x": "26",
-              "two": "15",
-              "date": "2026-11-07T07:55:22.078+01:00",
-              "refOne": "59",
-              "refX": "26",
-              "refTwo": "15",
-              "refDate": "2026-11-07T07:54:20.063+01:00"
+              "one": "61",
+              "x": "25",
+              "two": "14",
+              "date": "2026-11-07T10:22:36.004+01:00",
+              "refOne": "61",
+              "refX": "25",
+              "refTwo": "14",
+              "refDate": "2026-11-07T10:21:33.938+01:00"
             },
             "tioTidningarsTips": null,
             "providerIds": [
@@ -1814,9 +1814,9 @@
       "elapsedTime": 2,
       "apiVersion": 1
     },
-    "requestId": "44a0aeb4-7832-4092-8adb-7747587fd21e",
+    "requestId": "3ae9d2d4-d721-4e9b-98b4-675ab0489a01",
     "sessionId": null,
-    "deviceId": "4b3dc65d-f143-4d0c-9af5-9f943df2cf98",
+    "deviceId": "c720d77e-4589-4f1b-eb78-c3aaf610bddd",
     "session": null,
     "sessionUser": null,
     "clientInfo": null

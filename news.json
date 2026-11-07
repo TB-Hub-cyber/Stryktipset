@@ -1,201 +1,192 @@
 {
- "drawNumber": 4977,
- "updatedAt": "2026-10-31T09:29:25Z",
+ "drawNumber": 4978,
+ "updatedAt": "2026-11-07T09:24:54Z",
  "model": "gpt-4o-mini",
  "matches": {
-  "96462": {
-   "home": "Aston Villa",
-   "away": "Fulham",
-   "items": [
-    {
-     "team": "Fulham",
-     "text": "Emile Smith Rowe saknades från truppen mot Crystal Palace på grund av tidigare problem, men inte en skada.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/transfer/news/13279313/fulham-transfers-latest-news-rumours-and-gossip-live-updates-goals-and-highlights",
-     "date": "2026-10-28",
-     "trusted": true
-    },
-    {
-     "team": "Fulham",
-     "text": "Alvaro Arbeloa förklarade att Emile Smith Rowe inte var skadad men saknades från truppen mot Crystal Palace.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/transfer/news/13279313/fulham-transfers-latest-news-rumours-and-gossip-live-updates-goals-and-highlights",
-     "date": "2026-10-28",
-     "trusted": true
-    },
-    {
-     "team": "Fulham",
-     "text": "Alvaro Arbeloa uttryckte besvikelse över förlusten mot Crystal Palace och nämnde Emile Smith Rowes frånvaro.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/transfer/news/13279313/fulham-transfers-latest-news-rumours-and-gossip-live-updates-goals-and-highlights",
-     "date": "2026-10-28",
-     "trusted": true
-    },
-    {
-     "team": "Fulham",
-     "text": "Alvaro Arbeloa förklarade att Emile Smith Rowe inte var skadad men saknades från truppen mot Crystal Palace.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/transfer/news/13279313/fulham-transfers-latest-news-rumours-and-gossip-live-updates-goals-and-highlights",
-     "date": "2026-10-28",
-     "trusted": true
-    }
-   ],
-   "checkedAt": "2026-10-31T09:28:31Z"
-  },
-  "96461": {
-   "home": "Tottenham",
-   "away": "Crystal Palace",
-   "items": [
-    {
-     "team": "Tottenham",
-     "text": "Destiny Udogie är tillbaka och tillgänglig för matchen mot Crystal Palace.",
-     "source": "Tottenham Hotspur",
-     "url": "https://www.tottenhamhotspur.com/news/1182287/team-news-udogie-back-bergvall-savio-tosin-out-for-palace-clash",
-     "date": "2026-10-31",
-     "trusted": true
-    },
-    {
-     "team": "Tottenham",
-     "text": "Rodrigo Bentancur avtjänar den sista matchen av sin tre matcher långa avstängning.",
-     "source": "Tottenham Hotspur",
-     "url": "https://www.tottenhamhotspur.com/news/1182287/team-news-udogie-back-bergvall-savio-tosin-out-for-palace-clash",
-     "date": "2026-10-31",
-     "trusted": true
-    },
-    {
-     "team": "Tottenham",
-     "text": "Lucas Bergvall, Tosin och Savio är alla otillgängliga för matchen mot Crystal Palace.",
-     "source": "Tottenham Hotspur",
-     "url": "https://www.tottenhamhotspur.com/news/1182287/team-news-udogie-back-bergvall-savio-tosin-out-for-palace-clash",
-     "date": "2026-10-31",
-     "trusted": true
-    },
-    {
-     "team": "Tottenham",
-     "text": "Mykhailo Mudryk, Xavi Simons och Wilson Odobert är långtidsskadade och missar matchen mot Crystal Palace.",
-     "source": "Tottenham Hotspur",
-     "url": "https://www.tottenhamhotspur.com/news/1182287/team-news-udogie-back-bergvall-savio-tosin-out-for-palace-clash",
-     "date": "2026-10-31",
-     "trusted": true
-    }
-   ],
-   "checkedAt": "2026-10-31T09:28:38Z"
-  },
-  "96458": {
-   "home": "Manchester City",
-   "away": "Brighton",
+  "97452": {
+   "home": "Nottingham",
+   "away": "Manchester City",
    "items": [],
-   "checkedAt": "2026-10-31T09:28:42Z"
+   "checkedAt": "2026-11-07T09:23:52Z"
   },
-  "96457": {
-   "home": "Bournemouth",
-   "away": "Leeds",
+  "97440": {
+   "home": "Arsenal",
+   "away": "Hull",
    "items": [],
-   "checkedAt": "2026-10-31T09:28:46Z"
+   "checkedAt": "2026-11-07T09:23:57Z"
   },
-  "96463": {
-   "home": "Coventry",
-   "away": "Sunderland",
+  "97439": {
+   "home": "Fulham",
+   "away": "Newcastle",
    "items": [],
-   "checkedAt": "2026-10-31T09:28:49Z"
+   "checkedAt": "2026-11-07T09:24:01Z"
   },
-  "96456": {
-   "home": "Brentford",
-   "away": "Nottingham",
-   "items": [],
-   "checkedAt": "2026-10-31T09:28:54Z"
-  },
-  "96460": {
-   "home": "Hull",
-   "away": "Ipswich",
-   "items": [],
-   "checkedAt": "2026-10-31T09:28:58Z"
-  },
-  "96468": {
-   "home": "Bolton",
-   "away": "Bristol City",
-   "items": [],
-   "checkedAt": "2026-10-31T09:29:02Z"
-  },
-  "96473": {
-   "home": "Burnley",
-   "away": "Portsmouth",
-   "items": [
-    {
-     "team": "Portsmouth",
-     "text": "Pedro Mendes har genomgått en operation på sin högra fotled och förväntas vara borta i minst åtta veckor.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2407133/mendes-rues-ankle-injury",
-     "date": "2026-10-29",
-     "trusted": true
-    },
-    {
-     "team": "Portsmouth",
-     "text": "Neil Barrett kommer att vara borta i sex veckor på grund av en knäskada.",
-     "source": "Sky Sports",
-     "url": "https://www.skysports.com/football/news/2245875/barretts-injury-lay-off",
-     "date": "2026-10-29",
-     "trusted": true
-    }
-   ],
-   "checkedAt": "2026-10-31T09:29:08Z"
-  },
-  "96464": {
-   "home": "Millwall",
-   "away": "Derby",
-   "items": [],
-   "checkedAt": "2026-10-31T09:29:11Z"
-  },
-  "96467": {
-   "home": "Southampton",
-   "away": "Queens Park Rangers",
-   "items": [],
-   "checkedAt": "2026-10-31T09:29:15Z"
-  },
-  "96470": {
-   "home": "Swansea",
-   "away": "Blackburn",
-   "items": [],
-   "checkedAt": "2026-10-31T09:29:18Z"
-  },
-  "96474": {
-   "home": "West Ham",
-   "away": "West Bromwich",
+  "97438": {
+   "home": "Blackburn",
+   "away": "West Ham",
    "items": [
     {
      "team": "West Ham",
-     "text": "Dinos Mavropanos återhämtar sig från en knäskada och tränade individuellt den 30 oktober 2026.",
+     "text": "Dinos Mavropanos återvände från knäproblem och spelade mot Cardiff City den 4 november 2026.",
      "source": "West Ham United FC",
-     "url": "https://www.whufc.com/en/news/team-news-or-nuno-provides-squad-update-ahead-of-west-brom-clash",
-     "date": "2026-10-30",
+     "url": "https://www.whufc.com/en/news/starting-xi-or-hammers-make-five-changes-at-cardiff",
+     "date": "2026-11-04",
      "trusted": true
     },
     {
      "team": "West Ham",
-     "text": "Jarrod Bowen, lagkapten, återhämtar sig från en stukad fotled och deltog i träning den 30 oktober 2026.",
+     "text": "Joël Veltman ersatte Kyle Walker-Peters i startelvan mot Cardiff City den 4 november 2026 efter en skada.",
      "source": "West Ham United FC",
-     "url": "https://www.whufc.com/en/news/team-news-or-nuno-provides-squad-update-ahead-of-west-brom-clash",
-     "date": "2026-10-30",
+     "url": "https://www.whufc.com/en/news/starting-xi-or-hammers-make-five-changes-at-cardiff",
+     "date": "2026-11-04",
      "trusted": true
     },
     {
      "team": "West Ham",
-     "text": "Keiber Lamadrid, mittfältare, är på väg tillbaka efter en knäskada och förväntas vara tillgänglig snart.",
+     "text": "Soungoutou Magassa gjorde sin första start för säsongen mot Cardiff City den 4 november 2026.",
      "source": "West Ham United FC",
-     "url": "https://www.whufc.com/en/news/team-news-or-lamadrid-edging-closer-to-return",
-     "date": "2026-10-23",
-     "trusted": true
-    },
-    {
-     "team": "West Ham",
-     "text": "Joël Veltman, försvarare, missade matchen mot Southampton den 29 oktober 2026 på grund av en skada.",
-     "source": "West Ham United FC",
-     "url": "https://www.whufc.com/en/news/team-news-or-nuno-provides-squad-update-ahead-of-west-brom-clash",
-     "date": "2026-10-30",
+     "url": "https://www.whufc.com/en/news/starting-xi-or-hammers-make-five-changes-at-cardiff",
+     "date": "2026-11-04",
      "trusted": true
     }
    ],
-   "checkedAt": "2026-10-31T09:29:25Z"
+   "checkedAt": "2026-11-07T09:24:07Z"
+  },
+  "97437": {
+   "home": "Birmingham",
+   "away": "Swansea",
+   "items": [],
+   "checkedAt": "2026-11-07T09:24:12Z"
+  },
+  "97424": {
+   "home": "Cardiff",
+   "away": "Burnley",
+   "items": [],
+   "checkedAt": "2026-11-07T09:24:21Z"
+  },
+  "97425": {
+   "home": "Charlton",
+   "away": "Sheffield U",
+   "items": [],
+   "checkedAt": "2026-11-07T09:24:24Z"
+  },
+  "97446": {
+   "home": "Preston",
+   "away": "Southampton",
+   "items": [],
+   "checkedAt": "2026-11-07T09:24:28Z"
+  },
+  "97445": {
+   "home": "Queens Park Rangers",
+   "away": "Lincoln",
+   "items": [],
+   "checkedAt": "2026-11-07T09:24:31Z"
+  },
+  "97421": {
+   "home": "Watford",
+   "away": "Middlesbrough",
+   "items": [
+    {
+     "team": "Watford",
+     "text": "Edoardo Bove återvänder till gruppträning efter knäskada.",
+     "source": "Watford FC",
+     "url": "https://www.watfordfc.com/news/2026/november/02/team-news-bove-return-group-training/",
+     "date": "2026-11-02",
+     "trusted": true
+    },
+    {
+     "team": "Watford",
+     "text": "Michail Antonio borta i några veckor efter lårskada.",
+     "source": "Watford FC",
+     "url": "https://www.watfordfc.com/news/2026/november/02/team-news-bove-return-group-training/",
+     "date": "2026-11-02",
+     "trusted": true
+    },
+    {
+     "team": "Watford",
+     "text": "Jack Grieves skadade höger adduktor på träning, utvärdering pågår.",
+     "source": "Watford FC",
+     "url": "https://www.watfordfc.com/news/2026/november/02/team-news-bove-return-group-training/",
+     "date": "2026-11-02",
+     "trusted": true
+    },
+    {
+     "team": "Watford",
+     "text": "Marc Bola återvänder från hamstringskada och spelade 90 minuter mot Lincoln City.",
+     "source": "Watford FC",
+     "url": "https://www.watfordfc.com/news/2026/november/06/preview-bola-looks-to-middlesbrough/",
+     "date": "2026-11-06",
+     "trusted": true
+    },
+    {
+     "team": "Middlesbrough",
+     "text": "Will Lankshear missade matchen mot Wrexham på grund av skada.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/13595369/wrexham-2-0-middlesbrough-boro-struggle-without-will-lankshear-as-league-leaders-beaten",
+     "date": "2026-11-04",
+     "trusted": true
+    },
+    {
+     "team": "Middlesbrough",
+     "text": "Will Lankshear gjorde två mål i 3-0-segern mot Charlton Athletic.",
+     "source": "Sky Sports",
+     "url": "https://www.skysports.com/football/news/13594322/middlesbrough-3-0-charlton-athletic-will-lankshear-scores-twice-in-boro-win",
+     "date": "2026-10-31",
+     "trusted": true
+    }
+   ],
+   "checkedAt": "2026-11-07T09:24:41Z"
+  },
+  "97423": {
+   "home": "West Bromwich",
+   "away": "Millwall",
+   "items": [
+    {
+     "team": "Millwall",
+     "text": "Millwall saknar Tristan Crama och Ryan Leonard inför matchen mot West Bromwich Albion den 7 november 2026.",
+     "source": "Millwall FC",
+     "url": "https://www.millwallfc.co.uk/news/2026/november/06/preview---west-bromwich-albion-v-millwall/",
+     "date": "2026-11-06",
+     "trusted": true
+    },
+    {
+     "team": "Millwall",
+     "text": "Filip Marschall, Lukas Jensen, Casper De Norre och Mathis Servais är också på skadelistan inför matchen mot West Bromwich Albion den 7 november 2026.",
+     "source": "Millwall FC",
+     "url": "https://www.millwallfc.co.uk/news/2026/november/06/preview---west-bromwich-albion-v-millwall/",
+     "date": "2026-11-06",
+     "trusted": true
+    },
+    {
+     "team": "Millwall",
+     "text": "Jenson Metcalfe är avstängd för matchen mot Birmingham City den 3 november 2026 efter att ha fått fem gula kort.",
+     "source": "Millwall FC",
+     "url": "https://www.millwallfc.co.uk/news/2026/november/03/preview---birmingham-city-v-millwall/",
+     "date": "2026-11-03",
+     "trusted": true
+    },
+    {
+     "team": "Millwall",
+     "text": "Tairyk Arconte återvänder från skada och finns med i truppen mot Birmingham City den 3 november 2026.",
+     "source": "Millwall FC",
+     "url": "https://www.millwallfc.co.uk/news/2026/november/03/preview---birmingham-city-v-millwall/",
+     "date": "2026-11-03",
+     "trusted": true
+    }
+   ],
+   "checkedAt": "2026-11-07T09:24:48Z"
+  },
+  "97427": {
+   "home": "Crewe",
+   "away": "Wimbledon",
+   "items": [],
+   "checkedAt": "2026-11-07T09:24:50Z"
+  },
+  "97433": {
+   "home": "Oxford",
+   "away": "Stevenage",
+   "items": [],
+   "checkedAt": "2026-11-07T09:24:54Z"
   }
  }
 }
