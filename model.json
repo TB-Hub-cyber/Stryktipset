@@ -1,9 +1,154 @@
 {
- "drawNumber": 4979,
- "updatedAt": "2026-11-14T12:40:12Z",
- "sample": 1974,
- "avgHome": 1.483,
- "avgAway": 1.194,
- "picks": {},
- "detail": {}
+ "drawNumber": 4980,
+ "updatedAt": "2026-11-16T21:23:19Z",
+ "sample": 1976,
+ "avgHome": 1.48,
+ "avgAway": 1.196,
+ "picks": {
+  "98583": "two",
+  "98582": "one",
+  "98577": "one",
+  "98581": "one",
+  "98579": "one",
+  "98578": "one",
+  "98595": "one",
+  "98588": "one",
+  "98596": "one",
+  "98591": "one",
+  "98586": "one"
+ },
+ "detail": {
+  "98583": {
+   "p": {
+    "one": 29.8,
+    "x": 27.4,
+    "two": 42.7
+   },
+   "lh": 1.06,
+   "la": 1.33,
+   "sign": "two",
+   "home": "Newcastle",
+   "away": "Arsenal"
+  },
+  "98582": {
+   "p": {
+    "one": 50.2,
+    "x": 24.6,
+    "two": 25.2
+   },
+   "lh": 1.63,
+   "la": 1.08,
+   "sign": "one",
+   "home": "Chelsea",
+   "away": "Leeds"
+  },
+  "98577": {
+   "p": {
+    "one": 42.1,
+    "x": 23.2,
+    "two": 34.7
+   },
+   "lh": 1.71,
+   "la": 1.53,
+   "sign": "one",
+   "home": "Tottenham",
+   "away": "Ipswich"
+  },
+  "98581": {
+   "p": {
+    "one": 50.9,
+    "x": 22.6,
+    "two": 26.5
+   },
+   "lh": 1.86,
+   "la": 1.29,
+   "sign": "one",
+   "home": "Aston Villa",
+   "away": "Sunderland"
+  },
+  "98579": {
+   "p": {
+    "one": 48.4,
+    "x": 24.9,
+    "two": 26.7
+   },
+   "lh": 1.59,
+   "la": 1.12,
+   "sign": "one",
+   "home": "Bournemouth",
+   "away": "Nottingham"
+  },
+  "98578": {
+   "p": {
+    "one": 59.9,
+    "x": 21.2,
+    "two": 19.0
+   },
+   "lh": 2.01,
+   "la": 1.04,
+   "sign": "one",
+   "home": "Coventry",
+   "away": "Crystal Palace"
+  },
+  "98595": {
+   "p": {
+    "one": 45.6,
+    "x": 26.9,
+    "two": 27.5
+   },
+   "lh": 1.4,
+   "la": 1.02,
+   "sign": "one",
+   "home": "Middlesbrough",
+   "away": "Bristol City"
+  },
+  "98588": {
+   "p": {
+    "one": 48.4,
+    "x": 23.9,
+    "two": 27.7
+   },
+   "lh": 1.7,
+   "la": 1.23,
+   "sign": "one",
+   "home": "Sheffield U",
+   "away": "Watford"
+  },
+  "98596": {
+   "p": {
+    "one": 44.0,
+    "x": 25.9,
+    "two": 30.1
+   },
+   "lh": 1.46,
+   "la": 1.16,
+   "sign": "one",
+   "home": "Stoke",
+   "away": "Birmingham"
+  },
+  "98591": {
+   "p": {
+    "one": 43.5,
+    "x": 26.2,
+    "two": 30.3
+   },
+   "lh": 1.43,
+   "la": 1.14,
+   "sign": "one",
+   "home": "Swansea",
+   "away": "West Bromwich"
+  },
+  "98586": {
+   "p": {
+    "one": 40.5,
+    "x": 26.7,
+    "two": 32.9
+   },
+   "lh": 1.35,
+   "la": 1.19,
+   "sign": "one",
+   "home": "Wolverhampton",
+   "away": "Charlton"
+  }
+ }
 }
