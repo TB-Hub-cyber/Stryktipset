@@ -1,6 +1,6 @@
 {
  "drawNumber": 4981,
- "updatedAt": "2026-11-25T03:52:15Z",
+ "updatedAt": "2026-11-25T16:23:11Z",
  "sample": 2059,
  "avgHome": 1.577,
  "avgAway": 1.179,
@@ -20,11 +20,11 @@
   "99063": {
    "p": {
     "one": 43.0,
-    "x": 24.0,
+    "x": 24.1,
     "two": 33.0
    },
    "lh": 1.62,
-   "la": 1.4,
+   "la": 1.39,
    "sign": "one",
    "home": "Ipswich",
    "away": "Aston Villa"
@@ -35,7 +35,7 @@
     "x": 22.7,
     "two": 33.1
    },
-   "lh": 1.8,
+   "lh": 1.79,
    "la": 1.53,
    "sign": "one",
    "home": "Manchester United",
@@ -80,7 +80,7 @@
   "99059": {
    "p": {
     "one": 54.1,
-    "x": 21.7,
+    "x": 21.8,
     "two": 24.1
    },
    "lh": 1.98,
@@ -108,7 +108,7 @@
     "two": 28.4
    },
    "lh": 1.83,
-   "la": 1.35,
+   "la": 1.34,
    "sign": "one",
    "home": "Queens Park Rangers",
    "away": "Sheffield U"
