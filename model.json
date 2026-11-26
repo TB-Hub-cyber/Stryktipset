@@ -1,6 +1,6 @@
 {
  "drawNumber": 4981,
- "updatedAt": "2026-11-26T11:40:33Z",
+ "updatedAt": "2026-11-26T20:40:45Z",
  "sample": 2064,
  "avgHome": 1.562,
  "avgAway": 1.188,
@@ -45,7 +45,7 @@
    "p": {
     "one": 51.6,
     "x": 25.6,
-    "two": 22.8
+    "two": 22.9
    },
    "lh": 1.55,
    "la": 0.94,
@@ -55,7 +55,7 @@
   },
   "99046": {
    "p": {
-    "one": 53.7,
+    "one": 53.6,
     "x": 24.3,
     "two": 22.1
    },
@@ -108,7 +108,7 @@
     "two": 28.4
    },
    "lh": 1.82,
-   "la": 1.35,
+   "la": 1.34,
    "sign": "one",
    "home": "Queens Park Rangers",
    "away": "Sheffield U"
